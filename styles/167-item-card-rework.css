@@ -1,0 +1,355 @@
+/* Item cards and scene pickup labels: wrap all content, scale ornament by tier,
+   and keep rarity light inside the component that owns it. */
+
+/* The scene menu is HTML above Foundry's canvas; its beam now lives in PIXI
+   behind the dropped artwork. Long item names stay readable at every width. */
+.buxa-physical-loot-label.buxa-scene-item-menu {
+  /* Keep scene overlays above the canvas but below Foundry application windows. */
+  z-index: 99;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 16px));
+  filter: drop-shadow(0 8px 14px #000b) drop-shadow(0 0 12px color-mix(in srgb, var(--loot-accent) 20%, transparent));
+}
+.buxa-scene-loot-beam { z-index: 98; }
+.buxa-scene-item-menu .buxa-scene-item-nameplate {
+  width: max-content;
+  box-sizing: border-box;
+  min-width: min(176px, calc(100vw - 32px));
+  max-width: min(360px, calc(100vw - 24px));
+  max-height: 98px;
+  min-height: 42px;
+  gap: clamp(6px, 1vw, 9px);
+  overflow: visible;
+  padding: 8px 16px 10px !important;
+  background:
+    linear-gradient(90deg, transparent, rgba(3,6,11,.44) 10%, rgba(3,6,11,.44) 90%, transparent),
+    linear-gradient(180deg, color-mix(in srgb, var(--loot-accent) 12%, transparent), transparent 82%) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loot-accent) 20%, transparent);
+}
+.buxa-scene-item-menu .buxa-scene-item-name {
+  flex: 1 1 auto;
+  display: -webkit-box;
+  min-width: 0;
+  max-width: min(28ch, calc(100vw - 82px));
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  text-align: center;
+  line-height: 1.12;
+  font-size: clamp(13px, 2.2vw, 20px);
+}
+.buxa-scene-item-menu[data-tier="4"] .buxa-scene-item-name { font-size: clamp(13px, 2.2vw, 20px); }
+.buxa-scene-item-menu .buxa-scene-item-nameplate:focus-visible {
+  outline: 2px solid var(--loot-hot);
+  outline-offset: 3px;
+}
+.buxa-scene-item-menu[data-tier="0"] { animation: buxa-nameplate-expand 300ms cubic-bezier(.18,.82,.25,1) both; }
+.buxa-scene-item-menu[data-tier="1"] { animation: buxa-nameplate-expand 380ms cubic-bezier(.18,.82,.25,1) both; }
+.buxa-scene-item-menu[data-tier="2"] { animation: buxa-nameplate-expand 480ms cubic-bezier(.16,.84,.22,1) both; }
+.buxa-scene-item-menu[data-tier="3"] { animation: buxa-nameplate-expand 620ms cubic-bezier(.14,.86,.2,1) both; }
+.buxa-scene-item-menu[data-tier="4"] { animation: buxa-nameplate-expand 760ms cubic-bezier(.12,.88,.18,1) both; }
+.buxa-scene-item-menu:is([data-tier="2"],[data-tier="3"],[data-tier="4"]) .buxa-scene-item-nameplate {
+  background:
+    linear-gradient(90deg, transparent, rgba(3,6,11,.43) 9%, rgba(3,6,11,.43) 91%, transparent),
+    linear-gradient(180deg, color-mix(in srgb, var(--loot-accent) 19%, transparent), transparent 82%) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loot-accent) 40%, transparent),
+    0 0 20px color-mix(in srgb, var(--loot-accent) 14%, transparent);
+}
+.buxa-scene-item-menu[data-tier="1"] .buxa-scene-item-nameplate::after {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--loot-accent) 70%, transparent);
+}
+.buxa-scene-item-menu[data-tier="2"] .buxa-scene-item-nameplate { outline: 1px solid color-mix(in srgb, var(--loot-accent) 34%, transparent); outline-offset: -4px; }
+.buxa-scene-item-menu:is([data-tier="3"],[data-tier="4"]) .buxa-scene-item-wing {
+  height: 2px;
+  filter: drop-shadow(0 0 4px var(--loot-accent));
+}
+.buxa-scene-item-menu[data-tier="3"] .buxa-scene-item-nameplate {
+  outline: 1px solid color-mix(in srgb, var(--loot-hot) 42%, transparent);
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loot-accent) 52%, transparent),
+    inset 0 0 18px color-mix(in srgb, var(--loot-accent) 12%, transparent),
+    0 0 24px color-mix(in srgb, var(--loot-accent) 20%, transparent);
+}
+.buxa-scene-item-menu[data-tier="4"] .buxa-scene-item-nameplate {
+  background:
+    linear-gradient(90deg, transparent, rgba(3,6,11,.48) 8%, rgba(3,6,11,.48) 92%, transparent),
+    linear-gradient(180deg, color-mix(in srgb, var(--loot-accent) 26%, transparent), transparent 86%),
+    repeating-linear-gradient(135deg, transparent 0 9px, color-mix(in srgb, var(--loot-hot) 5%, transparent) 9px 10px) !important;
+  outline: 1px solid color-mix(in srgb, var(--loot-hot) 58%, transparent);
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loot-hot) 62%, transparent),
+    inset 0 0 0 4px color-mix(in srgb, var(--loot-accent) 14%, transparent),
+    0 0 28px color-mix(in srgb, var(--loot-accent) 28%, transparent);
+}
+.buxa-scene-item-menu .buxa-scene-item-nameplate:is(:hover,:focus-visible) {
+  background:
+    linear-gradient(90deg, transparent, rgba(3,6,11,.58) 9%, rgba(3,6,11,.58) 91%, transparent),
+    linear-gradient(180deg, color-mix(in srgb, var(--loot-accent) 24%, transparent), transparent 82%) !important;
+}
+.buxa-scene-item-menu[data-spectrum] {
+  animation: buxa-nameplate-expand 760ms cubic-bezier(.12,.88,.18,1) both, buxa-loot-hue 4.5s linear infinite;
+}
+.buxa-physical-loot-label.buxa-scene-item-menu.is-collected {
+  pointer-events: none;
+  animation: buxa-nameplate-collect 420ms cubic-bezier(.4,0,.8,.4) forwards;
+}
+@keyframes buxa-nameplate-expand {
+  0% { opacity: 0; clip-path: inset(49% 48%); }
+  18% { opacity: 1; clip-path: inset(49% 35%); }
+  58% { opacity: 1; clip-path: inset(42% 0); }
+  82% { clip-path: inset(0); }
+  100% { opacity: 1; clip-path: inset(0); }
+}
+
+/* The full Item sheet keeps the reference's dark card, with a stronger frame
+   and corner craft as rarity rises. Content never competes with the artwork. */
+.buxa-item-sheet[data-rarity-tier] {
+  --rc: var(--buxa-rarity-color, #8cbbe0);
+  --rc-hi: color-mix(in srgb, var(--rc) 62%, white);
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--rc) 24%, #202833);
+  box-shadow: inset 0 0 0 1px #000b, inset 0 0 42px #000b !important;
+}
+.buxa-item-sheet[data-rarity-tier="0"] .buxa-item-sheet-aura { opacity: .38; }
+.buxa-item-sheet[data-rarity-tier="1"] {
+  border-color: color-mix(in srgb, var(--rc) 44%, #202833);
+  box-shadow: inset 0 0 0 1px #000a, inset 0 0 48px #000b !important;
+}
+.buxa-item-sheet[data-rarity-tier="1"] .buxa-item-sheet-aura { opacity: .58; }
+.buxa-item-sheet[data-rarity-tier="2"] {
+  border-color: color-mix(in srgb, var(--rc-hi) 58%, #202833);
+  box-shadow: inset 0 0 0 1px #000b, inset 0 0 0 2px color-mix(in srgb, var(--rc) 20%, transparent), inset 0 0 54px #000b !important;
+}
+.buxa-item-sheet[data-rarity-tier="2"] .buxa-item-sheet-aura { opacity: .78; }
+.buxa-item-sheet[data-rarity-tier="3"] {
+  border-color: color-mix(in srgb, var(--rc-hi) 72%, #202833);
+  box-shadow: inset 0 0 0 1px #000b, inset 0 0 0 2px color-mix(in srgb, var(--rc) 32%, transparent), inset 0 0 58px #000b !important;
+}
+.buxa-item-sheet[data-rarity-tier="3"] .buxa-item-sheet-aura { opacity: .92; }
+.buxa-item-sheet[data-rarity-tier="4"] {
+  border-color: var(--rc-hi);
+  box-shadow: inset 0 0 0 1px #000c, inset 0 0 0 2px color-mix(in srgb, var(--rc) 44%, transparent),
+    inset 0 0 64px #000b, 0 0 18px color-mix(in srgb, var(--rc) 16%, transparent) !important;
+}
+.buxa-item-sheet[data-rarity-tier="4"] .buxa-item-sheet-aura { opacity: 1; }
+.buxa-item-sheet .buxa-item-sheet-aura {
+  background:
+    radial-gradient(ellipse 46% 30% at 82% 18%, color-mix(in srgb, var(--rc) 25%, transparent), transparent 80%),
+    radial-gradient(ellipse 72% 48% at 80% 24%, color-mix(in srgb, var(--rc) 7%, transparent), transparent 80%),
+    radial-gradient(ellipse at 50% 100%, #0007, transparent 60%) !important;
+}
+.buxa-item-sheet[data-rarity-tier="2"] .buxa-item-sheet-ornament,
+.buxa-item-sheet[data-rarity-tier="3"] .buxa-item-sheet-ornament,
+.buxa-item-sheet[data-rarity-tier="4"] .buxa-item-sheet-ornament {
+  inset: 6px;
+  opacity: .78 !important;
+  background:
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 0 0 / 18px 2px no-repeat,
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 0 0 / 2px 18px no-repeat,
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 100% 0 / 18px 2px no-repeat,
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 100% 0 / 2px 18px no-repeat,
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 0 100% / 18px 2px no-repeat,
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 0 100% / 2px 18px no-repeat,
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 100% 100% / 18px 2px no-repeat,
+    linear-gradient(var(--rc-hi),var(--rc-hi)) 100% 100% / 2px 18px no-repeat,
+    linear-gradient(90deg,transparent,color-mix(in srgb,var(--rc) 30%,transparent),transparent) 50% 100% / 46% 1px no-repeat !important;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--rc) 44%, transparent));
+}
+.buxa-item-sheet[data-rarity-tier="3"] .buxa-item-sheet-ornament {
+  background-size: 26px 2px,2px 26px,26px 2px,2px 26px,26px 2px,2px 26px,26px 2px,2px 26px,46% 1px !important;
+}
+.buxa-item-sheet[data-rarity-tier="4"] .buxa-item-sheet-ornament { opacity: .96 !important; }
+
+.buxa-item-sheet .buxa-item-hero {
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(84px, 124px);
+  align-items: start;
+  gap: 16px;
+  padding: 20px 20px 16px;
+  overflow: visible;
+}
+.buxa-item-sheet .buxa-item-hero-copy { display: grid; gap: 9px; min-width: 0; padding-top: 0; }
+.buxa-item-sheet .buxa-item-title-row {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 7px;
+}
+.buxa-item-sheet .buxa-item-title-row h1 {
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
+  font-size: clamp(18px, 3vw, 27px);
+  line-height: 1.08;
+}
+.buxa-item-sheet .buxa-item-sheet-quantity,
+.buxa-item-sheet .buxa-item-configure { flex: 0 0 auto; }
+.buxa-item-sheet .buxa-item-hero-art {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: visible;
+  justify-items: center;
+}
+.buxa-item-sheet .buxa-item-hero-art::before { content: none; display: none; }
+.buxa-item-sheet .buxa-item-hero-art .buxa-item-hero-icon {
+  width: auto;
+  max-width: 100%;
+  max-height: 124px;
+  object-fit: contain;
+  object-position: center top;
+  filter: drop-shadow(0 7px 9px #000b) drop-shadow(0 0 10px color-mix(in srgb, var(--rc) 30%, transparent));
+}
+.buxa-item-sheet[data-rarity-tier="0"] .buxa-item-hero-art .buxa-item-hero-icon { filter: drop-shadow(0 6px 8px #000b); }
+.buxa-item-sheet[data-rarity-tier="3"] .buxa-item-hero-art .buxa-item-hero-icon,
+.buxa-item-sheet[data-rarity-tier="4"] .buxa-item-hero-art .buxa-item-hero-icon {
+  filter: drop-shadow(0 7px 10px #000c) drop-shadow(0 0 14px color-mix(in srgb, var(--rc) 44%, transparent));
+}
+
+.buxa-item-sheet .buxa-item-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 9px 0 3px;
+  color: color-mix(in srgb, var(--rc) 64%, #cbd4df);
+  font: 800 9px/1.2 system-ui, sans-serif;
+  letter-spacing: .14em;
+}
+.buxa-item-sheet .buxa-item-section-heading::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--rc) 42%, transparent), transparent);
+}
+.buxa-item-empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin: 12px 0 6px;
+  padding: 22px 14px;
+  border-block: 1px solid color-mix(in srgb, var(--rc) 18%, #202a36);
+  color: #8b97a7;
+  text-align: center;
+}
+.buxa-item-empty-state i { color: color-mix(in srgb, var(--rc) 62%, #7e8a99); font-size: 16px; }
+.buxa-item-empty-state p { max-width: 34ch; margin: 0; font-size: 11px; line-height: 1.5; }
+
+/* Hover cards are full, scrollable summaries; every configured and visible
+   effect is available, including long descriptions and custom item rules. */
+.buxa-item-hover-tooltip {
+  width: min(360px, calc(100vw - 20px));
+  max-width: min(360px, calc(100vw - 20px));
+  max-height: min(72vh, calc(100vh - 20px));
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  pointer-events: auto;
+  scrollbar-color: color-mix(in srgb, var(--buxa-rarity-accent) 55%, #344050) transparent;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px #000a, inset 0 0 30px #0008, 0 16px 42px #000a,
+    0 0 18px color-mix(in srgb, var(--buxa-rarity-accent) 18%, transparent);
+}
+.buxa-item-hover-tooltip::before {
+  content: "";
+  position: sticky;
+  top: 0;
+  display: block;
+  height: 2px;
+  margin-bottom: -2px;
+  z-index: 4;
+  background: linear-gradient(90deg, transparent, var(--buxa-rarity-accent), #fff9, var(--buxa-rarity-accent), transparent);
+  opacity: .28;
+  pointer-events: none;
+}
+.buxa-item-hover-tooltip[data-rarity-tier="0"]::before { display: none; }
+.buxa-item-hover-tooltip[data-rarity-tier="2"]::before { opacity: .55; }
+.buxa-item-hover-tooltip[data-rarity-tier="3"]::before { opacity: .78; }
+.buxa-item-hover-tooltip[data-rarity-tier="4"]::before { opacity: 1; }
+.buxa-item-hover-tooltip[data-rarity-tier="3"] { box-shadow: inset 0 0 0 1px #000a, inset 0 0 32px #0009, 0 16px 42px #000a, 0 0 22px color-mix(in srgb, var(--buxa-rarity-accent) 24%, transparent); }
+.buxa-item-hover-tooltip[data-rarity-tier="4"] { box-shadow: inset 0 0 0 1px #000a, inset 0 0 34px #0009, 0 16px 42px #000a, 0 0 28px color-mix(in srgb, var(--buxa-rarity-accent) 32%, transparent); }
+.buxa-item-hover-tooltip > header {
+  display: grid;
+  /* Do not reserve space for the intentionally removed duplicate thumbnail. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  align-items: center;
+  padding: 11px 13px;
+}
+.buxa-item-hover-tooltip > header img { display: block !important; width: 50px; height: 50px; object-fit: contain; }
+.buxa-item-hover-tooltip > header div { display: grid; min-width: 0; gap: 4px; }
+.buxa-item-hover-tooltip > header strong {
+  overflow: visible;
+  overflow-wrap: anywhere;
+  color: var(--buxa-rarity-name);
+  font: 700 17px/1.14 Georgia, "Times New Roman", serif;
+  text-overflow: clip;
+  white-space: normal;
+}
+.buxa-item-hover-tooltip > header span { color: var(--buxa-rarity-accent); font-size: 9px; line-height: 1.35; }
+.buxa-item-hover-meta { gap: 7px 12px; padding: 8px 13px; font-size: 9px; line-height: 1.4; }
+.buxa-item-hover-lines {
+  display: grid;
+  max-height: none;
+  overflow: visible;
+  gap: 11px;
+  padding: 11px 13px 13px;
+}
+.buxa-item-hover-group { display: grid; gap: 6px; min-width: 0; }
+.buxa-item-hover-group h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 1px;
+  color: var(--buxa-rarity-accent);
+  font: 800 9px/1.2 system-ui, sans-serif;
+  letter-spacing: .13em;
+}
+.buxa-item-hover-group h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--buxa-rarity-accent) 42%, transparent), transparent); }
+.buxa-item-hover-line {
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.38;
+}
+.buxa-item-hover-line > img,
+.buxa-item-hover-line > i { width: 15px; height: 15px; margin-top: 2px; font-size: 10px; }
+.buxa-item-hover-line .buxa-item-effect-copy { display: flex; flex-wrap: wrap; gap: 2px 6px; min-width: 0; line-height: 1.38; }
+.buxa-item-hover-line .buxa-item-effect-value { max-width: 100%; white-space: normal; overflow-wrap: anywhere; font-size: 13px; }
+.buxa-item-hover-line .buxa-item-effect-label { min-width: 0; overflow-wrap: anywhere; }
+.buxa-item-hover-description {
+  display: block;
+  margin: 2px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid #293343;
+  font-size: 11px;
+  line-height: 1.52;
+  overflow: visible;
+  white-space: pre-wrap;
+}
+.buxa-item-hover-empty { margin: 0; padding: 12px 13px 14px; color: #8b97a7; font-size: 11px; line-height: 1.45; }
+.buxa-item-hover-tooltip:focus-visible { outline: 2px solid var(--buxa-rarity-accent); outline-offset: 2px; }
+
+@media (max-width: 520px) {
+  .buxa-item-sheet .buxa-item-hero { grid-template-columns: minmax(0, 1fr) 88px; gap: 10px; padding: 15px 13px 13px; }
+  .buxa-item-sheet .buxa-item-title-row h1 { font-size: clamp(17px, 5vw, 22px); }
+  .buxa-item-sheet .buxa-item-sheet-scroll { padding: 10px 13px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .buxa-scene-item-menu,
+  .buxa-scene-item-menu *,
+  .buxa-item-sheet .buxa-item-sheet-aura,
+  .buxa-item-sheet .buxa-item-sheet-ornament,
+  .buxa-item-sheet .buxa-item-hero-art :is(.buxa-item-hero-icon, .buxa-stack-composite),
+  .buxa-item-hover-tooltip { animation: none !important; transition: none !important; }
+}

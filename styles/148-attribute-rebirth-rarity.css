@@ -1,0 +1,40 @@
+/* Rebirth attribute rarity — visually consistent with Item Sheet rarity auras.
+   Loaded after the general attribute styles, which otherwise force a neutral
+   background and border on every card with !important. */
+.buxa .buxa-attribute-card.is-reborn {
+  border: 1px solid color-mix(in srgb, var(--buxa-attribute-color) 75%, #aab7c7) !important;
+  background:
+    radial-gradient(ellipse at 84% 16%, color-mix(in srgb, var(--buxa-attribute-color) 25%, transparent), transparent 68%),
+    linear-gradient(112deg, color-mix(in srgb, var(--buxa-attribute-color) 17%, #111722), #101620 68%),
+    #101620 !important;
+  box-shadow:
+    inset 3px 0 0 var(--buxa-attribute-color),
+    inset 0 1px 0 color-mix(in srgb, var(--buxa-attribute-color) 25%, transparent),
+    inset 0 0 22px color-mix(in srgb, var(--buxa-attribute-color) 8%, transparent),
+    0 0 12px color-mix(in srgb, var(--buxa-attribute-color) 17%, transparent) !important;
+}
+.buxa .buxa-attribute-card.is-reborn .buxa-attribute-emblem {
+  border-color: var(--buxa-attribute-color) !important;
+  background:
+    radial-gradient(circle at 30% 12%, color-mix(in srgb, var(--buxa-attribute-color) 29%, transparent), transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--buxa-attribute-color) 16%, #111722), #0e1219) !important;
+  box-shadow: inset 0 0 10px color-mix(in srgb, var(--buxa-attribute-color) 11%, transparent);
+}
+.buxa .buxa-attribute-card.is-reborn .buxa-attribute-mini-stat:has(.buxa-rebirth-rank) {
+  border-color: color-mix(in srgb, var(--buxa-attribute-color) 52%, #2f3b4d);
+  background: color-mix(in srgb, var(--buxa-attribute-color) 13%, #101720);
+}
+.buxa .buxa-rebirth-rank {
+  color: color-mix(in srgb, var(--buxa-attribute-color) 78%, #eef3fa);
+  font-size: .8em;
+  letter-spacing: .035em;
+}
+.buxa .buxa-attribute-card.is-reborn.is-cap {
+  box-shadow:
+    inset 3px 0 0 var(--buxa-attribute-color),
+    0 0 0 1px color-mix(in srgb, var(--buxa-attribute-color) 24%, transparent),
+    0 0 18px color-mix(in srgb, var(--buxa-attribute-color) 25%, transparent) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .buxa .buxa-attribute-card.is-reborn { transition: none; }
+}

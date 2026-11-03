@@ -1,0 +1,89 @@
+/* Buxa v0.10.19 — shared UI foundations translated from Figma layouts.
+   Presentation only: does not touch drag handlers, database writes or rendering. */
+.buxa-world-item-directory,
+.buxa-folder-panel,
+.buxa-directory-popover,
+.buxa-inventory-page {
+  --buxa-ui-surface:#0c1420;
+  --buxa-ui-raised:#101a29;
+  --buxa-ui-border:#29394c;
+  --buxa-ui-muted:#93a4ba;
+  --buxa-ui-ink:#edf2fa;
+  --buxa-ui-focus:#8fbdeb;
+}
+.buxa-world-item-directory {
+  background:#090e17;
+  color:var(--buxa-ui-ink);
+}
+.buxa-world-toolbar {
+  padding:12px 10px 11px;
+  gap:7px;
+  background:#0e1623;
+  border-bottom:1px solid var(--buxa-ui-border);
+}
+.buxa-world-toolbar button {
+  min-height:38px;
+  border:1px solid #365370;
+  border-radius:0;
+  background:#21364d;
+  color:#eaf2fd;
+  box-shadow:none;
+  transition:background-color 130ms ease,border-color 130ms ease;
+}
+.buxa-world-toolbar button:hover { background:#25405b; border-color:#86b5e2; }
+.buxa-world-searchbar { min-height:48px; border-color:#28384c; background:#0c1420; }
+.buxa-world-list { padding:9px 9px 22px; }
+.buxa-world-item-card,.buxa-world-folder-card {
+  min-height:63px;
+  gap:10px;
+  padding:7px 8px;
+  margin-bottom:6px;
+  border-radius:0 !important;
+  box-shadow:inset 3px 0 0 var(--buxa-card-accent,#627891);
+  transition:background-color 115ms ease, border-color 115ms ease;
+}
+.buxa-world-item-card {
+  background:#141e2c;
+  border-color:color-mix(in srgb,var(--buxa-card-accent) 44%,#28384c);
+}
+.buxa-world-item-card:hover,.buxa-world-item-card:focus-visible {
+  background:color-mix(in srgb,var(--buxa-card-accent) 10%,#101a29);
+  border-color:var(--buxa-card-accent);
+  box-shadow:inset 3px 0 0 var(--buxa-card-accent);
+}
+.buxa-world-item-card.is-glint::after { display:none; }
+.buxa-world-art { width:48px; height:48px; flex-basis:48px; border-radius:0; background:#162638; }
+.buxa-world-art img { object-fit:contain; }
+.buxa-world-details { gap:6px; }
+.buxa-world-item-name { font-size:12px; color:#eff5fc; }
+.buxa-world-meta { gap:5px; font-size:9px; letter-spacing:.025em; }
+.buxa-world-rarity { border-radius:0; padding:2px 5px; }
+.buxa-world-quantity { border-radius:0; background:#17243a; padding:3px 5px; }
+.buxa-world-folder-card { background:#101a29; min-height:59px; box-shadow:inset 3px 0 0 var(--buxa-folder-accent); }
+.buxa-world-folder-art { flex-basis:45px; width:45px; height:42px; border-radius:0; }
+.buxa-world-folder-card:hover { background:#213247; }
+.buxa-folder-panel { background:#090e17; border-radius:0; }
+.buxa-folder-header { min-height:42px; background:#0e1623; }
+.buxa-folder-entries { padding:8px; }
+.buxa-folder-entries .buxa-world-item-card,.buxa-folder-entries .buxa-world-folder-card { min-height:60px; gap:9px; padding:7px; }
+.buxa-folder-entries .buxa-world-art { width:43px; height:43px; flex-basis:43px; }
+.buxa-folder-entries .buxa-world-folder-art { width:43px; flex-basis:43px; }
+.buxa-directory-popover { background:#0e1623; border-radius:0; }
+.buxa-inventory-section { border-color:var(--buxa-ui-border); border-radius:0; background:#090e17; }
+.buxa-inventory-heading { background:#0e1623; border-color:#28384c; min-height:39px; }
+.buxa-inventory-heading>strong { color:#c4d4e8; letter-spacing:.09em; }
+.buxa-inventory-slot,.buxa-equipment-slot { border-radius:0 !important; }
+.buxa-inventory-slot::before,.buxa-equipment-slot::before { border-radius:0 !important; }
+.buxa-inventory-grid { contain:layout style; }
+.buxa-world-item-card:focus-visible,.buxa-world-folder-card:focus-visible,
+.buxa-world-toolbar button:focus-visible { outline:2px solid var(--buxa-ui-focus); outline-offset:-2px; }
+@media(max-width:350px) {
+ .buxa-world-toolbar{padding-inline:6px;gap:5px}
+ .buxa-world-list{padding-inline:6px}
+ .buxa-world-art{width:40px;height:40px;flex-basis:40px}
+ .buxa-world-item-card,.buxa-world-folder-card{padding:6px;gap:7px;min-height:55px}
+ .buxa-world-item-name{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce) {
+ .buxa-world-item-card,.buxa-world-folder-card,.buxa-world-toolbar button{transition:none}
+}

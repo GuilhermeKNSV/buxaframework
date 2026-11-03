@@ -1,0 +1,623 @@
+/* BU XA FRAMEWORK | MODULE CONFIGURATION
+ * One owner for every control in BuxaLayoutConfig. The source widgets and
+ * data attributes remain the authoritative inputs for serialization.
+ * 1. TOKENS   2. BASE   3. COMPONENTS   4. SECTION LAYOUTS   5. MOTION
+ */
+
+/* 1. TOKENS =============================================================== */
+.buxa-layout-config-app {
+  container:buxa-layout / inline-size;
+  --bc-bg:#090f1a;
+  --bc-rail:#101c2e;
+  --bc-surface-1:#0e1828;
+  --bc-surface-2:#142237;
+  --bc-surface-3:#1a2a41;
+  --bc-surface-4:#21344c;
+  --bc-field:#0e1a2d;
+  /* Keep legacy Foundry accent consumers inside this app on the same palette. */
+  --buxa-accent:var(--bc-accent);
+  --buxa-accent-soft:var(--bc-accent-soft);
+  --bc-ink:#eaf1fa;
+  --bc-label:#cbd9e9;
+  --bc-muted:#94aac0;
+  --bc-accent:#7b9fd4;
+  --bc-accent-soft:rgba(123,159,212,.15);
+  --bc-accent-ink:#eef3fc;
+  --bc-line:#34486055;
+  --bc-line-hover:#526b89aa;
+  --bc-warn:#e5aa70;
+  --bc-danger:#e68190;
+  --bc-r1:0px;
+  --bc-r2:0px;
+  --bc-s1:4px;
+  --bc-s2:8px;
+  --bc-s3:12px;
+  --bc-s4:16px;
+  --bc-s5:20px;
+  --bc-s6:32px;
+  --bc-shadow-1:0 4px 12px #00000027;
+  --bc-shadow-2:0 12px 30px #00000033, inset 0 1px #ffffff07;
+  --bc-font:Inter,"Segoe UI",Arial,sans-serif;
+  --bc-fs-helper:11px;
+  --bc-fs-body:13px;
+  --bc-fs-label:11px;
+  --bc-fs-group:15px;
+  --bc-fs-title:20px;
+  --bc-t-fast:130ms;
+  --bc-t-normal:250ms;
+  --bc-t-slow:360ms;
+  --bc-ease:cubic-bezier(.2,.8,.2,1);
+  font:400 var(--bc-fs-body)/1.5 var(--bc-font);
+  color:var(--bc-ink);
+  accent-color:var(--bc-accent);
+}
+/* Nested Foundry .buxa containers must not bring back the foundation cyan. */
+.buxa-layout-config-app .buxa {
+  --buxa-accent:var(--bc-accent);
+  --buxa-accent-soft:var(--bc-accent-soft);
+}
+.buxa-layout-config-app .buxa-config-shell-v2 *,
+.buxa-layout-config-app .buxa-config-shell-v2 *::before,
+.buxa-layout-config-app .buxa-config-shell-v2 *::after {
+  box-sizing:border-box;
+  border-radius:var(--bc-r1);
+}
+
+/* The entire configuration design uses hard 90-degree edges. The module's
+   foundation reset already enforces square controls, so no competing
+   radius overrides or specificity hacks are needed here. */
+
+/* 2. BASE ================================================================= */
+.buxa-layout-config-app .window-content { padding:0; overflow:hidden; background:var(--bc-bg); }
+.buxa-layout-config-app .buxa-config-shell-v2 {
+  display:grid; grid-template-columns:194px minmax(0,1fr); height:100%; min-height:0; min-width:0;
+  background:var(--bc-bg);
+}
+.buxa-layout-config-app .buxa-config-sidebar {
+  position:relative; min-width:0; overflow:auto; padding:20px 12px;
+  background:linear-gradient(150deg,#15253a,var(--bc-rail) 46%,#0d1727);
+  box-shadow:inset -1px 0 var(--bc-line);
+}
+.buxa-layout-config-app .buxa-config-brand { display:flex; gap:11px; align-items:center; padding:9px 11px 30px; color:var(--bc-accent); }
+.buxa-layout-config-app .buxa-config-brand > i { font-size:23px; }
+.buxa-layout-config-app .buxa-config-brand > div { display:grid; line-height:1.15; }
+.buxa-layout-config-app .buxa-config-brand strong { font-size:14px; letter-spacing:.105em; color:var(--bc-ink); }
+.buxa-layout-config-app .buxa-config-brand small { font-size:10px; letter-spacing:.11em; color:var(--bc-muted); }
+.buxa-layout-config-app .buxa-config-tree { position:relative; display:grid; gap:5px; }
+.buxa-layout-config-app .buxa-config-tree-label {
+  display:block; padding:0 12px 9px; font-size:10px; font-weight:700; letter-spacing:.12em; color:var(--bc-muted);
+}
+/* The moving selection underlay is painted once for the full tree. */
+.buxa-layout-config-app .buxa-config-tree::before {
+  content:""; position:absolute; left:0; right:0; top:0; z-index:0;
+  height:var(--bc-active-h,42px); transform:translateY(var(--bc-active-y,25px));
+  background:linear-gradient(90deg,var(--bc-accent-soft),#1a2d442e);
+  box-shadow:inset 3px 0 var(--bc-accent);
+  opacity:var(--bc-active-ready,0); pointer-events:none;
+  transition:transform var(--bc-t-normal) var(--bc-ease),height var(--bc-t-normal) var(--bc-ease),opacity var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-tree button[data-config-section] {
+  position:relative; z-index:1; display:flex; justify-content:flex-start; align-items:center; gap:11px;
+  width:100%; min-height:42px; margin:0; padding:10px 13px; text-align:left;
+  background:transparent; border:1px solid transparent; color:var(--bc-label);
+  font:650 12px/1.35 var(--bc-font);
+}
+.buxa-layout-config-app .buxa-config-tree button[data-config-section] > i { width:18px; text-align:center; font-size:14px; color:#9caed2; }
+.buxa-layout-config-app .buxa-config-tree button[data-config-section].is-selected {
+  background:transparent; color:var(--bc-accent-ink);
+}
+.buxa-layout-config-app .buxa-config-tree button[data-config-section]:hover { background:var(--bc-surface-3); color:var(--bc-ink); }
+.buxa-layout-config-app .buxa-config-workspace { min-width:0; min-height:0; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; container-type:inline-size; }
+.buxa-layout-config-app .buxa-config-top { min-width:0; background:var(--bc-surface-1); box-shadow:inset 0 -1px var(--bc-line); }
+.buxa-layout-config-app .buxa-config-header { padding:20px 24px 13px; }
+.buxa-layout-config-app .buxa-config-header h2 { margin:0; font:750 var(--bc-fs-title)/1.2 var(--bc-font); color:var(--bc-ink); letter-spacing:-.024em; }
+.buxa-layout-config-app .buxa-config-tabs {
+  position:relative; display:flex; align-items:stretch; min-width:0; gap:5px; overflow-x:auto;
+  padding:0 17px; scrollbar-width:thin; scrollbar-color:#465c78 transparent; background:var(--bc-surface-1);
+}
+.buxa-layout-config-app .buxa-config-tabs::-webkit-scrollbar-thumb { background:#465c78; }
+.buxa-layout-config-app .buxa-config-tabs[hidden] { display:none; }
+.buxa-layout-config-app .buxa-config-tabs::after {
+  content:""; position:absolute; left:0; bottom:0; height:2px;
+  width:var(--bc-tab-w,72px); transform:translateX(var(--bc-tab-x,15px));
+  background:var(--bc-accent); opacity:var(--bc-tab-ready,0);
+  transition:transform var(--bc-t-normal) var(--bc-ease),width var(--bc-t-normal) var(--bc-ease),opacity var(--bc-t-fast);
+  pointer-events:none;
+}
+
+.buxa-layout-config-app .buxa-config-tabs button {
+  flex:0 0 auto; min-width:max-content; min-height:42px; padding:0 13px; margin:0;
+  border:0; border-bottom:2px solid transparent; background:transparent;
+  font:700 11px/1.3 var(--bc-font); color:var(--bc-muted); letter-spacing:.012em;
+}
+.buxa-layout-config-app .buxa-config-tabs button:hover { color:var(--bc-ink); background:var(--bc-surface-2); }
+.buxa-layout-config-app .buxa-config-tabs button.is-active { color:var(--bc-accent-ink); background:var(--bc-accent-soft); border-bottom-color:transparent; }
+.buxa-layout-config-app .buxa-config-main {
+  min-width:0; min-height:0; overflow:auto; padding:20px 24px 34px;
+  background:radial-gradient(ellipse at 85% 0%,#334b6322,transparent 45%),var(--bc-bg);
+  scrollbar-color:#43546d transparent; scrollbar-width:thin;
+}
+.buxa-layout-config-app .buxa-config-main > section[hidden] { display:none; }
+.buxa-layout-config-app .buxa-config-main > section:not([hidden]) { animation:bc-content-in var(--bc-t-normal) var(--bc-ease) both; }
+.buxa-layout-config-app .buxa-config-footer {
+  position:relative; z-index:2; display:flex; justify-content:flex-end; align-items:center; gap:10px;
+  min-height:67px; margin:0; padding:12px 24px;
+  background:linear-gradient(180deg,#132136,#101b2d); box-shadow:0 -7px 24px #0000002b,inset 0 1px var(--bc-line);
+  backdrop-filter:blur(12px);
+}
+.buxa-layout-config-app .buxa-config-footer::before {
+  content:"All changes saved"; display:inline-flex; align-items:center; margin-right:auto;
+  font:600 11px/1.4 var(--bc-font); color:var(--bc-muted); transition:color var(--bc-t-normal),opacity var(--bc-t-normal);
+}
+.buxa-layout-config-app .buxa-config-footer::after {
+  content:""; position:absolute; left:12px; width:5px; height:5px; background:#74889a;
+  transform:translateY(0); transition:background var(--bc-t-normal),box-shadow var(--bc-t-normal);
+}
+.buxa-layout-config-app .has-unsaved-changes .buxa-config-footer::before { content:"Unsaved changes"; color:var(--bc-warn); animation:bc-enter var(--bc-t-normal) var(--bc-ease); }
+.buxa-layout-config-app .has-unsaved-changes .buxa-config-footer::after { background:var(--bc-warn); box-shadow:0 0 10px #e5aa7090; }
+
+/* 3. COMPONENTS =========================================================== */
+/* 3a. Panels, nested cards, rows — the same quiet raised surface. */
+.buxa-layout-config-app .buxa-config-panel {
+  position:relative; min-width:0; padding:20px 24px; margin:0 0 18px;
+  border:1px solid var(--bc-line); background:var(--bc-surface-1); box-shadow:var(--bc-shadow-2);
+}
+.buxa-layout-config-app .buxa-config-section-title {
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  min-height:34px; margin:0 0 16px; padding:0 0 10px; box-shadow:inset 0 -1px var(--bc-line);
+}
+.buxa-layout-config-app .buxa-config-section-title > div { min-width:0; }
+.buxa-layout-config-app .buxa-config-section-title h3 { margin:0; font:750 var(--bc-fs-group)/1.3 var(--bc-font); color:var(--bc-ink); }
+.buxa-layout-config-app .buxa-config-section-title :is(small,p),
+.buxa-layout-config-app .buxa-config-note { display:block; margin:5px 0 0; font:450 var(--bc-fs-helper)/1.55 var(--bc-font); color:var(--bc-muted); }
+.buxa-layout-config-app :is(.buxa-config-resource,.buxa-config-attribute,.buxa-config-proficiency,
+  .buxa-config-rebirth-rule,.buxa-rarity-config-row,.buxa-config-stat-block,
+  .buxa-config-proficiency-points,.buxa-equipment-layout-config-row,
+  .buxa-sequencer-asset,.buxa-icon-source-config,.buxa-rebirth-global-editor,
+  .buxa-rarity-global-background,.buxa-config-field-row) {
+  min-width:0; padding:16px; background:linear-gradient(155deg,var(--bc-surface-2),#111f31);
+  border:1px solid var(--bc-line); box-shadow:inset 0 1px #ffffff06,var(--bc-shadow-1);
+  transition:background var(--bc-t-fast) var(--bc-ease),box-shadow var(--bc-t-fast) var(--bc-ease),transform var(--bc-t-fast) var(--bc-ease);
+}
+.buxa-layout-config-app :is(.buxa-config-resource,.buxa-config-attribute,.buxa-config-proficiency,.buxa-rarity-config-row,.buxa-config-rebirth-rule):hover {
+  background:linear-gradient(155deg,var(--bc-surface-3),var(--bc-surface-2));
+}
+.buxa-layout-config-app :is(.buxa-config-resource-list,.buxa-config-attribute-list,.buxa-config-proficiency-list,
+  .buxa-config-rebirth-rule-list,.buxa-rarity-config-list,.buxa-config-fields) { display:grid; gap:14px; }
+.buxa-layout-config-app :is(.buxa-config-resource,.buxa-config-attribute,.buxa-config-proficiency,.buxa-rarity-config-row) { animation:bc-row-enter var(--bc-t-normal) var(--bc-ease) both; }
+.buxa-layout-config-app .buxa-drag-handle { display:grid; place-items:center; color:var(--bc-muted); cursor:grab; min-height:36px; font-size:15px; }
+.buxa-layout-config-app .buxa-drag-handle:active { cursor:grabbing; }
+.buxa-layout-config-app :is(.is-dragging,[draggable="true"]:active) { box-shadow:var(--bc-shadow-2); }
+
+/* 3b. Labels and text fields. */
+.buxa-layout-config-app .buxa-config-main :is(label,.buxa-config-label) { color:var(--bc-muted); font:600 var(--bc-fs-label)/1.4 var(--bc-font); letter-spacing:.06em; }
+.buxa-layout-config-app .buxa-config-main label:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"])),
+.buxa-layout-config-app .buxa-config-main label:has(> select) { display:flex; flex-direction:column; min-width:0; gap:5px; }
+.buxa-layout-config-app .buxa-config-main label:has(> .bc-number, > .bc-select):not(.buxa-rarity-beam-opacity):not(.buxa-warning-duration) { display:flex; flex-direction:column; gap:5px; min-width:0; }
+.buxa-layout-config-app .buxa-config-main label > span:first-child:not(.bc-toggle-track):not(.buxa-addon-main):not(.buxa-warning-position-content):not(.buxa-config-icon-preview) { color:var(--bc-muted); font:600 var(--bc-fs-label)/1.4 var(--bc-font); text-transform:uppercase; letter-spacing:.06em; margin-bottom:0; }
+.buxa-layout-config-app .buxa-config-main :is(input[type="text"],input[type="number"],textarea) {
+  display:block; width:100%; min-width:0; min-height:40px; margin:0; padding:9px 12px;
+  border:1px solid var(--bc-line-hover); background:var(--bc-field); color:var(--bc-ink);
+  box-shadow:inset 0 1px 3px #00000033;
+  font:550 var(--bc-fs-body)/1.4 var(--bc-font);
+}
+.buxa-layout-config-app .buxa-config-main :is(input[type="text"],input[type="number"],textarea)::placeholder { color:var(--bc-muted); }
+.buxa-layout-config-app .buxa-config-main input[type="number"] { font-variant-numeric:tabular-nums; }
+/* Number steppers are one component bound to the same original input. */
+.buxa-layout-config-app .buxa-config-main .bc-number {
+  position:relative; display:flex; min-width:0; width:100%; max-width:100%; height:34px;
+  align-items:stretch; overflow:hidden; border:1px solid var(--bc-line);
+  border-radius:var(--bc-r1); background:var(--bc-field);
+}
+.buxa-layout-config-app .buxa-config-main .bc-number > input {
+  display:block; flex:1 1 0; min-width:0; width:0; max-width:100%; height:32px; min-height:32px;
+  padding:0 8px; margin:0; border:0; background:transparent; box-shadow:none;
+}
+.buxa-layout-config-app .buxa-config-main .bc-number input::-webkit-outer-spin-button,
+.buxa-layout-config-app .buxa-config-main .bc-number input::-webkit-inner-spin-button { -webkit-appearance:none; appearance:none; margin:0; }
+.buxa-layout-config-app .buxa-config-main .bc-number-steppers {
+  display:grid; flex:0 0 22px; width:22px; min-width:22px; max-width:22px; height:32px;
+  grid-template-columns:22px; grid-template-rows:16px 16px; border-left:1px solid var(--bc-line);
+}
+.buxa-layout-config-app .buxa-config-main .bc-number-step {
+  display:grid; place-items:center; flex:none; min-width:0; width:22px; max-width:22px;
+  min-height:0; height:16px; max-height:16px;
+  margin:0; padding:0; line-height:1; border:0; border-radius:0; background:transparent;
+  box-shadow:none; color:var(--bc-muted); font-size:9px; cursor:pointer;
+  transition:background var(--bc-t-fast),color var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-main .bc-number-step:hover { background:var(--bc-surface-4); color:var(--bc-ink); }
+
+.buxa-layout-config-app .buxa-config-main :is(input,textarea,select):disabled { opacity:.56; cursor:not-allowed; }
+.buxa-layout-config-app .buxa-config-main :is(.buxa-config-fixed-link,.buxa-icon-source-location) {
+  display:flex; flex-wrap:wrap; align-items:center; min-height:40px; padding:9px 12px;
+  background:var(--bc-field); color:var(--bc-muted); box-shadow:inset 0 0 0 1px var(--bc-line);
+}
+
+/* 3c. Buttons; action, primary, danger, icon variations share one base. */
+.buxa-layout-config-app :is(.buxa-config-main,.buxa-config-footer) button:not(.bc-select-trigger):not(.bc-select-option):not(.bc-number-step) {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  flex-shrink:0; width:auto; min-width:0; min-height:38px; margin:0; padding:9px 13px;
+  border:1px solid var(--bc-line-hover); background:var(--bc-surface-3);
+  box-shadow:inset 0 1px #ffffff0a; color:var(--bc-ink);
+  font:700 12px/1.3 var(--bc-font); text-transform:none; white-space:normal;
+  cursor:pointer;
+  transition:transform var(--bc-t-fast) var(--bc-ease),background var(--bc-t-fast),box-shadow var(--bc-t-fast),color var(--bc-t-fast);
+}
+.buxa-layout-config-app :is(.buxa-config-main,.buxa-config-footer) button:not(.bc-select-trigger):not(.bc-select-option):not(.bc-number-step):hover { background:var(--bc-surface-4); box-shadow:0 4px 15px #0004; }
+.buxa-layout-config-app :is(.buxa-config-main,.buxa-config-footer) button:not(.bc-select-trigger):not(.bc-select-option):not(.bc-number-step):active { transform:translateY(1px) scale(.985); }
+.buxa-layout-config-app :is(.buxa-config-main,.buxa-config-footer) button:disabled { opacity:.5; cursor:not-allowed; }
+.buxa-layout-config-app .buxa-config-footer button.buxa-primary {
+  background:linear-gradient(155deg,#596eae,#40598d); border-color:#91a2dd77;
+  color:var(--bc-accent-ink); min-width:100px;
+}
+.buxa-layout-config-app .buxa-config-row-actions { display:flex; justify-content:flex-end; flex-wrap:nowrap; gap:5px; }
+.buxa-layout-config-app .buxa-config-shell-v2 .buxa-config-row-actions button,
+.buxa-layout-config-app .buxa-config-shell-v2 :is([data-rarity-action="remove"],[data-action="removeRebirthStyle"]) {
+  width:26px; min-width:26px; height:26px; min-height:26px; padding:0;
+}
+.buxa-layout-config-app .buxa-config-shell-v2 :is([data-rarity-action="remove"],[data-action^="remove"]) { color:var(--bc-danger); background:transparent; border-radius:var(--bc-r1); }
+.buxa-layout-config-app .buxa-config-shell-v2 :is([data-rarity-action="remove"],[data-action^="remove"]):hover { color:var(--bc-danger); background:#412734; }
+
+/* 3d. Toggle. The native checkbox remains the accessible saved value;
+   only its adjacent custom track is visible. */
+.buxa-layout-config-app .buxa-config-main input[type="checkbox"] {
+  position:absolute; display:block; width:0; height:0; min-width:0; min-height:0;
+  margin:0; padding:0; border:0; opacity:0; pointer-events:none;
+  -webkit-appearance:none; appearance:none;
+  clip-path:inset(50%); overflow:hidden;
+}
+.buxa-layout-config-app .buxa-config-main input[data-bc-toggle] {
+  -webkit-appearance:none; appearance:none; position:absolute;
+  opacity:0; width:0; height:0; min-width:0; min-height:0;
+}
+.buxa-layout-config-app .buxa-config-main .bc-toggle-track {
+  position:relative; display:inline-block; flex:0 0 32px;
+  width:32px; height:18px; min-width:32px; margin:0;
+  border:1px solid var(--bc-line-hover); border-radius:0;
+  background:var(--bc-surface-4); box-shadow:inset 0 1px 3px #0005;
+  pointer-events:none;
+  transition:background var(--bc-t-fast),border-color var(--bc-t-fast),box-shadow var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-main .bc-toggle-track::after {
+  content:""; position:absolute; top:3px; left:3px; width:12px; height:12px;
+  border-radius:0; background:#a3b3c7; box-shadow:0 1px 3px #0009;
+  transition:transform var(--bc-t-normal) var(--bc-ease),background var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-main input[type="checkbox"]:checked + .bc-toggle-track,
+.buxa-layout-config-app .buxa-config-main input[data-bc-toggle]:checked + .bc-toggle-track {
+  background:var(--bc-accent); border-color:var(--bc-accent);
+}
+.buxa-layout-config-app .buxa-config-main input[type="checkbox"]:checked + .bc-toggle-track::after {
+  transform:translateX(14px); background:#fff;
+}
+.buxa-layout-config-app .buxa-config-main input[type="checkbox"]:focus-visible + .bc-toggle-track {
+  outline:2px solid var(--bc-accent); outline-offset:3px;
+}
+.buxa-layout-config-app .buxa-config-main input[type="checkbox"]:disabled + .bc-toggle-track { opacity:.5; }
+.buxa-layout-config-app .buxa-config-main label:not(.buxa-addon-card):not(.buxa-config-toggle):has(> input[type="checkbox"]) {
+  display:inline-flex; align-items:center; gap:10px; min-height:32px; min-width:0; cursor:pointer;
+}
+.buxa-layout-config-app .buxa-config-main .buxa-config-toggle {
+  display:flex; flex-direction:row; align-items:center; gap:12px; min-width:0; padding:10px 0; margin:0;
+  background:transparent; border:0; box-shadow:none;
+}
+.buxa-layout-config-app .buxa-config-main .buxa-config-toggle > span:not(.bc-toggle-track) { display:grid; gap:3px; min-width:0; }
+.buxa-layout-config-app .buxa-config-main .buxa-config-toggle strong { color:var(--bc-label); font:650 12px/1.4 var(--bc-font); white-space:nowrap; }
+.buxa-layout-config-app .buxa-config-main .buxa-config-toggle small,
+.buxa-layout-config-app .buxa-label-cell small { font:450 11px/1.45 var(--bc-font); color:var(--bc-muted); }
+.buxa-layout-config-app .buxa-config-main .buxa-config-toggle.prominent {
+  padding:13px 15px; background:var(--bc-surface-2); box-shadow:inset 0 0 0 1px var(--bc-line);
+}
+.buxa-layout-config-app .buxa-config-toggle-grid,
+.buxa-layout-config-app .buxa-actor-type-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:12px; }
+
+/* 3e. Custom select — real select remains as the serializer's source of truth,
+   but is visually replaced with a proper dark-glass listbox. */
+.buxa-layout-config-app .bc-select {
+  position:relative; display:block; min-width:0; width:100%;
+}
+.buxa-layout-config-app .bc-select > select {
+  position:absolute; width:1px; height:1px; padding:0; margin:0;
+  opacity:0; clip-path:inset(50%); pointer-events:none; overflow:hidden;
+}
+.buxa-layout-config-app .window-content .buxa-config-shell-v2.buxa-config-shell .buxa-config-main .bc-select .bc-select-trigger {
+  display:flex; align-items:center; justify-content:space-between; gap:9px;
+  width:100%; min-width:0; height:32px; min-height:32px; padding:0 10px;
+  border:1px solid var(--bc-line); border-radius:var(--bc-r1);
+  background:var(--bc-field); color:var(--bc-ink);
+  font:600 var(--bc-fs-body)/1.3 var(--bc-font); text-align:left; cursor:pointer;
+  transition:background var(--bc-t-fast),border-color var(--bc-t-fast),box-shadow var(--bc-t-fast);
+}
+.buxa-layout-config-app .window-content .buxa-config-shell-v2.buxa-config-shell .buxa-config-main .bc-select .bc-select-trigger:hover,
+.buxa-layout-config-app .window-content .buxa-config-shell-v2.buxa-config-shell .buxa-config-main .bc-select .bc-select-trigger[aria-expanded="true"] {
+  background:var(--bc-surface-2); border-color:var(--bc-line-hover);
+}
+.buxa-layout-config-app .bc-select-trigger > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.buxa-layout-config-app .bc-select-trigger > i { flex:none; color:var(--bc-muted); }
+/* Popup lives under document.body, outside the app's CSS-variable scope.
+   Define its missing tokens here; the working widget copies color/ink itself. */
+.bc-select-popup {
+  --bc-surface-3:#1a2a41; --bc-surface-4:#21344c;
+  --bc-line:#34486055; --bc-r2:0px;
+  --bc-accent:#7b9fd4; --bc-accent-soft:rgba(123,159,212,.15);
+  --bc-shadow-2:0 12px 30px #00000033, inset 0 1px #ffffff07;
+  position:fixed; z-index:9999; width:max-content; min-width:150px; max-width:min(420px,calc(100vw - 14px));
+  max-height:260px; overflow:auto; padding:5px;
+  background:var(--bc-surface-3); border:1px solid var(--bc-line);
+  border-radius:var(--bc-r2); box-shadow:var(--bc-shadow-2);
+  backdrop-filter:blur(14px);
+  transform-origin:top center; animation:bc-popup-in var(--bc-t-fast,130ms) cubic-bezier(.2,.8,.2,1) both;
+}
+.bc-select-popup button.bc-select-option {
+  display:block; width:100%; min-height:35px; margin:0; padding:8px 11px;
+  border:0; border-radius:var(--bc-r1,0px); background:var(--bc-surface-3);
+  color:var(--bc-ink,#eaf1fa); font:600 12px/1.35 Inter,"Segoe UI",Arial,sans-serif;
+  cursor:pointer; text-align:left; white-space:normal;
+  transition:background 130ms,color 130ms;
+}
+.bc-select-popup button.bc-select-option:hover { color:var(--bc-ink,#eaf1fa); background:var(--bc-surface-4); }
+.bc-select-popup button.bc-select-option[aria-selected="true"] { color:var(--bc-accent); background:var(--bc-accent-soft); }
+.bc-select-popup button.bc-select-option:focus-visible { outline:2px solid var(--bc-accent); outline-offset:-2px; }
+
+/* 3f. Sliders — thin fill track, aligned editable value. Existing labels
+   already contain native output/number fields; no markup is required. */
+.buxa-layout-config-app .buxa-config-main input[type="range"] {
+  -webkit-appearance:none; appearance:none; flex:1 1 auto; min-width:60px;
+  width:100%; height:4px; min-height:4px; padding:0; margin:12px 0;
+  border:0; border-radius:0; cursor:pointer;
+  background:linear-gradient(to right,var(--bc-accent) var(--bc-fill,0%),var(--bc-surface-4) var(--bc-fill,0%));
+}
+.buxa-layout-config-app .buxa-config-main input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance:none; appearance:none; width:14px; height:14px;
+  border:0; border-radius:0; background:var(--bc-accent);
+  box-shadow:0 1px 7px #0006;
+  transition:transform var(--bc-t-fast),box-shadow var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-main input[type="range"]::-moz-range-thumb {
+  width:14px; height:14px; border:0; border-radius:0; background:var(--bc-accent);
+  box-shadow:0 1px 7px #0006;
+}
+.buxa-layout-config-app .buxa-config-main input[type="range"]:hover::-webkit-slider-thumb {
+  transform:scale(1.14); box-shadow:0 0 0 5px var(--bc-accent-soft);
+}
+.buxa-layout-config-app .buxa-config-main .bc-range-row,
+.buxa-layout-config-app .buxa-config-main .buxa-rarity-global-background label > div {
+  display:flex; align-items:center; gap:10px; min-width:0;
+}
+.buxa-layout-config-app .buxa-config-main :is(.bc-range-value,output) {
+  flex:0 0 44px; width:44px; min-width:44px; min-height:32px; padding:6px;
+  background:var(--bc-field); border:1px solid var(--bc-line);
+  color:var(--bc-label); text-align:center; font:650 12px/1.4 var(--bc-font);
+}
+.buxa-layout-config-app .buxa-config-main .buxa-rarity-beam-opacity .bc-number {
+  flex:0 0 78px; width:78px; min-width:78px; max-width:78px; padding:0;
+}
+
+/* 3g. Segmented and option card (the radio element itself is never visible). */
+.buxa-layout-config-app .buxa-config-main input[type="radio"] { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
+.buxa-layout-config-app .buxa-config-main .buxa-rarity-background-options {
+  display:inline-flex; flex-wrap:wrap; gap:4px; padding:4px; background:var(--bc-field);
+}
+.buxa-layout-config-app .buxa-config-main .buxa-rarity-background-options label { display:inline-flex; cursor:pointer; min-height:36px; align-items:center; }
+.buxa-layout-config-app .buxa-config-main .buxa-rarity-background-options label > span {
+  display:flex; min-height:36px; padding:9px 14px; align-items:center;
+  background:transparent; color:var(--bc-muted); font:650 11px/1.3 var(--bc-font);
+  transition:background var(--bc-t-fast),color var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-main .buxa-rarity-background-options input:checked + span { color:var(--bc-accent-ink); background:#344775; box-shadow:inset 0 -2px var(--bc-accent); }
+.buxa-layout-config-app .buxa-config-main .buxa-physical-visual-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.buxa-layout-config-app .buxa-config-main .buxa-physical-visual-options label { position:relative; cursor:pointer; min-width:0; }
+.buxa-layout-config-app .buxa-config-main .buxa-physical-visual-options label > span {
+  display:grid; gap:7px; min-height:86px; padding:16px; background:var(--bc-surface-2);
+  color:var(--bc-label); box-shadow:inset 0 0 0 1px var(--bc-line);
+  transition:background var(--bc-t-fast),box-shadow var(--bc-t-fast),transform var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-main .buxa-physical-visual-options label strong { color:var(--bc-ink); font:700 13px/1.3 var(--bc-font); }
+.buxa-layout-config-app .buxa-config-main .buxa-physical-visual-options label small { color:var(--bc-muted); font:450 11px/1.5 var(--bc-font); }
+.buxa-layout-config-app .buxa-config-main .buxa-physical-visual-options input:checked + span { box-shadow:inset 0 0 0 1px var(--bc-accent),inset 0 -3px var(--bc-accent); background:#28395a; }
+.buxa-layout-config-app .buxa-config-main .buxa-physical-visual-options label:hover > span { background:var(--bc-surface-3); transform:translateY(-2px); }
+.buxa-layout-config-app .buxa-config-main .buxa-warning-position-picker { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.buxa-layout-config-app .buxa-config-main .buxa-warning-position-option { position:relative; display:block; cursor:pointer; min-width:0; }
+.buxa-layout-config-app .buxa-config-main .buxa-warning-position-content {
+  display:grid; justify-items:center; align-content:center; gap:12px; min-height:116px; padding:16px;
+  background:var(--bc-surface-2); box-shadow:inset 0 0 0 1px var(--bc-line);
+  color:var(--bc-label); transition:background var(--bc-t-fast),box-shadow var(--bc-t-fast),transform var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-main .buxa-warning-position-option:hover .buxa-warning-position-content { background:var(--bc-surface-3); transform:translateY(-2px); }
+.buxa-layout-config-app .buxa-config-main .buxa-warning-position-option input:checked + .buxa-warning-position-content { background:#28395a; box-shadow:inset 0 0 0 1px var(--bc-accent),inset 0 -3px var(--bc-accent),var(--bc-shadow-1); }
+.buxa-layout-config-app .buxa-position-illustration { display:flex; width:min(100%,125px); aspect-ratio:2.35; padding:7px; border:1px solid #41516a; background:var(--bc-field); }
+.buxa-layout-config-app .buxa-position-illustration i { display:block; width:32%; height:12px; border:1px solid var(--bc-accent); background:var(--bc-accent-soft); }
+.buxa-layout-config-app .buxa-warning-position-option:nth-child(2) .buxa-position-illustration { justify-content:center; }
+.buxa-layout-config-app .buxa-warning-position-option:nth-child(3) .buxa-position-illustration { justify-content:flex-end; }
+
+/* 3h. Color swatch and icon/file picker. */
+.buxa-layout-config-app .buxa-config-main input[type="color"] {
+  -webkit-appearance:none; appearance:none; display:block; flex:0 0 47px;
+  width:47px; min-width:47px; height:40px; min-height:40px; padding:4px; margin:0;
+  background:var(--bc-field); border:1px solid var(--bc-line-hover); cursor:pointer;
+}
+.buxa-layout-config-app .buxa-config-main input[type="color"]::-webkit-color-swatch-wrapper { padding:0; }
+.buxa-layout-config-app .buxa-config-main input[type="color"]::-webkit-color-swatch { border:0; }
+.buxa-layout-config-app .buxa-config-icon-control { display:flex; align-items:center; flex-wrap:wrap; gap:12px; min-width:0; padding:12px 0; }
+.buxa-layout-config-app .buxa-config-icon-control > label { display:inline-flex; align-items:center; gap:9px; white-space:nowrap; }
+.buxa-layout-config-app .buxa-config-icon-preview { display:grid; place-items:center; width:40px; height:40px; background:var(--bc-field); box-shadow:inset 0 0 0 1px var(--bc-line); }
+.buxa-layout-config-app .buxa-config-icon-preview img { display:block; max-width:28px; max-height:28px; object-fit:contain; }
+.buxa-layout-config-app .buxa-config-icon-preview.is-empty::before { content:"—"; color:var(--bc-muted); }
+.buxa-layout-config-app .buxa-config-icon-pick { min-width:116px; }
+
+/* 3i. Collapsible (native details for working keyboard interaction). */
+.buxa-layout-config-app .buxa-config-advanced { interpolate-size:allow-keywords; min-width:0; margin-top:14px; padding:0; border:1px solid var(--bc-line); background:var(--bc-surface-1); }
+.buxa-layout-config-app .buxa-config-advanced > summary {
+  display:flex; gap:10px; align-items:center; list-style:none; padding:12px 14px; cursor:pointer;
+  color:var(--bc-label); font:700 12px/1.4 var(--bc-font);
+  transition:background var(--bc-t-fast),color var(--bc-t-fast);
+}
+.buxa-layout-config-app .buxa-config-advanced > summary::before {
+  content:""; width:7px; height:7px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor;
+  transform:rotate(-45deg); transition:transform var(--bc-t-normal) var(--bc-ease);
+}
+.buxa-layout-config-app .buxa-config-advanced[open] > summary::before { transform:rotate(45deg); }
+.buxa-layout-config-app .buxa-config-advanced > summary::-webkit-details-marker { display:none; }
+.buxa-layout-config-app .buxa-config-advanced::details-content { block-size:0; overflow:clip; transition:block-size var(--bc-t-normal) var(--bc-ease),content-visibility var(--bc-t-normal) allow-discrete; }
+.buxa-layout-config-app .buxa-config-advanced[open]::details-content { block-size:auto; }
+
+.buxa-layout-config-app .buxa-config-advanced > summary:hover { background:var(--bc-surface-2); }
+.buxa-layout-config-app .buxa-config-advanced[open] > :not(summary) { animation:bc-enter var(--bc-t-normal) var(--bc-ease) both; margin:10px 14px 14px; }
+
+/* 3j. Metadata badge, stat header, action icon. */
+.buxa-layout-config-app .buxa-config-main :is(.buxa-addon-main small,.buxa-warning-config-badge,.buxa-rarity-config-id) {
+  display:inline-flex; align-items:center; max-width:100%; padding:5px 8px;
+  background:var(--bc-surface-3); color:var(--bc-muted); font:650 10px/1.4 var(--bc-font);
+  overflow-wrap:anywhere; white-space:normal;
+}
+.buxa-layout-config-app .buxa-config-main .buxa-addon-main small.is-active { color:#a5d7c7; }
+.buxa-layout-config-app .buxa-config-main .buxa-config-stat-title {
+  font:750 13px/1.3 var(--bc-font); color:var(--bc-ink); padding:0 0 12px; margin-bottom:4px;
+  box-shadow:inset 0 -1px var(--bc-line);
+}
+
+/* Shared visible focus and interactive motion. */
+.buxa-layout-config-app .buxa-config-shell-v2 :is(button,input:not([type="hidden"]),textarea,summary,.bc-select-trigger):focus-visible,
+.buxa-layout-config-app .buxa-config-shell-v2 label:has(>input[type="radio"]:focus-visible) > span {
+  outline:2px solid var(--bc-accent); outline-offset:2px; box-shadow:0 0 0 4px var(--bc-accent-soft);
+  animation:bc-focus var(--bc-t-normal) var(--bc-ease) both;
+}
+.buxa-layout-config-app .buxa-config-main :is(input[type="text"],input[type="number"],input[type="color"],textarea):hover { border-color:var(--bc-accent); }
+.buxa-layout-config-app .buxa-config-main :is(input[type="text"],input[type="number"],input[type="color"],textarea):focus { border-color:var(--bc-accent); }
+
+/* 4. SECTION-SPECIFIC LAYOUTS ONLY ======================================= */
+/* Player / General */
+.buxa-layout-config-app :is(.buxa-config-mini-grid,.buxa-config-toggle-grid) { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 16px; }
+.buxa-layout-config-app .buxa-config-mini-grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.buxa-layout-config-app .buxa-config-mini-grid.four { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.buxa-layout-config-app .buxa-config-mini-grid.one-line { grid-template-columns:minmax(0,280px); }
+.buxa-layout-config-app .buxa-actor-types { margin-top:18px; }
+.buxa-layout-config-app .buxa-actor-types .buxa-field-label { font:700 12px/1.4 var(--bc-font); color:var(--bc-label); }
+.buxa-layout-config-app .buxa-config-field-head,
+.buxa-layout-config-app .buxa-config-field-row { display:grid; align-items:center; grid-template-columns:26px minmax(0,1fr) 88px 118px; gap:12px; }
+.buxa-layout-config-app .buxa-config-field-head { padding:0 15px 7px; color:var(--bc-muted); font-size:10px; }
+.buxa-layout-config-app .buxa-label-cell { min-width:0; }
+/* Player / Resources and Attributes */
+.buxa-layout-config-app .buxa-config-resource-main { display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+.buxa-layout-config-app .buxa-config-attribute-main { display:grid; grid-template-columns:24px minmax(165px,1.5fr) minmax(135px,1fr) 113px; align-items:end; gap:12px; }
+.buxa-layout-config-app .buxa-config-attribute-features { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:12px; }
+/* Player / Stats */
+.buxa-layout-config-app .buxa-config-stat-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.buxa-layout-config-app .buxa-config-stat-block { display:grid; grid-template-columns:1fr; gap:12px; }
+.buxa-layout-config-app .buxa-config-stat-block .buxa-config-stat-title { grid-column:1/-1; }
+/* Player / Proficiencies */
+.buxa-layout-config-app .buxa-config-proficiency-top { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:end; gap:14px; }
+.buxa-layout-config-app .buxa-config-proficiency-main { display:grid; grid-template-columns:23px 36px minmax(130px,1.3fr) minmax(115px,1fr) 113px; align-items:end; gap:12px; }
+.buxa-layout-config-app .buxa-proficiency-attribute-options { display:grid; grid-template-columns:105px repeat(4,minmax(85px,1fr)); gap:12px; margin-top:12px; }
+.buxa-layout-config-app .buxa-proficiency-attribute-options[hidden] { display:none; }
+.buxa-layout-config-app .buxa-config-inline-check { display:grid; place-items:center; min-height:40px; }
+/* Player / Rebirth */
+.buxa-layout-config-app .buxa-config-rebirth-rule-list { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.buxa-layout-config-app .buxa-config-rebirth-rule-head { margin-bottom:10px; }
+.buxa-layout-config-app .buxa-config-rebirth-rule .buxa-config-mini-grid.three {
+  grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 12px;
+}
+.buxa-layout-config-app .buxa-config-rebirth-rule .buxa-config-mini-grid.three > label { min-width:0; }
+.buxa-layout-config-app .buxa-config-rebirth-rule .bc-number { min-width:0; }
+.buxa-layout-config-app .buxa-config-rebirth-rule .bc-number > input { min-width:0; }
+.buxa-layout-config-app .buxa-config-rebirth-rule-head strong { font:750 13px/1.4 var(--bc-font); }
+.buxa-layout-config-app .buxa-rebirth-subtitle { margin-top:22px; }
+.buxa-layout-config-app .buxa-rebirth-style-head,
+.buxa-layout-config-app .buxa-rebirth-style-row { display:grid; grid-template-columns:68px 56px minmax(0,1fr) 90px 40px; gap:12px; align-items:center; }
+.buxa-layout-config-app .buxa-rebirth-style-head { color:var(--bc-muted); font-size:10px; padding:0 10px 8px; }
+.buxa-layout-config-app .buxa-rebirth-style-row { padding:10px; border-top:1px solid var(--bc-line); }
+.buxa-layout-config-app .buxa-rebirth-style-preview { justify-self:start; min-width:60px; }
+.buxa-layout-config-app .buxa-add-rebirth-style { margin-top:12px; }
+/* Inventory */
+.buxa-layout-config-app .buxa-equipment-layout-config-row { display:flex; justify-content:space-between; align-items:center; gap:14px; }
+.buxa-layout-config-app .buxa-equipment-layout-config-row strong { color:var(--bc-label); }
+.buxa-layout-config-app .buxa-config-main [data-config-panel="inventory"] .buxa-config-mini-grid { gap:18px; margin-bottom:16px; }
+/* NPC */
+.buxa-layout-config-app .buxa-config-main [data-config-panel="npc"] .buxa-config-panel { min-height:190px; }
+.buxa-layout-config-app .buxa-config-main [data-config-panel="npc"] .buxa-config-mini-grid { max-width:680px; }
+/* Items and rarity */
+.buxa-layout-config-app .buxa-physical-visual-setting { margin-bottom:16px; }
+.buxa-layout-config-app .buxa-physical-visual-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.buxa-layout-config-app .buxa-rarity-global-background { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-bottom:18px; }
+.buxa-layout-config-app .buxa-rarity-global-background > label { min-width:0; }
+.buxa-layout-config-app .buxa-rarity-config-main { display:flex; flex-wrap:wrap; gap:12px; align-items:center; padding-bottom:15px; }
+.buxa-layout-config-app .buxa-config-resource-main > label { flex:1 1 115px; min-width:105px; }
+.buxa-layout-config-app .buxa-config-resource-main > label:has(input[type="color"]) { flex:0 0 47px; min-width:47px; }
+.buxa-layout-config-app .buxa-config-resource-main .buxa-config-row-actions { margin-left:auto; }
+.buxa-layout-config-app .buxa-rarity-config-main > label:has(input[type="text"]) { flex:1 1 145px; min-width:130px; }
+.buxa-layout-config-app .buxa-rarity-config-main > label:has(input[type="color"]) { flex:0 0 47px; }
+.buxa-layout-config-app .buxa-rarity-config-main > button[data-rarity-action="remove"] { margin-left:auto; }
+.buxa-layout-config-app .buxa-rarity-swatch { width:7px; height:32px; align-self:center; background:var(--buxa-rarity-preview); }
+.buxa-layout-config-app .buxa-rarity-config-flags { display:flex; flex-wrap:wrap; gap:10px 20px; padding:5px 0 18px; }
+.buxa-layout-config-app .buxa-rarity-beam-opacity { display:grid; grid-template-columns:minmax(94px,auto) minmax(90px,1fr) 78px auto; gap:10px; padding:14px 0; align-items:center; }
+.buxa-layout-config-app .buxa-rarity-beam-opacity .bc-number { width:78px; min-width:78px; max-width:78px; }
+.buxa-layout-config-app .buxa-rarity-background-config { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding-top:14px; box-shadow:inset 0 1px var(--bc-line); }
+/* UI / warnings */
+.buxa-layout-config-app .buxa-warning-duration { display:grid; gap:8px; max-width:460px; }
+.buxa-layout-config-app .buxa-warning-duration-input { display:flex; align-items:center; gap:12px; }
+.buxa-layout-config-app .buxa-warning-duration-input .bc-number { width:110px; max-width:110px; }
+.buxa-layout-config-app .buxa-warning-position-picker { margin-top:14px; }
+.buxa-layout-config-app .buxa-warning-preview-actions { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:18px; }
+.buxa-layout-config-app .buxa-warning-preview-actions p { margin:0; color:var(--bc-muted); }
+/* Addons */
+.buxa-layout-config-app .buxa-addon-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.buxa-layout-config-app .buxa-addon-card {
+  display:grid; grid-template-columns:38px minmax(0,1fr); gap:12px; align-items:start;
+  min-height:86px; padding:16px; background:var(--bc-surface-2); border:1px solid var(--bc-line);
+}
+.buxa-layout-config-app .buxa-addon-card.buxa-addon-info { grid-template-columns:1fr; cursor:default; }
+.buxa-layout-config-app .buxa-addon-main { min-width:0; display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
+.buxa-layout-config-app .buxa-addon-main strong { color:var(--bc-ink); font:700 12px/1.45 var(--bc-font); overflow-wrap:anywhere; }
+.buxa-layout-config-app .buxa-addon-asset-button { justify-self:start; margin-top:10px; }
+.buxa-layout-config-app .buxa-sequencer-asset,.buxa-layout-config-app .buxa-icon-source-config { margin-top:16px; }
+.buxa-layout-config-app .buxa-sequencer-asset label { display:grid; gap:9px; }
+.buxa-layout-config-app .buxa-sequencer-asset small { color:var(--bc-muted); line-height:1.5; }
+.buxa-layout-config-app .buxa-icon-source-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:center; }
+
+/* 5. MOTION AND RESPONSIVE ================================================= */
+@keyframes bc-content-in { from { opacity:.56; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes bc-row-enter { from { opacity:.6; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+@keyframes bc-enter { from { opacity:.55; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+@keyframes bc-popup-in { from { opacity:0; transform:translateY(-6px) scale(.985); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes bc-focus { from { outline-offset:0; } to { outline-offset:2px; } }
+@container (max-width:780px) {
+  .buxa-layout-config-app .buxa-config-resource-main > label:nth-of-type(4) { grid-column:2 / -1; }
+  .buxa-layout-config-app .buxa-config-resource-main .buxa-config-row-actions { grid-column:2 / -1; }
+  .buxa-layout-config-app .buxa-config-proficiency-main { grid-template-columns:22px 36px repeat(2,minmax(0,1fr)); }
+  .buxa-layout-config-app .buxa-config-proficiency-main .buxa-config-row-actions { grid-column:3/-1; }
+  .buxa-layout-config-app .buxa-proficiency-attribute-options { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+@container (max-width:610px) {
+  .buxa-layout-config-app .buxa-config-main { padding:14px; }
+  .buxa-layout-config-app .buxa-config-panel { padding:16px; }
+  .buxa-layout-config-app :is(.buxa-config-mini-grid.three,.buxa-config-mini-grid.four,.buxa-config-stat-grid,.buxa-addon-grid,.buxa-rarity-global-background,.buxa-config-rebirth-rule-list) { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .buxa-layout-config-app :is(.buxa-config-resource-main,.buxa-config-attribute-main,.buxa-config-proficiency-main) { grid-template-columns:22px repeat(2,minmax(0,1fr)); }
+  .buxa-layout-config-app :is(.buxa-config-resource-main,.buxa-config-attribute-main,.buxa-config-proficiency-main) .buxa-config-row-actions { grid-column:2/-1; }
+  .buxa-layout-config-app .buxa-rarity-config-id { display:none; }
+  .buxa-layout-config-app .buxa-rarity-beam-opacity { grid-template-columns:minmax(80px,1fr) 78px auto; }
+  .buxa-layout-config-app .buxa-rarity-beam-opacity > span { grid-column:1/-1; }
+  .buxa-layout-config-app .buxa-config-field-row { grid-template-columns:24px minmax(0,1fr) 70px; }
+  .buxa-layout-config-app .buxa-config-field-row .buxa-config-row-actions { grid-column:2/-1; }
+}
+@container buxa-layout (max-width:720px) {
+  .buxa-layout-config-app .buxa-config-shell-v2 { grid-template-columns:minmax(130px,25%) minmax(0,1fr); }
+  .buxa-layout-config-app .buxa-config-sidebar { padding:10px 6px; }
+  .buxa-layout-config-app .buxa-config-header { padding:14px; }
+}
+@container buxa-layout (max-width:520px) {
+  .buxa-layout-config-app .buxa-config-shell-v2 { grid-template-columns:1fr; grid-template-rows:auto minmax(0,1fr); }
+  .buxa-layout-config-app .buxa-config-sidebar { padding:8px; max-height:140px; overflow:auto; }
+  .buxa-layout-config-app .buxa-config-brand { display:none; }
+  .buxa-layout-config-app .buxa-config-tree { display:flex; flex-wrap:wrap; gap:3px; }
+  .buxa-layout-config-app .buxa-config-tree-label { display:none; }
+  .buxa-layout-config-app .buxa-config-tree::before { display:none; }
+.buxa-layout-config-app .buxa-config-tree button[data-config-section] { width:auto; flex:1 1 auto; min-height:35px; padding:6px; }
+  .buxa-layout-config-app .buxa-config-footer { padding:10px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .buxa-layout-config-app .buxa-config-shell-v2 *,
+  .buxa-layout-config-app .buxa-config-shell-v2 *::before,
+  .buxa-layout-config-app .buxa-config-shell-v2 *::after,
+  .bc-select-popup { animation:none; transition:none; scroll-behavior:auto; }
+}

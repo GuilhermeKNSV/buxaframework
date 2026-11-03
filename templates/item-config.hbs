@@ -1,0 +1,498 @@
+<div class="buxa-item-config-scroll">
+<nav class="buxa-item-config-tabs" aria-label="Item configuration sections"> <button type="button" data-item-config-tab="info" class="{{#if activeConfigTabs.info}}is-active{{/if}}" aria-selected="{{activeConfigTabs.info}}"><i class="fa-solid fa-circle-info"></i><span>INFO</span></button> <button type="button" data-item-config-tab="basic" class="{{#if activeConfigTabs.basic}}is-active{{/if}}" aria-selected="{{activeConfigTabs.basic}}"><i class="fa-solid fa-sliders"></i><span>BASIC</span></button> <button type="button" data-item-config-tab="stack" class="{{#if activeConfigTabs.stack}}is-active{{/if}}" aria-selected="{{activeConfigTabs.stack}}"><i class="fa-solid fa-layer-group"></i><span>STACKING</span></button> <button type="button" data-item-config-tab="increase" class="{{#if activeConfigTabs.increase}}is-active{{/if}}" aria-selected="{{activeConfigTabs.increase}}"><i class="fa-solid fa-arrow-trend-up"></i><span>INCREASE</span></button> <button type="button" data-item-config-tab="dice" class="{{#if activeConfigTabs.dice}}is-active{{/if}}" aria-selected="{{activeConfigTabs.dice}}"><i class="fa-solid fa-dice-d20"></i><span>DICE</span></button> <button type="button" data-item-config-tab="image" class="{{#if activeConfigTabs.image}}is-active{{/if}}" aria-selected="{{activeConfigTabs.image}}"><i class="fa-solid fa-image"></i><span>IMAGE</span></button> <button type="button" data-item-config-tab="size" class="{{#if activeConfigTabs.size}}is-active{{/if}}" aria-selected="{{activeConfigTabs.size}}"><i class="fa-solid fa-table-cells-large"></i><span>SIZE</span></button> <button type="button" data-item-config-tab="control" class="{{#if activeConfigTabs.control}}is-active{{/if}}" aria-selected="{{activeConfigTabs.control}}"><i class="fa-solid fa-unlock-keyhole"></i><span>CONTROL</span></button> </nav>
+  <div class="buxa-item-config-stack" data-item-config-panel="info" {{#unless activeConfigTabs.info}}hidden{{/unless}}>
+    <section class="buxa-item-config-identity-v2">
+      <button type="button" class="buxa-item-config-art" data-action="browseItemImage" title="Choose item image">
+        <img data-item-image-preview src="{{item.img}}" alt="">
+        <span><i class="fa-solid fa-image"></i> CHANGE</span>
+      </button>
+      <div class="buxa-item-config-primary-fields">
+        <label class="buxa-item-field"><span>ITEM NAME</span><input data-item-name type="text" value="{{item.name}}"></label>
+        <label class="buxa-item-field"><span>KIND</span><select data-buxa-item-kind aria-label="Item kind"><option value="item" {{#if kindItem}}selected{{/if}}>Item</option><option value="magic" {{#if kindMagic}}selected{{/if}}>Magic</option><option value="effect" {{#if kindEffect}}selected{{/if}}>Effect</option></select></label><label class="buxa-item-field"><span>RARITY</span><select data-item-rarity>{{#each rarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+        <label class="buxa-item-field buxa-item-image-path"><span>IMAGE PATH</span><div><input data-item-image type="text" value="{{item.img}}"><button type="button" data-action="browseItemImage" title="Browse images"><i class="fa-solid fa-folder-open"></i></button></div></label>
+        <div class="buxa-item-type-label-config">
+          <div><strong>ITEM LABEL</strong><small>Display-only category shown on the sheet, inventory and directory. Does not change item mechanics.</small></div>
+          <label class="buxa-switch" title="Show this label"><input data-item-type-label-enabled type="checkbox" {{#if rules.typeLabel.enabled}}checked{{/if}} aria-label="Show item label"><span></span></label>
+          <div class="buxa-item-type-label-field" data-item-type-label-body><input data-item-type-label type="text" maxlength="48" value="{{rules.typeLabel.label}}" placeholder="e.g. Weapon, Potion, Artifact" aria-label="Custom item label"></div>
+        </div>
+      </div>
+    </section>
+    <section class="buxa-item-config-section buxa-description-builder" data-config-section="description">
+      <header><div><i class="fa-solid fa-align-left"></i><span><strong>DESCRIPTION</strong></span></div><label class="buxa-switch"><input data-item-description-enabled type="checkbox" {{#if rules.description.enabled}}checked{{/if}}><span></span></label></header>
+      <div class="buxa-item-config-section-body" data-item-description-body>
+        <div class="buxa-description-mode-selector" role="radiogroup" aria-label="Description mode">
+          <label><input type="radio" name="buxa-description-mode" data-item-description-mode value="standard" {{#if descriptionStandard}}checked{{/if}}><span><i class="fa-solid fa-align-left"></i> Standard text</span></label>
+          <label><input type="radio" name="buxa-description-mode" data-item-description-mode value="modular" {{#if descriptionModular}}checked{{/if}}><span><i class="fa-solid fa-puzzle-piece"></i> Modular fields</span></label>
+        </div>
+        <section class="buxa-description-standard" data-item-description-standard>
+          <label class="buxa-rule-field"><span>ITEM DESCRIPTION</span><textarea data-item-description-text rows="5" placeholder="Write a regular item description here...">{{rules.description.text}}</textarea></label>
+          <p class="buxa-discovery-hint">One straightforward description, without separate discovery fields. Switching modes keeps both versions saved.</p>
+        </section>
+        <section class="buxa-description-modular" data-item-description-modular>
+        <p class="buxa-discovery-hint">Build a description from separate pieces. Each piece can be unknown, locked or revealed independently. A revealed replacement swaps text without changing the other pieces.</p>
+        <div class="buxa-description-parts-list" data-item-description-list>
+          {{#each descriptionParts}}
+          <article class="buxa-description-part" data-item-description-part data-description-id="{{id}}">
+            <div class="buxa-description-part-fields">
+              <label class="buxa-rule-field"><span>PUBLIC / INITIAL TEXT</span><textarea data-description-text rows="2" placeholder="This item belongs to">{{text}}</textarea></label>
+              <label class="buxa-rule-field"><span>TEXT AFTER REVEAL (OPTIONAL)</span><textarea data-description-reveal-text rows="2" placeholder="Loki">{{revealedText}}</textarea></label>
+            </div>
+            <div class="buxa-description-part-options">
+              <label class="buxa-rule-field"><span>STATE</span><select data-description-visibility><option value="revealed" {{#if isRevealed}}selected{{/if}}>Revealed</option><option value="locked" {{#if isLocked}}selected{{/if}}>Locked</option><option value="hidden" {{#if isHidden}}selected{{/if}}>Hidden (???)</option><option value="dmOnly" {{#if isDmOnly}}selected{{/if}}>DM only (not displayed)</option></select></label>
+              <label class="buxa-rule-field"><span>JOIN TO PREVIOUS</span><select data-description-join><option value="space" {{#if joinSpace}}selected{{/if}}>Space</option><option value="none" {{#if joinNone}}selected{{/if}}>Directly</option><option value="line" {{#if joinLine}}selected{{/if}}>New line</option></select></label>
+              <button type="button" class="buxa-discovery-remove" data-remove-description-part title="Remove field"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </article>
+          {{/each}}
+        </div>
+        <button type="button" class="buxa-description-add" data-add-description-part><i class="fa-solid fa-plus"></i> Add description field</button>
+        </section>
+      </div>
+    </section>
+  </div>
+  <div class="buxa-item-config-stack" data-item-config-panel="image" {{#unless activeConfigTabs.image}}hidden{{/unless}}>
+    <section class="buxa-item-config-section buxa-board-image-config">
+      <header><div><i class="fa-solid fa-object-group"></i><span><strong>BOARD IMAGE</strong><small>These defaults follow the item into and out of the scene.</small></span></div></header>
+      <div class="buxa-board-image-body">
+        <div class="buxa-board-image-stage" data-board-image-stage>
+          <div class="buxa-board-image-ruler">SCENE PREVIEW · 1 GRID = 100 PX</div>
+          <div class="buxa-board-scene-preview" data-board-scene-preview hidden>
+            <div class="buxa-board-fx-beam" data-board-fx-target="beam" title="Drag beam to reposition"><span class="buxa-board-fx-shaft"></span><span class="buxa-board-fx-ring"></span><span class="buxa-board-fx-shadow"></span><button type="button" class="buxa-board-fx-resize" data-board-fx-resize title="Resize beam">↘</button></div>
+            <div class="buxa-board-fx-label" data-board-fx-target="label" title="Drag loot nameplate to reposition"><span>{{item.name}}</span><button type="button" class="buxa-board-fx-resize" data-board-fx-resize title="Resize nameplate">↘</button></div>
+          </div>
+          <div class="buxa-board-image-art" data-board-image-art>
+            <img src="{{item.img}}" data-board-image-src alt="Item artwork">
+            <button type="button" class="buxa-board-image-handle is-rotate" data-board-image-rotate title="Rotate artwork">↻</button>
+            <button type="button" class="buxa-board-image-handle is-resize" data-board-image-resize title="Resize artwork">↘</button>
+          </div></div><div class="buxa-board-image-controls">
+          <div class="buxa-board-preview-bar">
+            <button type="button" class="buxa-board-preview-toggle" data-board-preview-toggle aria-pressed="false"><span class="buxa-board-preview-toggle-knob"></span><span class="buxa-board-preview-toggle-label">RIGHT-CLICK PREVIEW</span></button>
+            <div class="buxa-board-preview-selectors" data-board-preview-selectors>
+              <span>Select:</span>
+              <button type="button" data-board-preview-select="image" aria-pressed="true">Image</button>
+              <button type="button" data-board-preview-select="beam" aria-pressed="false" disabled>Beam</button>
+              <button type="button" data-board-preview-select="label" aria-pressed="false" disabled>Nametag</button>
+            </div>
+          </div><p>When preview is on, pick one layer at a time: <strong>Image</strong>, <strong>Beam</strong>, or <strong>Nametag</strong>. Only the selected layer gets handles and an outline.</p><button type="button" class="buxa-board-fx-reset" data-board-fx-reset>Reset beam and nameplate</button>
+          <label><span>SIZE (PIXELS)</span><input type="number" min="20" max="800" step="1" data-board-image-size value="{{rules.boardImage.size}}"></label>
+          <label><span>ROTATION (DEGREES)</span><input type="number" step="1" data-board-image-angle value="{{rules.boardImage.rotation}}"></label>
+          <label class="buxa-board-image-opacity"><span>OPACITY <output data-board-image-opacity-text>{{rules.boardImage.opacity}}</output></span><input type="range" min="0.05" max="1" step="0.01" value="{{rules.boardImage.opacity}}" data-board-image-opacity><input type="number" min="0.05" max="1" step="0.01" value="{{rules.boardImage.opacity}}" data-board-image-opacity-number></label>
+          <p>Drag the image to position it in the preview. Use the corner handle to resize and the top handle to rotate, just like the on-board editor. Preview position is not saved; size, rotation, and opacity are saved with the item.</p>
+        </div></div></section></div>
+  <div class="buxa-item-config-stack" data-item-config-panel="equipSize" hidden><section class="buxa-item-config-section" data-equip-size-editor></section></div>
+  <div class="buxa-item-config-stack" data-item-config-panel="basic" {{#unless activeConfigTabs.basic}}hidden{{/unless}}>
+    <section class="buxa-item-config-section buxa-ground-loot-policy"><header><div><i class="fa-solid fa-lock"></i><span><strong>GROUND ITEM</strong><small>Allow players to open a chest without picking up the chest itself.</small></span></div><label class="buxa-switch" title="Prevent looting this item from the board"><input data-item-disable-looting type="checkbox" {{#if rules.disableLooting}}checked{{/if}}><span></span></label></header><div class="buxa-item-config-section-body"><p class="buxa-discovery-hint">Disable Looting prevents picking up the physical item, including by drag. Its contents can still be opened and transferred when it has storage compartments.</p></div></section>
+    <section class="buxa-item-config-pair">
+      <article class="buxa-item-property-card" data-property-card="level">
+        <header><span><i class="fa-solid fa-signal"></i><strong>LEVEL REQUIREMENT</strong></span><label class="buxa-switch"><input data-item-level-enabled type="checkbox" {{#if rules.levelRequirement.enabled}}checked{{/if}}><span></span></label></header>
+        <div data-item-level-body><label class="buxa-item-field"><span>REQUIRED LEVEL</span><input data-item-level-value type="number" min="0" step="1" value="{{rules.levelRequirement.level}}"></label></div>
+      </article>
+      <article class="buxa-item-property-card" data-property-card="weight">
+        <header><span><i class="fa-solid fa-weight-hanging"></i><strong>WEIGHT</strong></span><label class="buxa-switch"><input data-item-weight-enabled type="checkbox" {{#if rules.weight.enabled}}checked{{/if}}><span></span></label></header>
+        <div data-item-weight-body><label class="buxa-item-field"><span>WEIGHT PER ITEM</span><input data-item-weight-value type="number" min="0" step="0.01" value="{{rules.weight.value}}"></label></div>
+      </article>
+    </section>
+    <section class="buxa-item-config-section buxa-item-equip-config">
+      <header><div><i class="fa-solid fa-shirt"></i><span><strong>EQUIPMENT</strong></span></div></header>
+      <div class="buxa-segmented buxa-item-equip-mode" role="radiogroup" aria-label="Equipment mode">
+        <label><input data-item-equip-mode type="radio" name="buxa-equip-mode" value="none" {{#unless rules.equip.enabled}}checked{{/unless}}><span><i class="fa-solid fa-ban"></i> NOT EQUIPPABLE</span></label>
+        <label><input data-item-equip-mode type="radio" name="buxa-equip-mode" value="any" {{#if rules.equip.enabled}}{{#if rules.equip.any}}checked{{/if}}{{/if}}><span><i class="fa-solid fa-border-all"></i> ANY SLOT</span></label>
+        <label><input data-item-equip-mode type="radio" name="buxa-equip-mode" value="restricted" {{#if rules.equip.enabled}}{{#unless rules.equip.any}}checked{{/unless}}{{/if}}><span><i class="fa-solid fa-filter"></i> SELECT SLOTS</span></label>
+      </div>
+      <div class="buxa-item-slot-chip-grid" data-item-equip-types>{{#each slotTypes}}<label class="buxa-item-slot-chip"><input data-item-equip-type type="checkbox" value="{{id}}" {{#if checked}}checked{{/if}}><span>{{label}}</span></label>{{/each}}</div>
+    </section>
+    <section class="buxa-item-config-section buxa-storage-config">
+      <header><div><i class="fa-solid fa-box-open"></i><span><strong>STORAGE</strong><small>Grants take effect when this item is equipped in the active loadout.</small></span></div></header>
+      <div class="buxa-storage-config-body">
+        <h4>STORAGE / EQUIPPED</h4>
+        <p>Unlock hidden equipment slots when wearing this item.</p>
+        <div class="buxa-storage-slot-choices">
+          {{#each hiddenEquipmentSlots}}
+            <label><input type="checkbox" data-storage-slot-id value="{{id}}" {{#if checked}}checked{{/if}}><span>{{label}} ({{id}})</span></label>
+          {{else}}<small>Add hidden slots in Equipment Configuration first.</small>{{/each}}
+        </div>
+        <h4>STORAGE / SLOTS</h4>
+        <label class="buxa-item-field"><span>ADD INVENTORY SLOTS</span><input type="number" min="0" max="300" step="1" data-storage-add-slots value="{{rules.storage.slots.add}}"></label>
+        <div class="buxa-storage-tooltip-editor" data-storage-tooltip-editor>
+          <header class="buxa-storage-tooltip-head"><div><i class="fa-solid fa-comment-dots"></i><strong>ITEM SHEET · STORAGE TOOLTIP</strong><small>Show storage stats and custom details below the item artwork.</small></div><label class="buxa-switch" title="Show storage details on item sheet"><input type="checkbox" data-storage-tooltip-enabled {{#if rules.storage.tooltip.enabled}}checked{{/if}}><span></span></label></header>
+          <div class="buxa-storage-tooltip-fields" data-storage-tooltip-fields>
+            <div class="buxa-storage-tooltip-pair">
+              <label class="buxa-rule-field"><span>HEADING</span><input type="text" maxlength="64" data-storage-tooltip-title value="{{rules.storage.tooltip.title}}" placeholder="STORAGE DETAILS"></label>
+              <label class="buxa-rule-field"><span>ACCENT COLOR</span><select data-storage-tooltip-style><option value="item" {{#if storageTooltipStyleItem}}selected{{/if}}>Item rarity</option><option value="neutral" {{#if storageTooltipStyleNeutral}}selected{{/if}}>Neutral</option><option value="rarity" {{#if storageTooltipStyleRarity}}selected{{/if}}>Choose rarity</option><option value="custom" {{#if storageTooltipStyleCustom}}selected{{/if}}>Custom</option></select></label>
+            </div>
+            <label class="buxa-rule-field buxa-storage-tooltip-rarity" data-storage-tooltip-rarity-wrap><span>RARITY COLOR</span><select data-storage-tooltip-rarity>{{#each storageTooltipRarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label><label class="buxa-rule-field buxa-storage-tooltip-color" data-storage-tooltip-color-wrap><span>CUSTOM COLOR</span><input type="color" data-storage-tooltip-color value="{{rules.storage.tooltip.color}}"></label>
+            <label class="buxa-rule-field"><span>SHORT DESCRIPTION (OPTIONAL)</span><textarea rows="2" maxlength="300" data-storage-tooltip-description placeholder="A traveler's pouch with enchanted pockets...">{{rules.storage.tooltip.description}}</textarea></label>
+            <div class="buxa-storage-tooltip-options">
+              <label><input type="checkbox" data-storage-tooltip-capacity {{#if rules.storage.tooltip.showCapacity}}checked{{/if}}> Total capacity</label>
+              <label><input type="checkbox" data-storage-tooltip-compartments {{#if rules.storage.tooltip.showCompartments}}checked{{/if}}> Compartment details</label>
+              <label><input type="checkbox" data-storage-tooltip-bonuses {{#if rules.storage.tooltip.showBonuses}}checked{{/if}}> Equipped bonuses</label>
+            </div>
+            <div class="buxa-storage-tooltip-row-heading"><strong>EXTRA TOOLTIP ROWS</strong><button type="button" data-storage-tooltip-add><i class="fa-solid fa-plus"></i> Add row</button></div>
+            <div class="buxa-storage-tooltip-rows" data-storage-tooltip-rows>
+              {{#each rules.storage.tooltip.rows}}
+              <div class="buxa-storage-tooltip-row" data-storage-tooltip-row data-tooltip-row-id="{{id}}"><input type="text" maxlength="64" data-storage-tooltip-row-label value="{{label}}" placeholder="LABEL"><input type="text" maxlength="140" data-storage-tooltip-row-value value="{{value}}" placeholder="Value or description"><button type="button" data-storage-tooltip-remove aria-label="Remove tooltip row" title="Remove row"><i class="fa-solid fa-xmark"></i></button></div>
+              {{/each}}
+            </div>
+            <small class="buxa-discovery-hint">Up to 8 extra rows. The information is display-only and does not change storage rules.</small>
+          </div>
+        </div>
+        <p class="buxa-storage-mode-explanation">Add a pouch below, then choose its <strong>Item Layout</strong>: Simple (one slot per item), Complex (item shapes), or Follow Inventory. Items always keep their original shape when moved out.</p>
+        <div class="buxa-storage-external-heading"><strong>EXTERNAL COMPARTMENTS</strong><button type="button" data-storage-add-external><i class="fa-solid fa-plus"></i> Add pouch</button></div><div data-storage-external-list>{{#each storageExternal}}
+          <div class="buxa-storage-external-editor" data-storage-external data-storage-id="{{id}}" data-cells="{{cellsText}}">
+            <div class="buxa-storage-external-fields">
+              <label>Name<input data-storage-label type="text" maxlength="48" value="{{label}}"></label>
+              <label>Type<select data-storage-shape><option value="simple" {{#unless isComplex}}selected{{/unless}}>Full rectangle</option><option value="complex" {{#if isComplex}}selected{{/if}}>Custom outline</option></select></label>
+              <label>Columns<input data-storage-columns type="number" min="1" max="12" value="{{columns}}"></label>
+              <label>Rows<input data-storage-rows type="number" min="1" max="12" value="{{rows}}"></label>
+              <button type="button" data-storage-remove title="Remove compartment"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="buxa-storage-mode-setting" data-storage-mode-setting><div class="buxa-storage-mode-heading"><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i><span><strong>ITEM LAYOUT INSIDE THIS POUCH</strong><small>Separate from the pouch shape above. Each compartment has its own mode.</small></span></div><label><span>STORAGE INVENTORY MODE</span><select data-storage-item-mode aria-label="Storage inventory mode"><option value="inherit" {{#if itemModeInherit}}selected{{/if}}>Follow inventory</option><option value="simple" {{#if itemModeSimple}}selected{{/if}}>Simple · 1 slot/item</option><option value="complex" {{#if itemModeComplex}}selected{{/if}}>Complex · item shape</option></select></label><small data-storage-item-mode-hint aria-live="polite"></small></div>
+            <div class="buxa-storage-shape-workspace"><div class="buxa-storage-cell-grid" data-storage-cells aria-label="External storage footprint"></div><div class="buxa-storage-shape-footer"><span data-storage-shape-count>1 cell</span><button type="button" data-storage-reset title="Reset shape to one centered cell"><i class="fa-solid fa-rotate-left"></i> Reset</button></div></div>
+            <div class="buxa-storage-appearance"><label>Rarity / color<select data-storage-rarity><option value="item" {{#if styleItem}}selected{{/if}}>Follow item rarity</option><option value="neutral" {{#if styleNeutral}}selected{{/if}}>Neutral</option><option value="custom" {{#if styleCustom}}selected{{/if}}>Custom</option></select></label><label>Color<input type="color" data-storage-color value="{{color}}"></label><label><input type="checkbox" data-storage-border {{#if border}}checked{{/if}}> Border</label><label><input type="checkbox" data-storage-background {{#if background}}checked{{/if}}> Background</label></div>
+          </div>
+        {{/each}}
+        </div>
+      </div>
+    </section>
+    <template data-storage-external-template><div class="buxa-storage-external-editor" data-storage-external data-cells="5">
+      <div class="buxa-storage-external-fields"><label>Name<input data-storage-label type="text" value="New pouch"></label><label>Type<select data-storage-shape><option value="simple">Full rectangle</option><option value="complex">Custom outline</option></select></label><label>Columns<input data-storage-columns type="number" min="1" max="12" value="4"></label><label>Rows<input data-storage-rows type="number" min="1" max="12" value="4"></label><button type="button" data-storage-remove><i class="fa-solid fa-trash"></i></button></div>
+      <div class="buxa-storage-mode-setting" data-storage-mode-setting><div class="buxa-storage-mode-heading"><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i><span><strong>ITEM LAYOUT INSIDE THIS POUCH</strong><small>Separate from pouch shape. Each compartment can use its own mode.</small></span></div><label><span>STORAGE INVENTORY MODE</span><select data-storage-item-mode aria-label="Storage inventory mode"><option value="inherit" selected>Follow inventory</option><option value="simple">Simple · 1 slot/item</option><option value="complex">Complex · item shape</option></select></label><small data-storage-item-mode-hint aria-live="polite"></small></div>
+      <div class="buxa-storage-shape-workspace"><div class="buxa-storage-cell-grid" data-storage-cells aria-label="External storage footprint"></div><div class="buxa-storage-shape-footer"><span data-storage-shape-count>1 cell</span><button type="button" data-storage-reset title="Reset shape to one centered cell"><i class="fa-solid fa-rotate-left"></i> Reset</button></div></div>
+      <div class="buxa-storage-appearance"><label>Rarity / color<select data-storage-rarity><option value="item">Follow item rarity</option><option value="neutral">Neutral</option><option value="custom">Custom</option></select></label><label>Color<input type="color" data-storage-color value="#344b68"></label><label><input type="checkbox" data-storage-border checked> Border</label><label><input type="checkbox" data-storage-background checked> Background</label></div>
+    </div></template>
+  </div>
+  <div class="buxa-item-config-stack" data-item-config-panel="stack" {{#unless activeConfigTabs.stack}}hidden{{/unless}}>
+    <section class="buxa-item-config-section buxa-item-stack-config">
+      <header><div><i class="fa-solid fa-layer-group"></i><span><strong>QUANTITY</strong></span></div></header>
+      <div class="buxa-segmented" role="radiogroup" aria-label="Stack mode">
+        <label><input data-item-multiple-mode type="radio" name="buxa-multiple-mode" value="single" {{#unless rules.multiple.enabled}}checked{{/unless}}><span><i class="fa-regular fa-square"></i> INDIVIDUAL</span></label>
+        <label><input data-item-multiple-mode type="radio" name="buxa-multiple-mode" value="stackable" {{#if rules.multiple.enabled}}checked{{/if}}><span><i class="fa-solid fa-layer-group"></i> STACKABLE</span></label>
+      </div>
+      <label class="buxa-stack-max-setting" data-item-stack-max-wrap><span><strong>MAX STACK</strong><small>Maximum per stack; overflow occupies another slot.</small></span>
+        <input type="number" data-item-max-stack min="1" max="999999" step="1" value="{{rules.multiple.maxStack}}" inputmode="numeric"></label>
+    </section>
+      <section class="buxa-item-config-section buxa-stack-image-section">
+        <header><div><i class="fa-solid fa-images"></i><span><strong>STACK ARTWORK</strong><small>Change the artwork when a stack reaches a quantity. The highest matching threshold wins.</small></span></div><button type="button" data-stack-add-rule><i class="fa-solid fa-plus"></i> Add image rule</button></header>
+        <p class="buxa-stack-art-hint">Example: show two coins at 2+, four coins at 4+, and a pile at 10+. Each rule can use another image or a custom composition of multiple copies of the original image.</p>
+        <div data-stack-images-list class="buxa-stack-images-list"></div>
+        <p data-stack-empty class="buxa-stack-art-empty">No stack artwork rules. The item's original image is used at every quantity.</p>
+      </section>
+  </div>
+  <div class="buxa-item-config-stack buxa-rule-editor" data-item-config-panel="increase" {{#unless activeConfigTabs.increase}}hidden{{/unless}}>
+    <section class="buxa-item-increase-head buxa-rule-editor-intro">
+      <div><strong>STAT INCREASES</strong><small>Bonuses given by the item. Passive bonuses work while carried in inventory.</small></div>
+      <button type="button" data-item-add-increase><i class="fa-solid fa-plus"></i> Add increase</button>
+    </section>
+    <div class="buxa-item-increase-list" data-item-increase-list>
+      {{#each increases}}
+      <article class="buxa-item-increase-row buxa-rule-card" data-item-increase-row data-increase-id="{{id}}">
+        <header class="buxa-rule-card-header">
+          <span class="buxa-rule-card-icon"><i class="fa-solid fa-arrow-trend-up"></i></span>
+          <span class="buxa-rule-card-heading"><strong data-buxa-rule-title>Increase</strong><small data-buxa-rule-summary>Set target, value and activation</small></span>
+          <button type="button" class="buxa-rule-card-collapse" data-buxa-rule-collapse title="Expand or collapse increase" aria-expanded="true"><i class="fa-solid fa-chevron-up"></i></button>
+          <button type="button" class="buxa-item-increase-remove" data-item-remove-increase title="Remove increase" aria-label="Remove increase"><i class="fa-solid fa-trash-can"></i></button>
+        </header>
+        <div class="buxa-rule-card-body" data-buxa-rule-body>
+          <div class="buxa-rule-section-heading"><strong>Bonus</strong><small>Choose which stat this item changes.</small></div>
+          <div class="buxa-item-increase-main">
+            <label class="buxa-rule-field buxa-rule-target"><span>TARGET STAT</span><select data-item-increase-target data-buxa-search-picker="Search stats, attributes and resources">{{#each targetOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{group}} · {{label}}</option>{{/each}}</select></label>
+            <label class="buxa-rule-field buxa-rule-number"><span>AMOUNT</span><input data-item-increase-value type="number" step="0.01" value="{{value}}"></label>
+            <label class="buxa-rule-field"><span>BONUS TYPE</span><select data-item-increase-mode><option value="flat" {{#if modeFlat}}selected{{/if}}>Flat bonus</option><option value="percent" {{#if modePercent}}selected{{/if}}>Percent (%)</option></select></label>
+            <label class="buxa-rule-field"><span>WHEN ACTIVE</span><select data-item-increase-activation><option value="equipped" {{#if activationEquipped}}selected{{/if}}>Equipped</option><option value="passive" {{#if activationPassive}}selected{{/if}}>In inventory (passive)</option></select></label>
+          </div>
+          <details class="buxa-discovery-options"><summary><i class="fa-solid fa-eye"></i> Discovery &amp; reveal <small>Who sees this bonus and what happens on unlock</small></summary>
+            <div class="buxa-discovery-fields">
+              <label class="buxa-rule-field"><span>STATE</span><select data-item-entry-visibility><option value="revealed" {{#if isRevealed}}selected{{/if}}>Revealed (active)</option><option value="locked" {{#if isLocked}}selected{{/if}}>Locked (inactive)</option><option value="hidden" {{#if isHidden}}selected{{/if}}>Hidden (???)</option><option value="dmOnly" {{#if isDmOnly}}selected{{/if}}>DM only</option></select></label>
+              <label class="buxa-rule-field" data-item-merge-field><span>MERGE ON REVEAL</span><select data-item-increase-merge-into data-initial-merge="{{reveal.mergeInto}}"><option value="">Keep separate</option></select></label>
+              <label class="buxa-rule-field"><span>RARITY AFTER REVEAL</span><select data-item-reveal-rarity><option value="">Keep existing rarity</option>{{#each revealRarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field"><span>REVEALED DISPLAY LABEL</span><input data-item-reveal-label value="{{reveal.label}}" placeholder="Keep existing label"></label>
+              <label class="buxa-rule-field"><span>ICON ON REVEAL</span><input data-item-reveal-icon value="{{reveal.icon}}" placeholder="Keep existing icon (optional)"></label>
+              <label class="buxa-rule-field"><span>REVEALED COLOR</span><select data-item-reveal-style><option value="keep" {{#if revealStyleKeep}}selected{{/if}}>Keep current</option><option value="neutral" {{#if revealStyleNeutral}}selected{{/if}}>Neutral</option><option value="item" {{#if revealStyleItem}}selected{{/if}}>Item rarity</option><option value="rarity" {{#if revealStyleRarity}}selected{{/if}}>Choose rarity</option><option value="custom" {{#if revealStyleCustom}}selected{{/if}}>Custom</option></select></label>
+              <label class="buxa-rule-field"><span>CUSTOM COLOR</span><input data-item-reveal-color type="color" value="{{reveal.color}}"></label>
+              <label class="buxa-rule-field"><span>COLOR RARITY</span><select data-item-reveal-color-rarity><option value="">Default</option>{{#each revealColorRarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+            </div>
+          </details>
+          <details class="buxa-rule-appearance" data-buxa-appearance>
+          <summary><span class="buxa-rule-appearance-title"><i class="fa-solid fa-palette"></i><strong>Item display</strong><small>Optional tooltip appearance and icon</small></span><i class="fa-solid fa-chevron-down buxa-rule-appearance-chevron"></i></summary>
+          <div class="buxa-rule-appearance-body">
+            <div class="buxa-item-increase-tooltip">
+              <label class="buxa-item-increase-show buxa-rule-switch"><input data-item-increase-tooltip-enabled type="checkbox" {{#if tooltip.enabled}}checked{{/if}}><span>SHOW ON ITEM</span></label>
+              <label class="buxa-rule-field buxa-rule-label-long"><span>DISPLAY LABEL</span><input data-item-increase-tooltip-label type="text" value="{{tooltip.label}}" placeholder="Automatic label"></label>
+              <label class="buxa-rule-field"><span>COLOR STYLE</span><select data-item-increase-tooltip-style><option value="neutral" {{#if tooltipNeutral}}selected{{/if}}>Neutral</option><option value="item" {{#if tooltipItem}}selected{{/if}}>Item rarity</option><option value="rarity" {{#if tooltipRarity}}selected{{/if}}>Choose rarity</option><option value="custom" {{#if tooltipCustom}}selected{{/if}}>Custom color</option></select></label>
+              <label class="buxa-rule-field" data-item-increase-tooltip-rarity-wrap><span>RARITY</span><select data-item-increase-tooltip-rarity>{{#each tooltipRarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field buxa-rule-color" data-item-increase-tooltip-color-wrap><span>CUSTOM COLOR</span><input data-item-increase-tooltip-color type="color" value="{{tooltip.color}}"></label>
+              <label class="buxa-item-tooltip-icon-field buxa-rule-field"><span>ICON (OPTIONAL)</span><div><input data-item-tooltip-icon type="text" value="{{tooltip.icon}}" placeholder="Choose an icon"><button type="button" data-item-tooltip-icon-browse title="Browse icons" aria-label="Browse icons"><i class="fa-solid fa-folder-open"></i></button></div></label>
+            </div>
+          </div>
+        </details>
+        </div>
+      </article>
+      {{/each}}
+    </div>
+    <template data-item-increase-template><article class="buxa-item-increase-row buxa-rule-card" data-item-increase-row data-increase-id="">
+        <header class="buxa-rule-card-header">
+          <span class="buxa-rule-card-icon"><i class="fa-solid fa-arrow-trend-up"></i></span>
+          <span class="buxa-rule-card-heading"><strong data-buxa-rule-title>Increase</strong><small data-buxa-rule-summary>Set target, value and activation</small></span>
+          <button type="button" class="buxa-rule-card-collapse" data-buxa-rule-collapse title="Expand or collapse increase" aria-expanded="true"><i class="fa-solid fa-chevron-up"></i></button>
+          <button type="button" class="buxa-item-increase-remove" data-item-remove-increase title="Remove increase" aria-label="Remove increase"><i class="fa-solid fa-trash-can"></i></button>
+        </header>
+        <div class="buxa-rule-card-body" data-buxa-rule-body>
+          <div class="buxa-rule-section-heading"><strong>Bonus</strong><small>Choose which stat this item changes.</small></div>
+          <div class="buxa-item-increase-main">
+            <label class="buxa-rule-field buxa-rule-target"><span>TARGET STAT</span><select data-item-increase-target data-buxa-search-picker="Search stats, attributes and resources">{{#each increaseTargets}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{group}} · {{label}}</option>{{/each}}</select></label>
+            <label class="buxa-rule-field buxa-rule-number"><span>AMOUNT</span><input data-item-increase-value type="number" step="0.01" value="1"></label>
+            <label class="buxa-rule-field"><span>BONUS TYPE</span><select data-item-increase-mode><option value="flat" selected>Flat bonus</option><option value="percent" >Percent (%)</option></select></label>
+            <label class="buxa-rule-field"><span>WHEN ACTIVE</span><select data-item-increase-activation><option value="equipped" selected>Equipped</option><option value="passive" >In inventory (passive)</option></select></label>
+          </div>
+          <details class="buxa-discovery-options"><summary><i class="fa-solid fa-eye"></i> Discovery &amp; reveal <small>Who sees this bonus and what happens on unlock</small></summary>
+            <div class="buxa-discovery-fields">
+              <label class="buxa-rule-field"><span>STATE</span><select data-item-entry-visibility><option value="revealed" selected>Revealed (active)</option><option value="locked" >Locked (inactive)</option><option value="hidden" >Hidden (???)</option><option value="dmOnly" >DM only</option></select></label>
+              <label class="buxa-rule-field" data-item-merge-field><span>MERGE ON REVEAL</span><select data-item-increase-merge-into data-initial-merge=""><option value="">Keep separate</option></select></label>
+              <label class="buxa-rule-field"><span>RARITY AFTER REVEAL</span><select data-item-reveal-rarity><option value="">Keep existing rarity</option>{{#each tooltipRarities}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field"><span>REVEALED DISPLAY LABEL</span><input data-item-reveal-label value="" placeholder="Keep existing label"></label>
+              <label class="buxa-rule-field"><span>ICON ON REVEAL</span><input data-item-reveal-icon value="" placeholder="Keep existing icon (optional)"></label>
+              <label class="buxa-rule-field"><span>REVEALED COLOR</span><select data-item-reveal-style><option value="keep" selected>Keep current</option><option value="neutral" >Neutral</option><option value="item" >Item rarity</option><option value="rarity" >Choose rarity</option><option value="custom" >Custom</option></select></label>
+              <label class="buxa-rule-field"><span>CUSTOM COLOR</span><input data-item-reveal-color type="color" value="#b8c3d2"></label>
+              <label class="buxa-rule-field"><span>COLOR RARITY</span><select data-item-reveal-color-rarity><option value="">Default</option>{{#each tooltipRarities}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+            </div>
+          </details>
+          <details class="buxa-rule-appearance" data-buxa-appearance>
+          <summary><span class="buxa-rule-appearance-title"><i class="fa-solid fa-palette"></i><strong>Item display</strong><small>Optional tooltip appearance and icon</small></span><i class="fa-solid fa-chevron-down buxa-rule-appearance-chevron"></i></summary>
+          <div class="buxa-rule-appearance-body">
+            <div class="buxa-item-increase-tooltip">
+              <label class="buxa-item-increase-show buxa-rule-switch"><input data-item-increase-tooltip-enabled type="checkbox" checked><span>SHOW ON ITEM</span></label>
+              <label class="buxa-rule-field buxa-rule-label-long"><span>DISPLAY LABEL</span><input data-item-increase-tooltip-label type="text" value="" placeholder="Automatic label"></label>
+              <label class="buxa-rule-field"><span>COLOR STYLE</span><select data-item-increase-tooltip-style><option value="neutral" selected>Neutral</option><option value="item">Item rarity</option><option value="rarity">Choose rarity</option><option value="custom">Custom color</option></select></label>
+              <label class="buxa-rule-field" data-item-increase-tooltip-rarity-wrap><span>RARITY</span><select data-item-increase-tooltip-rarity>{{#each tooltipRarities}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field buxa-rule-color" data-item-increase-tooltip-color-wrap><span>CUSTOM COLOR</span><input data-item-increase-tooltip-color type="color" value="#b8c3d2"></label>
+              <label class="buxa-item-tooltip-icon-field buxa-rule-field"><span>ICON (OPTIONAL)</span><div><input data-item-tooltip-icon type="text" value="" placeholder="Choose an icon"><button type="button" data-item-tooltip-icon-browse title="Browse icons" aria-label="Browse icons"><i class="fa-solid fa-folder-open"></i></button></div></label>
+            </div>
+          </div>
+        </details>
+        </div>
+      </article></template>
+  </div>
+  <div class="buxa-item-config-stack buxa-rule-editor" data-item-config-panel="dice" {{#unless activeConfigTabs.dice}}hidden{{/unless}}>
+    <section class="buxa-item-increase-head buxa-rule-editor-intro">
+      <div><strong>DICE ROLLS</strong><small>Create damage, healing, skill and custom item rolls.</small></div>
+      <button type="button" data-item-add-dice><i class="fa-solid fa-plus"></i> Add roll</button>
+    </section>
+    <div class="buxa-item-dice-list" data-item-dice-list>
+      {{#each dice}}
+      <article class="buxa-item-dice-row buxa-rule-card" data-item-dice-row data-dice-id="{{id}}">
+        <header class="buxa-rule-card-header">
+          <span class="buxa-rule-card-icon"><i class="fa-solid fa-dice-d20"></i></span>
+          <span class="buxa-rule-card-heading"><strong data-buxa-rule-title>Dice roll</strong><small data-buxa-rule-summary>1d20 · Normal</small></span>
+          <button type="button" class="buxa-rule-card-collapse" data-buxa-rule-collapse title="Expand or collapse roll" aria-expanded="true"><i class="fa-solid fa-chevron-up"></i></button>
+          <button type="button" class="buxa-item-increase-remove" data-item-remove-dice title="Remove dice" aria-label="Remove dice"><i class="fa-solid fa-trash-can"></i></button>
+        </header>
+        <div class="buxa-rule-card-body" data-buxa-rule-body>
+          <div class="buxa-rule-section-heading"><strong>Roll formula</strong><small>Pick one dice source. Flat bonus and modifiers apply to either.</small></div>
+          <div class="buxa-dice-source-select" role="group" aria-label="Choose dice source">
+            <button type="button" data-item-dice-source-option="fixed" aria-pressed="{{#unless attributeDice.enabled}}true{{else}}false{{/unless}}"><i class="fa-solid fa-dice"></i> Fixed dice</button>
+            <button type="button" data-item-dice-source-option="attribute" aria-pressed="{{#if attributeDice.enabled}}true{{else}}false{{/if}}"><i class="fa-solid fa-chart-simple"></i> Attribute dice</button>
+            <input type="checkbox" data-item-dice-attribute-enabled class="buxa-dice-source-value" {{#if attributeDice.enabled}}checked{{/if}} tabindex="-1" aria-hidden="true">
+          </div>
+          <div class="buxa-item-dice-primary">
+            <label class="buxa-rule-field buxa-rule-roll-label"><span>ROLL NAME</span><input data-item-dice-label type="text" value="{{label}}" placeholder="Damage"></label>
+            <label class="buxa-rule-field buxa-rule-die" data-item-dice-fixed-wrap><span>FIXED DICE <em>quantity × sides</em></span><div class="buxa-dice-pair"><input data-item-dice-count type="number" min="0" step="1" value="{{count}}" title="Number of dice" aria-label="Number of dice"><b>d</b><input data-item-dice-faces type="number" min="2" step="1" value="{{faces}}" title="Sides per die" aria-label="Sides per die"></div></label>
+            <label class="buxa-rule-field buxa-rule-flat"><span>FLAT BONUS</span><input data-item-dice-flat type="number" step="0.01" value="{{flat}}"></label>
+            <label class="buxa-rule-field buxa-rule-mode"><span>ROLL MODE</span><select data-item-dice-roll-mode><option value="normal" {{#if modeNormal}}selected{{/if}}>Normal</option><option value="advantage" {{#if modeAdvantage}}selected{{/if}}>Advantage</option><option value="disadvantage" {{#if modeDisadvantage}}selected{{/if}}>Disadvantage</option></select></label>
+          </div>
+          <div class="buxa-rule-section-heading"><strong>Attribute source &amp; modifier</strong><small>Attribute dice replace fixed dice; modifiers remain optional.</small></div>
+          <div class="buxa-item-dice-sources">
+            <section class="buxa-rule-source-card buxa-rule-source-attribute">
+              <strong class="buxa-rule-source-title">ATTRIBUTE DICE</strong>
+              <div class="buxa-item-dice-attribute-fields" data-item-dice-attribute-wrap>
+                <label class="buxa-rule-field"><span>ATTRIBUTE</span><select data-item-dice-attribute-id data-buxa-search-picker="Find an attribute">{{#each attributeOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+                <label class="buxa-rule-field"><span>DIE SIDES</span><div class="buxa-dice-single"><b>d</b><input data-item-dice-attribute-faces type="number" min="2" step="1" value="{{attributeDice.faces}}"></div></label>
+              </div>
+            </section>
+            <section class="buxa-rule-source-card buxa-rule-source-modifier">
+              <label class="buxa-rule-field"><span>ADD MODIFIER</span><select data-item-dice-modifier data-buxa-search-picker="Search modifiers">{{#each modifierOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{group}} · {{label}}</option>{{/each}}</select></label>
+              <small class="buxa-rule-source-hint">Uses the selected attribute or proficiency modifier.</small>
+            </section>
+          </div>
+          <div class="buxa-item-dice-options">
+            <span>DISPLAY &amp; ACTIONS</span>
+            <label class="buxa-rule-switch"><input data-item-dice-show-range type="checkbox" {{#if showRange}}checked{{/if}}><span>Show min–max range</span></label>
+            <label class="buxa-rule-switch"><input data-item-dice-chat-roll type="checkbox" {{#if chatRoll}}checked{{/if}}><span>Enable chat roll</span></label>
+          </div>
+          <details class="buxa-discovery-options"><summary><i class="fa-solid fa-eye"></i> Discovery &amp; reveal <small>Who sees this bonus and what happens on unlock</small></summary>
+            <div class="buxa-discovery-fields">
+              <label class="buxa-rule-field"><span>STATE</span><select data-item-entry-visibility><option value="revealed" {{#if isRevealed}}selected{{/if}}>Revealed (active)</option><option value="locked" {{#if isLocked}}selected{{/if}}>Locked (inactive)</option><option value="hidden" {{#if isHidden}}selected{{/if}}>Hidden (???)</option><option value="dmOnly" {{#if isDmOnly}}selected{{/if}}>DM only</option></select></label>
+              <label class="buxa-rule-field"><span>RARITY AFTER REVEAL</span><select data-item-reveal-rarity><option value="">Keep existing rarity</option>{{#each revealRarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field"><span>REVEALED DISPLAY LABEL</span><input data-item-reveal-label value="{{reveal.label}}" placeholder="Keep existing label"></label>
+              <label class="buxa-rule-field"><span>ICON ON REVEAL</span><input data-item-reveal-icon value="{{reveal.icon}}" placeholder="Keep existing icon (optional)"></label>
+              <label class="buxa-rule-field"><span>REVEALED COLOR</span><select data-item-reveal-style><option value="keep" {{#if revealStyleKeep}}selected{{/if}}>Keep current</option><option value="neutral" {{#if revealStyleNeutral}}selected{{/if}}>Neutral</option><option value="item" {{#if revealStyleItem}}selected{{/if}}>Item rarity</option><option value="rarity" {{#if revealStyleRarity}}selected{{/if}}>Choose rarity</option><option value="custom" {{#if revealStyleCustom}}selected{{/if}}>Custom</option></select></label>
+              <label class="buxa-rule-field"><span>CUSTOM COLOR</span><input data-item-reveal-color type="color" value="{{reveal.color}}"></label>
+              <label class="buxa-rule-field"><span>COLOR RARITY</span><select data-item-reveal-color-rarity><option value="">Default</option>{{#each revealColorRarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+            </div>
+          </details>
+          <details class="buxa-rule-appearance" data-buxa-appearance>
+          <summary><span class="buxa-rule-appearance-title"><i class="fa-solid fa-palette"></i><strong>Item display</strong><small>Optional tooltip appearance and icon</small></span><i class="fa-solid fa-chevron-down buxa-rule-appearance-chevron"></i></summary>
+          <div class="buxa-rule-appearance-body">
+            <div class="buxa-item-increase-tooltip">
+              <label class="buxa-item-increase-show buxa-rule-switch"><input data-item-dice-tooltip-enabled type="checkbox" {{#if tooltip.enabled}}checked{{/if}}><span>SHOW ON ITEM</span></label>
+              <label class="buxa-rule-field buxa-rule-label-long"><span>DISPLAY LABEL</span><input data-item-dice-tooltip-label type="text" value="{{tooltip.label}}" placeholder="Same as roll name"></label>
+              <label class="buxa-rule-field"><span>COLOR STYLE</span><select data-item-dice-tooltip-style><option value="neutral" {{#if tooltipNeutral}}selected{{/if}}>Neutral</option><option value="item" {{#if tooltipItem}}selected{{/if}}>Item rarity</option><option value="rarity" {{#if tooltipRarity}}selected{{/if}}>Choose rarity</option><option value="custom" {{#if tooltipCustom}}selected{{/if}}>Custom color</option></select></label>
+              <label class="buxa-rule-field" data-item-dice-tooltip-rarity-wrap><span>RARITY</span><select data-item-dice-tooltip-rarity>{{#each tooltipRarities}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field buxa-rule-color" data-item-dice-tooltip-color-wrap><span>CUSTOM COLOR</span><input data-item-dice-tooltip-color type="color" value="{{tooltip.color}}"></label>
+              <label class="buxa-item-tooltip-icon-field buxa-rule-field"><span>ICON (OPTIONAL)</span><div><input data-item-tooltip-icon type="text" value="{{tooltip.icon}}" placeholder="Choose an icon"><button type="button" data-item-tooltip-icon-browse title="Browse icons" aria-label="Browse icons"><i class="fa-solid fa-folder-open"></i></button></div></label>
+            </div>
+          </div>
+        </details>
+        </div>
+      </article>
+      {{/each}}
+    </div>
+    <section class="buxa-item-increase-head buxa-item-decoration-head">
+      <div><strong>TOOLTIP DECORATION</strong></div>
+      <button type="button" data-item-add-decoration><i class="fa-solid fa-plus"></i> ADD DECORATION</button>
+    </section>
+    <div class="buxa-item-decoration-list" data-item-decoration-list>
+      {{#each decorations}}
+        <article class="buxa-item-decoration-row" data-item-decoration-row data-decoration-id="{{id}}">
+          <label><span>TYPE</span><select data-item-decoration-type><option value="divider" {{#if isDivider}}selected{{/if}}>DIVIDER</option><option value="symbols" {{#if isSymbols}}selected{{/if}}>SYMBOLS</option><option value="text" {{#if isText}}selected{{/if}}>TEXT</option><option value="spacer" {{#if isSpacer}}selected{{/if}}>SPACER</option></select></label>
+          <label><span>POSITION</span><select data-item-decoration-placement><option value="beforeDice" {{#if beforeDice}}selected{{/if}}>BEFORE DICE</option><option value="between" {{#if between}}selected{{/if}}>BETWEEN</option><option value="beforeDescription" {{#if beforeDescription}}selected{{/if}}>BEFORE DESCRIPTION</option></select></label>
+          <label data-item-decoration-text-wrap><span>TEXT / SYMBOL</span><input data-item-decoration-text type="text" value="{{text}}"></label>
+          <label data-item-decoration-count-wrap><span>COUNT</span><input data-item-decoration-count type="number" min="1" max="12" step="1" value="{{count}}"></label>
+          <label><span>COLOR</span><select data-item-decoration-style><option value="item" {{#if styleItem}}selected{{/if}}>ITEM RARITY</option><option value="neutral" {{#if styleNeutral}}selected{{/if}}>NEUTRAL</option><option value="rarity" {{#if styleRarity}}selected{{/if}}>CHOOSE RARITY</option><option value="custom" {{#if styleCustom}}selected{{/if}}>CUSTOM COLOR</option></select></label>
+          <label data-item-decoration-rarity-wrap><span>RARITY</span><select data-item-decoration-rarity>{{#each rarityOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+          <label data-item-decoration-color-wrap><span>CUSTOM</span><input data-item-decoration-color type="color" value="{{color}}"></label>
+          <button type="button" class="buxa-item-increase-remove" data-item-remove-decoration title="Remove decoration"><i class="fa-solid fa-xmark"></i></button>
+        </article>
+      {{/each}}
+    </div>
+    <template data-item-dice-template><article class="buxa-item-dice-row buxa-rule-card" data-item-dice-row data-dice-id="">
+        <header class="buxa-rule-card-header">
+          <span class="buxa-rule-card-icon"><i class="fa-solid fa-dice-d20"></i></span>
+          <span class="buxa-rule-card-heading"><strong data-buxa-rule-title>Dice roll</strong><small data-buxa-rule-summary>1d20 · Normal</small></span>
+          <button type="button" class="buxa-rule-card-collapse" data-buxa-rule-collapse title="Expand or collapse roll" aria-expanded="true"><i class="fa-solid fa-chevron-up"></i></button>
+          <button type="button" class="buxa-item-increase-remove" data-item-remove-dice title="Remove dice" aria-label="Remove dice"><i class="fa-solid fa-trash-can"></i></button>
+        </header>
+        <div class="buxa-rule-card-body" data-buxa-rule-body>
+          <div class="buxa-rule-section-heading"><strong>Roll formula</strong><small>Pick one dice source. Flat bonus and modifiers apply to either.</small></div>
+          <div class="buxa-dice-source-select" role="group" aria-label="Choose dice source">
+            <button type="button" data-item-dice-source-option="fixed" aria-pressed="true"><i class="fa-solid fa-dice"></i> Fixed dice</button>
+            <button type="button" data-item-dice-source-option="attribute" aria-pressed="false"><i class="fa-solid fa-chart-simple"></i> Attribute dice</button>
+            <input type="checkbox" data-item-dice-attribute-enabled class="buxa-dice-source-value" tabindex="-1" aria-hidden="true">
+          </div>
+          <div class="buxa-item-dice-primary">
+            <label class="buxa-rule-field buxa-rule-roll-label"><span>ROLL NAME</span><input data-item-dice-label type="text" value="Damage" placeholder="Damage"></label>
+            <label class="buxa-rule-field buxa-rule-die" data-item-dice-fixed-wrap><span>FIXED DICE <em>quantity × sides</em></span><div class="buxa-dice-pair"><input data-item-dice-count type="number" min="0" step="1" value="1" title="Number of dice" aria-label="Number of dice"><b>d</b><input data-item-dice-faces type="number" min="2" step="1" value="20" title="Sides per die" aria-label="Sides per die"></div></label>
+            <label class="buxa-rule-field buxa-rule-flat"><span>FLAT BONUS</span><input data-item-dice-flat type="number" step="0.01" value="0"></label>
+            <label class="buxa-rule-field buxa-rule-mode"><span>ROLL MODE</span><select data-item-dice-roll-mode><option value="normal" selected>Normal</option><option value="advantage" >Advantage</option><option value="disadvantage" >Disadvantage</option></select></label>
+          </div>
+          <div class="buxa-rule-section-heading"><strong>Attribute source &amp; modifier</strong><small>Attribute dice replace fixed dice; modifiers remain optional.</small></div>
+          <div class="buxa-item-dice-sources">
+            <section class="buxa-rule-source-card buxa-rule-source-attribute">
+              <strong class="buxa-rule-source-title">ATTRIBUTE DICE</strong>
+              <div class="buxa-item-dice-attribute-fields" data-item-dice-attribute-wrap>
+                <label class="buxa-rule-field"><span>ATTRIBUTE</span><select data-item-dice-attribute-id data-buxa-search-picker="Find an attribute">{{#each diceAttributeOptions}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+                <label class="buxa-rule-field"><span>DIE SIDES</span><div class="buxa-dice-single"><b>d</b><input data-item-dice-attribute-faces type="number" min="2" step="1" value="20"></div></label>
+              </div>
+            </section>
+            <section class="buxa-rule-source-card buxa-rule-source-modifier">
+              <label class="buxa-rule-field"><span>ADD MODIFIER</span><select data-item-dice-modifier data-buxa-search-picker="Search modifiers">{{#each diceModifierOptions}}<option value="{{value}}">{{group}} · {{label}}</option>{{/each}}</select></label>
+              <small class="buxa-rule-source-hint">Uses the selected attribute or proficiency modifier.</small>
+            </section>
+          </div>
+          <div class="buxa-item-dice-options">
+            <span>DISPLAY &amp; ACTIONS</span>
+            <label class="buxa-rule-switch"><input data-item-dice-show-range type="checkbox" ><span>Show min–max range</span></label>
+            <label class="buxa-rule-switch"><input data-item-dice-chat-roll type="checkbox" checked><span>Enable chat roll</span></label>
+          </div>
+          <details class="buxa-discovery-options"><summary><i class="fa-solid fa-eye"></i> Discovery &amp; reveal <small>Who sees this bonus and what happens on unlock</small></summary>
+            <div class="buxa-discovery-fields">
+              <label class="buxa-rule-field"><span>STATE</span><select data-item-entry-visibility><option value="revealed" selected>Revealed (active)</option><option value="locked" >Locked (inactive)</option><option value="hidden" >Hidden (???)</option><option value="dmOnly" >DM only</option></select></label>
+              <label class="buxa-rule-field"><span>RARITY AFTER REVEAL</span><select data-item-reveal-rarity><option value="">Keep existing rarity</option>{{#each tooltipRarities}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field"><span>REVEALED DISPLAY LABEL</span><input data-item-reveal-label value="" placeholder="Keep existing label"></label>
+              <label class="buxa-rule-field"><span>ICON ON REVEAL</span><input data-item-reveal-icon value="" placeholder="Keep existing icon (optional)"></label>
+              <label class="buxa-rule-field"><span>REVEALED COLOR</span><select data-item-reveal-style><option value="keep" selected>Keep current</option><option value="neutral" >Neutral</option><option value="item" >Item rarity</option><option value="rarity" >Choose rarity</option><option value="custom" >Custom</option></select></label>
+              <label class="buxa-rule-field"><span>CUSTOM COLOR</span><input data-item-reveal-color type="color" value="#b8c3d2"></label>
+              <label class="buxa-rule-field"><span>COLOR RARITY</span><select data-item-reveal-color-rarity><option value="">Default</option>{{#each tooltipRarities}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+            </div>
+          </details>
+          <details class="buxa-rule-appearance" data-buxa-appearance>
+          <summary><span class="buxa-rule-appearance-title"><i class="fa-solid fa-palette"></i><strong>Item display</strong><small>Optional tooltip appearance and icon</small></span><i class="fa-solid fa-chevron-down buxa-rule-appearance-chevron"></i></summary>
+          <div class="buxa-rule-appearance-body">
+            <div class="buxa-item-increase-tooltip">
+              <label class="buxa-item-increase-show buxa-rule-switch"><input data-item-dice-tooltip-enabled type="checkbox" checked><span>SHOW ON ITEM</span></label>
+              <label class="buxa-rule-field buxa-rule-label-long"><span>DISPLAY LABEL</span><input data-item-dice-tooltip-label type="text" value="" placeholder="Same as roll name"></label>
+              <label class="buxa-rule-field"><span>COLOR STYLE</span><select data-item-dice-tooltip-style><option value="neutral" selected>Neutral</option><option value="item">Item rarity</option><option value="rarity">Choose rarity</option><option value="custom">Custom color</option></select></label>
+              <label class="buxa-rule-field" data-item-dice-tooltip-rarity-wrap><span>RARITY</span><select data-item-dice-tooltip-rarity>{{#each tooltipRarities}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+              <label class="buxa-rule-field buxa-rule-color" data-item-dice-tooltip-color-wrap><span>CUSTOM COLOR</span><input data-item-dice-tooltip-color type="color" value="#b8c3d2"></label>
+              <label class="buxa-item-tooltip-icon-field buxa-rule-field"><span>ICON (OPTIONAL)</span><div><input data-item-tooltip-icon type="text" value="" placeholder="Choose an icon"><button type="button" data-item-tooltip-icon-browse title="Browse icons" aria-label="Browse icons"><i class="fa-solid fa-folder-open"></i></button></div></label>
+            </div>
+          </div>
+        </details>
+        </div>
+      </article></template>
+    <template data-item-description-template>
+      <article class="buxa-description-part" data-item-description-part data-description-id="">
+        <div class="buxa-description-part-fields">
+          <label class="buxa-rule-field"><span>PUBLIC / INITIAL TEXT</span><textarea data-description-text rows="2" placeholder="This item belongs to"></textarea></label>
+          <label class="buxa-rule-field"><span>TEXT AFTER REVEAL (OPTIONAL)</span><textarea data-description-reveal-text rows="2" placeholder="Loki"></textarea></label>
+        </div>
+        <div class="buxa-description-part-options">
+          <label class="buxa-rule-field"><span>STATE</span><select data-description-visibility><option value="revealed">Revealed</option><option value="locked">Locked</option><option value="hidden">Hidden (???)</option><option value="dmOnly">DM only</option></select></label>
+          <label class="buxa-rule-field"><span>JOIN TO PREVIOUS</span><select data-description-join><option value="space">Space</option><option value="none">Directly</option><option value="line">New line</option></select></label>
+          <button type="button" class="buxa-discovery-remove" data-remove-description-part title="Remove field"><i class="fa-solid fa-trash-can"></i></button>
+        </div>
+      </article>
+    </template>
+    <template data-item-decoration-template>
+      <article class="buxa-item-decoration-row" data-item-decoration-row data-decoration-id="">
+        <label><span>TYPE</span><select data-item-decoration-type><option value="divider" selected>DIVIDER</option><option value="symbols">SYMBOLS</option><option value="text">TEXT</option><option value="spacer">SPACER</option></select></label>
+        <label><span>POSITION</span><select data-item-decoration-placement><option value="beforeDice">BEFORE DICE</option><option value="between" selected>BETWEEN</option><option value="beforeDescription">BEFORE DESCRIPTION</option></select></label>
+        <label data-item-decoration-text-wrap class="is-disabled"><span>TEXT / SYMBOL</span><input data-item-decoration-text type="text" value="" disabled></label>
+        <label data-item-decoration-count-wrap class="is-disabled"><span>COUNT</span><input data-item-decoration-count type="number" min="1" max="12" step="1" value="3" disabled></label>
+        <label><span>COLOR</span><select data-item-decoration-style><option value="item">ITEM RARITY</option><option value="neutral" selected>NEUTRAL</option><option value="rarity">CHOOSE RARITY</option><option value="custom">CUSTOM COLOR</option></select></label>
+        <label data-item-decoration-rarity-wrap class="is-disabled"><span>RARITY</span><select data-item-decoration-rarity disabled>{{#each tooltipRarities}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+        <label data-item-decoration-color-wrap class="is-disabled"><span>CUSTOM</span><input data-item-decoration-color type="color" value="#b8c3d2" disabled></label>
+        <button type="button" class="buxa-item-increase-remove" data-item-remove-decoration><i class="fa-solid fa-xmark"></i></button>
+      </article>
+    </template>
+  </div>
+  <div class="buxa-item-config-stack buxa-item-size-settings" data-item-config-panel="size" {{#unless activeConfigTabs.size}}hidden{{/unless}}>
+    <section class="buxa-item-config-section buxa-footprint-section">
+      <header><div><i class="fa-solid fa-shapes"></i><strong>ITEM FOOTPRINT</strong></div></header>
+      <div class="buxa-footprint-body">
+        <div class="buxa-footprint-head">
+          <span>Click cells to shape the item. Click artwork to select, drag to move, pull handles to resize or rotate.</span>
+          <strong data-item-shape-dimensions>1 × 1</strong>
+        </div>
+        <div class="buxa-shape-editor-grid" data-item-shape-grid aria-label="Shape and artwork editor"></div>
+        <div class="buxa-footprint-footer">
+          <span data-item-shape-count>1 cell</span>
+          <span class="buxa-shape-shortcut">SHIFT + drag rotation handle = 15° steps</span>
+          <button type="button" data-item-shape-reset title="Reset shape and artwork"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="buxa-item-config-stack buxa-control-config" data-item-config-panel="control" {{#unless activeConfigTabs.control}}hidden{{/unless}}>
+    <section class="buxa-item-config-section">
+      <header><div><i class="fa-solid fa-unlock-keyhole"></i><span><strong>DISCOVERY CONTROL</strong><small>Reveal or conceal powers instantly, without reopening their individual editors.</small></span></div></header>
+      <div class="buxa-item-config-section-body">
+        <p class="buxa-discovery-hint">These actions save immediately to the item. Save newly added or edited Increase, Dice and modular description fields first so they appear here.</p>
+        <div class="buxa-control-entry-list">
+          {{#each controlEntries}}
+          <article class="buxa-control-entry buxa-control-{{visibility}}" data-item-control-entry data-kind="{{kind}}" data-entry-id="{{id}}">
+            <div class="buxa-control-entry-info"><strong>{{title}}</strong><small>{{detail}}</small><span class="buxa-control-status" data-item-control-status aria-live="polite">{{visibilityLabel}}</span></div>
+            <div class="buxa-control-entry-actions" role="group" aria-label="Discovery state for {{title}}">
+              <button type="button" data-item-control-set data-visibility="revealed" class="{{#if isRevealed}}is-active{{/if}}" aria-pressed="{{isRevealed}}" title="Activate and reveal"><i class="fa-solid fa-lock-open"></i> Reveal</button>
+              <button type="button" data-item-control-set data-visibility="locked" class="{{#if isLocked}}is-active{{/if}}" aria-pressed="{{isLocked}}" title="Visible, inactive"><i class="fa-solid fa-lock"></i> Lock</button>
+              <button type="button" data-item-control-set data-visibility="hidden" class="{{#if isHidden}}is-active{{/if}}" aria-pressed="{{isHidden}}" title="Show ???"><i class="fa-solid fa-eye-slash"></i> Hidden</button>
+              <button type="button" data-item-control-set data-visibility="dmOnly" class="{{#if isDmOnly}}is-active{{/if}}" aria-pressed="{{isDmOnly}}" title="Not visible on player item sheet"><i class="fa-solid fa-user-shield"></i> DM only</button>
+            </div>
+          </article>
+          {{else}}
+          <p class="buxa-control-empty">No saved Increase, Dice or modular description fields yet. Add them, save the item, then return to Control.</p>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

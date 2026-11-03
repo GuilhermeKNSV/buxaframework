@@ -1,0 +1,44 @@
+/* Unified world-directory and floating UI surfaces, Figma UI V2. */
+.buxa-world-item-directory,.buxa-folder-panel,.buxa-directory-popover { background:#070b12; color:#eaf2fc; }
+.buxa-world-toolbar { background:#0e1623; padding:11px 10px; gap:7px; }
+.buxa-world-toolbar button {
+  border-radius:0 !important; min-height:38px; padding:7px 8px;
+  border-color:#2d4862; background:#1a2c42; color:#edf5ff;
+}
+.buxa-world-searchbar { background:#0b111b; border-bottom:1px solid #27394e; min-height:47px; }
+.buxa-world-searchbar input[type="search"] { color:#edf6ff; }
+.buxa-world-list { padding:9px 9px 18px; }
+.buxa-world-item-card,.buxa-world-folder-card {
+  border-radius:0 !important; min-height:65px; margin-bottom:6px; padding:8px; gap:10px;
+  background:#0e1623;
+  border:1px solid color-mix(in srgb,var(--buxa-card-accent,var(--buxa-folder-accent,#50657e)) 42%,#27394e);
+  box-shadow:inset 3px 0 0 var(--buxa-card-accent,var(--buxa-folder-accent,#50657e));
+  transition:background-color 115ms ease,border-color 115ms ease;
+}
+.buxa-world-item-card:hover,.buxa-world-folder-card:hover { background:#1a293e; }
+.buxa-world-item-card.is-glint::after { display:none !important; }
+.buxa-world-art,.buxa-world-folder-art { flex:0 0 47px; width:47px; height:47px; border-radius:0 !important; background:#142033; }
+.buxa-world-art img { object-fit:contain; }
+.buxa-world-details { gap:5px; }
+.buxa-world-item-name { font-size:12px; line-height:1.35; color:#ecf4fc; }
+.buxa-world-meta { font-size:9px; color:#9bacbf; line-height:1.3; }
+.buxa-world-rarity,.buxa-world-quantity { border-radius:0 !important; }
+.buxa-world-folder-card { --buxa-card-accent:var(--buxa-folder-accent,#dd5668); }
+.buxa-folder-panel { border:1px solid #2c4158; box-shadow:0 8px 22px #0005; border-radius:0 !important; }
+.buxa-folder-header { background:#0e1623; border-bottom:1px solid #2c3e55; min-height:45px; }
+.buxa-folder-entries .buxa-world-item-card,.buxa-folder-entries .buxa-world-folder-card { min-height:62px; }
+.buxa-folder-entries .buxa-world-art,.buxa-folder-entries .buxa-world-folder-art { flex-basis:42px; width:42px; height:42px; }
+.buxa-directory-popover,.buxa-item-context-menu,.buxa-item-action-popover,.buxa-unstack-popover {
+  background:#0e1623 !important; border:1px solid #3a5069 !important;
+  border-radius:0 !important; box-shadow:0 9px 24px #0008;
+}
+.buxa-item-action-popover :is(button,[role="button"]) { border-radius:0 !important; }
+.buxa-directory-popover :is(button,input,select),.buxa-unstack-popover :is(button,input),.buxa-item-action-popover button { border-radius:0 !important; }
+.buxa-folder-panel [data-buxa-folder-entry] { border-radius:0 !important; }
+@media(max-width:350px){
+ .buxa-world-list{padding-inline:6px}
+ .buxa-world-toolbar{padding-inline:6px;gap:5px}
+ .buxa-world-item-card,.buxa-world-folder-card{min-height:57px;padding:6px;gap:7px}
+ .buxa-world-art,.buxa-world-folder-art{width:39px;height:39px;flex-basis:39px}
+ .buxa-world-meta{font-size:8px}
+}

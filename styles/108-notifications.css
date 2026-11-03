@@ -1,0 +1,131 @@
+/* -------------------------------------------------------------------------- */
+/* Buxa custom notifications                                                  */
+/* -------------------------------------------------------------------------- */
+
+.buxa-toast-stack {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 100500;
+  width: min(370px, calc(100vw - 36px));
+  display: grid;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.buxa-toast {
+  --buxa-toast-accent: #74b9e7;
+  --buxa-toast-rgb: 116,185,231;
+  min-height: 58px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 4px 34px minmax(0, 1fr) 28px;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid rgba(var(--buxa-toast-rgb), .44);
+  background:
+    radial-gradient(circle at 0 50%, rgba(var(--buxa-toast-rgb), .13), transparent 44%),
+    linear-gradient(180deg, rgba(18,25,35,.98), rgba(8,13,20,.985));
+  box-shadow: 0 12px 34px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.025);
+  opacity: 0;
+  transform: translateX(24px) scale(.985);
+  transition: opacity 160ms ease, transform 190ms cubic-bezier(.2,.78,.25,1);
+  pointer-events: auto;
+}
+
+.buxa-toast.is-visible { opacity: 1; transform: translateX(0) scale(1); }
+.buxa-toast.is-leaving { opacity: 0; transform: translateX(16px) scale(.985); }
+.buxa-toast.is-success { --buxa-toast-accent: #63d899; --buxa-toast-rgb: 99,216,153; }
+.buxa-toast.is-warning { --buxa-toast-accent: #efb84f; --buxa-toast-rgb: 239,184,79; }
+.buxa-toast.is-error { --buxa-toast-accent: #f06472; --buxa-toast-rgb: 240,100,114; }
+
+.buxa-toast-accent { background: var(--buxa-toast-accent); box-shadow: 0 0 16px rgba(var(--buxa-toast-rgb), .45); }
+
+.buxa-toast-icon {
+  align-self: center;
+  justify-self: center;
+  color: var(--buxa-toast-accent);
+  font-size: 14px;
+  filter: drop-shadow(0 0 7px rgba(var(--buxa-toast-rgb), .24));
+}
+
+.buxa-toast-copy {
+  min-width: 0;
+  align-self: center;
+  padding: 9px 8px 9px 2px;
+}
+
+.buxa-toast-copy strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--buxa-toast-accent);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+
+.buxa-toast-copy p {
+  margin: 0;
+  color: #d3dce8;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.buxa-toast-close {
+  width: 28px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+  align-self: start;
+  margin: 5px 4px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #68788e !important;
+  box-shadow: none !important;
+}
+
+.buxa-toast-close:hover { color: #e2e9f2 !important; }
+
+.buxa-toast-timer {
+  position: absolute;
+  left: 4px;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--buxa-toast-accent), transparent 92%);
+  transform-origin: left center;
+  animation: buxa-toast-timer var(--buxa-toast-duration, 3600ms) linear forwards;
+}
+
+@keyframes buxa-toast-timer { to { transform: scaleX(0); opacity: .25; } }
+
+@media (max-width: 600px) {
+  .buxa-toast-stack { top: 10px; right: 10px; width: calc(100vw - 20px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-toast { transition: opacity 80ms linear; transform: none !important; }
+  .buxa-toast-timer { animation: none; }
+}
+
+/* Placement is applied to one shared stack so successes and warnings align. */
+.buxa-toast-stack[data-position="left"] { left: max(18px, env(safe-area-inset-left)); right: auto; }
+.buxa-toast-stack[data-position="center"] { left: 50%; right: auto; transform: translateX(-50%); }
+.buxa-toast-stack[data-position="right"] { right: max(18px, env(safe-area-inset-right)); left: auto; }
+.buxa-toast-stack[data-position="left"] .buxa-toast { transform: translateX(-24px) scale(.985); }
+.buxa-toast-stack[data-position="left"] .buxa-toast.is-visible { transform: translateX(0) scale(1); }
+.buxa-toast-stack[data-position="left"] .buxa-toast.is-leaving { transform: translateX(-16px) scale(.985); }
+.buxa-toast-stack[data-position="center"] .buxa-toast { transform: translateY(-12px) scale(.985); }
+.buxa-toast-stack[data-position="center"] .buxa-toast.is-visible { transform: translateY(0) scale(1); }
+.buxa-toast-stack[data-position="center"] .buxa-toast.is-leaving { transform: translateY(-8px) scale(.985); }
+
+@media (max-width: 600px) {
+  .buxa-toast-stack[data-position="left"] { left: max(10px, env(safe-area-inset-left)); right: auto; }
+  .buxa-toast-stack[data-position="right"] { right: max(10px, env(safe-area-inset-right)); left: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-toast-stack .buxa-toast,
+  .buxa-toast-stack .buxa-toast.is-visible,
+  .buxa-toast-stack .buxa-toast.is-leaving { transform: none; }
+}

@@ -1,0 +1,456 @@
+/* -------------------------------------------------------------------------- */
+/* Buxa items, rarities and item configuration                                 */
+/* -------------------------------------------------------------------------- */
+
+.buxa-item-sheet-app .window-content,
+.buxa-item-config-app .window-content {
+  padding: 0;
+  overflow: hidden;
+  background: #090d13;
+}
+
+.buxa-item-sheet {
+  --buxa-rarity-color: #9098a6;
+  --buxa-rarity-name: inherit;
+  min-height: 100%;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--buxa-rarity-color) 48%, #26303f);
+  background:
+    radial-gradient(circle at 84% 8%, color-mix(in srgb, var(--buxa-rarity-color) 13%, transparent), transparent 28%),
+    linear-gradient(180deg, #111722, #090d13 72%);
+  box-shadow: inset 0 0 36px rgba(0,0,0,.55);
+}
+
+.buxa-item-sheet-ornament {
+  position: absolute;
+  inset: 6px;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  border: 1px solid transparent;
+}
+
+.buxa-item-sheet.has-rarity-ornament .buxa-item-sheet-ornament {
+  opacity: .8;
+  border-color: color-mix(in srgb, var(--buxa-rarity-color) 36%, transparent);
+  clip-path: polygon(0 0, 14% 0, 14% 1px, 86% 1px, 86% 0, 100% 0, 100% 14%, calc(100% - 1px) 14%, calc(100% - 1px) 86%, 100% 86%, 100% 100%, 86% 100%, 86% calc(100% - 1px), 14% calc(100% - 1px), 14% 100%, 0 100%, 0 86%, 1px 86%, 1px 14%, 0 14%);
+}
+
+.buxa-item-hero {
+  min-height: 88px;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 34px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--buxa-rarity-color) 38%, #273142);
+  background: linear-gradient(90deg, rgba(255,255,255,.018), transparent 60%);
+}
+
+.buxa-item-hero-icon {
+  width: 64px;
+  height: 64px;
+  padding: 4px;
+  object-fit: contain;
+  border: 1px solid color-mix(in srgb, var(--buxa-rarity-color) 48%, #283243);
+  background: rgba(5,8,12,.72);
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,.55));
+}
+
+.buxa-item-hero-copy { min-width: 0; }
+.buxa-item-title-row { display: flex; align-items: baseline; gap: 9px; }
+.buxa-item-title-row h1 {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--buxa-rarity-name);
+  font-size: 23px;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--buxa-rarity-color) 24%, transparent);
+}
+.buxa-item-sheet-quantity {
+  color: #aab6c7;
+  font-size: 11px;
+  font-weight: 900;
+}
+.buxa-item-rarity-line { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 7px; }
+.buxa-item-rarity-line strong { color: var(--buxa-rarity-color); font-size: 9px; letter-spacing: .12em; }
+.buxa-item-rarity-line span { color: #657286; font-size: 9px; text-transform: uppercase; }
+
+.buxa-item-configure {
+  width: 30px !important;
+  min-width: 30px !important;
+  height: 30px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #344258 !important;
+  border-radius: 0 !important;
+  background: #121a25 !important;
+  color: #8fa4bc !important;
+}
+
+.buxa-item-sheet-scroll { min-height: 0; overflow: auto; padding: 12px 14px 18px; }
+.buxa-item-property-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.buxa-item-property-strip > span {
+  padding: 5px 7px;
+  border: 1px solid #293446;
+  background: #101722;
+  color: #8290a4;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+.buxa-item-property-strip i { margin-right: 4px; color: #66768d; }
+.buxa-item-requirement.is-met { border-color: #315d41; color: #72d691; }
+.buxa-item-requirement.is-unmet { border-color: #6f2f38; color: #ff6874; background: #1b1014; }
+
+.buxa-item-description {
+  min-height: 170px;
+  padding: 16px;
+  border: 1px solid #252f3f;
+  background: linear-gradient(180deg, rgba(17,23,33,.92), rgba(9,13,19,.96));
+  box-shadow: inset 0 0 26px rgba(0,0,0,.38);
+}
+.buxa-item-description p {
+  margin: 0;
+  color: #aeb8c7;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.buxa-item-rarity-footer {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 14px;
+  border-top: 1px solid color-mix(in srgb, var(--buxa-rarity-color) 40%, #222b39);
+  background: #0d121a;
+  color: var(--buxa-rarity-color);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+
+.buxa-item-config-scroll { height: 100%; overflow: auto; padding: 12px; padding-bottom: 66px; }
+.buxa-item-config-identity {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #293344;
+  background: #111722;
+}
+.buxa-item-config-image-wrap {
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #344258;
+  background: #090e15;
+}
+.buxa-item-config-image-wrap img { width: 100%; height: 100%; padding: 6px; object-fit: contain; border: 0; }
+.buxa-item-config-identity-fields { min-width: 0; display: grid; gap: 7px; }
+.buxa-item-config-app label > span:first-child,
+.buxa-item-config-app .buxa-item-config-block > label:not(.buxa-config-toggle) > span:first-child {
+  display: block;
+  margin-bottom: 3px;
+  color: #68778d;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+.buxa-item-config-image-input { display: grid; grid-template-columns: minmax(0, 1fr) 34px; gap: 5px; }
+.buxa-item-config-image-input button { width: 34px !important; min-width: 34px !important; margin: 0 !important; }
+.buxa-item-config-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+.buxa-item-config-block { margin-top: 10px; padding: 10px; border: 1px solid #293344; background: #111722; }
+.buxa-item-config-grid .buxa-item-config-block { margin-top: 0; }
+.buxa-item-config-block textarea { width: 100%; min-height: 120px; resize: vertical; }
+.buxa-item-slot-type-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; margin-top: 8px; }
+.buxa-item-slot-type-grid label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid #283344;
+  background: #0d131c;
+  color: #8795a8;
+  font-size: 8px;
+}
+.buxa-item-config-note { margin: 7px 0 0; color: #657286; font-size: 9px; opacity: .65; }
+.buxa-item-config-note.is-active { color: #8bbfe4; opacity: 1; }
+.buxa-item-config-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  padding: 9px 12px;
+  border-top: 1px solid #293344;
+  background: rgba(10,14,20,.96);
+  backdrop-filter: blur(8px);
+}
+.buxa-item-config-footer button { width: auto !important; min-width: 140px !important; }
+
+/* Inventory rarity presentation -------------------------------------------- */
+.buxa-inventory-weight { color: #8393a9; font-size: 8px; font-weight: 900; letter-spacing: .04em; }
+.buxa-inventory-weight.is-over { color: #ff6874; }
+
+.buxa-inventory-item {
+  --buxa-rarity-color: #9098a6;
+}
+.buxa-inventory-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border: 1px solid color-mix(in srgb, var(--buxa-rarity-color) 78%, transparent);
+  box-shadow: inset 0 0 10px color-mix(in srgb, var(--buxa-rarity-color) 10%, transparent);
+  pointer-events: none;
+}
+.buxa-inventory-item.has-rarity-ornament::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--buxa-rarity-color), transparent) left top / 34% 1px no-repeat,
+    linear-gradient(180deg, var(--buxa-rarity-color), transparent) left top / 1px 34% no-repeat,
+    linear-gradient(-90deg, var(--buxa-rarity-color), transparent) right bottom / 34% 1px no-repeat,
+    linear-gradient(0deg, var(--buxa-rarity-color), transparent) right bottom / 1px 34% no-repeat;
+  opacity: .82;
+}
+.buxa-equipment-slot.has-item {
+  border-color: color-mix(in srgb, var(--buxa-rarity-color) 68%, var(--buxa-slot-color));
+  box-shadow: inset 0 0 18px rgba(0,0,0,.38), 0 0 10px color-mix(in srgb, var(--buxa-rarity-color) 13%, transparent);
+}
+.buxa-equipment-slot.has-item .buxa-equipment-slot-bg { opacity: .055; filter: grayscale(.25) brightness(.62); }
+
+.buxa-item-sheet.is-rarity-animated,
+.buxa-equipment-slot.is-rarity-animated,
+.buxa-inventory-item.is-rarity-animated::before {
+  animation: buxa-rarity-pulse 2.4s ease-in-out infinite;
+}
+.buxa-item-sheet.is-rarity-spectrum,
+.buxa-equipment-slot.is-rarity-spectrum,
+.buxa-inventory-item.is-rarity-spectrum::before {
+  animation: buxa-rarity-spectrum 3.4s linear infinite;
+}
+.buxa-item-sheet.is-rarity-spectrum .buxa-item-title-row h1,
+.buxa-item-sheet.is-rarity-spectrum .buxa-item-rarity-line strong,
+.buxa-item-sheet.is-rarity-spectrum .buxa-item-rarity-footer {
+  animation: buxa-rarity-text-spectrum 3.4s linear infinite;
+}
+
+@keyframes buxa-rarity-pulse {
+  0%,100% { box-shadow: 0 0 4px color-mix(in srgb, var(--buxa-rarity-color) 16%, transparent), inset 0 0 12px rgba(0,0,0,.28); }
+  50% { box-shadow: 0 0 16px color-mix(in srgb, var(--buxa-rarity-color) 42%, transparent), inset 0 0 18px color-mix(in srgb, var(--buxa-rarity-color) 8%, transparent); }
+}
+@keyframes buxa-rarity-spectrum { to { filter: hue-rotate(360deg); } }
+@keyframes buxa-rarity-text-spectrum { to { filter: hue-rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-item-sheet.is-rarity-animated,
+  .buxa-equipment-slot.is-rarity-animated,
+  .buxa-inventory-item.is-rarity-animated::before,
+  .buxa-item-sheet.is-rarity-spectrum,
+  .buxa-equipment-slot.is-rarity-spectrum,
+  .buxa-inventory-item.is-rarity-spectrum::before,
+  .buxa-item-sheet.is-rarity-spectrum .buxa-item-title-row h1,
+  .buxa-item-sheet.is-rarity-spectrum .buxa-item-rarity-line strong,
+  .buxa-item-sheet.is-rarity-spectrum .buxa-item-rarity-footer { animation: none !important; }
+}
+
+@media (max-width: 560px) {
+  .buxa-item-config-grid { grid-template-columns: 1fr; }
+  .buxa-item-slot-type-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Built-in rarity special cases. */
+.buxa-rarity-junk.buxa-inventory-item::before { border-color: transparent; box-shadow: none; }
+.buxa-equipment-slot.buxa-rarity-junk.has-item { border-color: var(--buxa-slot-color); box-shadow: inset 0 0 18px rgba(0,0,0,.38); }
+.buxa-item-sheet.buxa-rarity-secret .buxa-item-title-row h1 {
+  color: #050608;
+  text-shadow: 0 0 1px #d7e0ec, 0 0 10px rgba(0,0,0,.92);
+}
+
+/* Spectrum effects decorate frames only; item artwork itself keeps its colors. */
+.buxa-item-sheet.is-rarity-spectrum,
+.buxa-equipment-slot.is-rarity-spectrum { animation: none; filter: none; }
+.buxa-item-sheet.is-rarity-spectrum .buxa-item-sheet-ornament { animation: buxa-rarity-spectrum 3.4s linear infinite; }
+.buxa-equipment-slot.is-rarity-spectrum::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 6;
+  pointer-events: none;
+  border: 1px solid var(--buxa-rarity-color);
+  box-shadow: inset 0 0 9px color-mix(in srgb, var(--buxa-rarity-color) 16%, transparent), 0 0 9px color-mix(in srgb, var(--buxa-rarity-color) 26%, transparent);
+  animation: buxa-rarity-spectrum 3.4s linear infinite;
+}
+
+/* v0.8.1 ------------------------------------------------------------------- */
+/* ApplicationV2 requires the config part to have one root element. The root
+   also owns the scroll region and footer so the save bar remains reliable. */
+.buxa-item-config-root {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  position: relative;
+}
+.buxa-item-config-root .buxa-item-config-scroll {
+  height: auto;
+  min-height: 0;
+  padding-bottom: 12px;
+}
+.buxa-item-config-root .buxa-item-config-footer {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+}
+
+/* Rarity belongs to the SLOT frame, not to a second frame around the item.
+   This prevents an equipped/inventory item from rendering two borders. */
+.buxa-equipment-slot .buxa-inventory-item::before,
+.buxa-equipment-slot .buxa-inventory-item::after,
+.buxa-inventory-slot .buxa-inventory-item::before,
+.buxa-inventory-slot .buxa-inventory-item::after {
+  content: none !important;
+  animation: none !important;
+}
+
+.buxa .buxa-equipment-slot.has-item,
+.buxa .buxa-inventory-slot.has-item {
+  border-color: color-mix(in srgb, var(--buxa-rarity-color) 78%, var(--buxa-slot-color, #293445));
+  box-shadow:
+    inset 0 0 18px rgba(0,0,0,.38),
+    0 0 10px color-mix(in srgb, var(--buxa-rarity-color) 15%, transparent);
+}
+
+/* Keep the rarity frame when the pointer is over the slot. */
+.buxa .buxa-equipment-slot.has-item:hover,
+.buxa .buxa-inventory-slot.has-item:hover {
+  border-color: color-mix(in srgb, var(--buxa-rarity-color) 88%, var(--buxa-slot-color, #45546a));
+}
+
+/* Higher-rarity ornamentation is drawn on the slot itself. */
+.buxa-equipment-slot.has-item.has-rarity-ornament::after,
+.buxa-inventory-slot.has-item.has-rarity-ornament::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: 6;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--buxa-rarity-color), transparent) left top / 34% 1px no-repeat,
+    linear-gradient(180deg, var(--buxa-rarity-color), transparent) left top / 1px 34% no-repeat,
+    linear-gradient(-90deg, var(--buxa-rarity-color), transparent) right bottom / 34% 1px no-repeat,
+    linear-gradient(0deg, var(--buxa-rarity-color), transparent) right bottom / 1px 34% no-repeat;
+  opacity: .82;
+}
+
+.buxa-inventory-slot.has-item.is-rarity-animated {
+  animation: buxa-rarity-pulse 2.4s ease-in-out infinite;
+}
+
+/* Spectrum animation stays on a frame overlay so item artwork never changes hue. */
+.buxa-equipment-slot.is-rarity-spectrum,
+.buxa-inventory-slot.has-item.is-rarity-spectrum {
+  animation: none;
+  filter: none;
+}
+.buxa-equipment-slot.is-rarity-spectrum::after,
+.buxa-inventory-slot.is-rarity-spectrum::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 6;
+  pointer-events: none;
+  border: 1px solid var(--buxa-rarity-color);
+  background: none;
+  box-shadow:
+    inset 0 0 9px color-mix(in srgb, var(--buxa-rarity-color) 16%, transparent),
+    0 0 9px color-mix(in srgb, var(--buxa-rarity-color) 26%, transparent);
+  opacity: 1;
+  animation: buxa-rarity-spectrum 3.4s linear infinite;
+}
+
+.buxa .buxa-equipment-slot.buxa-rarity-junk.has-item,
+.buxa .buxa-inventory-slot.buxa-rarity-junk.has-item {
+  border-color: var(--buxa-slot-color, #293445);
+  box-shadow: inset 0 0 18px rgba(0,0,0,.38);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-inventory-slot.has-item.is-rarity-animated,
+  .buxa-equipment-slot.is-rarity-spectrum::after,
+  .buxa-inventory-slot.is-rarity-spectrum::after {
+    animation: none !important;
+  }
+}
+
+
+/* v0.8.2 ------------------------------------------------------------------- */
+/* Occupied slots have ONE frame. The old decorative inner slot line is hidden
+   so rarity recolors the existing slot border instead of creating a second one. */
+.buxa-equipment-slot.has-item::before,
+.buxa-inventory-slot.has-item::before {
+  content: none !important;
+}
+
+/* The Item element itself never owns a rarity frame while it lives in a slot. */
+.buxa-equipment-slot.has-item > .buxa-inventory-item,
+.buxa-inventory-slot.has-item > .buxa-inventory-item {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Spectrum rarities animate the SLOT'S real border and glow. No inset border
+   overlay is drawn, so the artwork remains untouched and only one frame exists. */
+.buxa-equipment-slot.has-item.is-rarity-spectrum::after,
+.buxa-inventory-slot.has-item.is-rarity-spectrum::after {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.buxa-equipment-slot.has-item.is-rarity-spectrum,
+.buxa-inventory-slot.has-item.is-rarity-spectrum {
+  animation: buxa-rarity-spectrum-frame 3.6s linear infinite !important;
+}
+
+@keyframes buxa-rarity-spectrum-frame {
+  0%, 100% { border-color: var(--buxa-rarity-color, #8cbbe0); box-shadow: inset 0 0 18px rgba(0,0,0,.38), 0 0 10px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 28%, transparent); }
+  16% { border-color: #f0b94d; box-shadow: inset 0 0 18px rgba(0,0,0,.38), 0 0 10px rgba(240,185,77,.28); }
+  33% { border-color: #67d578; box-shadow: inset 0 0 18px rgba(0,0,0,.38), 0 0 10px rgba(103,213,120,.28); }
+  50% { border-color: #58cfe9; box-shadow: inset 0 0 18px rgba(0,0,0,.38), 0 0 10px rgba(88,207,233,.28); }
+  66% { border-color: #648ff1; box-shadow: inset 0 0 18px rgba(0,0,0,.38), 0 0 10px rgba(100,143,241,.28); }
+  83% { border-color: #b56bf0; box-shadow: inset 0 0 18px rgba(0,0,0,.38), 0 0 10px rgba(181,107,240,.28); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-equipment-slot.has-item.is-rarity-spectrum,
+  .buxa-inventory-slot.has-item.is-rarity-spectrum {
+    animation: none !important;
+  }
+}

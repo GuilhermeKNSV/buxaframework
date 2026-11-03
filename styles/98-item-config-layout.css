@@ -1,0 +1,79 @@
+/* -------------------------------------------------------------------------- */
+/* Item configuration window layout                                           */
+/* Keep the scrollable form and footer as separate ApplicationV2 parts.       */
+/* -------------------------------------------------------------------------- */
+
+.buxa-item-config-app .window-content {
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  align-items: stretch;
+}
+
+.buxa-item-config-app .buxa-item-config-scroll {
+  min-width: 0;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: auto !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+.buxa-item-config-stack {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 14px;
+}
+
+.buxa-item-config-app .buxa-item-config-footer {
+  position: relative !important;
+  inset: auto !important;
+  z-index: 3;
+  min-height: 52px;
+  width: 100%;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 9px 14px;
+  border-top: 1px solid #2f3948;
+  background: rgba(9, 13, 19, .98);
+  backdrop-filter: blur(8px);
+}
+
+.buxa-item-config-app .buxa-item-config-footer .buxa-primary {
+  width: auto !important;
+  min-width: 170px !important;
+  height: 34px !important;
+  margin: 0 !important;
+}
+
+/* Old single-part wrapper is intentionally retired in v0.8.9. */
+.buxa-item-config-root { display: contents !important; }
+
+/* Configurable quantity ceiling for each item stack. */
+.buxa-item-config-app .buxa-stack-max-setting { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 12px; border: 1px solid #303e50; background: #121b27; }
+.buxa-item-config-app .buxa-stack-max-setting > span { display: grid; gap: 3px; min-width: 0; }
+.buxa-item-config-app .buxa-stack-max-setting small { color: #9baabd; font-size: 11px; }
+.buxa-item-config-app .buxa-stack-max-setting input { width: 96px; flex: 0 0 96px; min-height: 32px; padding: 4px 8px; text-align: center; }
+.buxa-item-config-app .buxa-stack-max-setting.is-disabled { opacity: .42; }
+
+/* Quantity UI stays within the Basic panel and never grows across the footer. */
+.buxa-item-config-app .buxa-item-stack-config { min-width: 0; max-width: 100%; overflow: hidden; }
+.buxa-item-config-app .buxa-item-stack-config > .buxa-segmented {
+  min-width: 0; width: 100%; grid-template-columns: repeat(2,minmax(0,1fr));
+}
+.buxa-item-config-app .buxa-item-stack-config .buxa-segmented label { min-width:0; max-width:100%; overflow:hidden; }
+.buxa-item-config-app .buxa-item-stack-config .buxa-segmented span { max-width:100%; overflow-wrap:anywhere; }
+.buxa-item-config-app label.buxa-stack-max-setting {
+  box-sizing: border-box; min-width:0; width:100%; max-width:100%;
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(64px,96px);
+  align-items:center; gap:8px; overflow:hidden;
+}
+.buxa-item-config-app label.buxa-stack-max-setting > span { min-width:0; max-width:100%; }
+.buxa-item-config-app label.buxa-stack-max-setting small { display:block; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.buxa-item-config-app label.buxa-stack-max-setting input { box-sizing:border-box; min-width:0; width:100%; max-width:96px; }
+.buxa-item-config-app .buxa-item-config-scroll { overscroll-behavior:contain; }

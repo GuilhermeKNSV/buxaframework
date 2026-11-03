@@ -1,0 +1,10 @@
+# Buxa Framework v0.13.61 — Storage, Editor and Transfer Safety
+
+**Based on 0.13.60; no changes to persisted Actor, Scene or Item schemas.**
+
+- **Ground storage drag performance:** Introduce immutable, cached occupied-cell snapshots. The open-container pointer drag checks its prospective cells without cloning the entire packed Item bundle per pointer move. The cross-surface placement planner now builds one footprint checker for its full location/rotation search; the final authoritative GM operation still validates the current saved data. Existing invalid/masked legacy entries remain recoverable rather than blocking visibly empty cells.
+- **Stack image editor:** Layer additions, removal, movement, rotation, size, and opacity now stay in a temporary editing session. **Apply** commits the composition to Item Configuration; **Cancel**, **×**, backdrop click, and **Escape** discard the pending edit. Pointer listeners and the Escape listener are detached on close. Late image-picker responses do not change canceled work.
+- **World export rollback safety:** Exporting an Item out of ground storage to the Item Directory now verifies whether the scene actually persisted the removal before deleting a new world copy after a hook error. Avoids deleting the only copy when a scene write succeeds but its Promise rejects. Failed compensating deletes are reported explicitly.
+- **Module organization:** Extracted pure ground-cell hit testing and the reusable occupancy checker into focused core modules; extracted export recovery handling into a small integration module. Reduced `ground-container-window.js` beneath the 500-line soft guideline. Existing module APIs and import paths remain compatible.
+
+**Tests:** 644/644 Node tests passed (including 9 new tests), plus syntax/architecture and ZIP checks. The existing repeated backpack round-trip and cross-surface tests also pass. Testing was source-side/mock-side only: a running Foundry V14/D&D 5e 6.0.x integration test is still required for real canvas/window hit testing and native Actor document hooks.

@@ -1,0 +1,57 @@
+<div class="buxa-equipment-layout-shell">
+  <nav class="buxa-equipment-designer-tabs">
+    {{#each equipmentTabs}}<button type="button" data-designer-tab="{{id}}" class="{{#if active}}is-active{{/if}}">{{label}}</button>{{/each}}
+    <button type="button" data-tab-add title="Add equipment tab"><i class="fa-solid fa-plus"></i> Tab</button>
+    <label>Name <input data-tab-rename type="text" maxlength="32" value="{{activeEquipmentTab.label}}"></label>
+    <button type="button" data-tab-remove title="Delete current tab (and its slots)" {{#unless layout.tabs.length}}disabled{{/unless}}><i class="fa-solid fa-trash"></i></button>
+  </nav>
+  <header class="buxa-equipment-layout-toolbar">
+    <div class="buxa-equipment-layout-adders">
+      {{#each slotTypes}}
+        <button type="button" data-action="addEquipmentSlot" data-slot-type="{{id}}">+ {{label}}</button>
+      {{/each}}
+    </div>
+    <div class="buxa-equipment-layout-options">
+      <label><span>Columns</span><input data-layout-columns type="number" min="4" max="24" step="1" value="{{layout.columns}}"></label>
+      <label><span>Height (rows)</span><input data-layout-rows type="number" min="1" max="24" step="1" value="{{layout.rows}}"></label>
+      <label class="buxa-equipment-snap-toggle"><input data-layout-snap type="checkbox" {{#if layout.snapToGrid}}checked{{/if}}><span>SNAP GRID</span></label>
+    </div>
+  </header>
+
+  <main class="buxa-equipment-layout-main">
+    <section class="buxa-equipment-designer-stage">
+      <div class="buxa-equipment-designer-canvas" data-equipment-layout-canvas style="{{canvasStyle}}">
+        {{#each slots}}
+          <article class="buxa-equipment-designer-slot {{#if selected}}is-selected{{/if}}" data-designer-slot="{{id}}" style="{{style}}" title="{{label}} · Right-click for slot actions">
+            {{#if hasBackground}}<img class="buxa-equipment-designer-slot-bg" data-designer-slot-bg src="{{background}}" alt="">{{/if}}
+            <span data-designer-slot-label>{{label}}</span>
+            <small>{{size}} <b data-designer-slot-capacity>×{{capacity}}</b></small>
+          </article>
+        {{/each}}
+      </div>
+    </section>
+
+    <aside class="buxa-equipment-slot-inspector" data-slot-inspector {{#unless slots.length}}hidden{{/unless}}>
+      <div class="buxa-equipment-inspector-title"><strong data-slot-type-name>SLOT</strong><small>Right-click the slot for color, copy and delete.</small></div>
+      <label><span>Label</span><input data-slot-label type="text" maxlength="40"></label>
+      <label><span>Size</span><select data-slot-size>{{#each sizePatterns}}<option value="{{id}}">{{label}}</option>{{/each}}</select></label>
+      <label class="buxa-storage-hidden-toggle"><input data-slot-hidden type="checkbox"><span>HIDDEN · requires equipped item to unlock</span></label>
+      <label><span>Loadout positions</span><input data-slot-capacity type="number" min="1" max="12" step="1" value="1"></label>
+      <label class="buxa-equipment-background-field">
+        <span>Background image</span>
+        <div><input data-slot-background type="text"><button type="button" data-action="browseEquipmentBackground" title="Browse"><i class="fa-solid fa-folder-open"></i></button></div>
+      </label>
+    </aside>
+  </main>
+
+  <div class="buxa-equipment-slot-context" data-slot-context-menu hidden>
+    <label><span>COLOR</span><input data-slot-context-color type="color" value="#344052"></label>
+    <button type="button" data-action="duplicateEquipmentSlot"><i class="fa-solid fa-copy"></i> COPY</button>
+    <button type="button" data-action="deleteEquipmentSlot" class="danger"><i class="fa-solid fa-trash"></i> DELETE</button>
+  </div>
+
+  <footer class="buxa-equipment-layout-footer">
+    <button type="button" data-action="cancelEquipmentLayout">CANCEL</button>
+    <button type="button" data-action="saveEquipmentLayout" class="primary"><i class="fa-solid fa-floppy-disk"></i> APPLY LAYOUT</button>
+  </footer>
+</div>

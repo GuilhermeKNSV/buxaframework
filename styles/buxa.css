@@ -1,0 +1,155 @@
+/*
+ * Buxa Framework stylesheet entrypoint.
+ *
+ * Keep this file small: the actual styles remain split by responsibility.
+ * This stable entrypoint also preserves compatibility with older/stale
+ * Foundry manifests which request styles/buxa.css directly.
+ */
+@import url("./00-foundation.css");
+@import url("./10-player-sheet.css");
+@import url("./20-dialogs.css");
+@import url("./36-equipment-layout.css");
+@import url("./38-svg-picker.css");
+@import url("./38-asset-browser.css");
+@import url("./39-items.css");
+@import url("./39-item-config-v2.css");
+@import url("./40-sheet-refresh.css");
+@import url("./50-sheet-compact.css");
+@import url("./60-sheet-polish.css");
+@import url("./65-progression.css");
+@import url("./70-rolls.css");
+@import url("./80-latest-polish.css");
+@import url("./90-inventory.css");
+@import url("./95-rarity-polish.css");
+@import url("./96-item-fantasy.css");
+@import url("./97-item-sheet-v3.css");
+@import url("./98-item-config-layout.css");
+@import url("./99-rarity-glint.css");
+@import url("./100-slot-rarity-backdrop.css");
+@import url("./101-rarity-background-modes.css");
+@import url("./102-inventory-sorting.css");
+@import url("./103-item-increases.css");
+@import url("./104-value-breakdowns.css");
+
+@import url("./105-source-polish.css");
+@import url("./106-collapsed-attributes.css");
+@import url("./107-rarity-global-background.css");
+@import url("./108-notifications.css");
+
+@import url("./109-item-dice-tooltip.css");
+
+@import url("./110-window-resize.css");
+@import url("./111-item-rule-editor.css");
+@import url("./112-item-effect-display.css");
+@import url("./113-item-discovery.css");
+
+@import url("./114-item-control-polish.css");
+@import url("./115-unstack-menu.css");
+
+@import url("./117-inventory-drag-stability.css");
+@import url("./118-dice-source-choice.css");
+
+@import url("./119-item-directory.css");
+
+@import url("./120-world-item-directory.css");
+
+@import url("./121-figma-ui-system.css");
+
+/* Figma UI V2 — modular design system and complete cross-screen styling. */
+@import url("./122-design-tokens.css");
+@import url("./123-figma-sheet-ui.css");
+@import url("./124-figma-editor-ui.css");
+@import url("./125-figma-directory-popovers.css");
+
+@import url("./126-figma-utility-ui.css");
+
+@import url("./127-actor-token-ghost.css");
+
+@import url("./128-document-editor.css");
+
+@import url("./129-token-editor-preview.css");
+
+@import url("./130-complex-inventory.css");
+
+@import url("./131-shape-editor-stability.css");
+
+@import url("./132-complex-artwork-editor.css");
+@import url("./133-direct-size-editor.css");
+
+@import url("./134-drag-performance.css");
+
+@import url("./135-complex-drag-footprint.css");
+
+@import url("./136-complex-drag-alignment.css");
+
+@import url("./137-complex-rim-fast-drag.css");
+
+@import url("./140-complex-shape-decoration.css");
+
+/* Preserve original artwork proportions in equipped and simple inventory slots. */
+@import url("./141-responsive-item-artwork.css");
+@import url("./142-item-storage.css");
+
+@import url("./143-token-resource-hud.css");
+
+@import url("./145-physical-items.css");
+
+@import url("./146-storage-item-tooltips.css");
+
+@import url("./146-item-board-image.css");
+
+@import url("./147-stack-artwork.css");
+
+@import url("./148-attribute-rebirth-rarity.css");
+
+@import url("./150-source-navigation.css");
+/* Module Configuration: compact, aligned fields and controls. */
+@import url("./152-item-use.css");
+@import url("./153-item-use-presentation.css");
+@import url("./159-item-recharge.css");
+@import url("./149-rebirth-unlock.css");
+@import url("./160-scene-progression-fx.css");
+
+/* Categorized item configuration: Overview / Function / Visuals / Access. */
+@import url("./161-item-config-navigation.css");
+
+/* Rarity-colored pointer feedback for Simple/Complex items and storage. */
+@import url("./162-inventory-rarity-hover.css");
+
+@import url("./161-npc-sheet.css");
+
+@import url("./163-hotbar.css");
+
+/* Compact contextual scene-item controls. */
+@import url("./164-scene-item-menu.css");
+
+/* Rarity cards v2: slots, complex items, arrival pop and item sheet. */
+@import url("./165-rarity-slots.css");
+@import url("./166-rarity-item-card.css");
+@import url("./167-item-card-rework.css");
+/* Named personalities are now resolved by the shared rarity visual system. */
+
+@import url("./168-item-equip-size.css");
+@import url("./169-item-scene-preview.css");
+@import url("./170-inventory-motion.css");
+
+@import url("./171-npc-dropping.css");
+
+@import url("./172-npc-drop-editor.css");
+
+/* Unified rarity presentation; keep after legacy component styles. */
+@import url("./173-rarity-language.css");
+@import url("./174-rarity-cards.css");
+@import url("./175-rarity-inventory.css");
+@import url("./176-rarity-hotbar.css");
+@import url("./177-rarity-loot.css");
+@import url("./178-rarity-progression.css");
+
+@import url("./179-directory-tabs.css");
+
+@import url("./180-combat-encounters.css");
+@import url("./181-sidebar-edit-buttons.css");
+@import url("./182-sidebar-dock-polish.css");
+
+/* Module Configuration: the sole source of configuration styling. */
+@import url("./30-module-config-system.css");

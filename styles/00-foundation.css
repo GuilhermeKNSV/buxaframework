@@ -1,0 +1,99 @@
+/* Buxa Framework player sheet styles
+   Dark, compact, responsive UI inspired by the supplied Foundry reference.
+   Window chrome is intentionally left to Foundry so native header controls keep their icons. */
+
+.buxa {
+  --buxa-bg-0: #090b11;
+  --buxa-bg-1: #0e1119;
+  --buxa-bg-2: #141821;
+  --buxa-bg-3: #1a1f2b;
+  --buxa-bg-4: #202635;
+  --buxa-border: #303747;
+  --buxa-border-soft: #252c3a;
+  --buxa-text: #d9deea;
+  --buxa-muted: #717c91;
+  --buxa-faint: #4e596d;
+  --buxa-accent: #43a6ed;
+  --buxa-accent-soft: rgba(67, 166, 237, .15);
+  --buxa-gold: #d5a814;
+  --buxa-danger: #d56a76;
+  --buxa-success: #62b982;
+  --buxa-radius: 3px;
+  color: var(--buxa-text);
+}
+
+.buxa .window-content {
+  padding: 0;
+  background: var(--buxa-bg-0);
+}
+
+/* Never style Foundry's frame/header buttons from here. */
+.buxa .window-content button,
+.buxa .window-content input,
+.buxa .window-content select {
+  font-family: var(--font-primary, sans-serif);
+}
+
+.buxa .window-content button {
+  border: 1px solid #303747;
+  border-radius: 3px;
+  background: #181d28;
+  color: #cbd2df;
+  box-shadow: none;
+}
+
+.buxa .window-content button:hover:not(:disabled) {
+  border-color: #48627e;
+  background: #1c2432;
+  color: #f0f6ff;
+}
+
+.buxa .window-content button:disabled,
+.buxa .window-content input:disabled,
+.buxa .window-content select:disabled {
+  opacity: .48;
+  cursor: default;
+}
+
+.buxa .window-content input[type="text"],
+.buxa .window-content input[type="number"],
+.buxa .window-content select {
+  min-width: 0;
+  height: 30px;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid #2e3647;
+  border-radius: 3px;
+  background: #1a1f2b;
+  color: #d4dae6;
+  outline: none;
+  box-shadow: none;
+}
+
+.buxa .window-content select {
+  padding-right: 25px;
+}
+
+.buxa .window-content input[type="text"]:focus,
+.buxa .window-content input[type="number"]:focus,
+.buxa .window-content select:focus {
+  border-color: #3d82b5;
+  box-shadow: 0 0 0 1px rgba(67,166,237,.16);
+}
+
+.buxa .window-content input[type="color"] {
+  width: 42px;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid #2e3647;
+  border-radius: 3px;
+  background: #141822;
+}
+
+.buxa code {
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: #0c1017;
+  color: #95c8ed;
+}
+

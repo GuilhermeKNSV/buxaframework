@@ -1,0 +1,32 @@
+/* 0.11.7: one direct-manipulation footprint canvas, no detached preview. */
+.buxa .buxa-footprint-section .buxa-footprint-body{padding:14px clamp(10px,2vw,22px) 18px;max-width:630px;margin:auto;display:grid;gap:12px}
+.buxa .buxa-footprint-head,.buxa .buxa-footprint-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#94aec4;font-size:11px;line-height:1.4}
+.buxa .buxa-footprint-head strong{flex:none;color:#d8eaf6;background:#15263a;border:1px solid #33465b;padding:6px 10px;font-variant-numeric:tabular-nums;font-size:12px}
+.buxa .buxa-shape-editor-grid{display:grid;grid-template-columns:repeat(var(--buxa-editor-columns,5),minmax(0,1fr));gap:0;width:min(100%,390px);max-width:none;aspect-ratio:1;margin:2px auto;background:#09121c;border:1px solid #32465b;padding:7px;overflow:hidden;box-sizing:border-box}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile{position:relative;min-width:0;min-height:0;aspect-ratio:1;border:1px solid #20354a;border-radius:0;background:#101b29;box-shadow:none;outline-offset:-3px;overflow:hidden;cursor:default;transition:background-color .12s ease,border-color .12s ease;padding:0}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile.is-idle{background:#0d1722;border-color:#1b2b3b;opacity:.56}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile.is-extendable{background:#152a3c;border:1px dashed #45718d;color:#91c8ec;cursor:pointer}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile.is-extendable i{font-size:11px;opacity:.65;pointer-events:none;transition:opacity .12s ease,transform .12s ease}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile.is-extendable:hover{background:#26435b;border-color:#8dc6eb}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile.is-extendable:hover i{opacity:1;transform:scale(1.16)}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile.is-filled{background:#223a52;border:1px solid #92c8f4;box-shadow:inset 0 0 0 1px #517d9d;cursor:pointer;opacity:1}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile.is-filled:hover{border-color:#d4edff;filter:brightness(1.13)}
+.buxa .buxa-shape-editor-grid .buxa-shape-tile img{position:absolute;max-width:none!important;max-height:none!important;object-fit:fill!important;pointer-events:none;user-select:none;border:0!important;border-radius:0!important;filter:none!important;transform:none!important;opacity:1!important}
+.buxa .buxa-footprint-footer{max-width:390px;width:100%;margin:auto}
+.buxa .buxa-footprint-footer button{background:#172839;border:1px solid #37516a;min-height:30px;padding:5px 12px;white-space:nowrap;max-width:105px;color:#cbdfee;font-weight:600}
+.buxa .buxa-footprint-art-controls{background:#0e1925;border:1px solid #30445a;padding:0;width:100%;max-width:500px;margin:0 auto}
+.buxa .buxa-footprint-art-controls summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:12px 15px;color:#b9d1e5;font-size:12px;font-weight:600}
+.buxa .buxa-footprint-art-controls summary::-webkit-details-marker{display:none}
+.buxa .buxa-footprint-art-controls summary i:last-child{margin-left:auto;transition:transform .16s ease}
+.buxa .buxa-footprint-art-controls[open] summary i:last-child{transform:rotate(180deg)}
+.buxa .buxa-footprint-art-controls .buxa-shape-properties{padding:10px 15px 15px;border-top:1px solid #27394a;gap:15px}
+.buxa .buxa-footprint-art-controls .buxa-shape-properties label{display:grid;grid-template-columns:minmax(0,1fr) minmax(62px,74px);gap:7px}
+.buxa .buxa-footprint-art-controls .buxa-shape-properties label>span{grid-column:1/-1;color:#a8c1d5}
+.buxa .buxa-footprint-art-controls .buxa-shape-properties label>input[type="range"]{grid-row:2;grid-column:1;width:100%}
+.buxa .buxa-footprint-art-controls .buxa-shape-properties label>input[type="number"]{grid-row:2;grid-column:2;min-width:0}
+@media(max-width:500px){.buxa .buxa-footprint-head{align-items:start}.buxa .buxa-shape-editor-grid{max-width:310px}.buxa .buxa-footprint-section .buxa-footprint-body{padding:9px}}
+@media(prefers-reduced-motion:reduce){.buxa .buxa-shape-editor-grid .buxa-shape-tile,.buxa .buxa-shape-editor-grid .buxa-shape-tile i{transition:none}}
+/* Painting, dragging and document refreshes may replace sheet parts. The active
+   tab is now selected in the template, so do not animate panel visibility. */
+.buxa-player-sheet [data-sheet-panel]{animation:none!important;transition:none!important}
+.buxa-player-sheet [data-sheet-panel][hidden]{display:none!important}

@@ -1,0 +1,51 @@
+/* Item dice source selection: one source is active at a time. */
+.buxa-rule-editor .buxa-dice-source-select {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  padding: 0 0 13px;
+}
+.buxa-rule-editor .buxa-dice-source-select > button {
+  width: auto !important;
+  min-width: 124px;
+  height: 34px !important;
+  min-height: 34px !important;
+  margin: 0 !important;
+  padding: 0 13px !important;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #344659 !important;
+  border-radius: 5px !important;
+  background: #101b27 !important;
+  color: #9cabbc !important;
+  font-size: 11px !important;
+  font-weight: 700;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.buxa-rule-editor .buxa-dice-source-select > button:is(:hover,:focus-visible) {
+  background: #1c3042 !important;
+  color: #e4f0fa !important;
+}
+.buxa-rule-editor .buxa-dice-source-select > button[aria-pressed="true"] {
+  background: #22394e !important;
+  border-color: #5c8dae !important;
+  color: #e4f2ff !important;
+}
+.buxa-rule-editor .buxa-dice-source-select > button:focus-visible { outline: 2px solid #77abd0; outline-offset: 2px; }
+/* Retained for saved item data; the two source buttons are the visible controls. */
+.buxa-rule-editor .buxa-dice-source-value { display: none !important; }
+.buxa-rule-editor [data-item-dice-fixed-wrap].is-disabled { opacity: .38; }
+.buxa-rule-editor .buxa-rule-source-title {
+  color: #aebfce;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .06em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .buxa-rule-editor .buxa-dice-source-select > button { transition: none; }
+}

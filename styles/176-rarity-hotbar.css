@@ -1,0 +1,51 @@
+/* Forged housing with resource-colored liquid. Rarity accents only the metal. */
+.buxa-hotbar.buxa-visual { --buxa-hb-metal: var(--rv-metal); }
+.buxa-hotbar.buxa-visual .buxa-hb-board-frame {
+  border: 1px solid var(--rv-line); border-radius: 0;
+  background: var(--rv-surface), linear-gradient(#20252d, #080c12 35%, #10141a);
+  box-shadow: inset 0 0 0 2px #05070b, inset 0 0 0 3px #ffffff0b, 0 6px 18px #0008;
+}
+.buxa-hotbar.buxa-visual .buxa-hb-board-frame::before,
+.buxa-hotbar.buxa-visual .buxa-hb-board-frame::after { background-color: var(--rv-metal); }
+.buxa-hotbar.buxa-visual .buxa-hb-slot { border-radius: 0; }
+.buxa-hotbar.buxa-visual .buxa-hb-slot.has-item .buxa-hb-item-image { position: relative; z-index: 2; filter: drop-shadow(0 3px 3px #0008); }
+.buxa-hotbar.buxa-visual .buxa-hb-slot:active .buxa-hb-item-image { transform: scale(.93); }
+.buxa-hotbar.buxa-visual .buxa-hb-control:focus-visible,
+.buxa-hotbar.buxa-visual .buxa-hb-slot:focus-visible { outline: 2px solid var(--rv-text); outline-offset: 3px; }
+.buxa-hotbar.buxa-visual .buxa-hb-orb-rim {
+  background: conic-gradient(from 30deg, #d2d3cf, var(--rv-metal) 12%, #11151c 23%, #747f89 28%, #19202a 43%, var(--rv-metal) 50%, #080b11 67%, #b4b9bb 83%, #292d36 93%, #d2d3cf);
+  box-shadow: 0 0 0 1px #020409, inset 0 0 0 2px #0a1019, 0 5px 12px #000b;
+}
+.buxa-hotbar.buxa-visual .buxa-hb-orb-rim::before {
+  inset: 4px; border: 1px solid var(--rv-line);
+  background: repeating-conic-gradient(from 0deg, transparent 0 19deg, #dde4e66e 19deg 20deg, transparent 20deg 30deg);
+  mask: radial-gradient(transparent 63%, #000 65%, #000 71%, transparent 73%);
+  box-shadow: none;
+}
+.buxa-hotbar.buxa-visual .buxa-hb-orb-rim::after {
+  content: ''; position: absolute; inset: -4px; pointer-events: none; border-radius: 50%;
+  border: 1px solid var(--rv-line);
+  mask: conic-gradient(#000 0 30deg, transparent 30deg 60deg, #000 60deg 90deg, transparent 90deg 150deg, #000 150deg 210deg, transparent 210deg 270deg, #000 270deg 300deg, transparent 300deg 330deg, #000 330deg);
+}
+.buxa-hotbar.buxa-visual .buxa-hb-orb-glass {
+  inset: 9px; border: 1px solid #020409;
+  background: radial-gradient(ellipse at 45% 35%, #1b2430, #05080e 75%);
+  box-shadow: inset 8px -7px 12px #000c, inset -4px 2px 8px #ffffff0a, 0 0 0 1px #cad3d424;
+}
+.buxa-hotbar.buxa-visual .buxa-hb-orb-fluid {
+  background: radial-gradient(ellipse at 35% 18%, color-mix(in srgb, var(--buxa-hb-orb-color) 75%, white), transparent 48%),
+    linear-gradient(100deg, color-mix(in srgb, var(--buxa-hb-orb-color) 40%, #02050a), var(--buxa-hb-orb-color) 48%, color-mix(in srgb, var(--buxa-hb-orb-color) 45%, #02050a));
+  border-top: 1px solid color-mix(in srgb, var(--buxa-hb-orb-color) 65%, white);
+  box-shadow: 0 -2px 8px color-mix(in srgb, var(--buxa-hb-orb-color) 45%, transparent);
+}
+.buxa-hotbar.buxa-visual .buxa-hb-orb-reflection {
+  background: radial-gradient(ellipse at 30% 23%, #fff8, #fff1 13%, transparent 27%), linear-gradient(135deg, transparent 56%, #fff1 58%, transparent 61%);
+}
+.buxa-hotbar.buxa-visual .buxa-hb-orb-seal {
+  position: absolute; left: calc(50% - 13px); top: -8px; width: 26px; height: 26px; z-index: 5;
+  background: var(--rv-text); mask: var(--rv-crest) center/contain no-repeat;
+  filter: drop-shadow(0 1px 2px #000); opacity: .85;
+}
+.buxa-hotbar.buxa-visual .buxa-hb-orb-value { font: 700 20px/1 Georgia,serif; color: #fff; text-shadow: 0 2px 4px #000, 0 0 3px #000; z-index: 4; }
+.buxa-hotbar.buxa-visual .buxa-hb-orb-inscription { fill: #d3d4d3; }
+.buxa-hotbar.buxa-visual .buxa-hb-orb:hover .buxa-hb-orb-rim { filter: brightness(1.12); }

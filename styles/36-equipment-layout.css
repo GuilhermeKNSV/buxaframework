@@ -1,0 +1,416 @@
+/* -------------------------------------------------------------------------- */
+/* Equipment layout designer                                                   */
+/* -------------------------------------------------------------------------- */
+
+.buxa-equipment-layout-app .window-content {
+  padding: 0;
+  overflow: hidden;
+}
+
+.buxa-equipment-layout-shell {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: #0b0f16;
+  color: #c9d2df;
+}
+
+.buxa-equipment-layout-toolbar {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid #283141;
+  background: #10151e;
+}
+
+.buxa-equipment-layout-adders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.buxa-equipment-layout-adders button,
+.buxa-equipment-layout-footer button,
+.buxa-equipment-inspector-actions button,
+.buxa-equipment-background-field button {
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  border: 1px solid #344155 !important;
+  border-radius: 3px !important;
+  background: #151c27 !important;
+  color: #95a6bc !important;
+  box-shadow: none !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: .04em;
+}
+
+.buxa-equipment-layout-adders button {
+  height: 24px !important;
+  padding: 0 7px !important;
+}
+
+.buxa-equipment-layout-adders button:hover,
+.buxa-equipment-layout-footer button:hover,
+.buxa-equipment-inspector-actions button:hover,
+.buxa-equipment-background-field button:hover {
+  border-color: #58708e !important;
+  color: #d7e4f3 !important;
+}
+
+.buxa-equipment-layout-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+}
+
+.buxa-equipment-layout-options > label:not(.buxa-equipment-snap-toggle) {
+  width: 86px;
+  display: grid;
+  gap: 3px;
+}
+
+.buxa-equipment-layout-options label > span,
+.buxa-equipment-slot-inspector label > span {
+  color: #66758a;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .07em;
+}
+
+.buxa-equipment-layout-options input[type="number"],
+.buxa-equipment-slot-inspector input[type="text"],
+.buxa-equipment-slot-inspector input[type="number"],
+.buxa-equipment-slot-inspector select {
+  height: 27px !important;
+  margin: 0 !important;
+  border: 1px solid #303a4b !important;
+  border-radius: 3px !important;
+  background: #0d1219 !important;
+  color: #d8e0eb !important;
+  box-shadow: none !important;
+  font-size: 9px !important;
+}
+
+.buxa-equipment-snap-toggle {
+  height: 27px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border: 1px solid #344155;
+  border-radius: 3px;
+  background: #151c27;
+  cursor: pointer;
+}
+
+.buxa-equipment-snap-toggle input {
+  margin: 0;
+}
+
+.buxa-equipment-snap-toggle span {
+  color: #91a3b9 !important;
+}
+
+.buxa-equipment-layout-main {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+}
+
+.buxa-equipment-designer-stage {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(63,83,108,.11), transparent 42%),
+    #090d13;
+}
+
+.buxa-equipment-designer-canvas {
+  --buxa-designer-columns: 12;
+  --buxa-designer-rows: 7;
+  width: min(100%, 720px);
+  min-width: 480px;
+  aspect-ratio: var(--buxa-designer-columns) / var(--buxa-designer-rows);
+  position: relative;
+  border: 1px solid #364255;
+  border-radius: 4px;
+  background:
+    linear-gradient(rgba(106,128,157,.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(106,128,157,.11) 1px, transparent 1px),
+    linear-gradient(180deg, #0e141d, #0a0f16);
+  background-size:
+    calc(100% / var(--buxa-designer-columns)) calc(100% / var(--buxa-designer-rows)),
+    calc(100% / var(--buxa-designer-columns)) calc(100% / var(--buxa-designer-rows)),
+    auto;
+  box-shadow: inset 0 0 35px rgba(0,0,0,.4), 0 16px 42px rgba(0,0,0,.22);
+  touch-action: none;
+}
+
+.buxa-equipment-designer-slot {
+  --buxa-designer-color: #344052;
+  position: absolute;
+  left: calc((var(--buxa-designer-x, 0) / var(--buxa-designer-columns)) * 100% + 2px);
+  top: calc((var(--buxa-designer-y, 0) / var(--buxa-designer-rows)) * 100% + 2px);
+  width: calc((var(--buxa-designer-w, 1) / var(--buxa-designer-columns)) * 100% - 4px);
+  height: calc((var(--buxa-designer-h, 1) / var(--buxa-designer-rows)) * 100% - 4px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--buxa-designer-color);
+  border-radius: 3px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.035), transparent 38%),
+    rgba(10,15,22,.94);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), inset 0 0 18px rgba(0,0,0,.42);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.buxa-equipment-designer-slot:hover {
+  filter: brightness(1.1);
+}
+
+.buxa-equipment-designer-slot.is-selected {
+  z-index: 4;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 0 0 2px #78b7e2,
+    0 0 18px rgba(74,143,190,.24);
+}
+
+.buxa-equipment-designer-slot.is-dragging {
+  z-index: 8;
+  cursor: grabbing;
+  opacity: .88;
+}
+
+.buxa-equipment-designer-slot > span {
+  z-index: 2;
+  max-width: calc(100% - 8px);
+  overflow: hidden;
+  padding: 3px 5px;
+  border-radius: 2px;
+  background: rgba(5,8,12,.76);
+  color: #dce5ef;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buxa-equipment-designer-slot > small {
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  z-index: 2;
+  color: #607087;
+  font-size: 6px;
+  text-transform: uppercase;
+}
+
+.buxa-equipment-designer-slot-bg {
+  position: absolute;
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border: 0;
+  object-fit: contain;
+  opacity: .22;
+  pointer-events: none;
+}
+
+.buxa-equipment-slot-inspector {
+  min-width: 0;
+  overflow: auto;
+  padding: 12px;
+  border-left: 1px solid #283141;
+  background: #10151e;
+}
+
+.buxa-equipment-slot-inspector[hidden] {
+  display: none;
+}
+
+.buxa-equipment-inspector-title {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #293342;
+}
+
+.buxa-equipment-inspector-title strong {
+  color: #b7c4d5;
+  font-size: 9px;
+  letter-spacing: .09em;
+}
+
+.buxa-equipment-slot-inspector > label {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.buxa-equipment-slot-inspector input[type="color"] {
+  width: 100%;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid #303a4b;
+  border-radius: 3px;
+  background: #0d1219;
+}
+
+.buxa-equipment-background-field > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 30px;
+  gap: 4px;
+}
+
+.buxa-equipment-background-field button {
+  height: 27px !important;
+  padding: 0 !important;
+}
+
+.buxa-equipment-inspector-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.buxa-equipment-inspector-actions button {
+  height: 30px !important;
+}
+
+.buxa-equipment-inspector-actions button.danger {
+  border-color: #59353a !important;
+  color: #cb7d84 !important;
+}
+
+.buxa-equipment-layout-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 7px;
+  padding: 9px 10px;
+  border-top: 1px solid #283141;
+  background: #10151e;
+}
+
+.buxa-equipment-layout-footer button {
+  height: 30px !important;
+  padding: 0 12px !important;
+}
+
+.buxa-equipment-layout-footer button.primary {
+  border-color: #3f6f8f !important;
+  background: #142738 !important;
+  color: #a6d7f7 !important;
+}
+
+@media (max-width: 820px) {
+  .buxa-equipment-layout-main {
+    grid-template-columns: 1fr;
+  }
+
+  .buxa-equipment-slot-inspector {
+    max-height: 220px;
+    border-top: 1px solid #283141;
+    border-left: 0;
+  }
+}
+
+/* v0.7.3 slot context menu + copy placement */
+.buxa-equipment-layout-shell {
+  position: relative;
+}
+
+.buxa-equipment-inspector-title {
+  display: grid;
+  gap: 3px;
+}
+
+.buxa-equipment-inspector-title small {
+  color: #5f6d80;
+  font-size: 7px;
+  line-height: 1.25;
+}
+
+.buxa-equipment-slot-context {
+  position: absolute;
+  z-index: 50;
+  width: 158px;
+  display: grid;
+  gap: 6px;
+  padding: 7px;
+  border: 1px solid #3a475b;
+  border-radius: 4px;
+  background: rgba(13, 18, 26, .98);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .48);
+}
+
+.buxa-equipment-slot-context[hidden] {
+  display: none;
+}
+
+.buxa-equipment-slot-context label {
+  display: grid;
+  grid-template-columns: 1fr 44px;
+  align-items: center;
+  gap: 7px;
+}
+
+.buxa-equipment-slot-context label > span {
+  color: #73849a;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.buxa-equipment-slot-context input[type="color"] {
+  width: 44px;
+  height: 24px;
+  padding: 2px;
+  border: 1px solid #344155;
+  border-radius: 3px;
+  background: #0b1017;
+}
+
+.buxa-equipment-slot-context button {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 27px !important;
+  margin: 0 !important;
+  border: 1px solid #344155 !important;
+  border-radius: 3px !important;
+  background: #151c27 !important;
+  color: #9baec4 !important;
+  box-shadow: none !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+}
+
+.buxa-equipment-slot-context button.danger {
+  border-color: #59353a !important;
+  color: #d0848c !important;
+}
+
+.buxa-equipment-designer-canvas.is-copy-placement {
+  cursor: copy;
+}
+
+.buxa-equipment-designer-slot.is-placement-ghost {
+  z-index: 30;
+  opacity: .58;
+  border-style: dashed;
+  border-color: #82c7f3;
+  box-shadow: 0 0 0 1px rgba(130, 199, 243, .18), 0 0 20px rgba(73, 160, 216, .2);
+  pointer-events: none;
+}

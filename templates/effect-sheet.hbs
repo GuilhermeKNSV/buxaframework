@@ -1,0 +1,71 @@
+<section class="buxa-item-sheet bfx-effect-sheet {{rarityClass}}" style="{{rarityStyle}}" data-rarity-tier="{{rarityTier}}" data-item-uuid="{{item.uuid}}">
+  <div class="buxa-item-sheet-aura" aria-hidden="true"></div><div class="buxa-item-sheet-ornament" aria-hidden="true"></div>
+  <header class="buxa-item-hero">
+    <div class="buxa-item-hero-copy">
+      <div class="buxa-item-title-row"><h1>{{item.name}}</h1>{{#if isGM}}<button type="button" class="buxa-item-configure" data-action="configureBuxaItem" title="Configure effect"><i class="fa-solid fa-gear"></i></button>{{/if}}</div>
+      <div class="buxa-item-rarity-line"><strong>{{rarity.label}}</strong><span class="bfx-kind-badge"><i class="fa-solid fa-bolt"></i> EFFECT</span></div>
+      <div class="buxa-item-hero-separator" aria-hidden="true"><span></span></div>
+    </div><div class="buxa-item-hero-art"><img class="buxa-item-hero-icon" src="{{item.img}}" alt=""></div>
+  </header>
+  <div class="buxa-item-sheet-scroll">
+    {{#if active}}<section class="bfx-effect-status {{#if expiresSoon}}is-expiring{{/if}}" aria-label="Active effect status"><span><i class="fa-solid fa-circle-check"></i> ACTIVE</span><strong>{{activeDuration}}</strong>{{#if hasStacks}}<b class="bfx-stack-badge">×{{active.stackCount}}</b>{{/if}}</section>{{/if}}
+    <section class="bfx-effect-summary" aria-label="Effect behavior">
+      <div class="bfx-summary-head"><i class="fa-solid fa-bolt" aria-hidden="true"></i><h2>Behavior</h2><span class="bfx-summary-rule" aria-hidden="true"></span></div>
+      <div class="bfx-summary-stats">
+        <div><small>Type</small><strong>{{behavior}}</strong></div>
+        {{#if isTimed}}<div><small>Duration</small><strong>{{duration}}</strong></div><div><small>Stack rule</small><strong>{{stackRule}}</strong></div>{{/if}}
+        {{#if tickLabel}}<div><small>Tick label</small><strong>{{tickLabel}}</strong></div>{{/if}}
+      </div>
+    </section>
+    {{#if hasTriggers}}<section class="bfx-sheet-triggers" aria-label="Effect triggers">{{#each triggers}}<span><i class="fa-solid {{icon}}"></i>{{label}}</span>{{/each}}</section>{{/if}}
+    {{#if itemUse.hasResourceEffects}}
+      <section class="buxa-item-use-resources" aria-label="Resource use rules">
+        <div class="buxa-item-use-heading"><h2>When used</h2><span class="buxa-item-use-heading-rule" aria-hidden="true"></span></div>
+        <div class="buxa-item-use-effects">
+          {{#each itemUse.resourceEffects}}
+          <div class="buxa-item-use-effect {{#if fill}}is-fill{{else}}is-drain{{/if}}" title="{{description}}">
+            <i class="fa-solid fa-diamond" aria-hidden="true"></i>
+            <span class="buxa-item-use-effect-copy">
+              <span class="buxa-item-use-effect-value"><strong>{{description}}</strong></span>
+            </span>
+          </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+    {{#if hasDice}}
+      <section class="buxa-item-dice-lines">
+        {{#each diceLines}}
+          <div class="buxa-item-tooltip-line is-dice {{themeClass}} buxa-discovery-{{visibility}}" style="{{style}}">
+            {{#if locked}}<i class="fa-solid fa-lock"></i>{{else}}{{#if hidden}}<i class="fa-solid fa-eye-slash"></i>{{else}}{{#if icon}}<img src="{{icon}}" alt="">{{else}}<i class="fa-solid fa-dice-d20"></i>{{/if}}{{/if}}{{/if}}
+            <span class="buxa-item-effect-copy">
+              <strong class="buxa-item-effect-value">{{displayText}}</strong>
+              <span class="buxa-item-effect-label">{{label}}</span>
+            </span>
+          </div>
+        {{/each}}
+      </section>
+    {{/if}}
+
+    {{#if hasIncreases}}
+      <section class="buxa-item-increase-lines">
+        {{#each increaseLines}}
+          <div class="buxa-item-tooltip-line is-increase {{themeClass}} buxa-discovery-{{visibility}}" style="{{style}}">
+            {{#if locked}}<i class="fa-solid fa-lock"></i>{{else}}{{#if hidden}}<i class="fa-solid fa-eye-slash"></i>{{else}}{{#if icon}}<img src="{{icon}}" alt="">{{else}}<span class="buxa-item-increase-glyph">◆</span>{{/if}}{{/if}}{{/if}}
+            <span class="buxa-item-effect-copy">
+              <strong class="buxa-item-effect-value">{{valueText}}</strong>
+              <span class="buxa-item-effect-label">{{label}}</span>
+              {{#if passive}}<small class="buxa-item-effect-passive">PASSIVE</small>{{/if}}
+            </span>
+          </div>
+        {{/each}}
+      </section>
+    {{/if}}
+
+    {{#if hasDescriptionParts}}
+      <div class="buxa-item-divider" aria-hidden="true"><span></span></div>
+      <section class="buxa-item-description buxa-modular-description"><p>{{#each descriptionParts}}<span class="buxa-description-fragment buxa-discovery-{{visibility}}">{{prefix}}{{#if locked}}<i class="fa-solid fa-lock"></i> {{/if}}{{text}}</span>{{/each}}</p></section>
+    {{/if}}
+    {{#unless hasConfiguredDetails}}<section class="buxa-item-empty-state"><i class="fa-solid fa-bolt"></i><p>No effects configured yet.</p></section>{{/unless}}
+  </div>
+</section>

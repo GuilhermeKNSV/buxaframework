@@ -1,0 +1,200 @@
+<section class="buxa-player-settings-shell">
+  <header class="buxa-player-settings-header">
+    <div class="buxa-player-settings-hero">
+      <span class="buxa-ps-kicker">CANVAS OVERLAYS</span>
+      <h2>Player Settings</h2>
+      <p>Choose who sees each resource on the canvas and shape its design with quick modern controls.</p>
+    </div>
+    <div class="buxa-player-settings-hero-meta">
+      <span class="buxa-ps-hero-pill"><i class="fa-solid fa-sliders"></i> Per-resource customization</span>
+    </div>
+  </header>
+  <div class="buxa-player-settings-body">
+    {{#if isGM}}
+      <details class="buxa-ps-section buxa-ps-link-section" open>
+        <summary>
+          <span class="buxa-ps-summary-copy">
+            <strong>Link Player</strong>
+            <small>Actor access and editing permissions</small>
+          </span>
+          <span class="buxa-ps-summary-tag">GM</span>
+        </summary>
+        <div class="buxa-ps-section-body">
+          <p class="buxa-ps-helper-copy">Link a character for looting. Players receive Actor ownership; GMs can link a character without changing their Foundry permissions.</p>
+          <div class="buxa-ps-users buxa-ps-chip-grid">
+            {{#each users}}
+              <label class="buxa-ps-user-chip">
+                <input type="checkbox" data-link-user value="{{id}}" {{#if checked}}checked{{/if}}>
+                <span class="buxa-ps-chip-main">{{name}}</span>
+                <small>{{#if isGM}}GM · {{/if}}{{#if active}}Online{{else}}Offline{{/if}}</small>
+              </label>
+            {{else}}
+              <p class="buxa-ps-empty-copy">No players in this world yet.</p>
+            {{/each}}
+          </div>
+        </div>
+      </details>
+    {{/if}}
+
+    <div class="buxa-ps-section-label"><i class="fa-solid fa-eye"></i> TOKEN RESOURCE TRACKING <span>Modern per-resource controls</span></div>
+
+    {{#each resources}}
+      <details class="buxa-ps-section buxa-ps-resource" data-hud-resource="{{id}}" {{#if enabled}}open{{/if}}>
+        <summary>
+          <span class="buxa-ps-summary-copy">
+            <span class="buxa-ps-color-dot" style="--hud-accent:{{indicator}}"></span>
+            <strong>{{label}}</strong>
+            <small>Customize how {{label}} appears above the token</small>
+          </span>
+          <span class="buxa-ps-summary-state {{#if enabled}}is-live{{else}}is-off{{/if}}" data-hud-state>{{#if enabled}}LIVE{{else}}OFF{{/if}}</span>
+        </summary>
+        <div class="buxa-ps-section-body buxa-ps-resource-body">
+          <div class="buxa-ps-surface buxa-ps-surface-primary span-2">
+            <label class="buxa-ps-switch-card">
+              <input type="checkbox" data-hud-field="enabled" {{#if enabled}}checked{{/if}}>
+              <span class="buxa-ps-switch-ui" aria-hidden="true"></span>
+              <span class="buxa-ps-switch-copy">
+                <strong>Display this resource on the canvas</strong>
+                <small>Turn the token overlay for this resource on or off instantly.</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="buxa-ps-grid-2 span-2">
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head">
+                <strong>Style</strong>
+                <small>Bar appearance</small>
+              </div>
+              <div class="buxa-ps-segmented" data-choice-group data-target="style">
+                {{#each styles}}<button type="button" data-choice-value="{{value}}" class="{{#if selected}}is-active{{/if}}" title="{{#if description}}{{description}}{{else}}{{label}}{{/if}}" aria-label="{{#if description}}{{description}}{{else}}{{label}}{{/if}}">{{label}}</button>{{/each}}
+              </div>
+              <select hidden data-hud-field="style" data-hud-style>
+                {{#each styles}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+              </select>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head">
+                <strong>Placement</strong>
+                <small>Bar location</small>
+              </div>
+              <div class="buxa-ps-segmented" data-choice-group data-target="position">
+                {{#each positions}}<button type="button" data-choice-value="{{value}}" class="{{#if selected}}is-active{{/if}}" title="{{#if description}}{{description}}{{else}}{{label}}{{/if}}" aria-label="{{#if description}}{{description}}{{else}}{{label}}{{/if}}">{{label}}</button>{{/each}}
+              </div>
+              <select hidden data-hud-field="position" data-hud-position>
+                {{#each positions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+              </select>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head">
+                <strong>Visibility</strong>
+                <small>Who can see it</small>
+              </div>
+              <div class="buxa-ps-segmented" data-choice-group data-target="visibility">
+                {{#each visibilities}}<button type="button" data-choice-value="{{value}}" class="{{#if selected}}is-active{{/if}}" title="{{#if description}}{{description}}{{else}}{{label}}{{/if}}" aria-label="{{#if description}}{{description}}{{else}}{{label}}{{/if}}">{{label}}</button>{{/each}}
+              </div>
+              <select hidden data-hud-field="visibility" data-hud-visibility>
+                {{#each visibilities}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+              </select>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head">
+                <strong>Number position</strong>
+                <small>Value placement</small>
+              </div>
+              <div class="buxa-ps-segmented" data-choice-group data-target="valuePosition">
+                {{#each values}}<button type="button" data-choice-value="{{value}}" class="{{#if selected}}is-active{{/if}}" title="{{#if description}}{{description}}{{else}}{{label}}{{/if}}" aria-label="{{#if description}}{{description}}{{else}}{{label}}{{/if}}">{{label}}</button>{{/each}}
+              </div>
+              <select hidden data-hud-field="valuePosition">
+                {{#each values}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+              </select>
+            </section>
+          </div>
+
+          <div class="buxa-ps-viewers span-2" data-hud-viewers hidden>
+            <span class="buxa-ps-viewers-title">Visible to selected players</span>
+            <div class="buxa-ps-chip-grid">
+              {{#each viewers}}
+                <label class="buxa-ps-viewer-chip">
+                  <input type="checkbox" data-hud-viewer value="{{id}}" {{#if checked}}checked{{/if}}>
+                  <span>{{name}}</span>
+                </label>
+              {{else}}
+                <small class="buxa-ps-empty-copy">No players available.</small>
+              {{/each}}
+            </div>
+          </div>
+
+          <div class="buxa-ps-surface span-2">
+            <div class="buxa-ps-surface-head">
+              <strong>Display options</strong>
+              <small>Refine what the player sees</small>
+            </div>
+            <div class="buxa-ps-toggle-row">
+              <label class="buxa-ps-toggle-chip"><input type="checkbox" data-hud-field="showValue" {{#if showValue}}checked{{/if}}><span>Show numbers</span></label>
+              <label class="buxa-ps-toggle-chip"><input type="checkbox" data-hud-field="showMax" {{#if showMax}}checked{{/if}}><span>Show maximum</span></label>
+              <label class="buxa-ps-toggle-chip"><input type="checkbox" data-hud-field="showLabel" {{#if showLabel}}checked{{/if}}><span>Show label</span></label>
+            </div>
+          </div>
+
+          <div class="buxa-ps-grid-2 span-2">
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head"><strong>Accent color</strong><small>Brand the bar</small></div>
+              <label class="buxa-ps-color-field">
+                <input type="color" data-hud-field="color" value="{{color}}">
+                <span>{{color}}</span>
+              </label>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head"><strong>Size</strong><small>Scale the whole overlay</small></div>
+              <div class="buxa-ps-range-field">
+                <input type="range" min="0.5" max="2.5" step="0.1" value="{{scale}}" data-range-for="scale">
+                <input type="number" data-hud-field="scale" value="{{scale}}" min="0.5" max="2.5" step="0.1" data-number-for="scale">
+              </div>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head"><strong>Bar thickness</strong><small>Set weight and density</small></div>
+              <div class="buxa-ps-range-field">
+                <input type="range" min="4" max="28" step="1" value="{{thickness}}" data-range-for="thickness">
+                <input type="number" data-hud-field="thickness" value="{{thickness}}" min="4" max="28" step="1" data-number-for="thickness">
+              </div>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head"><strong>Opacity</strong><small>Transparent or solid</small></div>
+              <div class="buxa-ps-range-field">
+                <input type="range" min="0.2" max="1" step="0.01" value="{{opacity}}" data-range-for="opacity">
+                <input type="number" data-hud-field="opacity" value="{{opacity}}" min="0.2" max="1" step="0.01" data-number-for="opacity">
+              </div>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head"><strong>Horizontal offset</strong><small>Nudge it left or right</small></div>
+              <div class="buxa-ps-range-field">
+                <input type="range" min="-250" max="250" step="1" value="{{offsetX}}" data-range-for="offsetX">
+                <input type="number" data-hud-field="offsetX" value="{{offsetX}}" min="-250" max="250" step="1" data-number-for="offsetX">
+              </div>
+            </section>
+
+            <section class="buxa-ps-surface">
+              <div class="buxa-ps-surface-head"><strong>Vertical offset</strong><small>Nudge it up or down</small></div>
+              <div class="buxa-ps-range-field">
+                <input type="range" min="-250" max="250" step="1" value="{{offsetY}}" data-range-for="offsetY">
+                <input type="number" data-hud-field="offsetY" value="{{offsetY}}" min="-250" max="250" step="1" data-number-for="offsetY">
+              </div>
+            </section>
+          </div>
+        </div>
+      </details>
+    {{/each}}
+  </div>
+  <footer class="buxa-player-settings-footer">
+    <button type="button" data-player-settings-close>Cancel</button>
+    <button class="buxa-ps-save" type="button" data-player-settings-save><i class="fa-solid fa-floppy-disk"></i> Save Player Settings</button>
+  </footer>
+</section>

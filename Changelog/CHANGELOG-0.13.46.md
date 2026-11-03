@@ -1,0 +1,6 @@
+## 0.13.46 — Preserve legal shared-origin Complex inventory placements
+
+- Fixed the root cause of unexpectedly sending valid shaped items from board chests into Actor Inventory Overflow: the inventory reconciler rejected two Items whose *bounding-box origins* shared an index, even when their actual occupied cells did not overlap. L/T/irregular shapes may leave that bounding-box corner empty, making shared origins legal.
+- Complex main inventory and external storage now validate actual occupied shape cells, rather than rejecting legal placements merely because the origins are equal. Simple inventory and equipment retain their exclusive-per-slot behavior.
+- Board-to-Actor container pickups retain every valid saved compartment index and rotation without moving other Items or triggering false Overflow warnings. Existing false Overflow placements with their original storage coordinates in Actor flags can reappear in place on inventory refresh.
+- Added 4 regression tests: legal shared-origin placements in main inventory and external storage, a shaped board-chest round-trip, and multi-case rotated/irregular-shape chest transfers. Preserved the v0.13.45 recovery behavior for genuinely invalid historical placements.

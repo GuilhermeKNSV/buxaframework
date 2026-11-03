@@ -1,0 +1,66 @@
+{
+  "id": "buxaframework",
+  "title": "Buxa Framework",
+  "description": "A responsive modular D&D 5e player-sheet framework with configurable stats, inventory/equipment, custom Buxa items, passive effects, configurable notifications, item dice rolls, tooltips, rarities and integrations.",
+  "version": "0.17.35",
+  "authors": [
+    {
+      "name": "Buxa Framework"
+    }
+  ],
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "socket": true,
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "styles": [
+    "styles/buxa.css",
+    "styles/138-complex-stack-pointer.css",
+    "styles/139-complex-snap-projection.css",
+    "styles/183-effects.css",
+    "styles/184-editor-refinement.css",
+    "styles/185-sidebar-refinement.css"
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "6.0.0",
+          "verified": "6.0.5"
+        }
+      }
+    ],
+    "recommends": [
+      {
+        "id": "combat-tracker-dock",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "sequencer",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "autoanimations",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "socketlib",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "game-icons-net",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
+  }
+}

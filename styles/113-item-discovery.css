@@ -1,0 +1,132 @@
+/* Item discovery: self-contained appearance for editor, sheet and compact hover. */
+.buxa-item-sheet [hidden],
+.buxa-item-config-app [hidden] { display: none !important; }
+
+/* Compact inventory tooltip: the slot already carries the image. */
+.buxa-item-hover-tooltip {
+  width: min(286px, calc(100vw - 20px));
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - 20px);
+  box-sizing: border-box;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(165deg, #121925 0%, #0b1018 80%) !important;
+}
+.buxa-item-hover-tooltip > header {
+  display: block;
+  padding: 8px 11px;
+  min-width: 0;
+}
+.buxa-item-hover-tooltip > header div { display: flex; flex-flow: column; gap: 2px; }
+.buxa-item-hover-tooltip > header strong { font-size: 12px; overflow-wrap: anywhere; white-space: normal; }
+.buxa-item-hover-tooltip > header span { font-size: 8px; }
+.buxa-item-hover-tooltip > header img { display: none !important; }
+.buxa-item-hover-lines { max-height: min(330px, calc(100vh - 120px)); overflow: hidden; gap: 6px; }
+.buxa-item-hover-line { grid-template-columns: 13px minmax(0,1fr); align-items: start; min-width: 0; font-size: 10px; }
+.buxa-item-hover-line .buxa-item-effect-copy { display: flex; flex-wrap: wrap; gap: 2px 5px; line-height: 1.3; }
+.buxa-item-hover-line .buxa-item-effect-value { max-width: 100%; overflow-wrap: anywhere; }
+.buxa-item-hover-line .buxa-item-effect-label { min-width: 0; }
+.buxa-item-hover-meta { font-size: 8px; }
+
+/* Revealed/locked/hidden are presentation states, not just decorative tags. */
+.buxa-item-tooltip-line.buxa-discovery-locked,
+.buxa-item-hover-line.buxa-discovery-locked,
+.buxa-description-fragment.buxa-discovery-locked {
+  color: #89929f !important;
+  --buxa-tooltip-color: #89929f !important;
+  text-shadow: none !important;
+  filter: grayscale(1);
+  opacity: .77;
+}
+.buxa-discovery-locked .buxa-item-effect-value,
+.buxa-discovery-locked .buxa-item-effect-label,
+.buxa-discovery-locked > i { color: #89929f !important; text-shadow: none !important; }
+.buxa-item-tooltip-line.buxa-discovery-hidden,
+.buxa-item-hover-line.buxa-discovery-hidden,
+.buxa-description-fragment.buxa-discovery-hidden {
+  --buxa-tooltip-color: #aab8ce !important;
+  color: #aab8ce !important;
+  text-shadow: 0 0 7px rgba(124,148,199,.4);
+  animation: buxa-discovery-unknown 2.2s ease-in-out infinite;
+}
+.buxa-discovery-hidden .buxa-item-effect-value { color: #b5c3da !important; letter-spacing: .14em; }
+.buxa-discovery-hidden .buxa-item-effect-label { display: none; }
+@keyframes buxa-discovery-unknown {
+  0%,100% { opacity: .55; filter: blur(.8px); }
+  50% { opacity: 1; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .buxa-discovery-hidden { animation: none !important; filter: none !important; }
+}
+.buxa-modular-description > p,
+.buxa-item-hover-description.buxa-modular-description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.buxa-description-fragment { display: inline; }
+
+.buxa-item-control { padding: 12px; overflow: auto; max-height: min(520px, 66vh); }
+.buxa-control-intro { display: grid; gap: 6px; padding: 10px; border: 1px solid #354255; background: #151d2a; margin-bottom: 9px; }
+.buxa-control-intro strong { color: #edf0f7; font: 700 12px/1.3 system-ui; }
+.buxa-control-intro small { color: #a1aec0; font: 400 10px/1.5 system-ui; }
+.buxa-control-entry { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px; border: 1px solid #293849; background: #101721; margin: 6px 0; min-width: 0; }
+.buxa-control-entry-info { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.buxa-control-entry-info strong { overflow-wrap: anywhere; color: #dae3ef; font: 700 11px/1.2 system-ui; }
+.buxa-control-entry-info small { color: #9aa8ba; font: 400 10px/1.2 system-ui; overflow-wrap: anywhere; }
+.buxa-control-status { color: #aab8c8; font: 700 9px/1.3 system-ui; text-transform: uppercase; letter-spacing: .07em; }
+.buxa-control-entry-actions { display: flex; flex-wrap: wrap; gap: 4px; justify-content: end; }
+.buxa-control-entry-actions button { min-height: 28px; padding: 5px 9px; border: 1px solid #40536c; background: #1b2b3e; color: #d5e7fb; border-radius: 3px; cursor: pointer; font: 700 10px system-ui; }
+.buxa-control-entry-actions button:hover { background: #2b4561; }
+.buxa-control-entry-actions button:disabled { opacity: .45; cursor: wait; }
+.buxa-control-empty { padding: 12px; color: #a6b5c8; }
+
+/* Item configuration: progressive disclosure keeps the normal rule compact. */
+.buxa-discovery-options {
+  margin: 8px 10px 12px;
+  border: 1px solid #314258;
+  background: #101925;
+  border-radius: 4px;
+  min-width: 0;
+}
+.buxa-discovery-options > summary {
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d6e1ef;
+  font: 700 11px system-ui;
+  list-style: none;
+}
+.buxa-discovery-options > summary::-webkit-details-marker { display: none; }
+.buxa-discovery-options > summary small { color: #90a0b4; font: 400 10px/1.3 system-ui; }
+.buxa-discovery-options[open] > summary { border-bottom: 1px solid #304057; }
+.buxa-discovery-fields { padding: 10px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.buxa-discovery-fields > label { min-width: 0; }
+.buxa-discovery-hint { margin: 0 0 9px; color: #9aaabe; font: 400 11px/1.5 system-ui; }
+.buxa-description-builder .buxa-item-config-section-body { display: block; }
+.buxa-description-parts-list { display: grid; gap: 8px; }
+.buxa-description-part { background: #101924; border: 1px solid #324153; padding: 10px; border-radius: 4px; min-width: 0; }
+.buxa-description-part-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.buxa-description-part-fields textarea { min-height: 58px; width: 100%; box-sizing: border-box; resize: vertical; }
+.buxa-description-part-options { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr) 34px; gap: 8px; margin-top: 9px; align-items: end; }
+.buxa-description-add { margin-top: 9px; padding: 9px 12px; border: 1px solid #4c6684; color: #dce8f5; background: #182739; cursor: pointer; }
+.buxa-discovery-remove { width: 34px; min-height: 34px; border: 1px solid #6a3b45; background: #2a1c24; color: #ed9eaa; cursor: pointer; }
+@media (max-width: 520px) {
+  .buxa-discovery-fields, .buxa-description-part-fields { grid-template-columns: minmax(0,1fr); }
+  .buxa-description-part-options { grid-template-columns: minmax(0,1fr); }
+  .buxa-discovery-options > summary { flex-wrap: wrap; }
+  .buxa-control-entry { flex-direction: column; align-items: stretch; }
+  .buxa-control-entry-actions { justify-content: start; }
+}
+
+/* Inventory right-click / action menu: never wrap the empty message vertically. */
+.buxa-item-context-menu { width: min(260px, calc(100vw - 16px)); min-width: 0; max-width: calc(100vw - 16px); box-sizing: border-box; overflow: hidden; }
+.buxa-item-context-menu > header { display: block; padding: 10px 12px; }
+.buxa-item-context-menu > header div { min-width: 0; }
+.buxa-item-context-menu > header strong { overflow-wrap: anywhere; white-space: normal; font-size: 12px; }
+.buxa-item-context-menu > header img { display: none !important; }
+.buxa-item-context-actions { min-width: 0; padding: 6px; }
+.buxa-item-context-empty { margin: 0; min-height: 30px; padding: 10px 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center; width: 100%; white-space: normal; overflow-wrap: break-word; color: #8798ae; background: #111923; border: 1px dashed #2c3a4c; font: 700 10px/1.4 system-ui, sans-serif; letter-spacing: .045em; }
+.buxa-item-context-actions button { min-width: 0 !important; width: 100%; box-sizing: border-box; }
+.buxa-item-context-actions small { white-space: normal; overflow-wrap: anywhere; }

@@ -1,0 +1,113 @@
+/* Reading surfaces: quiet body, engraved header, bright edges. */
+.buxa-item-sheet.buxa-item-sheet.buxa-visual,
+.buxa-item-hover-tooltip.buxa-item-hover-tooltip.buxa-visual {
+  --rc: var(--rv-light); --rc-hi: var(--rv-text);
+  border-radius: 0; color: #e4e2dd;
+  background: linear-gradient(180deg, var(--rv-deep), #0c1017 140px, #090c12) !important;
+  border: 1px solid var(--rv-line);
+  box-shadow: inset 0 0 0 3px #07090c, inset 0 0 0 4px color-mix(in srgb, var(--rv-light) 16%, transparent), 0 12px 30px #0009 !important;
+  filter: none !important; animation: none !important;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-aura {
+  inset: 0; opacity: var(--buxa-rarity-bg-opacity, 1);
+  filter: brightness(var(--buxa-rarity-bg-brightness, 1));
+  background: var(--rv-surface) !important;
+  mask-image: linear-gradient(#000, transparent 350px);
+  animation: none !important;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-aura::after {
+  inset: 0 0 auto auto; width: 180px; height: 180px;
+  background: radial-gradient(ellipse, var(--rv-wash), transparent 67%);
+  animation: var(--rv-motion) var(--rv-period) ease-in-out infinite;
+  animation-play-state: var(--rv-motion-state);
+}
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-ornament {
+  display: block; inset: 5px; opacity: var(--rv-ornament); background: none !important;
+  border: none; box-shadow: none; animation: none !important;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-ornament::before,
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-ornament::after {
+  content: ''; position: absolute; width: 32px; height: 32px;
+  background: var(--rv-light); mask: var(--rv-corner) center/contain no-repeat;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-ornament::before { top: 0; left: 0; }
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-ornament::after { bottom: 0; right: 0; transform: rotate(180deg); }
+.buxa-item-sheet.buxa-visual .buxa-item-hero { padding: 22px 22px 14px; gap: 18px; }
+.buxa-item-sheet.buxa-visual .buxa-item-hero::before {
+  height: 1px; box-shadow: none; opacity: .85;
+  background: linear-gradient(90deg, transparent, var(--rv-light), transparent);
+}
+.buxa-item-sheet.buxa-visual .buxa-item-hero::after { display: none !important; }
+.buxa-item-sheet.buxa-visual .buxa-item-title-row h1 {
+  font-family: Georgia, 'Times New Roman', serif; font-weight: 600;
+  font-size: clamp(20px, 2.1vw, 29px); line-height: 1.1; letter-spacing: .025em;
+  color: var(--buxa-rarity-name, var(--rv-text)) !important;
+  text-shadow: 0 2px 3px #000 !important; filter: none; animation: none !important;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-title-row h1::after { display: none !important; }
+.buxa-item-sheet.buxa-visual .buxa-item-rarity-line { margin-top: 9px; letter-spacing: .13em; font-size: 10px; }
+.buxa-item-sheet.buxa-visual .buxa-item-rarity-line strong { color: var(--rv-light); }
+.buxa-item-sheet.buxa-visual .buxa-item-hero-art {
+  position: relative; isolation: isolate; background: radial-gradient(ellipse, var(--rv-wash), transparent 65%);
+  border: none; box-shadow: none !important; overflow: visible;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-hero-art::before {
+  content: ''; position: absolute; inset: -5%; z-index: -1;
+  background: var(--rv-light); mask: var(--rv-crest) center/contain no-repeat;
+  opacity: calc(.14 * var(--rv-ornament));
+  animation: var(--rv-motion) var(--rv-period) ease-in-out infinite;
+  animation-play-state: var(--rv-motion-state);
+}
+.buxa-item-sheet.buxa-visual .buxa-item-hero-art::after {
+  /* Removed only the extra corner/frame decoration around the item image.
+     Keep the rest of the rarity card styling intact. */
+  content: none; display: none;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-hero-icon { filter: drop-shadow(0 5px 5px #0009) !important; animation: none; }
+.buxa-item-sheet.buxa-visual .buxa-item-hero-separator { height: 14px; margin: 9px 0; border: none; background: none; }
+.buxa-item-sheet.buxa-visual .buxa-item-hero-separator::before,
+.buxa-item-sheet.buxa-visual .buxa-item-hero-separator::after { background: var(--rv-line); height: 1px; box-shadow: none; }
+.buxa-item-sheet.buxa-visual .buxa-item-hero-separator span {
+  width: 22px; height: 22px; background: var(--rv-light); transform: none;
+  mask: var(--rv-crest) center/contain no-repeat; border: none; box-shadow: none;
+}
+.buxa-item-sheet.buxa-visual .buxa-item-sheet-scroll { padding: 0 22px 18px; position: relative; }
+.buxa-item-hover-tooltip.buxa-visual > header {
+  position: relative; overflow: hidden; padding: 15px 48px 15px 15px;
+  background: var(--rv-surface) !important; animation: none !important;
+  border-bottom: 1px solid var(--rv-line);
+}
+.buxa-item-hover-tooltip.buxa-visual > header::after {
+  content: ''; position: absolute; width: 35px; height: 35px; right: 8px; top: 10px;
+  background: var(--rv-light); mask: var(--rv-crest) center/contain no-repeat;
+  opacity: .55; pointer-events: none;
+  animation: var(--rv-motion) var(--rv-period) ease-in-out infinite;
+  animation-play-state: var(--rv-motion-state);
+}
+.buxa-item-hover-tooltip.buxa-visual > header strong { color: var(--buxa-rarity-name, var(--rv-text)); font: 600 18px/1.15 Georgia,serif; letter-spacing: .025em; text-shadow: 0 1px 3px #000; }
+.buxa-item-hover-tooltip.buxa-visual > header span { color: var(--rv-light); font-size: 10px; letter-spacing: .1em; }
+/* Rows have their own resolved tokens, so a Divine affix on a Rare item is Divine. */
+:is(.buxa-item-tooltip-line,.buxa-item-hover-line).buxa-visual {
+  position: relative; isolation: isolate; min-height: 32px; padding: 7px 9px;
+  border-left: 2px var(--rv-border-style) var(--rv-line);
+  border-bottom: 1px solid #ffffff07;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--rv-light) 6%, transparent), transparent 85%);
+}
+:is(.buxa-item-tooltip-line,.buxa-item-hover-line).buxa-visual::after {
+  content: ''; position: absolute; right: 5px; top: 5px; width: 23px; height: 23px;
+  background: color-mix(in srgb,var(--rv-light) 25%,transparent); opacity: .65;
+  mask: var(--rv-crest) center/contain no-repeat; pointer-events: none; z-index: -1;
+  animation: var(--rv-motion) var(--rv-period) ease-in-out infinite;
+  animation-play-state: var(--rv-motion-state);
+}
+:is(.buxa-item-tooltip-line,.buxa-item-hover-line).buxa-visual .buxa-item-effect-value { color: var(--rv-text); text-shadow: none; }
+:is(.buxa-item-tooltip-line,.buxa-item-hover-line) .buxa-item-effect-label { color: #cccbd0; }
+.buxa-visual :is(.buxa-discovery-hidden,.buxa-discovery-locked) { background: #ffffff03; border-left: 2px solid #505560; }
+.buxa-item-sheet.buxa-visual :is(.buxa-item-use-button,[data-action='useItem']) {
+  position: relative; overflow: hidden; border-radius: 0;
+  color: var(--rv-text); border: 1px solid var(--rv-line);
+  background: var(--rv-surface), linear-gradient(var(--rv-deep), #0a0c11);
+  box-shadow: inset 0 0 0 2px #06080b;
+}
+.buxa-item-sheet.buxa-visual :is(.buxa-item-use-button,[data-action='useItem']):hover { border-color: var(--rv-light); filter: brightness(1.16); }
+.buxa-item-sheet.buxa-visual :is(.buxa-item-use-button,[data-action='useItem']):active { transform: translateY(1px); }

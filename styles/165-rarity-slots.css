@@ -1,0 +1,181 @@
+/* ===========================================================================
+   Rarity cards v2 — inventory / equipment slots, complex items, arrival pop.
+   Layers: dark card base · rarity wash (honours the global opacity/brightness
+   settings) · frame + corner brackets · light sweep.
+   Animation is driven by registered custom properties, so it is not blocked by
+   the !important box-shadows used elsewhere. Spectrum rotates the real hue.
+   =========================================================================== */
+@property --rc-sweep { syntax: '<percentage>'; inherits: false; initial-value: -40%; }
+@property --rc-glow  { syntax: '<number>';     inherits: true;  initial-value: 1; }
+@property --rc-hue   { syntax: '<number>';     inherits: true;  initial-value: 0; }
+
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item,
+.buxa .buxa-complex-item.buxa-complex-item {
+  --rc: var(--buxa-rarity-color, #8cbbe0);
+  --rc-hi: color-mix(in srgb, var(--rc) 62%, white);
+}
+@supports (color: oklch(from red l c h)) {
+  .buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.is-rarity-spectrum,
+  .buxa .buxa-complex-item.is-rarity-spectrum {
+    --rc: oklch(from var(--buxa-rarity-color, #8cbbe0) l c calc(h + var(--rc-hue)));
+    animation: buxa-rc-hue 7s linear infinite;
+  }
+}
+
+/* ---- Card base + frame ------------------------------------------------- */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item {
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--rc) 80%, #1d2733) !important;
+  background: linear-gradient(180deg, #0e141d, #06090e) !important;
+  box-shadow:
+    inset 0 0 0 1px #000c,
+    inset 0 0 0 2px color-mix(in srgb, var(--rc) calc(20% * var(--rc-glow)), transparent),
+    inset 0 -18px 22px -14px color-mix(in srgb, var(--rc) calc(36% * var(--rc-glow)), transparent),
+    inset 0 0 26px #0009,
+    0 0 calc(11px * var(--rc-glow)) -3px color-mix(in srgb, var(--rc) calc(42% * var(--rc-glow)), transparent) !important;
+  transition: box-shadow 160ms ease-out, filter 160ms ease-out;
+}
+/* Rarity wash: pooled light from below + a cool rim light + fine weave. */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item::before {
+  content: "" !important;
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: var(--buxa-rarity-bg-opacity, 1) !important;
+  filter: brightness(var(--buxa-rarity-bg-brightness, 1));
+  background:
+    radial-gradient(110% 62% at 50% 112%, color-mix(in srgb, var(--rc) 56%, transparent), transparent 68%),
+    radial-gradient(80% 48% at 50% -10%, color-mix(in srgb, var(--rc) 20%, transparent), transparent 72%),
+    repeating-linear-gradient(135deg, #ffffff08 0 1px, transparent 1px 7px) !important;
+}
+/* FULL COLOR: the whole tile is the rarity color, lit from above. */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.buxa-rarity-bg-full {
+  border-color: color-mix(in srgb, var(--rc) 70%, white) !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.buxa-rarity-bg-full::before {
+  background:
+    radial-gradient(90% 55% at 50% 0%, #ffffff30, transparent 70%),
+    repeating-linear-gradient(135deg, #ffffff0e 0 1px, transparent 1px 7px),
+    linear-gradient(180deg, color-mix(in srgb, var(--rc) 80%, #2a303b), color-mix(in srgb, var(--rc) 54%, #10161f) 55%, color-mix(in srgb, var(--rc) 32%, #06090e)) !important;
+}
+/* Frame accents + sweep (one pseudo-element, sweep via --rc-sweep). */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item::after {
+  content: "" !important; display: block !important;
+  position: absolute; inset: 0; z-index: 6; pointer-events: none;
+  border: 0 !important; box-shadow: none !important; opacity: 1 !important;
+  background:
+    linear-gradient(115deg, transparent calc(var(--rc-sweep) - 14%), #ffffff3d var(--rc-sweep), transparent calc(var(--rc-sweep) + 14%)),
+    linear-gradient(90deg, transparent, var(--rc-hi), transparent) 50% 0 / 58% 1px no-repeat !important;
+}
+/* Ornament rarities add corner brackets. */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.has-rarity-ornament::after {
+  --cb: min(11px, 26%);
+  background:
+    linear-gradient(115deg, transparent calc(var(--rc-sweep) - 14%), #ffffff3d var(--rc-sweep), transparent calc(var(--rc-sweep) + 14%)),
+    linear-gradient(90deg, transparent, var(--rc-hi), transparent) 50% 0 / 58% 1px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 0 / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 0 / 2px var(--cb) no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 0 / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 0 / 2px var(--cb) no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 100% / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 100% / 2px var(--cb) no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 100% / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 100% / 2px var(--cb) no-repeat !important;
+}
+/* Artwork gets a rarity rim-light so the item itself feels lit. */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item > .buxa-inventory-item img,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item > .buxa-inventory-item .buxa-stack-composite {
+  filter: drop-shadow(0 5px 6px #000b) drop-shadow(0 0 9px color-mix(in srgb, var(--rc) 38%, transparent));
+}
+
+/* ---- Hover: brighter frame, bigger glow, one light sweep ---------------- */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item:hover {
+  border-color: var(--rc-hi) !important;
+  box-shadow:
+    inset 0 0 0 1px #000c,
+    inset 0 0 0 2px color-mix(in srgb, var(--rc) 42%, transparent),
+    inset 0 -20px 24px -12px color-mix(in srgb, var(--rc) 55%, transparent),
+    inset 0 0 22px #0007,
+    0 0 18px 0 color-mix(in srgb, var(--rc) 62%, transparent) !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item:hover::after {
+  animation: buxa-rc-sweep-once 620ms ease-out 1 both;
+}
+
+/* ---- Animated / glint / spectrum personalities -------------------------- */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.is-rarity-animated {
+  animation: buxa-rc-breathe 3s ease-in-out infinite;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.is-rarity-animated.is-rarity-spectrum {
+  animation: buxa-rc-breathe 3s ease-in-out infinite, buxa-rc-hue 7s linear infinite;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.has-rarity-glint::after {
+  animation: buxa-rc-sweep-loop 5.5s ease-in-out infinite;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.has-rarity-glint:nth-child(3n+2)::after { animation-delay: 1.8s; }
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.has-rarity-glint:nth-child(3n)::after { animation-delay: 3.6s; }
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item.has-rarity-glint:hover::after {
+  animation: buxa-rc-sweep-once 620ms ease-out 1 both;
+}
+
+/* ---- Complex (shaped) items: same language on the masked backdrop ------- */
+.buxa .buxa-complex-item > .buxa-complex-backdrop {
+  background: linear-gradient(180deg, #0e141d, #06090e) !important;
+}
+.buxa .buxa-complex-item > .buxa-complex-backdrop::before {
+  background:
+    radial-gradient(110% 62% at 50% 112%, color-mix(in srgb, var(--rc) 56%, transparent), transparent 68%),
+    radial-gradient(80% 48% at 50% -10%, color-mix(in srgb, var(--rc) 20%, transparent), transparent 72%),
+    repeating-linear-gradient(135deg, #ffffff08 0 1px, transparent 1px 7px);
+}
+.buxa .buxa-complex-item.buxa-rarity-bg-full > .buxa-complex-backdrop::before {
+  background:
+    radial-gradient(90% 55% at 50% 0%, #ffffff30, transparent 70%),
+    repeating-linear-gradient(135deg, #ffffff0e 0 1px, transparent 1px 7px),
+    linear-gradient(180deg, color-mix(in srgb, var(--rc) 80%, #2a303b), color-mix(in srgb, var(--rc) 54%, #10161f) 55%, color-mix(in srgb, var(--rc) 32%, #06090e));
+}
+.buxa .buxa-complex-item > .buxa-complex-backdrop::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent calc(var(--rc-sweep) - 14%), #ffffff3d var(--rc-sweep), transparent calc(var(--rc-sweep) + 14%));
+}
+.buxa .buxa-complex-item.has-rarity-glint > .buxa-complex-backdrop::after { animation: buxa-rc-sweep-loop 5.5s ease-in-out infinite; }
+.buxa .buxa-complex-item.is-rarity-animated > .buxa-complex-backdrop { animation: buxa-complex-border-glow 3s ease-in-out infinite; }
+.buxa .buxa-complex-item > .buxa-complex-art { filter: drop-shadow(0 4px 6px #000b) drop-shadow(0 0 8px color-mix(in srgb, var(--rc) 36%, transparent)); }
+.buxa .buxa-complex-item > .buxa-complex-decoration > .buxa-complex-outline { stroke-width: 1.3px; opacity: .9; }
+.buxa .buxa-complex-item > .buxa-complex-decoration > .buxa-complex-corners { stroke: var(--rc-hi); stroke-width: 2.6px; }
+.buxa .buxa-complex-item > .buxa-complex-decoration {
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--rc) 55%, transparent));
+}
+
+/* ---- "New item!" arrival pop (class added briefly by rarity-pickup-flash) */
+.buxa .buxa-inventory-item.buxa-item-new:not(.buxa-complex-item) { animation: buxa-item-arrive 700ms cubic-bezier(.2,.9,.25,1.1) both; }
+.buxa .buxa-complex-item.buxa-item-new > :is(.buxa-complex-art, .buxa-complex-decoration) { animation: buxa-item-arrive-soft 900ms ease-out both; }
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item:has(> .buxa-item-new) { animation: buxa-slot-arrive 900ms ease-out both; }
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.has-item:has(> .buxa-item-new)::after { animation: buxa-rc-sweep-once 800ms ease-out 120ms both; }
+
+@keyframes buxa-rc-sweep-once { from { --rc-sweep: -30%; } to { --rc-sweep: 130%; } }
+@keyframes buxa-rc-sweep-loop { 0% { --rc-sweep: -30%; } 22%, 100% { --rc-sweep: 130%; } }
+@keyframes buxa-rc-breathe { 0%, 100% { --rc-glow: .6; } 50% { --rc-glow: 1.7; } }
+@keyframes buxa-rc-hue { to { --rc-hue: 360; } }
+@keyframes buxa-slot-arrive { 0% { --rc-glow: 4.5; } 100% { --rc-glow: 1; } }
+@keyframes buxa-item-arrive {
+  0% { opacity: 0; transform: scale(1.35); filter: brightness(3) saturate(1.4); }
+  35% { opacity: 1; }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+@keyframes buxa-item-arrive-soft { 0% { filter: brightness(2.8) saturate(1.4); } 100% { filter: none; } }
+
+body.buxa-inventory-pointer-dragging .buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item::after,
+body.buxa-inventory-pointer-dragging .buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item,
+  .buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item::after,
+  .buxa .buxa-complex-item, .buxa .buxa-complex-item *,
+  .buxa .buxa-inventory-item.buxa-item-new { animation: none !important; }
+}
+
+/* World rarity beam opacity (separate from sheet background opacity). */
+.buxa-rarity-beam-opacity{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px;color:#a9c3d5;font-size:10px;font-weight:700}
+.buxa-rarity-beam-opacity>span{min-width:94px;letter-spacing:.04em}
+.buxa-rarity-beam-opacity input[type=range]{flex:1 1 110px;min-width:65px;accent-color:var(--buxa-rarity-preview,#87bfee)}
+.buxa-rarity-beam-opacity input[type=number]{width:53px;min-width:0;box-sizing:border-box;background:#101c2a;border:1px solid #496278;color:#eaf4ff;padding:5px;text-align:center}

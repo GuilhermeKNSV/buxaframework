@@ -1,0 +1,373 @@
+/* Scene-level progression popups. Visual language matches the item sheet /
+   rarity-card family: rectangular dark card, glowing top rule, corner brackets,
+   rarity wash and a tasteful crest over the token. */
+.buxa-scene-celebration {
+  position: fixed;
+  z-index: 110;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  user-select: none;
+  --buxa-fx-color: #ffd56a;
+  --buxa-fx-glow: color-mix(in srgb, var(--buxa-fx-color) 65%, white);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  isolation: isolate;
+  contain: layout style;
+}
+.buxa-scene-celebration,
+.buxa-scene-celebration *,
+.buxa-scene-celebration *::before,
+.buxa-scene-celebration *::after {
+  box-sizing: border-box;
+  border-radius: 0 !important;
+}
+
+/* ---------------- token effect ---------------- */
+.buxa-scene-celebration .buxa-celebration-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--buxa-fx-span, 190px);
+  height: var(--buxa-fx-span, 190px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 22%, transparent));
+  animation: buxa-celebration-field 1850ms cubic-bezier(.18,.74,.22,1) both;
+}
+.buxa-scene-celebration .buxa-celebration-field::before {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 22%, transparent), transparent 70%);
+  animation: buxa-celebration-glow 1.75s ease-out both;
+}
+.buxa-scene-celebration .buxa-celebration-field::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  background: conic-gradient(from 0deg,
+    transparent 0 10deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 10deg 13deg,
+    transparent 13deg 57deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 57deg 60deg,
+    transparent 60deg 104deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 104deg 107deg,
+    transparent 107deg 151deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 151deg 154deg,
+    transparent 154deg 198deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 198deg 201deg,
+    transparent 201deg 245deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 245deg 248deg,
+    transparent 248deg 292deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 292deg 295deg,
+    transparent 295deg 339deg,
+    color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, transparent) 339deg 342deg,
+    transparent 342deg 360deg);
+  -webkit-mask: radial-gradient(circle at center, transparent 0 56%, #000 56% 72%, transparent 72%);
+  mask: radial-gradient(circle at center, transparent 0 56%, #000 56% 72%, transparent 72%);
+  opacity: .7;
+  animation: buxa-celebration-sigil 1.9s ease-out both;
+}
+.buxa-scene-celebration .buxa-celebration-glow {
+  position: absolute;
+  inset: 27%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 26%, transparent), transparent 72%);
+  animation: buxa-celebration-glow 1.75s ease-out both;
+}
+.buxa-scene-celebration .buxa-celebration-ring,
+.buxa-scene-celebration .buxa-celebration-ring.secondary {
+  position: absolute;
+  inset: 17%;
+  background: color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 85%, white 6%);
+  -webkit-mask: radial-gradient(circle at center, transparent 0 57%, #000 57% 58.6%, transparent 59.6%);
+  mask: radial-gradient(circle at center, transparent 0 57%, #000 57% 58.6%, transparent 59.6%);
+  opacity: .92;
+  animation: buxa-celebration-ring 1.9s cubic-bezier(.2,.7,.2,1) both;
+}
+.buxa-scene-celebration .buxa-celebration-ring.secondary {
+  inset: 10%;
+  opacity: .46;
+  -webkit-mask: radial-gradient(circle at center, transparent 0 70%, #000 70% 71.2%, transparent 72.3%);
+  mask: radial-gradient(circle at center, transparent 0 70%, #000 70% 71.2%, transparent 72.3%);
+  animation-delay: 80ms;
+}
+.buxa-scene-celebration .buxa-celebration-svg {
+  position: absolute;
+  inset: 30%;
+  background: var(--rv-light, var(--buxa-fx-color));
+  -webkit-mask: var(--rv-crest) center / contain no-repeat;
+  mask: var(--rv-crest) center / contain no-repeat;
+  opacity: .16;
+  animation: buxa-celebration-sigil 1.7s ease-out both;
+}
+.buxa-scene-celebration .buxa-celebration-seal {
+  position: absolute;
+  inset: 15%;
+  background:
+    radial-gradient(circle at center, transparent 0 33%, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 58%, transparent) 33% 34.4%, transparent 34.4% 45%, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 28%, transparent) 45% 46%, transparent 46%),
+    var(--rv-light, var(--buxa-fx-color));
+  -webkit-mask:
+    var(--rv-crest) center / 38% 38% no-repeat,
+    radial-gradient(circle at center, transparent 0 32%, #000 32% 33.4%, transparent 33.4% 44%, #000 44% 45%, transparent 45%);
+  mask:
+    var(--rv-crest) center / 38% 38% no-repeat,
+    radial-gradient(circle at center, transparent 0 32%, #000 32% 33.4%, transparent 33.4% 44%, #000 44% 45%, transparent 45%);
+  opacity: .8;
+  animation: buxa-celebration-seal 1.95s ease-out both;
+}
+.buxa-scene-celebration .buxa-celebration-crosshair { display: none; }
+.buxa-scene-celebration .buxa-celebration-spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 11px;
+  background: linear-gradient(to top, transparent 0%, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 50%, transparent) 30%, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 94%, white 4%) 100%);
+  transform-origin: center center;
+  clip-path: inset(0 round 0);
+  opacity: .72;
+  animation: buxa-celebration-spark 1.5s cubic-bezier(.15,.5,.25,1) both;
+  animation-delay: calc(var(--buxa-spark-index) * 16ms);
+  --buxa-spark-angle: calc(var(--buxa-spark-index) * 30deg);
+}
+.buxa-scene-celebration.is-rebirth .buxa-celebration-ring.secondary {
+  opacity: .55;
+  -webkit-mask: radial-gradient(circle at center, transparent 0 73%, #000 73% 74.2%, transparent 75.4%);
+  mask: radial-gradient(circle at center, transparent 0 73%, #000 73% 74.2%, transparent 75.4%);
+}
+.buxa-scene-celebration.is-rebirth .buxa-celebration-seal {
+  inset: 12%;
+  opacity: .92;
+}
+
+/* ---------------- badge ---------------- */
+.buxa-scene-celebration .buxa-celebration-badge {
+  position: absolute;
+  left: 0;
+  top: calc(-1 * var(--buxa-token-half-height, 35px) - 18px);
+  transform: translate(-50%, -100%);
+  min-width: 170px;
+  max-width: 240px;
+  padding: 11px 20px 13px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  text-align: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 52%, #1d2530);
+  background:
+    radial-gradient(62% 48% at 88% 0%, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 16%, transparent), transparent 72%),
+    radial-gradient(40% 28% at 0% 100%, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 8%, transparent), transparent 70%),
+    repeating-linear-gradient(135deg, #ffffff05 0 1px, transparent 1px 11px),
+    linear-gradient(180deg, #10151f, #080b11 58%, #05070b);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 18%, transparent),
+    inset 0 0 0 2px #000a,
+    inset 0 0 54px #000c,
+    0 10px 22px #0008;
+  animation: buxa-celebration-badge 1.7s cubic-bezier(.17,.72,.22,1) both;
+}
+.buxa-scene-celebration .buxa-celebration-badge::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--rv-base, var(--buxa-fx-color)) 18%, var(--rv-light, var(--buxa-fx-color)) 50%, var(--rv-base, var(--buxa-fx-color)) 82%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 50%, transparent), 0 3px 18px color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 18%, transparent);
+}
+.buxa-scene-celebration .buxa-celebration-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 24%, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 10%, #ffffff22) 34%, transparent 44%),
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 24%, transparent) 50%, transparent) 50% calc(100% - 18px) / calc(100% - 54px) 1px no-repeat;
+  opacity: .9;
+}
+.buxa-scene-celebration .buxa-celebration-corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  color: color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 72%, white 8%);
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 18%, transparent));
+  background:
+    linear-gradient(currentColor, currentColor) 0 0 / 14px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) 0 0 / 1px 14px no-repeat;
+}
+.buxa-scene-celebration .buxa-celebration-corner.tr,
+.buxa-scene-celebration .buxa-celebration-corner.br {
+  transform: scaleX(-1);
+}
+.buxa-scene-celebration .buxa-celebration-corner.bl,
+.buxa-scene-celebration .buxa-celebration-corner.br {
+  transform: scaleY(-1);
+}
+.buxa-scene-celebration .buxa-celebration-corner.br { transform: scale(-1); }
+.buxa-scene-celebration .buxa-celebration-corner.tl { left: 7px; top: 7px; }
+.buxa-scene-celebration .buxa-celebration-corner.tr { right: 7px; top: 7px; }
+.buxa-scene-celebration .buxa-celebration-corner.bl { left: 7px; bottom: 7px; }
+.buxa-scene-celebration .buxa-celebration-corner.br { right: 7px; bottom: 7px; }
+.buxa-scene-celebration .buxa-celebration-badge-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 11px;
+}
+.buxa-scene-celebration .buxa-celebration-emblem {
+  width: 10px;
+  height: 10px;
+  background: color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 75%, white 5%);
+  -webkit-mask: var(--rv-crest) center / contain no-repeat;
+  mask: var(--rv-crest) center / contain no-repeat;
+  opacity: .95;
+}
+.buxa-scene-celebration .buxa-celebration-label {
+  position: relative;
+  z-index: 1;
+  color: color-mix(in srgb, var(--rv-text, #f0f4fb) 80%, white 12%);
+  font: 800 8px/1 Inter, "Segoe UI", Arial, sans-serif;
+  letter-spacing: .23em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 18%, transparent);
+}
+.buxa-scene-celebration .buxa-celebration-number {
+  position: relative;
+  z-index: 1;
+  color: #fff5e1;
+  font: 900 46px/.88 Inter, "Segoe UI", Arial, sans-serif;
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 0 #000d, 0 0 14px color-mix(in srgb, var(--rv-light, var(--buxa-fx-color)) 12%, transparent);
+}
+.buxa-scene-celebration .buxa-celebration-number.is-long { font-size: 36px; }
+.buxa-scene-celebration .buxa-celebration-sublabel {
+  position: relative;
+  z-index: 1;
+  color: color-mix(in srgb, var(--rv-text, #dfe7f4) 86%, white 10%);
+  font: 800 9px/1.2 Inter, "Segoe UI", Arial, sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  max-width: 158px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: .9;
+}
+.buxa-scene-celebration .buxa-celebration-sublabel:empty { display: none; }
+.buxa-scene-celebration.is-rebirth .buxa-celebration-number { display: none; }
+.buxa-scene-celebration.is-rebirth .buxa-celebration-badge {
+  min-width: 180px;
+  gap: 7px;
+  padding-bottom: 14px;
+}
+.buxa-scene-celebration.is-rebirth .buxa-celebration-label {
+  font-size: 12px;
+  letter-spacing: .16em;
+}
+.buxa-scene-celebration.is-rebirth .buxa-celebration-emblem {
+  width: 12px;
+  height: 12px;
+}
+
+/* repeated level-up while badge is still alive: keep the card visible, only the
+   token sigil idles. */
+.buxa-scene-celebration.is-updated .buxa-celebration-field {
+  animation: none;
+  opacity: 1;
+  scale: 1;
+}
+.buxa-scene-celebration.is-updated .buxa-celebration-glow,
+.buxa-scene-celebration.is-updated .buxa-celebration-ring,
+.buxa-scene-celebration.is-updated .buxa-celebration-ring.secondary {
+  animation: none;
+  opacity: .82;
+  transform: none;
+}
+.buxa-scene-celebration.is-updated .buxa-celebration-ring { transform: rotate(45deg); }
+.buxa-scene-celebration.is-updated .buxa-celebration-svg,
+.buxa-scene-celebration.is-updated .buxa-celebration-seal {
+  opacity: 1;
+  animation: buxa-celebration-idle-spin 10s linear infinite;
+}
+.buxa-scene-celebration.is-updated.is-rebirth .buxa-celebration-svg,
+.buxa-scene-celebration.is-updated.is-rebirth .buxa-celebration-seal {
+  animation-duration: 12s;
+}
+.buxa-scene-celebration.is-updated .buxa-celebration-spark { display: none; }
+.buxa-scene-celebration.is-updated .buxa-celebration-badge {
+  animation: none;
+  opacity: 1;
+  transform: translate(-50%, -100%);
+}
+
+@keyframes buxa-celebration-idle-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes buxa-celebration-field {
+  0% { opacity: 0; scale: .84; }
+  18% { opacity: 1; scale: 1; }
+  76% { opacity: 1; scale: 1.03; }
+  100% { opacity: 0; scale: 1.08; }
+}
+@keyframes buxa-celebration-glow {
+  0% { opacity: 0; transform: scale(.5); }
+  22% { opacity: 1; transform: scale(1); }
+  74% { opacity: .72; transform: scale(1.06); }
+  100% { opacity: 0; transform: scale(1.14); }
+}
+@keyframes buxa-celebration-ring {
+  0% { opacity: 0; transform: rotate(45deg) scale(.72); }
+  22% { opacity: 1; transform: rotate(45deg) scale(1); }
+  76% { opacity: .88; transform: rotate(45deg) scale(1.05); }
+  100% { opacity: 0; transform: rotate(45deg) scale(1.16); }
+}
+@keyframes buxa-celebration-sigil {
+  0% { opacity: 0; transform: scale(.7) rotate(-10deg); }
+  24% { opacity: .2; transform: scale(1) rotate(0); }
+  76% { opacity: .16; transform: scale(1.06) rotate(8deg); }
+  100% { opacity: 0; transform: scale(1.12) rotate(10deg); }
+}
+@keyframes buxa-celebration-seal {
+  0% { opacity: 0; transform: scale(.58); }
+  24% { opacity: .88; transform: scale(1); }
+  76% { opacity: .68; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.12); }
+}
+@keyframes buxa-celebration-spark {
+  0% { opacity: 0; transform: rotate(var(--buxa-spark-angle)) translateY(0) scale(.2); }
+  22% { opacity: 1; }
+  76% { opacity: .75; }
+  100% { opacity: 0; transform: rotate(var(--buxa-spark-angle)) translateY(calc(-1 * var(--buxa-fx-spark-travel, 104px))) scale(.12); }
+}
+@keyframes buxa-celebration-badge {
+  0% { opacity: 0; transform: translate(-50%, -74%) scale(.45); }
+  22% { opacity: 1; transform: translate(-50%, -104%) scale(1.04); }
+  35% { transform: translate(-50%, -100%) scale(1); }
+  78% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -114%) scale(.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-scene-celebration .buxa-celebration-field,
+  .buxa-scene-celebration .buxa-celebration-glow,
+  .buxa-scene-celebration .buxa-celebration-ring,
+  .buxa-scene-celebration .buxa-celebration-svg,
+  .buxa-scene-celebration .buxa-celebration-seal,
+  .buxa-scene-celebration .buxa-celebration-badge {
+    animation-duration: 650ms;
+  }
+  .buxa-scene-celebration .buxa-celebration-spark { display: none; }
+  .buxa-scene-celebration.is-updated .buxa-celebration-svg,
+  .buxa-scene-celebration.is-updated .buxa-celebration-seal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,164 @@
+/* -------------------------------------------------------------------------- */
+/* Image picker and Actor config                                               */
+/* -------------------------------------------------------------------------- */
+
+.buxa-image-picker,
+.buxa-actor-config {
+  padding: 14px;
+  background: var(--buxa-bg-1);
+}
+
+.buxa-dialog-lead {
+  margin: 0 0 12px;
+  color: #8993a7;
+  font-size: 12px;
+}
+
+.buxa-image-choice {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid var(--buxa-border-soft);
+  border-radius: 3px;
+  background: var(--buxa-bg-2);
+}
+
+.buxa-image-preview-wrap {
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #303747;
+  border-radius: 3px;
+  background: #0b0d12;
+}
+
+.buxa-image-preview-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: contain;
+}
+
+.buxa-image-choice label {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.buxa-image-choice label > span,
+.buxa-config-control > span {
+  color: #626b80;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.buxa-path-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  gap: 6px;
+}
+
+.buxa-path-row button {
+  width: 34px;
+  min-width: 34px;
+  margin: 0;
+  padding: 0;
+}
+
+.buxa-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.buxa-dialog-footer button {
+  width: auto;
+  min-width: 0;
+  padding: 0 12px;
+}
+
+.buxa-dialog-footer .buxa-primary {
+  border-color: #315f80;
+  background: #142738;
+  color: #d9efff;
+}
+
+.buxa-config-intro h2 {
+  margin: 0;
+  color: #e5ebf4;
+  font-size: 17px;
+}
+
+.buxa-config-intro p {
+  margin: 5px 0 0;
+  color: #7d889b;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.buxa-link-user-list {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.buxa-link-user {
+  min-height: 42px;
+  display: grid;
+  grid-template-columns: auto 9px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 7px 9px;
+  border: 1px solid #2a3140;
+  border-radius: 3px;
+  background: #151a24;
+}
+
+.buxa-link-user-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #525b6c;
+}
+
+.buxa-link-user-dot.is-online {
+  background: var(--buxa-success);
+  box-shadow: 0 0 8px rgba(98,185,130,.35);
+}
+
+.buxa-link-user-name {
+  overflow: hidden;
+  color: #d3d9e4;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buxa-link-user-status {
+  color: #596477;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.buxa-empty-state {
+  padding: 18px;
+  border: 1px dashed #303747;
+  border-radius: 3px;
+  color: #778196;
+  text-align: center;
+  font-size: 11px;
+}
+

@@ -1,0 +1,193 @@
+/* Compact editor surfaces. Rarity heroes, inventory artwork and game HUDs keep
+   their existing visual contract; these rules own the new editor/Effect UI. */
+.buxa-item-config-app {
+  --be-bg:#0b111c; --be-surface:#101b2a; --be-line:#2b3b50;
+  --be-ink:#e4ebf5; --be-muted:#99a9bf; --be-accent:#99badb;
+  container: buxa-editor / inline-size;
+}
+.buxa-item-config-app .window-content { background:var(--be-bg); }
+.buxa-item-config-app .buxa-item-config-scroll { scrollbar-gutter:stable; scroll-padding-top:112px; }
+.buxa-item-config-app .buxa-item-config-scroll::-webkit-scrollbar-thumb { background:#40536e; }
+.buxa-item-config-app :is(.buxa-item-config-group-nav,.buxa-item-config-subtabs) button {
+  border-radius:0!important; text-transform:none; letter-spacing:.01em;
+}
+.buxa-item-config-app .buxa-item-config-tabs.buxa-item-config-group-nav {
+  gap:2px; padding:8px 12px!important; background:var(--be-bg)!important;
+  border-bottom-color:var(--be-line)!important; box-shadow:none;
+}
+.buxa-item-config-app .buxa-item-config-group-nav button {
+  background:transparent!important; border-color:transparent!important;
+  color:var(--be-muted)!important; height:36px!important; min-height:36px!important;
+}
+.buxa-item-config-app .buxa-item-config-group-nav button.is-active {
+  color:var(--be-ink)!important; background:#19283c!important;
+  border-color:#425c77!important; box-shadow:inset 0 -2px var(--be-accent)!important;
+}
+.buxa-item-config-app .buxa-item-config-subtabs {
+  top:53px; padding:8px 12px; gap:4px; background:#0d1623; border-color:var(--be-line);
+}
+.buxa-item-config-app .buxa-item-config-subtabs button {
+  background:transparent!important; border-color:transparent!important; color:var(--be-muted)!important;
+}
+.buxa-item-config-app .buxa-item-config-subtabs button.is-active {
+  background:#1b2b3e!important; border-color:#3c536c!important; color:var(--be-ink)!important;
+}
+.buxa-item-config-app :is(.buxa-item-config-section,.buxa-rule-card) { box-shadow:none; }
+.buxa-item-config-app .buxa-rule-editor-intro { gap:12px; align-items:center; }
+.buxa-item-config-app .buxa-rule-card-header { min-height:48px; }
+.buxa-item-config-app :is(.buxa-item-field,.buxa-rule-field) { min-width:0; }
+.buxa-item-config-app :is(input,select,textarea) { max-width:100%; }
+.buxa-item-config-app :is(button,input,select,textarea,summary):focus-visible {
+  outline:2px solid var(--be-accent); outline-offset:2px;
+}
+.buxa-item-config-app .buxa-item-config-footer { flex-shrink:0; background:var(--be-bg); }
+
+/* The Effect editor uses the same low-profile navigation as the Item editor. */
+.buxa-effect-config-app .bfx-effect-editor { padding:0!important; color:var(--be-ink); }
+.buxa-effect-config-app .bfx-config-tabs {
+  position:sticky; top:0; z-index:14; display:grid!important;
+  grid-template-columns:repeat(6,minmax(0,1fr))!important; gap:2px!important;
+  margin:0 0 16px!important; padding:8px!important; overflow:visible!important;
+  background:var(--be-bg)!important; border:0!important; border-bottom:1px solid var(--be-line)!important;
+}
+.buxa-effect-config-app .bfx-config-tabs>button {
+  min-width:0!important; width:auto!important; min-height:40px!important; height:auto!important;
+  display:flex!important; align-items:center; justify-content:center; gap:6px!important;
+  padding:8px 4px!important; border:1px solid transparent!important; border-radius:0!important;
+  background:transparent!important; color:var(--be-muted)!important;
+  font:650 10px/1.3 Inter,'Segoe UI',sans-serif!important; letter-spacing:0;
+  transition:background 140ms,color 140ms,border-color 140ms; transform:none!important;
+}
+.buxa-effect-config-app .bfx-config-tabs>button i { display:inline-block!important; font-size:12px; }
+.buxa-effect-config-app .bfx-config-tabs>button.is-active {
+  color:var(--be-ink)!important; background:#19283c!important; border-color:#425c77!important;
+  box-shadow:inset 0 -2px var(--be-accent)!important;
+}
+.buxa-effect-config-app .bfx-config-tabs>button:hover { color:#fff!important; background:#152235!important; }
+.buxa-effect-config-app .buxa-item-config-stack { padding:0 18px 18px!important; }
+.buxa-effect-config-app .buxa-item-config-identity-v2 { align-items:start; gap:18px; }
+.buxa-effect-config-app .buxa-item-config-art { width:110px; height:130px; box-shadow:none; }
+.buxa-effect-config-app .buxa-item-config-primary-fields { gap:12px; }
+.buxa-effect-config-app .buxa-item-image-path { grid-column:1/-1; }
+.buxa-effect-config-app .bfx-behavior-panel {
+  padding:0; gap:20px; background:none; border:0; box-shadow:none;
+}
+.bfx-editor-heading { display:flex; align-items:center; gap:12px; }
+.bfx-editor-symbol {
+  width:36px; height:40px; display:grid; place-items:center; flex:none;
+  color:var(--be-accent); background:#18263a; border-left:2px solid #7d9dbc;
+}
+.bfx-behavior-panel .bfx-editor-heading h2 { font:650 18px/1.3 Inter,'Segoe UI',sans-serif; margin:0 0 3px; border:0; }
+.bfx-behavior-panel .bfx-editor-heading p { color:var(--be-muted); font-size:12px; }
+.bfx-lifecycle-summary {
+  margin:-8px 0 0; padding:10px 12px; min-height:36px; box-sizing:border-box;
+  font-size:11px; line-height:1.6; color:#c2d1e2; background:#ffffff04; border-left:2px solid #3a5069;
+}
+.bfx-behavior-panel .bfx-segment-field legend { margin-bottom:8px; font-size:10px; color:var(--be-muted); }
+.bfx-behavior-panel .bfx-segments { width:100%; padding:0; gap:6px; background:none; border:0; }
+.bfx-behavior-panel .bfx-segment { flex:1; min-width:0; }
+.bfx-behavior-panel .bfx-segment>span {
+  min-height:38px; padding:9px 12px; border:1px solid var(--be-line); background:#101b2a;
+  font-size:12px; box-shadow:none;
+}
+.bfx-behavior-panel .bfx-segment input:checked+span {
+  background:#1b2d43; border-color:#6c8baa; color:#eef4fc; box-shadow:inset 0 -2px #8caecd;
+}
+.bfx-behavior-panel .bfx-behavior-fields { gap:12px; }
+.bfx-behavior-panel .bfx-behavior-fields>label { font-size:11px; gap:7px; }
+.buxa-effect-config-app .bfx-behavior-panel .bfx-behavior-fields>label>span {
+  font:650 11px/1.4 Inter,'Segoe UI',sans-serif!important; color:var(--be-muted); letter-spacing:.01em;
+}
+.bfx-behavior-panel .bfx-behavior-fields :is(input,select) {
+  height:36px; background:#0c1522; border-color:var(--be-line); padding:0 10px;
+  font:500 12px/1.4 Inter,'Segoe UI',sans-serif!important;
+}
+.bfx-behavior-panel .is-disabled { opacity:.45; }
+.bfx-trigger-section { display:grid; gap:10px; }
+.bfx-trigger-section h3 { border:0; font-size:10px; letter-spacing:.08em; color:var(--be-muted); }
+.bfx-behavior-panel .bfx-trigger-grid { gap:8px; }
+.bfx-behavior-panel .bfx-trigger>span {
+  position:relative; min-height:66px; padding:12px 28px 12px 12px;
+  grid-template-columns:20px 1fr; column-gap:10px; row-gap:4px;
+  border-color:var(--be-line); background:#0d1724;
+}
+.bfx-behavior-panel .bfx-trigger i { font-size:14px; }
+.bfx-behavior-panel .bfx-trigger strong { font-size:12px; }
+.bfx-behavior-panel .bfx-trigger small { font-size:10px; line-height:1.4; }
+.bfx-behavior-panel .bfx-trigger>span::after {
+  content:''; position:absolute; right:11px; top:14px; width:8px; height:8px;
+  border:1px solid #52657c; background:transparent;
+}
+.bfx-behavior-panel .bfx-trigger input:checked+span {
+  background:#17263a; border-color:#6988a7; box-shadow:inset 2px 0 #91b2d1;
+}
+.bfx-behavior-panel .bfx-trigger input:checked+span::after { background:#a8c7e4; border-color:#a8c7e4; }
+.bfx-behavior-panel .bfx-trigger:hover>span { transform:none; border-color:#7a98b6; }
+.bfx-passive-note { margin:0; padding:12px; color:#b3c7dc; background:#121e2e; font-size:12px; line-height:1.6; }
+.bfx-passive-note i { margin-right:7px; }
+.bfx-effect-editor [hidden] { display:none!important; }
+
+/* Live Effect cards: one obvious open target, readable timer and quiet progress. */
+.bfx-effect-hud { gap:6px; padding:3px; scrollbar-color:#46566d transparent; }
+.bfx-effect-hud[hidden] { display:none!important; }
+.bfx-effect-hud .bfx-effect-card {
+  gap:0; min-height:58px; padding:0; overflow:hidden; border:1px solid #2d3a4d;
+  border-left:2px solid var(--rv-light,#a9bcd5); background:linear-gradient(105deg,#131e2df5,#090f19f5);
+  box-shadow:0 5px 15px #0006; border-radius:0;
+}
+.bfx-effect-hud-open {
+  appearance:none; display:flex; align-items:center; gap:10px; width:100%; height:auto;
+  min-width:0; min-height:58px; margin:0; padding:9px 25px 9px 9px;
+  background:transparent; border:0; border-radius:0; box-shadow:none; text-align:left;
+  color:var(--bfx-ink); cursor:pointer; font-family:Inter,'Segoe UI',sans-serif;
+}
+.bfx-effect-hud-open:hover { background:#ffffff05; box-shadow:none; }
+.bfx-effect-hud-open:focus-visible { outline:2px solid var(--rv-light,#a9bcd5); outline-offset:-3px; }
+.bfx-effect-hud .bfx-effect-hud-art { width:34px; height:34px; flex-basis:34px; border:0; background:transparent; }
+.bfx-effect-hud .bfx-effect-hud-name { font-size:12px; font-weight:650; }
+.bfx-effect-hud .bfx-effect-hud-time { font-size:10px; line-height:1.4; letter-spacing:0; }
+.bfx-effect-hud .bfx-effect-hud-remove {
+  width:20px; height:20px; min-height:20px; right:3px; top:3px; border:0; padding:0;
+  background:#181521; font-size:14px; line-height:1; opacity:0; transform:none;
+}
+.bfx-effect-hud .bfx-effect-card:is(:hover,:focus-within) .bfx-effect-hud-remove { opacity:1; pointer-events:auto; }
+.bfx-effect-hud-meter {
+  position:absolute; left:0; right:0; bottom:0; height:2px; pointer-events:none;
+  transform:scaleX(var(--bfx-remaining,1)); transform-origin:left;
+  background:var(--rv-light,#94b4d4); opacity:.8; transition:transform 220ms ease;
+}
+.bfx-effect-card.is-expiring .bfx-effect-hud-meter { background:var(--bfx-warn); }
+.bfx-effect-hud.is-compact .bfx-effect-hud-open { padding:5px; min-height:44px; justify-content:center; }
+.bfx-effect-hud.is-compact .bfx-effect-hud-copy { display:none; }
+.bfx-effect-hud.is-compact .bfx-effect-hud-remove { right:0; top:0; width:18px; height:18px; min-height:18px; }
+.bfx-effect-hud[data-side="left"] .bfx-effect-card.is-entering { transform:translateX(-15px); }
+.buxa-conditions-row { gap:6px; padding:8px 0; margin:5px 0 10px; background:none; border:0; }
+.buxa-conditions-row>strong { font-size:9px; }
+.bfx-condition-pill { background:#101a28; border-color:#344359; padding:4px 7px; }
+.bfx-condition-pill img { width:22px; height:22px; }
+.bfx-condition-pill button:focus-visible { outline:2px solid #a7bed9; }
+.bfx-effect-sheet .bfx-summary-stats { grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px 12px; }
+
+/* Respond to the window itself, even on a large desktop. */
+@container buxa-editor (max-width:560px) {
+  .buxa-effect-config-app .bfx-config-tabs { grid-template-columns:repeat(3,minmax(0,1fr))!important; }
+  .buxa-effect-config-app .bfx-config-tabs>button { min-height:34px!important; }
+  .buxa-effect-config-app .buxa-item-config-stack { padding:0 12px 12px!important; }
+  .bfx-behavior-panel .bfx-behavior-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .buxa-item-config-app .buxa-rule-editor-intro { align-items:start; flex-wrap:wrap; }
+  .buxa-item-config-app .buxa-rule-editor-intro>div { min-width:180px; flex:1; }
+  .buxa-item-config-app .buxa-storage-external-fields { grid-template-columns:repeat(2,minmax(0,1fr)) 36px!important; }
+  .buxa-item-config-app .buxa-storage-external-fields label:is(:first-child,:nth-child(2)) { grid-column:span 2; }
+  .buxa-item-config-app .buxa-storage-external-fields>button { grid-column:3; grid-row:1; }
+}
+@container buxa-editor (max-width:410px) {
+  .bfx-behavior-panel .bfx-trigger-grid { grid-template-columns:1fr; }
+  .bfx-behavior-panel .bfx-segment>span { padding:8px 5px; gap:5px; font-size:11px; }
+  .buxa-effect-config-app .buxa-item-config-identity-v2 { grid-template-columns:72px minmax(0,1fr); gap:12px; }
+  .buxa-effect-config-app .buxa-item-config-art { width:72px; height:90px; }
+  .buxa-effect-config-app .buxa-item-config-primary-fields { grid-template-columns:1fr; }
+}
+@media (hover:none) { .bfx-effect-hud .bfx-effect-hud-remove { opacity:1; pointer-events:auto; } }
+@media (prefers-reduced-motion:reduce) {
+  .buxa-item-config-app *, .bfx-effect-hud-meter { scroll-behavior:auto!important; transition:none!important; }
+}

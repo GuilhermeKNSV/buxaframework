@@ -1,0 +1,504 @@
+/* Buxa sidebar editor — compact glass controls (v0.17.21).
+   Square corners are a hard design invariant across all editor-owned UI.
+   Presentation only; persistence, permissions and layout data are unchanged. */
+:root {
+  --buxa-sbp-ink: #eaf5ff;
+  --buxa-sbp-subtle: #a9bbcb;
+  --buxa-sbp-accent: #83d9ff;
+  --buxa-sbp-glass: rgba(17, 32, 50, .86);
+  --buxa-sbp-glass-deep: rgba(8, 17, 29, .94);
+  --buxa-sbp-outline: rgba(171, 221, 246, .13);
+  --buxa-sbp-glow: rgba(87, 188, 249, .22);
+  --buxa-sbp-radius: 0;
+  --buxa-sbp-bubble-radius: 0;
+  --buxa-sbp-button-radius: 0;
+  --buxa-sbp-speed: 300ms;
+  --buxa-sbp-spring: cubic-bezier(.18,.83,.24,1.18);
+  --buxa-sbp-dock-width: 52px;
+  --buxa-sbp-bubble-size: 42px;
+}
+/* Existing native tab geometry stays untouched. Only editor-owned elements
+   are squared off, including floating menus, corners and action bubbles. */
+#sidebar .buxa-sb-nav > :is(.buxa-sb-edit-button,.buxa-sb-folder,.buxa-sb-drop-placeholder),
+#sidebar .buxa-sb-nav .buxa-sb-folder-count,
+.buxa-sb-drag-preview, .buxa-sb-toolbar, .buxa-sb-toolbar *,
+.buxa-sb-flyout, .buxa-sb-flyout *, .buxa-sb-drawer, .buxa-sb-drawer *,
+.buxa-sb-side-card, .buxa-sb-side-card *, .buxa-sb-save-menu,
+.buxa-sb-save-menu * { border-radius:0 !important; }
+#sidebar .buxa-sb-nav > .buxa-sb-edit-button { border-radius:0 !important; }
+#sidebar .buxa-sb-nav > .buxa-sb-folder { border-radius:0 !important; }
+#sidebar .buxa-sb-nav .buxa-sb-folder-count { border-radius:0 !important; }
+#sidebar .buxa-sb-nav > .buxa-sb-drop-placeholder { border-radius:0 !important; }
+.buxa-sb-drag-preview { border-radius:0 !important; }
+
+/* Opposite-edge dock. Foundry chrome is measured by the placement controller. */
+.buxa-sb-toolbar.buxa-sb-dock {
+  position:fixed; z-index:100030;
+  display:flex; flex-direction:column; align-items:stretch;
+  width:var(--buxa-sbp-dock-width); min-width:var(--buxa-sbp-dock-width);
+  max-width:var(--buxa-sbp-dock-width);max-height:calc(100dvh - 16px);
+  overflow:visible;gap:5px;padding:7px 6px;
+  background:linear-gradient(160deg,rgba(43,68,90,.88),var(--buxa-sbp-glass) 38%,var(--buxa-sbp-glass-deep));
+  border:1px solid var(--buxa-sbp-outline);
+  border-radius:0 !important;
+  box-shadow:0 12px 32px rgba(0,0,0,.42),0 0 22px var(--buxa-sbp-glow),inset 0 1px 0 rgba(255,255,255,.12);
+  -webkit-backdrop-filter:blur(17px) saturate(145%);
+  backdrop-filter:blur(17px) saturate(145%);
+  animation:buxa-sbp-dock-arrive 450ms var(--buxa-sbp-spring) both;
+  transform-origin:right center;
+}
+.buxa-sb-toolbar.buxa-sb-dock.is-left-sidebar {transform-origin:left center;}
+/* GM Controls (z-index:99) takes precedence while expanded. Rather than
+   drifting over the board or covering its settings, the dock slides below
+   that panel and returns to its fixed lower-left anchor when it closes. */
+.buxa-sb-toolbar.buxa-sb-dock.is-gm-covered {
+  z-index:98;
+  pointer-events:none;
+  opacity:.7;
+  translate:-12px 0;
+  transition:translate 230ms cubic-bezier(.22,.8,.25,1), opacity 180ms ease;
+}
+.buxa-sb-toolbar.buxa-sb-dock:not(.is-gm-covered) {
+  translate:0 0;
+  transition:translate 230ms cubic-bezier(.22,.8,.25,1), opacity 180ms ease;
+}
+
+.buxa-sb-toolbar.buxa-sb-dock::before {display:none;}
+.buxa-sb-toolbar.buxa-sb-dock.is-leaving {pointer-events:none;animation:buxa-sbp-dock-leave 220ms ease-in both;}
+.buxa-sb-dock .buxa-sb-dock-group {display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;position:relative;}
+.buxa-sb-dock .buxa-sb-dock-group + .buxa-sb-dock-group {padding-top:6px;margin-top:3px;}
+.buxa-sb-dock .buxa-sb-dock-group + .buxa-sb-dock-group::before {
+  content:'';position:absolute;top:0;left:10px;right:10px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(160,207,238,.28),transparent);
+}
+.buxa-sb-dock .buxa-sb-save-group {border-radius:0 !important;background:linear-gradient(180deg,#a7ecff,#53b9e4);padding:3px 2px 2px;box-shadow:0 4px 12px #54c0ed3f;gap:0;}
+.buxa-sb-toolbar.buxa-sb-dock .buxa-sb-dock-button {
+  all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;width:36px;height:36px;min-height:36px;
+  padding:0;margin:0;color:var(--buxa-sbp-ink);
+  border-radius:0 !important;
+  font-size:16px;text-align:center;
+  transition:transform var(--buxa-sbp-speed) var(--buxa-sbp-spring),
+    color 180ms ease,background 180ms ease,box-shadow 200ms ease;
+}
+.buxa-sb-toolbar.buxa-sb-dock .buxa-sb-dock-button i{font-size:16px;line-height:1;flex:none;width:auto;}
+.buxa-sb-dock .buxa-sb-save-group .buxa-sb-dock-button {color:#082238;}
+.buxa-sb-dock .buxa-sb-save-group .buxa-sb-dock-save-arrow {height:17px;min-height:17px;font-size:10px;}
+.buxa-sb-dock .buxa-sb-save-group .buxa-sb-dock-save-arrow i {font-size:10px;}
+.buxa-sb-toolbar.buxa-sb-dock .buxa-sb-dock-button:hover:not(:disabled),
+.buxa-sb-toolbar.buxa-sb-dock .buxa-sb-dock-button:focus-visible {
+  background:rgba(147,219,254,.15);color:#fff;transform:scale(1.10);
+  box-shadow:0 0 13px rgba(92,202,255,.16);
+}
+.buxa-sb-toolbar.buxa-sb-dock .buxa-sb-save-group .buxa-sb-dock-button:hover:not(:disabled){color:#061521;background:rgba(255,255,255,.22);}
+.buxa-sb-dock .buxa-sb-dock-button.is-on {color:#9fe9ff;background:rgba(99,203,248,.19);box-shadow:inset 0 0 0 1px #8ad9ff50;}
+.buxa-sb-dock .buxa-sb-dock-button.buxa-sb-dock-toggle::before {
+  content:'';position:absolute;bottom:2px;left:10px;width:16px;height:4px;
+  border-radius:0 !important;background:rgba(139,161,181,.36);
+  transition:background 190ms ease,box-shadow 190ms ease;
+}
+.buxa-sb-dock .buxa-sb-dock-button.buxa-sb-dock-toggle.is-on::before {
+  background:#98e8ff;box-shadow:0 0 7px #71ddff9a;
+}
+.buxa-sb-dock .buxa-sb-dock-button:disabled {opacity:.45;cursor:wait;}
+.buxa-sb-dock .buxa-sb-dock-collapse {padding-top:4px!important;margin-top:2px!important;}
+.buxa-sb-dock .buxa-sb-dock-collapse .buxa-sb-dock-button {height:24px;min-height:24px;color:#8da9bd;}
+.buxa-sb-dock .buxa-sb-dock-collapse .buxa-sb-dock-button i {font-size:12px;}
+.buxa-sb-dock .buxa-sb-dock-extras,
+.buxa-sb-dock .buxa-sb-dock-more {
+  max-height:160px;opacity:1;transform:scaleY(1);transform-origin:top;
+  transition:max-height 300ms ease,opacity 220ms ease,transform 300ms var(--buxa-sbp-spring);
+}
+.buxa-sb-dock.is-compact .buxa-sb-dock-extras,
+.buxa-sb-dock.is-space-constrained .buxa-sb-dock-extras,
+.buxa-sb-dock.is-compact .buxa-sb-dock-more,
+.buxa-sb-dock.is-space-constrained .buxa-sb-dock-more {
+  max-height:0;opacity:0;transform:scaleY(.72);overflow:hidden;pointer-events:none;
+  padding:0!important;margin:0!important;
+}
+.buxa-sb-dock .buxa-sb-dock-save-arrow {transition:height 260ms ease,min-height 260ms ease,opacity 190ms ease!important;overflow:hidden;}
+.buxa-sb-dock.is-compact .buxa-sb-dock-save-arrow,
+.buxa-sb-dock.is-space-constrained .buxa-sb-dock-save-arrow {
+  height:0!important;min-height:0!important;opacity:0;pointer-events:none;
+}
+.buxa-sb-dock.is-compact .buxa-sb-dock-collapse,
+.buxa-sb-dock.is-space-constrained .buxa-sb-dock-collapse {
+  position:absolute;top:calc(100% - 2px);left:9px;width:32px;padding:0!important;
+  border-radius:0 !important;opacity:.72;display:grid;place-items:center;
+  background:rgba(14,30,47,.94);
+}
+.buxa-sb-dock.is-compact .buxa-sb-dock-collapse::before,
+.buxa-sb-dock.is-space-constrained .buxa-sb-dock-collapse::before {display:none;}
+.buxa-sb-dock.is-compact .buxa-sb-dock-collapse:hover,
+.buxa-sb-dock.is-space-constrained .buxa-sb-dock-collapse:hover {opacity:1;}
+.buxa-sb-dock.is-compact .buxa-sb-dock-collapse i,
+.buxa-sb-dock.is-space-constrained .buxa-sb-dock-collapse i{transform:rotate(180deg);}
+
+/* Tooltips are hover-only, positioned toward screen centre. */
+.buxa-sb-dock-button[data-tip]::after,.buxa-sb-context-action[data-tip]::after{
+  content:attr(data-tip);position:absolute;top:50%;right:calc(100% + 13px);
+  transform:translate(7px,-50%);opacity:0;visibility:hidden;pointer-events:none;
+  padding:7px 10px;white-space:nowrap;min-width:max-content;
+  color:#edf7ff;font-size:12px;font-family:Inter,'Segoe UI',sans-serif;font-weight:650;
+  background:rgba(15,29,46,.96);border:1px solid rgba(144,208,246,.15);
+  border-radius:0 !important;box-shadow:0 8px 20px #0008;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  transition:opacity 170ms ease,transform 220ms ease,visibility 170ms;z-index:12;
+}
+.buxa-sb-dock-button[data-tip]:hover::after,.buxa-sb-dock-button[data-tip]:focus-visible::after,
+.buxa-sb-context-action[data-tip]:hover::after,.buxa-sb-context-action[data-tip]:focus-visible::after {opacity:1;visibility:visible;transform:translate(0,-50%);}
+.buxa-sb-dock.is-left-sidebar .buxa-sb-dock-button[data-tip]::after,
+.buxa-sb-context:not(.is-right-sidebar) .buxa-sb-context-action[data-tip]::after {right:auto;left:calc(100% + 13px);transform:translate(-7px,-50%);}
+.buxa-sb-dock.is-left-sidebar .buxa-sb-dock-button[data-tip]:hover::after,
+.buxa-sb-context:not(.is-right-sidebar) .buxa-sb-context-action[data-tip]:hover::after {transform:translate(0,-50%);}
+
+/* Save / more popouts. No dim or modal. */
+.buxa-sb-save-menu {
+  position:fixed;z-index:100090;width:202px;display:grid;gap:4px;padding:6px;
+  border:1px solid var(--buxa-sbp-outline);border-radius:0 !important;
+  background:linear-gradient(160deg,rgba(32,52,70,.96),rgba(9,19,33,.97));
+  box-shadow:0 18px 38px #0009,0 0 16px rgba(90,180,245,.13);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  animation:buxa-sbp-pop 280ms var(--buxa-sbp-spring) both;
+}
+.buxa-sb-save-menu .buxa-sb-save-option {
+  all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:flex-start;gap:12px;
+  cursor:pointer;min-height:38px;padding:10px;border-radius:0 !important;
+  font-size:12px;font-weight:650;color:#deedf9;
+  transition:background 180ms ease,color 180ms ease,transform 180ms ease;
+}
+.buxa-sb-save-option i{font-size:15px;width:18px;text-align:center;color:#91d9fb;}
+.buxa-sb-save-option:hover{background:rgba(116,195,244,.16);color:#fff;transform:translateX(2px);}
+.buxa-sb-save-menu.is-leaving {pointer-events:none;animation:buxa-sbp-pop-leave 180ms ease-in both;}
+
+/* Fanned, staggered action bubbles, with no rectangular menu behind them. */
+.buxa-sb-context.buxa-sb-bubbles {
+  display:flex;flex-direction:row;align-items:center;justify-content:center;
+  width:auto;min-width:0;gap:7px;padding:2px;
+  background:none;border:0;box-shadow:none;backdrop-filter:none;
+  border-radius:0 !important;animation:none;
+}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action {
+  all:unset;box-sizing:border-box;display:grid;place-items:center;
+  position:relative;cursor:pointer;width:var(--buxa-sbp-bubble-size);
+  height:var(--buxa-sbp-bubble-size);flex:none;color:#d9efff;
+  background:radial-gradient(circle at 30% 18%,rgba(100,160,210,.34),transparent 55%),rgba(17,36,54,.91);
+  border:1px solid rgba(164,217,245,.27);
+  border-radius:0 !important;
+  box-shadow:0 9px 23px #0008,inset 0 1px 0 #ffffff2a,0 0 8px #83d1ff15;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  animation:buxa-sbp-bubble-in 380ms var(--buxa-sbp-spring) both;
+  animation-delay:calc(var(--buxa-sbp-bubble-i,0) * 48ms);
+  transition:box-shadow 180ms ease,background 180ms ease,transform 230ms var(--buxa-sbp-spring);
+}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action:nth-child(2){--buxa-sbp-bubble-i:1;}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action:nth-child(3){--buxa-sbp-bubble-i:2;}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action i {font-size:17px;width:auto;text-align:center;}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action.is-destructive {color:#ff9ca7;border-color:#ff849047;background:radial-gradient(circle at 30% 18%,#ff9aa621,transparent 65%),rgba(45,20,32,.93);}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action:hover:not(:disabled){
+  transform:translateY(-3px) scale(1.06);background:rgba(39,84,117,.96);
+  box-shadow:0 12px 26px #000a,0 0 18px #91dcff6a;
+}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action.is-destructive:hover:not(:disabled){background:rgba(90,34,49,.96);box-shadow:0 12px 26px #000a,0 0 19px #ff6f8c5a;}
+.buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action:disabled{opacity:.25;cursor:not-allowed;}
+.buxa-sb-context.buxa-sb-bubbles.is-leaving {pointer-events:none;animation:none;}
+.buxa-sb-context.buxa-sb-bubbles.is-leaving .buxa-sb-context-action {
+  animation:buxa-sbp-bubble-out 190ms ease-in both;
+  animation-delay:calc((2 - var(--buxa-sbp-bubble-i,0))*20ms);
+}
+
+/* Small floating contextual cards, no dimming or backdrop. */
+.buxa-sb-dialog.buxa-sb-side-card {
+  position:fixed;z-index:100100;width:min(286px,calc(100vw - 18px));
+  max-height:min(540px,calc(100dvh - 16px));overflow:auto;
+  padding:16px;background:linear-gradient(156deg,rgba(38,62,80,.96),rgba(11,23,39,.97) 58%,rgba(7,17,31,.98));
+  border:1px solid var(--buxa-sbp-outline);border-radius:0 !important;
+  box-shadow:0 21px 46px #0009,0 0 22px #79c9f318,inset 0 1px 0 #ffffff17;
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  animation:buxa-sbp-card-in 350ms var(--buxa-sbp-spring) both;
+  transform-origin:100% 18%;
+}
+.buxa-sb-side-card:not(.is-right-sidebar){transform-origin:0 18%;}
+.buxa-sb-side-card.is-leaving{pointer-events:none;animation:buxa-sbp-card-out 200ms ease-in both;}
+.buxa-sb-side-card::before{content:none;}
+.buxa-sb-side-card .buxa-sb-dialog-header{gap:4px;margin:0 0 12px;}
+.buxa-sb-side-card .buxa-sb-dialog-header h2{font-size:18px;line-height:1.3;}
+.buxa-sb-side-card .buxa-sb-hide-dialog>p{font-size:12px;line-height:1.5;margin:0 0 10px;}
+.buxa-sb-side-card .buxa-sb-choice{min-height:34px;padding:8px 10px;background:#ffffff0b;border:1px solid #c4dceb1a;border-radius:0 !important;font-size:12px;}
+.buxa-sb-side-card .buxa-sb-choice:has(input:checked){background:#6fc6ef26;border-color:#91dffa82;}
+.buxa-sb-side-card .buxa-sb-player-list{max-height:125px;border-radius:0 !important;padding:8px;}
+.buxa-sb-side-card .buxa-sb-player-list[hidden]{display:none!important;}
+.buxa-sb-side-card .buxa-sb-dialog-footer{margin-top:14px;gap:8px;}
+.buxa-sb-side-card .buxa-sb-dialog-button{padding:9px 12px;font-size:12px;border-radius:0 !important;}
+.buxa-sb-side-card .buxa-sb-folder-edit{gap:11px;}
+.buxa-sb-side-card .buxa-sb-input{min-height:37px;border-radius:0 !important;font-size:12px;}
+.buxa-sb-side-card .buxa-sb-browse{padding:9px;border-radius:0 !important;}
+.buxa-sb-side-card .buxa-sb-preview{padding:9px;border-radius:0 !important;}
+
+/* Thin tray; only as tall as its content, never full-height. */
+.buxa-sb-drawer {
+  width:195px!important;max-width:calc(100vw - 18px)!important;
+  max-height:min(390px,55dvh)!important;overflow-y:auto;padding:12px;
+  border-radius:0 !important;
+  border:1px solid var(--buxa-sbp-outline);
+  background:linear-gradient(156deg,rgba(32,54,74,.96),rgba(8,20,36,.97));
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  animation:buxa-sbp-card-in 360ms var(--buxa-sbp-spring) both;
+}
+.buxa-sb-drawer::before{content:none;}
+.buxa-sb-drawer.is-leaving {animation:buxa-sbp-card-out 200ms ease-in both;}
+.buxa-sb-drawer-header h3{font-size:15px;}
+.buxa-sb-drawer-help{font-size:11px;line-height:1.4;margin:7px 0 10px;}
+.buxa-sb-drawer-items{gap:4px;}
+.buxa-sb-drawer .buxa-sb-drawer-item{
+  min-height:35px;justify-content:flex-start;padding:7px 9px;font-size:12px;
+  background:#ffffff0d;border:1px solid transparent;border-radius:0 !important;
+}
+.buxa-sb-drawer .buxa-sb-drawer-item:hover:not(:disabled){background:#76caf02c;transform:translateX(3px);}
+.buxa-sb-drawer .buxa-sb-drawer-item {animation:buxa-sbp-card-in 270ms var(--buxa-sbp-spring) both;}
+.buxa-sb-drawer .buxa-sb-drawer-item:nth-child(2){animation-delay:30ms;}
+.buxa-sb-drawer .buxa-sb-drawer-item:nth-child(3){animation-delay:60ms;}
+.buxa-sb-drawer .buxa-sb-drawer-item:nth-child(n+4){animation-delay:90ms;}
+.buxa-sb-flyout {border-radius:0 !important;background:linear-gradient(158deg,rgba(30,51,70,.95),rgba(8,17,31,.97));}
+.buxa-sb-flyout .buxa-sb-flyout-tab{border-radius:0 !important;}
+.buxa-sb-flyout.is-leaving {animation:buxa-sbp-card-out 200ms ease-in both;}
+
+/* The relocated dock enters from the viewport edge, never from the sidebar. */
+.buxa-sb-toolbar.buxa-sb-dock.is-left-sidebar:not(.is-leaving) {
+  animation-name:buxa-sbp-dock-arrive-left;
+}
+.buxa-sb-toolbar.buxa-sb-dock.is-left-sidebar.is-leaving {
+  animation-name:buxa-sbp-dock-leave-left;
+}
+@keyframes buxa-sbp-dock-arrive-left {
+  from{opacity:0;translate:-18px 0;scale:.88;filter:blur(4px)}
+  65%{opacity:1;translate:3px 0;scale:1.03;filter:blur(0)}
+  to{opacity:1;translate:0 0;scale:1;filter:blur(0)}
+}
+@keyframes buxa-sbp-dock-leave-left {
+  from{opacity:1;translate:0;scale:1}
+  to{opacity:0;translate:-17px 0;scale:.9}
+}
+@keyframes buxa-sbp-dock-arrive {
+  from {opacity:0;translate:18px 0;scale:.88;filter:blur(4px)}
+  65% {opacity:1;translate:-3px 0;scale:1.03;filter:blur(0)}
+  to {opacity:1;translate:0 0;scale:1;filter:blur(0)}
+}
+@keyframes buxa-sbp-dock-leave {from{opacity:1;translate:0;scale:1}to{opacity:0;translate:17px 0;scale:.9}}
+@keyframes buxa-sbp-pop{from{opacity:0;transform:translateX(12px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes buxa-sbp-pop-leave{to{opacity:0;transform:translateX(12px) scale(.9)}}
+@keyframes buxa-sbp-bubble-in{from{opacity:0;transform:translateX(25px) scale(.24)}65%{opacity:1;transform:translateX(-2px) scale(1.1)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes buxa-sbp-bubble-out{to{opacity:0;transform:translateX(25px) scale(.24)}}
+@keyframes buxa-sbp-card-in{from{opacity:0;transform:translateX(16px) scale(.92)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes buxa-sbp-card-out{to{opacity:0;transform:translateX(13px) scale(.94)}}
+@media(max-height:630px) {
+  .buxa-sb-toolbar.buxa-sb-dock {gap:2px;padding:4px;--buxa-sbp-dock-width:46px;}
+  .buxa-sb-toolbar.buxa-sb-dock .buxa-sb-dock-button{width:34px;height:31px;min-height:31px;}
+  .buxa-sb-toolbar.buxa-sb-dock .buxa-sb-dock-collapse .buxa-sb-dock-button{height:20px;min-height:20px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .buxa-sb-toolbar.buxa-sb-dock, .buxa-sb-toolbar.buxa-sb-dock.is-leaving,
+  .buxa-sb-save-menu,.buxa-sb-save-menu.is-leaving,
+  .buxa-sb-context.buxa-sb-bubbles .buxa-sb-context-action,
+  .buxa-sb-context.buxa-sb-bubbles.is-leaving .buxa-sb-context-action,
+  .buxa-sb-dialog.buxa-sb-side-card,.buxa-sb-dialog.buxa-sb-side-card.is-leaving,
+  .buxa-sb-drawer,.buxa-sb-drawer.is-leaving,
+  .buxa-sb-flyout,.buxa-sb-flyout.is-leaving,
+  .buxa-sb-drawer .buxa-sb-drawer-item,
+  .buxa-sb-dock .buxa-sb-dock-extras,.buxa-sb-dock .buxa-sb-dock-more,
+  .buxa-sb-dock .buxa-sb-dock-save-arrow {animation:none!important;transition:none!important;}
+}
+
+/* Square-corner invariant. This late safeguard covers pseudo-elements and
+   externally themed native sidebar children without touching Foundry tabs. */
+#sidebar .buxa-sb-nav :is(.buxa-sb-edit-button,.buxa-sb-folder,.buxa-sb-drop-placeholder,.buxa-sb-folder-count),
+#sidebar .buxa-sb-nav :is(.buxa-sb-edit-button,.buxa-sb-folder,.buxa-sb-drop-placeholder,.buxa-sb-folder-count)::before,
+#sidebar .buxa-sb-nav :is(.buxa-sb-edit-button,.buxa-sb-folder,.buxa-sb-drop-placeholder,.buxa-sb-folder-count)::after,
+.buxa-sb-toolbar, .buxa-sb-toolbar *, .buxa-sb-toolbar *::before, .buxa-sb-toolbar *::after,
+.buxa-sb-save-menu, .buxa-sb-save-menu *, .buxa-sb-save-menu *::before, .buxa-sb-save-menu *::after,
+.buxa-sb-context, .buxa-sb-context *, .buxa-sb-context *::before, .buxa-sb-context *::after,
+.buxa-sb-dialog, .buxa-sb-dialog *, .buxa-sb-dialog *::before, .buxa-sb-dialog *::after,
+.buxa-sb-drawer, .buxa-sb-drawer *, .buxa-sb-drawer *::before, .buxa-sb-drawer *::after,
+.buxa-sb-flyout, .buxa-sb-flyout *, .buxa-sb-flyout *::before, .buxa-sb-flyout *::after,
+.buxa-sb-drag-preview, .buxa-sb-drag-preview * { border-radius:0 !important; }
+
+/* v0.17.23 — folder fan is a compact horizontal row of native-sized icons.
+   No bulky title card. It expands AWAY from the sidebar, staying inside view. */
+.buxa-sb-flyout {
+  box-sizing:border-box;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center;
+  gap:0;
+  min-width:0!important;
+  width:max-content!important;
+  max-width:min(620px,calc(100vw - 76px));
+  /* Match the real native Foundry tab surface, not an arbitrary 33px tile. */
+  height:calc(var(--buxa-sb-native-tab-height, 32px) + 8px);
+  min-height:calc(var(--buxa-sb-native-tab-height, 32px) + 8px);
+  padding:3px!important;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:thin;
+  border:1px solid rgba(125,173,213,.20);
+  border-radius:0 !important;
+  background:linear-gradient(165deg,#1e3044ee,#101c2fee);
+  box-shadow:0 9px 22px #0008,0 0 11px #89cff724;
+  animation:buxa-sbp-folder-strip .20s cubic-bezier(.18,.85,.2,1) both;
+}
+.buxa-sb-flyout-title {display:none!important;}
+.buxa-sb-flyout-buttons {
+  display:flex!important;
+  flex-wrap:nowrap;
+  align-items:center;
+  flex-direction:row;
+  gap:4px;
+  width:max-content;
+  min-width:0;
+}
+.buxa-sb-flyout .buxa-sb-flyout-tab {
+  all:unset;
+  box-sizing:border-box;
+  position:relative;
+  display:grid!important;
+  place-items:center;
+  flex:none;
+  width:var(--buxa-sb-native-tab-width, 32px)!important;
+  height:var(--buxa-sb-native-tab-height, 32px)!important;
+  padding:0!important;
+  border-radius:0 !important;
+  color:#ecf3fe;
+  border:1px solid rgba(135,165,198,.25);
+  background:linear-gradient(165deg,#313747,#202335);
+  box-shadow:inset 0 1px 0 #ffffff12,0 2px 7px #0005;
+  cursor:pointer;
+  animation:buxa-sbp-folder-fan .21s ease-out backwards;
+  animation-delay:calc(var(--buxa-sb-fan-index, 0) * 20ms);
+  transition:background 130ms ease,box-shadow 130ms ease,transform 140ms ease;
+}
+.buxa-sb-flyout .buxa-sb-flyout-tab:nth-child(2){--buxa-sb-fan-index:1;}
+.buxa-sb-flyout .buxa-sb-flyout-tab:nth-child(3){--buxa-sb-fan-index:2;}
+.buxa-sb-flyout .buxa-sb-flyout-tab:nth-child(4){--buxa-sb-fan-index:3;}
+.buxa-sb-flyout .buxa-sb-flyout-tab:nth-child(5){--buxa-sb-fan-index:4;}
+.buxa-sb-flyout .buxa-sb-flyout-tab:nth-child(n+6){--buxa-sb-fan-index:5;}
+.buxa-sb-flyout .buxa-sb-flyout-tab:hover {
+  transform:translateY(-2px)!important;
+  color:#fff;
+  border-color:#8bdafa88;
+  background:linear-gradient(155deg,#365773,#273a56);
+  box-shadow:0 0 10px #8edbff45;
+}
+.buxa-sb-flyout .buxa-sb-flyout-tab :is(i,svg,img) {
+  display:block;
+  width:var(--buxa-sb-native-icon-size, 18px);
+  height:var(--buxa-sb-native-icon-size, 18px);
+  font-size:var(--buxa-sb-native-icon-size, 18px);
+  line-height:1;
+  text-align:center;
+  object-fit:contain;
+}
+.buxa-sb-flyout .buxa-sb-flyout-tab svg {
+  width:var(--buxa-sb-native-icon-size, 18px);
+  height:var(--buxa-sb-native-icon-size, 18px);
+}
+@keyframes buxa-sbp-folder-strip {from{opacity:0;scale:.9 .96}to{opacity:1;scale:1 1}}
+@keyframes buxa-sbp-folder-fan {from{opacity:0;transform:translateX(11px) scale(.83)}to{opacity:1;transform:translateX(0) scale(1)}}
+
+/* Pointer tracking is compositor-only; don't transition the ghost's position.
+   Native neighbors use one short FLIP per reposition, not overlapping 235ms
+   animations that leave the preview and layout far behind the cursor. */
+.buxa-sb-drag-preview {
+  will-change:translate;
+  transition:none!important;
+  contain:layout style paint;
+}
+#sidebar .buxa-sb-nav.buxa-sb-drag-active > [data-buxa-button-id]:not(.buxa-sb-being-dragged) {
+  transition:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .buxa-sb-flyout,.buxa-sb-flyout .buxa-sb-flyout-tab {animation:none!important;transition:none!important;}
+}
+
+/* Dedicated folder insertion drawer. It lives above (not inside) Foundry's
+   clipped sidebar, slides out from behind its folder only while dragging.
+   The folder button itself remains an ordinary reorder target. */
+.buxa-sb-folder-slot {
+  position:fixed;
+  z-index:100055;
+  box-sizing:border-box;
+  display:grid;
+  place-items:center;
+  pointer-events:none;
+  border-radius:0 !important;
+  border:1px dashed rgba(150,210,244,.66);
+  color:#a9def8;
+  background:linear-gradient(150deg,rgba(38,69,93,.98),rgba(13,30,48,.98));
+  box-shadow:inset 0 0 0 1px #ffffff0b,0 7px 15px #0007,0 0 12px #83d8ff1b;
+  animation:buxa-sb-folder-slot-out 180ms cubic-bezier(.18,.82,.25,1.08) both;
+  transition:background 115ms ease,border-color 115ms ease,box-shadow 115ms ease;
+}
+.buxa-sb-folder-slot i {
+  font-size:14px;
+  line-height:1;
+  transition:transform 130ms cubic-bezier(.2,.8,.25,1.1);
+}
+.buxa-sb-folder-slot::before {
+  content:'';
+  position:absolute;
+  right:100%;
+  top:calc(50% - 1px);
+  width:8px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(140,211,246,.65));
+}
+.buxa-sb-folder-slot:not(.from-left-sidebar)::before {
+  right:auto;
+  left:100%;
+  background:linear-gradient(90deg,rgba(140,211,246,.65),transparent);
+}
+.buxa-sb-folder-slot.is-armed {
+  color:#f2fbff;
+  border-style:solid;
+  border-color:#b4ebff;
+  background:linear-gradient(155deg,rgba(55,107,137,.98),rgba(24,66,94,.98));
+  box-shadow:inset 0 0 0 1px #a9e6ff2a,0 8px 18px #0008,0 0 17px #81d9ff8b;
+}
+.buxa-sb-folder-slot.is-armed i {transform:scale(1.25);}
+@keyframes buxa-sb-folder-slot-out {
+  from {opacity:0;transform:translateX(var(--buxa-sb-slot-slide, 32px)) scale(.84);}
+  to {opacity:1;transform:translateX(0) scale(1);}
+}
+@media (prefers-reduced-motion:reduce) {
+  .buxa-sb-folder-slot,.buxa-sb-folder-slot i {animation:none!important;transition:none!important;}
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .buxa-sb-toolbar.buxa-sb-dock.is-gm-covered,
+  .buxa-sb-toolbar.buxa-sb-dock:not(.is-gm-covered) {transition:none;}
+}
+
+/* v0.17.31: narrow / expanded sidebar. Keep folder icons in the free gutter,
+   never draw the horizontal fan over the native item/scene directory. */
+.buxa-sb-flyout.is-vertical {
+  flex-direction:column!important;
+  width:calc(var(--buxa-sb-native-tab-width, 32px) + 8px)!important;
+  min-width:calc(var(--buxa-sb-native-tab-width, 32px) + 8px)!important;
+  height:auto!important;
+  min-height:0!important;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+.buxa-sb-flyout.is-vertical .buxa-sb-flyout-buttons {
+  flex-direction:column!important;
+  width:100%;
+}
+.buxa-sb-flyout.is-vertical .buxa-sb-flyout-tab {
+  animation-name:buxa-sbp-folder-vertical;
+}
+@keyframes buxa-sbp-folder-vertical {
+  from {opacity:0;transform:translateY(-7px) scale(.88)}
+  to {opacity:1;transform:translateY(0) scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .buxa-sb-flyout.is-vertical .buxa-sb-flyout-tab {animation:none!important;}
+}

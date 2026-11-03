@@ -1,0 +1,43 @@
+/* Shared materials and motion. Identity comes from core/rarity-visuals.js.
+   Lighting is confined to ornament layers; text and artwork never hue-rotate. */
+.buxa-visual {
+  --rv-wash: color-mix(in srgb, var(--rv-light) 18%, transparent);
+  --rv-line: color-mix(in srgb, var(--rv-light) 48%, #141820);
+  --rv-metal: color-mix(in srgb, var(--rv-light) 20%, #48505a);
+  --rv-surface: linear-gradient(120deg, #ffffff05, transparent 42%, #0004);
+  --rv-border-style: solid;
+}
+.buxa-material-ash { --rv-surface: repeating-linear-gradient(161deg, #ffffff06 0 1px, transparent 1px 17px); --rv-border-style: dashed; }
+.buxa-material-iron { --rv-surface: linear-gradient(135deg, #e7f0ff0b, transparent 45%, #0005); }
+.buxa-material-verdant { --rv-surface: radial-gradient(ellipse at 0 100%, var(--rv-wash), transparent 60%), repeating-linear-gradient(125deg, transparent 0 18px, #8cff9f06 18px 19px); }
+.buxa-material-etched { --rv-surface: repeating-linear-gradient(90deg, transparent 0 31px, #89c4ff0b 31px 32px), repeating-linear-gradient(0deg, transparent 0 31px, #89c4ff08 31px 32px); }
+.buxa-material-arcane { --rv-surface: repeating-conic-gradient(from 45deg at 85% 20%, transparent 0 43deg, #d1b0ff0c 44deg 45deg), radial-gradient(ellipse at 90% 0, var(--rv-wash), transparent 55%); }
+.buxa-material-gilded { --rv-surface: radial-gradient(ellipse at 50% 120%, var(--rv-wash), transparent 65%), repeating-linear-gradient(0deg, transparent 0 5px, #fff3c103 5px 6px); }
+.buxa-material-prism { --rv-surface: conic-gradient(from 155deg at 85% 15%, #8ef7d615, transparent 25%, #cda5ff17 45%, transparent 60%, #ffd89112 85%, #8ef7d615); }
+.buxa-material-reliquary { --rv-surface: repeating-linear-gradient(90deg, transparent 0 10px, #ffb6d809 10px 11px, transparent 11px 16px), radial-gradient(ellipse at top, var(--rv-wash), transparent 70%); --rv-border-style: double; }
+.buxa-material-forged { --rv-surface: repeating-linear-gradient(0deg, #ffffff04 0 1px, transparent 1px 3px), linear-gradient(115deg, transparent 30%, #fff4 30.3%, #fff1 30.8%, transparent 31.3%); --rv-border-style: double; }
+.buxa-material-obsidian { --rv-surface: repeating-linear-gradient(130deg, transparent 0 35px, #d0c5ff0c 36px, #0006 37px, transparent 40px), radial-gradient(ellipse at 50% 0, #9b89d020, transparent 55%); }
+.buxa-material-celestial { --rv-surface: radial-gradient(circle at 20% 17%, #f1feff90 0 .7px, transparent 1.5px), radial-gradient(circle at 79% 34%, #f1feff80 0 .6px, transparent 1.5px), linear-gradient(160deg, #d7faff12, transparent 45%, #78ddff08); }
+.buxa-material-scarlet { --rv-surface: repeating-linear-gradient(145deg, transparent 0 26px, #ff8e8e14 26px 27px, transparent 27px 30px), radial-gradient(ellipse at 85% 0, var(--rv-wash), transparent 65%); }
+
+@keyframes buxa-rv-still { from, to { opacity: .5; } }
+@keyframes buxa-rv-bloom { 0%,100% { opacity: .35; transform: scale(.97); } 50% { opacity: .7; transform: scale(1.03); } }
+@keyframes buxa-rv-scan { 0%,15% { opacity: .2; transform: translateY(-5px); } 65% { opacity: .7; } 100% { opacity: .2; transform: translateY(5px); } }
+@keyframes buxa-rv-orbit { 0%,100% { opacity: .4; transform: rotate(-4deg) scale(.98); } 50% { opacity: .8; transform: rotate(4deg) scale(1.04); } }
+@keyframes buxa-rv-ember { 0%,100% { opacity: .45; transform: translateY(4px); } 45% { opacity: .85; transform: translateY(-4px); } }
+@keyframes buxa-rv-aurora { 0%,100% { opacity: .5; transform: skewX(-5deg) translateX(-3px); } 50% { opacity: .9; transform: skewX(5deg) translateX(3px); } }
+@keyframes buxa-rv-ritual { 0%,100% { opacity: .45; transform: scale(.98); } 40%,60% { opacity: .85; transform: scale(1.01); } }
+@keyframes buxa-rv-temper { 0%,60%,100% { opacity: .4; transform: translateX(-3px); } 70%,80% { opacity: .95; transform: translateX(3px); } }
+@keyframes buxa-rv-veil { 0%,100% { opacity: .22; transform: skewY(-2deg); } 45% { opacity: .65; transform: skewY(2deg); } 65% { opacity: .3; } }
+@keyframes buxa-rv-dawn { 0%,100% { opacity: .55; transform: scaleY(.96); } 50% { opacity: .95; transform: scaleY(1.04); } }
+@keyframes buxa-rv-fracture { 0%,65%,100% { opacity: .45; transform: translateY(0); } 70% { opacity: .9; transform: translateY(-2px); } 80% { opacity: .55; transform: translateY(1px); } }
+@keyframes buxa-rv-sheen { 0%,65% { transform: translateX(-160%) skewX(-24deg); opacity: 0; } 70% { opacity: .55; } 90%,100% { transform: translateX(560%) skewX(-24deg); opacity: 0; } }
+
+/* Every ornamental layer is decorative and cannot capture a pointer. */
+.buxa-visual :is(.buxa-item-sheet-aura,.buxa-item-sheet-ornament,.buxa-loot-beam-sigil,.buxa-hb-orb-seal,.buxa-celebration-seal) { pointer-events: none; user-select: none; }
+@media (prefers-reduced-motion: reduce) {
+  .buxa-visual, .buxa-visual::before, .buxa-visual::after,
+  .buxa-visual *, .buxa-visual *::before, .buxa-visual *::after {
+    animation: none !important; transition-duration: 0s !important;
+  }
+}

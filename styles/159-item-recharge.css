@@ -1,0 +1,26 @@
+.buxa-item-use-recharge-heading{display:flex;align-items:center;gap:12px;justify-content:space-between;margin:20px 0 10px;padding-top:15px;border-top:1px solid #26364b;color:#dde5f0}
+.buxa-item-use-recharge-heading small{font-size:11px;color:#899cb2}
+.buxa-item-recharge-cards{display:grid;gap:10px;margin-bottom:15px}
+.buxa-item-recharge-card{padding:12px;background:#0e1927;border:1px solid #283c54;display:grid;gap:9px}
+.buxa-item-recharge-card>.buxa-item-recharge-toggle{display:flex;align-items:center;gap:10px;flex-direction:row-reverse;justify-content:flex-end;color:#e6edf6;font-size:12px;font-weight:700}
+.buxa-item-recharge-card>small{color:#99aabe;font-size:11px}
+.buxa-item-recharge-card>.buxa-item-use-grid[hidden]{display:none}
+.buxa-item-recharge-card>.buxa-item-use-grid{border-top:1px solid #24374b;padding-top:10px}
+
+.buxa-item-use-recharge-line{display:block;padding-top:6px;color:#99adbf;font-size:10px;letter-spacing:.03em}
+.buxa-item-use-recharge-line i{margin-right:5px}
+
+/* Compact drag target for selecting recharge material from Foundry's Items sidebar. */
+.buxa-item-recharge-card .buxa-recharge-material-field{display:flex;flex-direction:column;gap:6px;min-width:0;grid-column:1/-1}
+.buxa-recharge-material-field>span{font-size:10px;letter-spacing:.08em;color:#8da3bc;font-weight:750}
+.buxa-recharge-material-slot{box-sizing:border-box;display:flex;align-items:center;gap:10px;min-height:58px;max-width:330px;width:100%;padding:7px 9px;border:1px dashed #36506d;background:linear-gradient(135deg,#101e2d,#0b1420);color:#dce8f4;transition:background .15s,border-color .15s,box-shadow .15s;min-width:0}
+.buxa-recharge-material-slot.has-selection{border-style:solid;border-color:#416887;background:#122235}
+.buxa-recharge-material-slot.is-drag-over{border-color:#8cd5ff;background:#19334b;box-shadow:inset 0 0 0 1px #5fafd5,0 0 12px #3d9acc30}
+.buxa-recharge-material-slot.is-missing{border-color:#a56b57}
+.buxa-recharge-material-icon{width:40px;height:40px;flex:none;object-fit:contain;border:1px solid #38516b;background:#07111d}
+.buxa-recharge-material-icon[hidden],.buxa-recharge-material-clear[hidden]{display:none}
+.buxa-recharge-material-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px;justify-content:center}
+.buxa-recharge-material-info strong{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.buxa-recharge-material-info small{font-size:10px;color:#8da5bd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.buxa-recharge-material-clear{background:transparent;border:0;color:#91a9c3;padding:6px;cursor:pointer;flex:none;min-width:26px;min-height:28px}
+.buxa-recharge-material-clear:hover,.buxa-recharge-material-clear:focus-visible{color:#eaf5ff;background:#21364d;outline:1px solid #42648b}

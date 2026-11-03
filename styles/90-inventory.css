@@ -1,0 +1,403 @@
+/* -------------------------------------------------------------------------- */
+/* Inventory + equipment                                                       */
+/* -------------------------------------------------------------------------- */
+
+.buxa-inventory-page {
+  display: grid;
+  gap: 10px;
+}
+
+.buxa-inventory-section {
+  overflow: hidden;
+  border: 1px solid #283141;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #111722, #0e131c);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.018), 0 8px 24px rgba(0,0,0,.12);
+}
+
+.buxa-inventory-heading {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 10px;
+  border-bottom: 1px solid #293241;
+  background: #10151e;
+}
+
+.buxa-inventory-heading > strong {
+  color: #8b99ad;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.buxa-inventory-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.buxa-inventory-count {
+  color: #65748a;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .06em;
+}
+
+.buxa-auto-sort-toggle {
+  width: auto !important;
+  min-width: 72px !important;
+  height: 24px !important;
+  margin: 0 !important;
+  padding: 0 7px !important;
+  border: 1px solid #303b4e !important;
+  border-radius: 3px !important;
+  background: #151b25 !important;
+  color: #77869a !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: .04em;
+}
+
+.buxa-auto-sort-toggle.is-active {
+  border-color: #3a6684 !important;
+  background: #142333 !important;
+  color: #9bd4fb !important;
+}
+
+.buxa-equipment-section {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(75,98,126,.13), transparent 34%),
+    linear-gradient(180deg, #111722, #0d1219);
+}
+
+
+.buxa-equipment-board {
+  --buxa-equip-columns: 12;
+  --buxa-equip-rows: 7;
+  width: min(100%, 640px);
+  aspect-ratio: var(--buxa-equip-columns) / var(--buxa-equip-rows);
+  position: relative;
+  margin: 0 auto;
+  background:
+    linear-gradient(rgba(84,103,129,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(84,103,129,.05) 1px, transparent 1px),
+    radial-gradient(circle at 50% 42%, rgba(75,98,126,.13), transparent 40%);
+  background-size:
+    calc(100% / var(--buxa-equip-columns)) calc(100% / var(--buxa-equip-rows)),
+    calc(100% / var(--buxa-equip-columns)) calc(100% / var(--buxa-equip-rows)),
+    auto;
+}
+
+.buxa-equipment-slot {
+  --buxa-slot-color: #344052;
+  position: absolute;
+  left: calc((var(--buxa-slot-x, 0) / var(--buxa-equip-columns)) * 100% + 2px);
+  top: calc((var(--buxa-slot-y, 0) / var(--buxa-equip-rows)) * 100% + 2px);
+  width: calc((var(--buxa-slot-w, 1) / var(--buxa-equip-columns)) * 100% - 4px);
+  height: calc((var(--buxa-slot-h, 1) / var(--buxa-equip-rows)) * 100% - 4px);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--buxa-slot-color);
+  border-radius: 3px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), transparent 38%),
+    #0b1017;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.018),
+    inset 0 0 18px rgba(0,0,0,.38);
+  transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.buxa-equipment-slot-bg {
+  position: absolute;
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border: 0;
+  object-fit: contain;
+  opacity: .18;
+  filter: grayscale(.15) brightness(.8);
+  pointer-events: none;
+}
+
+.buxa-equipment-slot::before,
+.buxa-inventory-slot::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+  border: 1px solid rgba(118,140,170,.08);
+  border-radius: 2px;
+}
+
+.buxa-equipment-slot-label {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 3px;
+  z-index: 1;
+  overflow: hidden;
+  color: #465369;
+  font-size: 6px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: opacity 120ms ease;
+}
+
+.buxa-equipment-slot.has-item .buxa-equipment-slot-label {
+  opacity: 0;
+}
+
+.buxa-inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+  width: min(100%, 620px);
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.buxa-inventory-slot {
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #293445;
+  border-radius: 2px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.016), transparent 44%),
+    #0a0f16;
+  box-shadow: inset 0 0 12px rgba(0,0,0,.35);
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+}
+
+.buxa-inventory-slot:hover,
+.buxa-equipment-slot:hover {
+  border-color: #45546a;
+}
+
+.buxa-inventory-item {
+  position: absolute;
+  inset: 2px;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: grab;
+  user-select: none;
+  animation: buxa-item-settle 150ms ease-out;
+  transition: transform 120ms ease, opacity 120ms ease, filter 120ms ease;
+}
+
+.buxa-inventory-item:active {
+  cursor: grabbing;
+}
+
+.buxa-inventory-item img {
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  border: 0;
+  object-fit: contain;
+  background: transparent;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,.55));
+  pointer-events: none;
+}
+
+.buxa-equipment-slot .buxa-inventory-item img {
+  padding: 5px;
+}
+
+.buxa-inventory-item:hover {
+  transform: scale(1.035);
+  filter: brightness(1.08);
+}
+
+.buxa-inventory-item.is-dragging {
+  opacity: .38;
+  transform: scale(.9);
+}
+
+.buxa-item-quantity {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  z-index: 3;
+  min-width: 15px;
+  padding: 1px 3px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 3px;
+  background: rgba(6,9,14,.9);
+  color: #f2f5fa;
+  font-size: 7px;
+  line-height: 12px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.buxa-inventory-item:hover .buxa-item-quantity {
+  opacity: .25;
+}
+
+.buxa-inventory-slot.is-inventory-drop-target,
+.buxa-equipment-slot.is-inventory-drop-target {
+  border-color: #74b9e7;
+  background: #112333;
+  box-shadow: inset 0 0 0 1px rgba(116,185,231,.28), 0 0 12px rgba(72,145,195,.18);
+  transform: scale(1.025);
+}
+
+.buxa-inventory-overflow {
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 8px 10px 10px;
+  border-top: 1px solid #283141;
+}
+
+.buxa-inventory-overflow > span {
+  padding-top: 5px;
+  color: #ad6970;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.buxa-inventory-overflow > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.buxa-inventory-overflow .buxa-inventory-item {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  inset: auto;
+  border: 1px solid #4a3036;
+  background: #100d12;
+}
+
+@keyframes buxa-item-settle {
+  from { opacity: .55; transform: scale(.93); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 680px) {
+  .buxa-inventory-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .buxa-inventory-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding: 8px;
+  }
+}
+
+/* Equipment loadout positions ------------------------------------------------ */
+.buxa-equipment-loadout-switch {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  pointer-events: auto;
+}
+
+.buxa-equipment-loadout-switch button {
+  width: 15px !important;
+  min-width: 15px !important;
+  height: 15px !important;
+  min-height: 15px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid rgba(83, 98, 120, .8) !important;
+  border-radius: 2px !important;
+  background: rgba(8, 12, 18, .9) !important;
+  color: #69778b !important;
+  box-shadow: none !important;
+  font-size: 7px !important;
+  font-weight: 900 !important;
+  line-height: 13px !important;
+}
+
+.buxa-equipment-loadout-switch button.has-item {
+  color: #b9c5d5 !important;
+}
+
+.buxa-equipment-loadout-switch button.is-active {
+  border-color: #76b8e4 !important;
+  background: #173047 !important;
+  color: #bde5ff !important;
+  box-shadow: 0 0 7px rgba(91, 173, 228, .22) !important;
+}
+
+.buxa-equipment-slot.has-item .buxa-equipment-loadout-switch {
+  opacity: .82;
+}
+
+.buxa-inventory-pointer-dragging,
+.buxa-inventory-pointer-dragging * {
+  cursor: grabbing !important;
+}
+
+.buxa-inventory-drag-ghost {
+  overflow: hidden;
+  border: 1px solid #5f83a1;
+  border-radius: 3px;
+  background: rgba(9, 14, 21, .92);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .5), 0 0 0 1px rgba(132, 190, 230, .16);
+  opacity: .86;
+  transform: scale(.92);
+}
+
+.buxa-inventory-drag-ghost img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Drag previews always use one normal inventory square, even from large equipment slots. */
+.buxa-inventory-drag-ghost {
+  right: auto !important;
+  bottom: auto !important;
+  aspect-ratio: 1 / 1;
+}
+
+/* v0.13.20: equipment receives a compact 1x1 ghost even when the source
+   has a large / irregular inventory footprint. Full geometry is restored
+   immediately when the pointer returns to a storage or inventory grid. */
+.buxa-inventory-drag-ghost.is-equipment-ghost {
+  overflow:hidden!important;
+  border:1px solid var(--buxa-rarity-color,#7cbbe2)!important;
+  background:rgba(14,25,39,.88)!important;
+  box-shadow:0 0 0 1px rgba(140,194,227,.12), 0 8px 20px rgba(0,0,0,.4)!important;
+  border-radius:0!important;
+  aspect-ratio:1/1!important;
+  opacity:.92!important;
+  filter:none!important;
+  pointer-events:none!important;
+}
+.buxa-inventory-drag-ghost.is-equipment-ghost img {
+  display:block;width:100%;height:100%;object-fit:contain;
+}
+.buxa-inventory-drag-ghost.is-equipment-ghost.is-invalid {
+  border-color:#e15e75!important;
+  background:rgba(77,25,39,.8)!important;
+}

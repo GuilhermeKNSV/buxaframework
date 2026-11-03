@@ -1,0 +1,306 @@
+/* Buxa · sidebar composer. Scope all native overrides to edit mode only. */
+#sidebar .buxa-sb-nav { --buxa-sb-accent:#8ad5f7; position:relative; }
+#sidebar .buxa-sb-nav .buxa-sb-edit-button,
+#sidebar .buxa-sb-nav .buxa-sb-folder {
+  appearance:none; -webkit-appearance:none; flex-shrink:0; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; position:relative;
+  width:var(--sidebar-tab-width, 36px); min-width:32px; min-height:32px;
+  max-width:100%; padding:6px; margin:3px auto; color:#b6c9d9;
+  border:1px solid rgba(142,185,215,.16); border-radius:0 !important;
+  background:linear-gradient(145deg,rgba(28,45,62,.88),rgba(12,20,34,.93));
+  box-shadow:0 3px 9px #0003,inset 0 1px 0 #ffffff10;
+  transition:background .22s ease,color .22s ease,border-color .22s ease,
+    transform .32s cubic-bezier(.18,.8,.2,1.22),box-shadow .25s ease;
+}
+/* Foundry 14 skins can hide any child that is not a registered tab. The
+   launcher is a real standalone action, not a fake Foundry tab. */
+#sidebar .buxa-sb-nav > .buxa-sb-edit-button {
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  position:relative !important;
+  flex:0 0 auto !important;
+  margin:9px auto 5px !important;
+  width:36px !important;
+  height:36px !important;
+  min-width:36px !important;
+  min-height:36px !important;
+  z-index:5;
+  color:#b9e8ff;
+  border-color:rgba(111,199,242,.55);
+  background:linear-gradient(150deg,rgba(32,70,94,.94),rgba(11,27,43,.98));
+}
+#sidebar .buxa-sb-nav > .buxa-sb-edit-button::before {
+  content:'';position:absolute;top:-6px;left:5px;right:5px;height:1px;
+  background:linear-gradient(90deg,transparent,#7fc9f7aa,transparent);
+  pointer-events:none;
+}
+
+#sidebar .buxa-sb-nav .buxa-sb-edit-button:hover,
+#sidebar .buxa-sb-nav .buxa-sb-folder:hover {
+  color:#f1faff; border-color:rgba(113,202,242,.55);
+  background:linear-gradient(140deg,rgba(39,71,98,.96),rgba(20,35,56,.96));
+  box-shadow:0 6px 18px #0007,0 0 14px #82cefa24,inset 0 1px 0 #ffffff1e;
+  transform:translateY(-2px);
+}
+#sidebar .buxa-sb-nav .buxa-sb-folder { color:#dfd7ad; }
+#sidebar .buxa-sb-nav .buxa-sb-folder.is-open {border-color:#e3bf727e;color:#fff2c8;background:#303044;}
+#sidebar .buxa-sb-nav .buxa-sb-edit-button.is-editing {
+  color:#d1f6ff;border-color:#87dcffb0;background:linear-gradient(150deg,#345b75,#183248);
+  box-shadow:0 0 18px #6bc6ee4a;
+}
+#sidebar .buxa-sb-nav .buxa-sb-folder i,
+#sidebar .buxa-sb-nav .buxa-sb-edit-button i { font-size:15px; line-height:1; }
+#sidebar .buxa-sb-nav .buxa-sb-icon-img {width:21px;height:21px;object-fit:contain;}
+#sidebar .buxa-sb-nav .buxa-sb-folder-count {
+  position:absolute;top:-5px;right:-7px;min-width:15px;height:15px;padding:0 3px;
+  display:grid;place-content:center;font:700 10px/1 Inter,'Segoe UI',sans-serif;
+  color:#def3ff;background:#294459;border:1px solid #688eaa;border-radius:0 !important;
+}
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:not(.buxa-sb-being-dragged) {
+  cursor:grab!important; touch-action:none;
+  transition:transform .27s cubic-bezier(.2,.85,.3,1.18),opacity .22s ease;
+}
+/* Animate the artwork, not the native button bounding box: keeps the hit
+   target stable for mouse users, keyboard focus and native Foundry handlers. */
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id] :is(i,svg,img) {
+  animation:buxa-sb-wiggle 1.3s ease-in-out infinite alternate;
+  transform-origin:center center;
+}
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:nth-child(3n) :is(i,svg,img) { animation-delay:-.33s; }
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:nth-child(4n) :is(i,svg,img) { animation-delay:-.7s; }
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:nth-child(5n) :is(i,svg,img) { animation-delay:-1.1s; }
+#sidebar .buxa-sb-nav.buxa-sb-editing .buxa-sb-being-dragged {opacity:.32;filter:grayscale(.4);animation:none;}
+#sidebar .buxa-sb-nav.buxa-sb-editing .buxa-sb-drop-before::before {
+  content:'';position:absolute;top:-5px;left:10%;right:10%;height:4px;border-radius:0 !important;
+  background:#95e5ff;box-shadow:0 0 9px #90e9ffb0;pointer-events:none;
+}
+#sidebar .buxa-sb-nav .buxa-sb-folder.is-drop-target {
+  background:linear-gradient(150deg,#4b6e81,#1c455e);
+  border-color:#b5edff;box-shadow:0 0 23px #73d7ff99;
+  animation:buxa-sb-folder-pulse .63s ease-in-out infinite!important;
+}
+.buxa-sb-drag-preview {
+  position:fixed!important;z-index:100070!important;pointer-events:none!important;display:flex!important;
+  align-items:center!important;justify-content:center!important;width:48px!important;height:48px!important;
+  margin:0!important;padding:7px!important;border:1px solid #8eddfc!important;
+  border-radius:0 !important;color:#f5fbff!important;background:linear-gradient(145deg,#30516b,#101d30)!important;
+  transform:translate(-50%,-50%) scale(1.17) rotate(-3deg)!important;
+  box-shadow:0 18px 45px #000a,0 0 24px #70d5fb65!important;
+  animation:buxa-sb-pop .24s cubic-bezier(.17,.72,.2,1.35) both;
+}
+.buxa-sb-drag-preview i {font-size:21px!important;}
+.buxa-sb-drag-preview > .buxa-sb-folder-count {display:none!important;}
+@keyframes buxa-sb-wiggle {0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg) translateY(-.7px)}}
+@keyframes buxa-sb-pop {from{opacity:.4;scale:.75}to{opacity:1;scale:1}}
+@keyframes buxa-sb-folder-pulse {50%{box-shadow:0 0 30px #82d9ffbc;transform:scale(1.07)}}
+
+.buxa-sb-toolbar,.buxa-sb-drawer,.buxa-sb-flyout,.buxa-sb-context,.buxa-sb-dialog {
+  box-sizing:border-box;color:#e2ebf5;font-family:Inter,'Segoe UI',system-ui,sans-serif;
+  --buxa-sb-border:rgba(126,177,212,.19);--buxa-sb-glow:rgba(100,197,239,.17);
+}
+.buxa-sb-toolbar button,.buxa-sb-drawer button,.buxa-sb-flyout button,
+.buxa-sb-context button,.buxa-sb-dialog button {
+  all:unset;box-sizing:border-box;cursor:pointer;font:inherit;display:inline-flex;align-items:center;
+  justify-content:center;gap:10px;text-align:center;
+}
+.buxa-sb-toolbar button:focus-visible,.buxa-sb-drawer button:focus-visible,
+.buxa-sb-flyout button:focus-visible,.buxa-sb-context button:focus-visible,
+.buxa-sb-dialog button:focus-visible,.buxa-sb-dialog input:focus-visible {
+  outline:2px solid #88d9ff;outline-offset:2px;
+}
+.buxa-sb-toolbar button:disabled,.buxa-sb-context button:disabled {opacity:.36;cursor:not-allowed;}
+.buxa-sb-toolbar {
+  position:fixed;z-index:100030;width:min(326px,calc(100vw - 24px));max-height:calc(100vh - 32px);overflow:auto;
+  padding:20px;border:1px solid var(--buxa-sb-border);border-radius:0 !important;
+  background:linear-gradient(155deg,rgba(28,46,65,.97),rgba(13,21,34,.98) 52%,rgba(8,15,26,.98));
+  backdrop-filter:blur(18px);box-shadow:0 22px 65px #0009,0 0 0 1px #ffffff08 inset;
+  animation:buxa-sb-slide .43s cubic-bezier(.18,.84,.22,1.05) both;
+}
+.buxa-sb-toolbar::before,.buxa-sb-drawer::before,.buxa-sb-dialog::before {
+  content:'';height:2px;position:absolute;top:0;left:20px;right:20px;
+  background:linear-gradient(90deg,transparent,#82d6fc,transparent);
+  box-shadow:0 0 15px #86dafa65;pointer-events:none;
+}
+.buxa-sb-kicker {display:block;font-size:10px;line-height:1.3;letter-spacing:.19em;color:#79c3e5;font-weight:750;}
+.buxa-sb-toolbar-heading {display:grid;gap:5px;margin-bottom:17px;}
+.buxa-sb-toolbar-heading strong {font-size:23px;line-height:1.15;font-weight:800;letter-spacing:-.04em;color:#f5f8ff;}
+.buxa-sb-toolbar-heading small {font-size:12px;color:#9babbc;line-height:1.5;}
+.buxa-sb-toolbar-actions {display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.buxa-sb-toolbar .buxa-sb-tool {
+  justify-content:flex-start;padding:11px 12px;min-height:43px;border-radius:0 !important;
+  border:1px solid #71829a36;background:rgba(255,255,255,.045);
+  font-size:12px;font-weight:650;color:#c9d8e5;
+  transition:transform .24s cubic-bezier(.17,.8,.3,1.2),background .22s,border-color .22s,box-shadow .22s;
+}
+.buxa-sb-toolbar .buxa-sb-tool:hover:not(:disabled) {
+  background:rgba(128,194,229,.15);border-color:#78bbe46d;
+  transform:translateY(-2px);box-shadow:0 5px 18px #0004;
+}
+.buxa-sb-toolbar .buxa-sb-tool.primary {
+  color:#071823;background:linear-gradient(135deg,#a1e1f8,#65bbdf);
+  border-color:#adf0ff;box-shadow:0 4px 15px #56bbdc39;
+}
+.buxa-sb-toolbar .buxa-sb-tool.global {border-color:#b8a57372;color:#fce8bb;background:#b8955121;}
+.buxa-sb-toolbar .buxa-sb-tool i {font-size:14px;flex:none;width:14px;}
+.buxa-sb-toggles {display:flex;gap:8px;border-top:1px solid #8cacca25;margin-top:14px;padding-top:14px;}
+.buxa-sb-toolbar .buxa-sb-toggle {
+  flex:1;padding:10px 7px;min-height:36px;border:1px solid #60799148;
+  border-radius:0 !important;font-size:11px;font-weight:700;color:#899bac;background:#ffffff05;
+  transition:.23s ease;
+}
+.buxa-sb-toolbar .buxa-sb-toggle.is-on {color:#abebff;border-color:#78c5e986;background:#6dc3ef21;}
+.buxa-sb-toolbar .buxa-sb-toggle:hover {transform:translateY(-1px);}
+@keyframes buxa-sb-slide {from{opacity:0;transform:translateX(-19px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
+
+.buxa-sb-flyout {
+  position:fixed;z-index:100035;min-width:156px;max-width:250px;padding:10px;
+  border:1px solid #a3c9e33d;border-radius:0 !important;
+  background:linear-gradient(165deg,rgba(30,48,63,.97),rgba(11,17,29,.98));
+  backdrop-filter:blur(18px);box-shadow:0 16px 40px #0009,0 0 18px #6acafa19;
+  animation:buxa-sb-slide .32s cubic-bezier(.2,.8,.2,1.1) both;
+}
+.buxa-sb-flyout-title {padding:7px 10px 10px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#a7d5f4;}
+.buxa-sb-flyout-buttons {display:grid;gap:5px;}
+.buxa-sb-flyout .buxa-sb-flyout-tab {
+  justify-content:flex-start;padding:10px 12px;border:1px solid transparent;border-radius:0 !important;
+  background:rgba(255,255,255,.045);font-size:12px;font-weight:650;color:#dbe6f1;
+  animation:buxa-sb-fan .37s cubic-bezier(.17,.82,.28,1.15) both;
+  transition:background .2s,transform .24s,border-color .2s;
+}
+.buxa-sb-flyout-tab:nth-child(2){animation-delay:35ms}.buxa-sb-flyout-tab:nth-child(3){animation-delay:70ms}
+.buxa-sb-flyout-tab:nth-child(4){animation-delay:105ms}.buxa-sb-flyout-tab:nth-child(n+5){animation-delay:140ms}
+.buxa-sb-flyout .buxa-sb-flyout-tab:hover {background:#79c9ec23;border-color:#79c9ec57;transform:translateX(3px);}
+.buxa-sb-flyout-tab i {font-size:16px;width:19px;text-align:center;}
+@keyframes buxa-sb-fan {from{opacity:0;transform:translateX(-15px) scale(.93)}to{opacity:1;transform:translateX(0) scale(1)}}
+
+.buxa-sb-context {
+  position:fixed;z-index:100090;display:grid;gap:4px;padding:6px;min-width:184px;
+  background:linear-gradient(160deg,#253649,#0c1725);border:1px solid #b2d8ef4c;
+  border-radius:0 !important;box-shadow:0 18px 40px #0009;animation:buxa-sb-menu-in .22s cubic-bezier(.2,.75,.3,1.12) both;
+}
+.buxa-sb-context .buxa-sb-context-action {
+  justify-content:flex-start;padding:11px 13px;gap:13px;border-radius:0 !important;
+  color:#e1eaf5;font-size:12px;font-weight:600;transition:background .2s,color .2s;
+}
+.buxa-sb-context .buxa-sb-context-action:hover:not(:disabled) {background:#71c7ef25;color:#aeeaff;}
+.buxa-sb-context .buxa-sb-context-action i {width:15px;text-align:center;}
+@keyframes buxa-sb-menu-in{from{opacity:0;transform:translateY(-7px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.buxa-sb-drawer {
+  position:fixed;z-index:100045;width:min(272px,calc(100vw - 20px));max-height:calc(100vh - 30px);overflow:auto;
+  padding:18px;border:1px solid #8fb9d23c;border-radius:0 !important;
+  background:linear-gradient(155deg,rgba(27,43,58,.98),rgba(10,17,29,.99));
+  box-shadow:0 24px 55px #000a;animation:buxa-sb-slide .34s cubic-bezier(.2,.8,.2,1.12) both;
+}
+.buxa-sb-drawer-header {position:relative;display:grid;gap:4px;padding-right:25px;}
+.buxa-sb-drawer-header h3 {font-size:20px;color:#f3f8ff;margin:0;}
+.buxa-sb-drawer .buxa-sb-close {position:absolute;right:-4px;top:-5px;color:#8aa8bf;font-size:23px;}
+.buxa-sb-drawer .buxa-sb-close:hover {color:#fff;}
+.buxa-sb-drawer-help {color:#a3b5c8;font-size:12px;line-height:1.55;margin:13px 0;}
+.buxa-sb-drawer-items {display:grid;gap:7px;}
+.buxa-sb-drawer .buxa-sb-drawer-item {
+  justify-content:flex-start;padding:11px 13px;font-size:13px;font-weight:600;
+  border:1px solid #a5c3d52a;border-radius:0 !important;background:#ffffff0a;color:#dee9f2;
+  transition:background .2s,transform .25s cubic-bezier(.16,.8,.2,1.25);
+}
+.buxa-sb-drawer .buxa-sb-drawer-item:hover:not(:disabled){background:#6cb7e325;transform:translateX(3px)}
+.buxa-sb-drawer-item i{width:19px;text-align:center;}
+.buxa-sb-drawer-item:disabled{opacity:.45;cursor:not-allowed;}
+.buxa-sb-empty {font-size:12px;color:#91a8ba;line-height:1.6;padding:10px;}
+
+.buxa-sb-dialog-backdrop {
+  position:fixed;inset:0;z-index:100100;display:grid;place-items:center;
+  padding:20px;background:#050911a8;backdrop-filter:blur(7px);
+  animation:buxa-sb-fade .22s ease both;
+}
+.buxa-sb-dialog {
+  position:relative;width:min(440px,100%);max-height:calc(100vh - 42px);overflow:auto;
+  background:linear-gradient(155deg,#23384c,#0c1727 60%,#0a121e);
+  padding:26px;border:1px solid #9ec5dd55;border-radius:0 !important;
+  box-shadow:0 30px 80px #000b,0 0 25px #73d7f31b;
+  animation:buxa-sb-dialog-open .36s cubic-bezier(.17,.8,.2,1.12) both;
+}
+.buxa-sb-dialog-header {display:grid;gap:8px;margin-bottom:17px;}
+.buxa-sb-dialog-header h2 {font-size:24px;letter-spacing:-.025em;line-height:1.15;margin:0;color:#f8fbff;}
+.buxa-sb-hide-dialog>p {font-size:13px;line-height:1.6;color:#abbfcf;margin:0 0 15px;}
+.buxa-sb-hide-choices,.buxa-sb-player-list {display:grid;gap:8px;}
+.buxa-sb-player-list {margin:12px 0;padding:12px;max-height:195px;overflow:auto;background:#050c1733;border-radius:0 !important;}
+.buxa-sb-choice {display:flex;gap:12px;align-items:center;min-height:43px;padding:10px 13px;border:1px solid #b1cfdd30;border-radius:0 !important;background:#ffffff08;font-size:13px;cursor:pointer;}
+.buxa-sb-choice:has(input:checked) {border-color:#8bd4ef9a;background:#81cdea1c;color:#bfeeff;}
+.buxa-sb-choice input {accent-color:#86d8f5;width:16px;height:16px;margin:0;}
+.buxa-sb-dialog-footer {display:flex;justify-content:flex-end;gap:9px;margin-top:23px;}
+.buxa-sb-dialog .buxa-sb-dialog-button {padding:11px 17px;border:1px solid #9fb5c144;border-radius:0 !important;background:#ffffff0e;font-size:12px;font-weight:750;color:#dbe9f4;transition:transform .22s,background .2s;}
+.buxa-sb-dialog .buxa-sb-dialog-button.primary {background:linear-gradient(135deg,#9bdcf3,#5fbadb);border-color:#9de5ff;color:#071824;}
+.buxa-sb-dialog .buxa-sb-dialog-button:hover {transform:translateY(-2px);background:#84cdef45;}
+.buxa-sb-folder-edit {display:grid;gap:15px;}
+.buxa-sb-form-label {display:grid;gap:8px;color:#b9cada;font-weight:700;font-size:12px;}
+.buxa-sb-dialog .buxa-sb-input {
+  width:100%;min-height:42px;padding:10px 12px;border:1px solid #93bfd054;
+  border-radius:0 !important;background:#070f1d;color:#f3f9ff;font:600 13px Inter,'Segoe UI',sans-serif;
+}
+.buxa-sb-dialog .buxa-sb-browse {padding:12px;border:1px dashed #73c2e75c;border-radius:0 !important;color:#96dafa;background:#77c4ec12;font-size:12px;font-weight:750;}
+.buxa-sb-dialog .buxa-sb-preview {display:flex;gap:12px;align-items:center;padding:13px;font-size:12px;border-radius:0 !important;background:#ffffff08;}
+.buxa-sb-preview img {width:28px;height:28px;object-fit:contain;}
+.buxa-sb-preview i{font-size:20px;color:#a7e3fb;}
+@keyframes buxa-sb-fade {from{opacity:0}to{opacity:1}}
+@keyframes buxa-sb-dialog-open {from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media (max-width:680px) {
+  .buxa-sb-toolbar:not(.buxa-sb-dock) {left:12px!important;top:12px!important;max-height:70vh;}
+  .buxa-sb-flyout {max-width:55vw;}
+  .buxa-sb-dialog{padding:20px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  #sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id],
+  .buxa-sb-toolbar,.buxa-sb-flyout,.buxa-sb-flyout-tab,.buxa-sb-drag-preview,
+  .buxa-sb-context,.buxa-sb-drawer,.buxa-sb-dialog,.buxa-sb-dialog-backdrop,
+  #sidebar .buxa-sb-nav .buxa-sb-folder.is-drop-target {animation:none!important;transition-duration:0s!important;}
+}
+/* Insertion preview occupies the slot while the dragged item follows the cursor;
+   native neighbors receive FLIP animations when the preview changes position. */
+#sidebar .buxa-sb-nav .buxa-sb-drop-placeholder {
+  display:block;flex-shrink:0;min-width:32px;width:var(--sidebar-tab-width,36px);
+  height:35px;margin:4px auto;border:1px dashed #9be8fc9e;border-radius:0 !important;
+  background:linear-gradient(135deg,#7bd9ee25,#69afd526);
+  box-shadow:inset 0 0 17px #85dcf824,0 0 11px #8ecdef1c;
+  animation:buxa-sb-placeholder-in .23s cubic-bezier(.18,.85,.2,1.1) both;
+}
+#sidebar .buxa-sb-nav.buxa-sb-drag-active > .buxa-sb-being-dragged {display:none!important;}
+#sidebar .buxa-sb-nav.buxa-sb-drag-active > [data-buxa-button-id]:not(.buxa-sb-being-dragged) {animation:none!important;}
+@keyframes buxa-sb-placeholder-in {from{opacity:.1;scale:.82}to{opacity:1;scale:1}}
+.buxa-sb-context.is-leaving,.buxa-sb-flyout.is-leaving,.buxa-sb-drawer.is-leaving,
+.buxa-sb-dialog-backdrop.is-leaving {pointer-events:none;animation:buxa-sb-leave .18s ease-in both;}
+@keyframes buxa-sb-leave {from{opacity:1;scale:1}to{opacity:0;scale:.96}}
+@media(prefers-reduced-motion:reduce){
+  #sidebar .buxa-sb-nav .buxa-sb-drop-placeholder,
+  .buxa-sb-context.is-leaving,.buxa-sb-flyout.is-leaving,.buxa-sb-drawer.is-leaving,.buxa-sb-dialog-backdrop.is-leaving {animation:none!important;}
+}
+#sidebar .buxa-sb-nav.buxa-sb-editing.buxa-sb-autoalign > [data-buxa-button-id] {
+  margin-left:auto;margin-right:auto;
+}
+#sidebar .buxa-sb-nav:not(.buxa-sb-snap) .buxa-sb-drop-placeholder {
+  border-color:#8fdcf9be;box-shadow:0 0 16px #8fdafc52;
+}
+/* Pause the wiggle under the pointer and keyboard focus so the hit target is
+   steady during press-and-hold and remains accessible to assistive tools. */
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:hover,
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:focus-visible {
+  transform:none!important;
+}
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:hover :is(i,svg,img),
+#sidebar .buxa-sb-nav.buxa-sb-editing > [data-buxa-button-id]:focus-visible :is(i,svg,img) {animation:none!important;}
+
+/* v0.17.19 — Buxa uses square/flat corners throughout this editor.
+   Override any theme or user-module radius on buttons, folders, badges,
+   previews, overlays, inputs and all their descendants. */
+#sidebar .buxa-sb-nav > :is(.buxa-sb-edit-button,.buxa-sb-folder,.buxa-sb-drop-placeholder),
+#sidebar .buxa-sb-nav .buxa-sb-folder-count,
+.buxa-sb-drag-preview, .buxa-sb-drag-preview *,
+.buxa-sb-toolbar, .buxa-sb-toolbar *,
+.buxa-sb-flyout, .buxa-sb-flyout *,
+.buxa-sb-context, .buxa-sb-context *,
+.buxa-sb-drawer, .buxa-sb-drawer *,
+.buxa-sb-dialog, .buxa-sb-dialog *,
+.buxa-sb-dialog-backdrop {
+  border-radius:0 !important;
+}

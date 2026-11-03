@@ -1,0 +1,82 @@
+/* v0.11.14: A polyomino is one object, not a visible grid of item tiles.
+ * Only external shape edges are stroked; no interior cell seam is painted.
+ */
+.buxa-complex-item,
+.buxa-inventory-drag-ghost.is-complex-ghost {
+  --buxa-shape-edge: color-mix(in srgb, var(--buxa-rarity-color, #85afd0) 85%, #c9e9ff);
+  isolation: isolate;
+}
+.buxa-complex-item > .buxa-complex-backdrop,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 40% 27%, color-mix(in srgb, var(--buxa-rarity-color,#87a9ce) 27%, transparent), transparent 76%),
+    linear-gradient(145deg, #203247, #101b2b 76%);
+  mask-position: center;
+  -webkit-mask-position: center;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--buxa-rarity-color,#87a9ce) 25%, transparent));
+}
+.buxa-complex-item > .buxa-complex-art,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-art {
+  z-index: 1;
+}
+.buxa-complex-item > .buxa-complex-piece,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-ghost-cell,
+.buxa-inventory-drag-ghost.is-complex-ghost.is-invalid > .buxa-complex-ghost-cell {
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border-style: solid !important;
+  border-color: var(--buxa-shape-edge) !important;
+  border-width: var(--buxa-edge-top,0px) var(--buxa-edge-right,0px) var(--buxa-edge-bottom,0px) var(--buxa-edge-left,0px) !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  opacity: 1 !important;
+}
+.buxa-complex-item > .buxa-complex-piece:hover {
+  border-color: #e0f3ff !important;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-ghost-cell {
+  z-index: 3;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-invalid > .buxa-complex-ghost-cell {
+  border-color: #fa8492 !important;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-invalid > .buxa-complex-backdrop {
+  filter: saturate(.7) sepia(.4);
+}
+.buxa-inventory-drag-ghost.is-complex-ghost {
+  transition: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  pointer-events: none !important;
+  will-change: transform;
+}
+.buxa-complex-item > .buxa-item-quantity { z-index: 5; }
+
+/* Solid rectangles are framed by four crisp rarity-colored corners only. */
+.buxa-complex-item.is-rectangular-shape > .buxa-complex-piece,
+.buxa-inventory-drag-ghost.is-complex-ghost.is-rectangular-shape > .buxa-complex-ghost-cell {
+  border-width: 0 !important;
+}
+.buxa-complex-item.is-rectangular-shape::after,
+.buxa-inventory-drag-ghost.is-complex-ghost.is-rectangular-shape::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) left top / 13px 2px no-repeat,
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) left top / 2px 13px no-repeat,
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) right top / 13px 2px no-repeat,
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) right top / 2px 13px no-repeat,
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) left bottom / 13px 2px no-repeat,
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) left bottom / 2px 13px no-repeat,
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) right bottom / 13px 2px no-repeat,
+    linear-gradient(var(--buxa-shape-edge),var(--buxa-shape-edge)) right bottom / 2px 13px no-repeat;
+  filter: drop-shadow(0 0 2px var(--buxa-rarity-color,#85afd0));
+}

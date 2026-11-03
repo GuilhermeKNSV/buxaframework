@@ -1,0 +1,23 @@
+<div class="buxa-svg-picker-shell">
+  <header class="buxa-svg-picker-toolbar">
+    <div>
+      <strong>SVG ICON</strong>
+      <small>Choose a built-in icon or browse to any SVG available in Foundry.</small>
+    </div>
+    <div class="buxa-svg-picker-actions">
+      <button type="button" data-action="browseSvg"><i class="fa-solid fa-folder-open"></i> BROWSE SVG</button>
+      <button type="button" data-action="clearSvg"><i class="fa-solid fa-ban"></i> NONE</button>
+    </div>
+  </header>
+  <main class="buxa-svg-picker-grid">
+    {{#each icons}}
+      <button type="button" class="buxa-svg-choice {{#if selected}}is-selected{{/if}}" data-action="selectSvg" data-svg-path="{{path}}" title="{{label}}">
+        <img src="{{path}}" alt="">
+        <span>{{label}}</span>
+      </button>
+    {{/each}}
+  </main>
+  {{#if current}}
+    <footer class="buxa-svg-picker-current"><span>CURRENT</span><code>{{current}}</code></footer>
+  {{/if}}
+</div>

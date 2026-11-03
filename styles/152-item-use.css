@@ -1,0 +1,56 @@
+/* Resource and Limits: compact controls, visual states, and item-use display. */
+.buxa-item-use-panel[hidden]{display:none!important}
+.buxa-item-use-content{padding:12px;display:grid;gap:12px}
+.buxa-item-use-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.buxa-item-use-grid>label{min-width:0;min-height:0}
+.buxa-item-use-grid>label[hidden]{display:none!important}
+.buxa-item-use-grid input,.buxa-item-use-grid select{width:100%;min-width:0;max-width:100%;min-height:32px;box-sizing:border-box}
+.buxa-item-use-grid input[type=checkbox]{width:18px;min-height:18px;height:18px;accent-color:#64baff}
+.buxa-item-use-list{display:grid;gap:10px}
+.buxa-item-use-row{border:1px solid #30435a;background:#101b2b;padding:12px;display:grid;gap:12px}
+.buxa-item-use-row-head{display:flex;justify-content:space-between;align-items:center;color:#c7def5;gap:12px}
+.buxa-item-use-row-head button,.buxa-item-use-add{border:1px solid #3c5976;background:#172c43;padding:8px 14px;color:#dceafa;cursor:pointer}
+.buxa-item-use-add{justify-self:start}
+.buxa-item-use-hint{font-size:12px;color:#91a8bf;line-height:1.55;margin:4px 0}
+.buxa-inventory-item.buxa-item-exhausted{filter:saturate(.65) brightness(.8);}
+/* Render a real SVG lock, not a Font Awesome pseudo-glyph. Foundry fonts can
+   render the old glyph as a blank square; ::after also interferes with shaped
+   item rarity decoration and its hit-map. */
+.buxa-inventory-item .buxa-item-use-lock{
+  position:absolute;
+  top:5px;
+  right:5px;
+  z-index:9;
+  display:block;
+  width:12px;
+  height:13px;
+  padding:0;
+  border:0;
+  background:none;
+  box-shadow:none;
+  color:#d0c3b9;
+  pointer-events:none;
+  opacity:.85;
+  filter:drop-shadow(0 1px 3px #050a0e);
+}
+.buxa-inventory-item .buxa-item-use-lock svg{
+  display:block;
+  width:100%;
+  height:100%;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.buxa-inventory-item .buxa-item-use-lock svg circle{
+  stroke:none;
+  fill:currentColor;
+}
+@media(max-width:670px){.buxa-item-use-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.buxa-item-use-grid{grid-template-columns:minmax(0,1fr)}}
+
+.buxa-item-use-roll{margin-left:auto;padding:4px 7px;border:1px solid #37628c;background:#19364e;color:#dcefff;cursor:pointer;font-size:10px}
+.buxa-item-use-roll:disabled{opacity:.4;cursor:not-allowed}
+
+

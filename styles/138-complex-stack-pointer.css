@@ -1,0 +1,16 @@
+/* v0.11.16: Cursor-following art with a separate, exact snapped-cell guide. */
+.buxa-inventory-drag-ghost.is-complex-ghost {
+  transition: none !important;
+  pointer-events: none !important;
+  contain: layout style paint;
+  opacity: .82;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-stack-target {
+  opacity: .96;
+  filter: drop-shadow(0 0 5px rgba(113, 220, 167, .5));
+}
+.buxa .buxa-complex-board > .buxa-complex-cell.is-complex-stack-target {
+  background: rgba(58, 172, 120, .46) !important;
+  box-shadow: inset 0 0 0 2px #82e1b4, 0 0 9px rgba(68, 187, 131, .38) !important;
+  border-color: #82e1b4 !important;
+}

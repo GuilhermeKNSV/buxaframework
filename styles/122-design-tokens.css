@@ -1,0 +1,95 @@
+/* Buxa v0.11.1: dark navy restoration for the Figma UI design tokens.
+   Neutral structural surfaces; rarity, folder, and stat colors remain data-driven.
+   Chrome/window controls are deliberately owned by Foundry. */
+.buxa,
+.buxa-world-item-directory,
+.buxa-folder-panel,
+.buxa-directory-popover,
+.buxa-item-action-popover,
+.buxa-unstack-popover {
+  --buxa-bg-0:#070b12;
+  --buxa-bg-1:#0b111b;
+  --buxa-bg-2:#0e1623;
+  --buxa-bg-3:#142033;
+  --buxa-bg-4:#1a2a40;
+  --buxa-border:#27394e;
+  --buxa-border-soft:#202e41;
+  --buxa-text:#eaf2fc;
+  --buxa-muted:#91a4ba;
+  --buxa-faint:#667f99;
+  --buxa-accent:#7fbce9;
+  --buxa-accent-soft:rgba(127,188,233,.13);
+  --buxa-gold:#e0bc64;
+  --buxa-danger:#dd5668;
+  --buxa-success:#79c8a5;
+  --buxa-radius:0px;
+  --buxa-v2-line:#27394e;
+  --buxa-v2-raise:#142033;
+  --buxa-v2-panel:#0e1623;
+  --buxa-v2-ink:#eaf2fc;
+  --buxa-v2-muted:#91a4ba;
+  --buxa-v2-shadow:0 8px 22px rgba(0,0,0,.22);
+  --buxa-v2-fast:120ms;
+  color:var(--buxa-text);
+}
+.buxa:not(.buxa-layout-config-app) .window-content { background:var(--buxa-bg-0); color:var(--buxa-text); }
+/* Square surfaces and accessible controls across Buxa application windows. */
+.buxa:not(.buxa-layout-config-app) .window-content :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea,button:not(.buxa-inventory-item)),
+.buxa:not(.buxa-layout-config-app) .window-content :is(.buxa-section-card,.buxa-basic-card,.buxa-resource,.buxa-field,.buxa-item-config-section,.buxa-item-property-card,.buxa-rule-card,.buxa-rule-source-card,.buxa-item-config-art,.buxa-portrait-frame,.buxa-inventory-slot,.buxa-equipment-slot,.buxa-asset-file,.buxa-sheet-tab) {
+  border-radius:0 !important;
+}
+.buxa:not(.buxa-layout-config-app) .window-content :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),select,textarea) {
+  min-width:0;
+  border:1px solid #2b4159;
+  background:#142033;
+  color:#ecf3fa;
+  box-shadow:none;
+  outline:none;
+  transition:border-color 120ms ease,background-color 120ms ease;
+}
+.buxa:not(.buxa-layout-config-app) .window-content :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),select,textarea):focus-visible {
+  border-color:#8cbfeb;
+  box-shadow:0 0 0 1px rgba(127,188,233,.2);
+}
+.buxa:not(.buxa-layout-config-app) .window-content input::placeholder,
+.buxa:not(.buxa-layout-config-app) .window-content textarea::placeholder { color:#879ab0; opacity:1; }
+.buxa:not(.buxa-layout-config-app) .window-content button:not(.buxa-inventory-item):not(.buxa-equipment-slot):not(.buxa-portrait-toggle) {
+  background:#162338;
+  border-color:#2d4a65;
+  color:#dceaf7;
+  box-shadow:none;
+  transition:background-color 120ms ease,border-color 120ms ease,color 120ms ease;
+}
+.buxa:not(.buxa-layout-config-app) .window-content button:not(:disabled):not(.buxa-inventory-item):hover {
+  background:#223954;
+  border-color:#80acd4;
+  color:#fff;
+}
+.buxa:not(.buxa-layout-config-app) .window-content :is(button,input,textarea,select,[role="tab"],a):focus-visible {
+  outline:2px solid #95c9ed;
+  outline-offset:1px;
+}
+.buxa:not(.buxa-layout-config-app) .window-content :is(label,button,summary,[role="button"],[role="tab"]) { -webkit-tap-highlight-color:transparent; }
+.buxa:not(.buxa-layout-config-app) .window-content :is(h1,h2,h3,h4) { color:#edf5ff; }
+.buxa:not(.buxa-layout-config-app) .window-content :is(.buxa-field-label,.buxa-item-field>span) {
+  color:#9eb0c7 !important;
+  font-size:10px !important;
+  letter-spacing:.055em !important;
+  font-weight:700 !important;
+}
+.buxa:not(.buxa-layout-config-app) .window-content :is(.buxa-section-heading,.buxa-rule-section-heading strong) { color:#c9dbed; }
+.buxa:not(.buxa-layout-config-app) .window-content :is(.buxa-section-heading,.buxa-progression-heading) { border-bottom-color:#27394e; }
+/* Disabling transitions during heavy drag removes GPU churn without
+   disabling the actual rarity treatment or hover animation. */
+.buxa-inventory-pointer-dragging .buxa-inventory-item:not(.is-dragging) img,
+.buxa-inventory-pointer-dragging .buxa-inventory-item:not(.is-dragging),
+body.buxa-world-dragging .buxa-world-item-card,
+body.buxa-world-dragging .buxa-world-folder-card { transition:none !important; animation:none !important; }
+@media(prefers-reduced-motion:reduce) {
+ .buxa:not(.buxa-layout-config-app) .window-content *, .buxa-world-item-directory *, .buxa-folder-panel * {
+   animation-duration:.01ms !important;
+   animation-iteration-count:1 !important;
+   transition-duration:.01ms !important;
+   scroll-behavior:auto !important;
+ }
+}

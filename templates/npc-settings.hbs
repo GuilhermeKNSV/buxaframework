@@ -1,0 +1,18 @@
+<section class="buxa-npc-settings">
+  <header><i class="fa-solid fa-user-gear"></i><div><strong>NPC SETTINGS</strong><small></small></div></header>
+  <div class="buxa-npc-mode-list" role="group" aria-label="NPC sheet presentation">
+    <button type="button" data-npc-mode="quick" class="buxa-npc-mode {{#if quick}}is-selected{{/if}}" aria-pressed="{{quick}}" {{#unless editable}}disabled{{/unless}}>
+      <i class="fa-solid fa-bolt"></i><span><strong>Quick</strong><small>Compact view</small></span>
+      {{#if quick}}<i class="fa-solid fa-check"></i>{{/if}}
+    </button>
+    <button type="button" data-npc-mode="visual" class="buxa-npc-mode {{#if visual}}is-selected{{/if}}" aria-pressed="{{visual}}" {{#unless editable}}disabled{{/unless}}>
+      <i class="fa-solid fa-wand-magic-sparkles"></i><span><strong>Visual</strong><small>Full layout</small></span>
+      {{#if visual}}<i class="fa-solid fa-check"></i>{{/if}}
+    </button>
+  </div>
+  <section class="buxa-npc-drop-settings">
+    <h3>DROP</h3>
+    <label class="buxa-npc-drop-setting-control"><span>Slots</span><div class="buxa-npc-setting-slider"><input type="range" min="1" max="200" step="1" data-npc-drop-capacity-slider value="{{dropCapacity}}" {{#unless editable}}disabled{{/unless}}><input type="number" min="1" max="200" step="1" data-npc-drop-capacity value="{{dropCapacity}}" aria-label="Exact NPC drop slot count" {{#unless editable}}disabled{{/unless}}></div></label>
+    <label>HP resource <select data-npc-hp-resource {{#unless editable}}disabled{{/unless}}>{{#each dropResources}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+  </section>
+</section>

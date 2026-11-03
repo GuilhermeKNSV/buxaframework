@@ -1,0 +1,101 @@
+/* -------------------------------------------------------------------------- */
+/* Collapsed attribute layout                                                  */
+/* Keep minimized cards compact without inheriting expanded/source grid rules. */
+/* -------------------------------------------------------------------------- */
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-primary {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) max-content !important;
+  grid-template-areas:
+    "identity tools"
+    "controls controls" !important;
+  gap: 7px 8px !important;
+  align-items: center !important;
+  min-height: 0 !important;
+  padding: 8px 8px 9px 9px !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-identity {
+  grid-area: identity !important;
+  min-width: 0;
+  gap: 8px !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-stats {
+  display: none !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-emblem {
+  flex: 0 0 40px !important;
+  width: 40px !important;
+  height: 42px !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-emblem b {
+  font-size: 17px !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-heading {
+  min-width: 0;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-heading strong {
+  max-width: 100%;
+  font-size: 14px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-controls {
+  grid-area: controls !important;
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr) 30px !important;
+  gap: 4px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  justify-content: stretch !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-controls.no-points {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-step {
+  width: 30px !important;
+  min-width: 30px !important;
+  max-width: 30px !important;
+  height: 31px !important;
+  min-height: 31px !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-number {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  padding: 0 6px !important;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-number strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 14px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-attribute-tools {
+  grid-area: tools !important;
+  display: flex !important;
+  gap: 1px !important;
+  align-items: center !important;
+  align-self: center !important;
+  justify-content: flex-end !important;
+  min-width: max-content;
+}
+
+.buxa-attribute-card.is-collapsed .buxa-source-trigger,
+.buxa-attribute-card.is-collapsed .buxa-value-breakdown {
+  display: none !important;
+}

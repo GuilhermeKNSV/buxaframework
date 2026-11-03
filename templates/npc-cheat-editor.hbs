@@ -1,0 +1,16 @@
+<div class="buxa-npc-cheat">
+  <header><i class="fa-solid fa-pen-to-square"></i><div><strong>{{heading}}</strong><small>{{#if attributeMode}}GM direct override — does not spend attribute points.{{else}}GM edit — level changes grant or retract configured points.{{/if}}</small></div></header>
+  {{#if attributeMode}}
+    <p>Leave a field empty to use the normally calculated value. Overrides also affect rolls and dependent stats.</p>
+    {{#each entries}}
+      <label class="buxa-npc-cheat-field"><span>{{label}} <small>Calculated: {{current}}</small></span>
+        <input type="number" name="{{key}}" step="1" value="{{saved}}" placeholder="Auto ({{current}})" {{#unless ../editable}}disabled{{/unless}}>
+      </label>
+    {{/each}}
+  {{else}}
+    <label class="buxa-npc-cheat-field"><span>Set {{heading}} <small>Current: {{current}}</small></span>
+      <input type="number" name="value" min="0" max="999999" step="1" value="{{current}}" required {{#unless editable}}disabled{{/unless}}>
+    </label>
+  {{/if}}
+  <footer><button type="submit" class="buxa-npc-save" {{#unless editable}}disabled{{/unless}}><i class="fa-solid fa-floppy-disk"></i> Save changes</button></footer>
+</div>

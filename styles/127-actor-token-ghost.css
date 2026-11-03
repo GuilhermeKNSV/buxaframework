@@ -1,0 +1,7 @@
+/* Actor drop: only a thin distance ruler and feet marker. No token duplicate. */
+.buxa-actor-token-ghost{position:fixed;top:0;left:0;z-index:10020;width:0;height:0;border:0;background:none;box-shadow:none;pointer-events:none;opacity:0;transition:opacity 120ms ease}
+.buxa-actor-token-ghost.is-visible{opacity:1}
+.buxa-actor-distance-line{position:absolute;top:0;left:0;height:0;border-top:1px dashed #a0d5f4;transform-origin:0 50%;filter:drop-shadow(0 1px 2px #050d14)}
+.buxa-actor-distance-label{position:absolute;left:12px;top:-29px;padding:5px 8px;min-width:42px;text-align:center;white-space:nowrap;color:#e0f2ff;background:#0b1623e8;border:1px solid #688eac;font:700 11px Arial,sans-serif}
+.buxa-actor-token-ghost.is-landing{opacity:0;transition:opacity 190ms ease}
+@media(prefers-reduced-motion:reduce){.buxa-actor-token-ghost{transition:none}}

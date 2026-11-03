@@ -1,0 +1,83 @@
+/* Buxa v0.10.5 - Read item effects left-to-right as icon -> value -> label.
+ * Shared presentation for the full item sheet and compact inventory hover.
+ * Values/colors are still supplied by the existing item presentation layer. */
+
+/* Two cells only: icon and a fluid content group. No far-right value column. */
+.buxa-item-sheet .buxa-item-tooltip-line {
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+}
+.buxa-item-sheet .buxa-item-tooltip-line > img,
+.buxa-item-sheet .buxa-item-tooltip-line > i,
+.buxa-item-sheet .buxa-item-tooltip-line > .buxa-item-increase-glyph {
+  align-self: baseline;
+}
+
+/* Flexible copy keeps dice formulas beside the label, wrapping gracefully
+ * at narrow window widths or with long dynamically computed formulas. */
+.buxa-item-effect-copy {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  min-width: 0;
+  max-width: 100%;
+  color: inherit;
+}
+.buxa-item-effect-value {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--buxa-tooltip-color, #c8d0dc);
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.buxa-item-effect-label {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.buxa-item-effect-passive {
+  display: inline-flex;
+  align-items: center;
+  align-self: baseline;
+  padding: 2px 5px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  color: inherit;
+  opacity: .65;
+  font: 700 8px/1.15 system-ui, sans-serif;
+  letter-spacing: .09em;
+}
+
+/* Values and icons respect the color chosen for each individual rule. */
+.buxa-item-sheet .buxa-item-tooltip-line .buxa-item-effect-value,
+.buxa-item-sheet .buxa-item-tooltip-line > i,
+.buxa-item-sheet .buxa-item-tooltip-line > .buxa-item-increase-glyph {
+  color: var(--buxa-tooltip-color, #c8d0dc);
+}
+
+/* Inventory hover retains the player's configured per-rule color. */
+.buxa-item-hover-line {
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 6px;
+  align-items: baseline;
+}
+.buxa-item-hover-line > .buxa-item-effect-copy { min-width: 0; }
+.buxa-item-hover-line .buxa-item-effect-value {
+  color: var(--buxa-tooltip-color, #c8d0dc);
+  white-space: normal; /* override the old compact tooltip no-wrap rule */
+  overflow-wrap: anywhere;
+}
+.buxa-item-hover-line .buxa-item-effect-passive { font-size: 7px; }
+
+/* The full sheet is resizable: never reintroduce a second, hidden value row. */
+@media (max-width: 520px) {
+  .buxa-item-sheet .buxa-item-tooltip-line {
+    grid-template-columns: 16px minmax(0, 1fr);
+  }
+}

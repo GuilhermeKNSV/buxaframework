@@ -1,0 +1,68 @@
+/* Storage-only item-sheet details, matching existing fantasy tooltip lines. */
+.buxa-item-sheet .buxa-storage-sheet-details {
+  --buxa-storage-accent: #b8c3d2;
+  position:relative;
+  margin:4px 0 15px;
+  padding:15px 17px 14px;
+  border-top:1px solid color-mix(in srgb,var(--buxa-storage-accent) 65%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--buxa-storage-accent) 30%,transparent);
+  background:linear-gradient(145deg,color-mix(in srgb,var(--buxa-storage-accent) 8%,transparent),rgba(8,14,23,.1) 75%);
+  min-width:0;
+}
+.buxa-item-sheet .buxa-storage-sheet-head {
+  display:flex;align-items:center;gap:9px;margin-bottom:11px;
+  color:var(--buxa-storage-accent);
+}
+.buxa-item-sheet .buxa-storage-sheet-head h2 {
+  color:inherit;font-family:inherit;font-size:12px;font-weight:800;
+  letter-spacing:.13em;line-height:1.3;margin:0;white-space:normal;
+}
+.buxa-item-sheet .buxa-storage-sheet-head>i {font-size:14px;opacity:.92;}
+.buxa-item-sheet .buxa-storage-sheet-rule {
+  flex:1;height:1px;opacity:.5;margin-left:5px;
+  background:linear-gradient(90deg,var(--buxa-storage-accent),transparent);
+}
+.buxa-item-sheet .buxa-storage-sheet-description {
+  margin:0 0 13px;color:#d3dce6;line-height:1.5;font-size:12px;
+  overflow-wrap:anywhere;white-space:pre-line;
+}
+.buxa-item-sheet .buxa-storage-sheet-rows {display:flex;flex-direction:column;gap:0;}
+.buxa-item-sheet .buxa-storage-sheet-row {
+  display:grid;grid-template-columns:17px minmax(80px,1fr) minmax(0,1.35fr);
+  align-items:start;gap:9px;min-width:0;padding:9px 0;
+  border-top:1px solid rgba(189,207,229,.11);
+  font-size:11px;line-height:1.45;
+}
+.buxa-item-sheet .buxa-storage-sheet-row>i {color:var(--buxa-storage-accent);font-size:12px;text-align:center;padding-top:1px;}
+.buxa-item-sheet .buxa-storage-sheet-row-label {color:#9fb0c1;font-weight:750;font-size:10px;letter-spacing:.07em;text-transform:uppercase;overflow-wrap:anywhere;}
+.buxa-item-sheet .buxa-storage-sheet-row-value {color:#ecf3ff;font-weight:640;overflow-wrap:anywhere;text-align:right;}
+.buxa-item-sheet .buxa-storage-sheet-row.is-custom .buxa-storage-sheet-row-value {font-weight:550;}
+/* Item configuration storage-tooltip builder. */
+.buxa-item-config-app .buxa-storage-tooltip-editor {
+  margin:14px 0 17px;padding:14px;
+  border:1px solid #344c62;background:rgba(11,24,36,.68);
+}
+.buxa-item-config-app .buxa-storage-tooltip-head {display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:10px;}
+.buxa-item-config-app .buxa-storage-tooltip-head>div {display:grid;grid-template-columns:17px 1fr;align-items:center;gap:4px 8px;}
+.buxa-item-config-app .buxa-storage-tooltip-head i {color:#84c6e6;}
+.buxa-item-config-app .buxa-storage-tooltip-head strong {color:#e8f5ff;font-size:12px;letter-spacing:.06em;}
+.buxa-item-config-app .buxa-storage-tooltip-head small {grid-column:2;color:#88a5b9;font-size:10px;line-height:1.35;}
+.buxa-item-config-app .buxa-storage-tooltip-fields {display:flex;flex-direction:column;gap:12px;padding-top:10px;border-top:1px solid rgba(143,184,210,.17);}
+.buxa-item-config-app .buxa-storage-tooltip-fields[hidden],
+.buxa-item-config-app .buxa-storage-tooltip-color[hidden] {display:none!important;}
+.buxa-item-config-app .buxa-storage-tooltip-pair {display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.buxa-item-config-app .buxa-storage-tooltip-options {display:flex;flex-wrap:wrap;gap:10px 18px;color:#c3d8e9;font-size:11px;}
+.buxa-item-config-app .buxa-storage-tooltip-options label {display:flex;align-items:center;gap:6px;cursor:pointer;}
+.buxa-item-config-app .buxa-storage-tooltip-options input {accent-color:#6cbfe6;}
+.buxa-item-config-app .buxa-storage-tooltip-row-heading {display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:6px;border-top:1px solid rgba(143,184,210,.16);}
+.buxa-item-config-app .buxa-storage-tooltip-row-heading strong {font-size:11px;color:#c6dfef;letter-spacing:.08em;}
+.buxa-item-config-app .buxa-storage-tooltip-row-heading button {border:1px solid #3d617b;background:#19344a;color:#d8f4ff;font-size:11px;padding:7px 10px;cursor:pointer;border-radius:0;}
+.buxa-item-config-app .buxa-storage-tooltip-rows {display:flex;flex-direction:column;gap:7px;}
+.buxa-item-config-app .buxa-storage-tooltip-row {display:grid;grid-template-columns:minmax(85px,.7fr) minmax(0,1.3fr) 32px;gap:7px;min-width:0;}
+.buxa-item-config-app .buxa-storage-tooltip-row input {min-width:0;max-width:100%;box-sizing:border-box;border:1px solid #38556b;background:#0e1d2d;color:#e6f2ff;padding:8px;font-size:12px;}
+.buxa-item-config-app .buxa-storage-tooltip-row button {border:1px solid #634651;background:#2a1c28;color:#ffabb3;cursor:pointer;border-radius:0;}
+@media(max-width:520px){
+  .buxa-item-sheet .buxa-storage-sheet-row {grid-template-columns:17px minmax(0,1fr);}
+  .buxa-item-sheet .buxa-storage-sheet-row-value {grid-column:2;text-align:left;}
+  .buxa-item-config-app .buxa-storage-tooltip-pair {grid-template-columns:1fr;}
+}

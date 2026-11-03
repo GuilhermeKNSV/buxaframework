@@ -1,0 +1,40 @@
+/* Reusable ApplicationV2 window resize control.
+   This is in the window frame, not inside scrollable sheet contents. */
+.buxa .buxa-window-resize-grip {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  z-index: 100;
+  width: 25px !important;
+  min-width: 25px !important;
+  height: 25px !important;
+  display: grid;
+  place-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 0 3px 0 !important;
+  background: linear-gradient(135deg, transparent 29%, rgba(16,23,33,.94) 30%) !important;
+  color: #98a6b7 !important;
+  font-size: 11px;
+  opacity: .86;
+  cursor: nwse-resize !important;
+  touch-action: none;
+  user-select: none;
+  pointer-events: auto;
+  transition: color 140ms ease, opacity 140ms ease;
+}
+.buxa .buxa-window-resize-grip:hover,
+.buxa .buxa-window-resize-grip.is-resizing,
+.buxa .buxa-window-resize-grip:focus-visible {
+  color: #dce5ef !important;
+  opacity: 1;
+}
+.buxa .buxa-window-resize-grip:focus-visible {
+  outline: 2px solid #89b7dd !important;
+  outline-offset: -2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .buxa .buxa-window-resize-grip { transition: none; }
+}
+

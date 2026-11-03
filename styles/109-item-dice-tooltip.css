@@ -1,0 +1,339 @@
+/* -------------------------------------------------------------------------- */
+/* Item dice, passive increases, tooltip composition, hover card and menu      */
+/* -------------------------------------------------------------------------- */
+
+.buxa-item-config-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.buxa-item-increase-main {
+  grid-template-columns: minmax(190px, 1fr) 92px 105px 92px 32px;
+}
+
+.buxa-item-increase-tooltip {
+  grid-template-columns: 112px minmax(135px, 1fr) 125px 125px 70px minmax(150px, 1fr);
+}
+
+.buxa-item-tooltip-icon-field > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px;
+  gap: 4px;
+}
+
+.buxa-item-tooltip-icon-field button {
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.buxa-item-dice-list,
+.buxa-item-decoration-list { display: grid; gap: 9px; }
+
+.buxa-item-dice-row {
+  border: 1px solid #2c3848;
+  background: linear-gradient(180deg, rgba(255,255,255,.014), transparent 28%), #0e151e;
+  box-shadow: inset 0 1px rgba(255,255,255,.016);
+}
+
+.buxa-item-dice-primary {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) 150px 90px 125px 32px;
+  gap: 7px;
+  align-items: end;
+  padding: 10px;
+  border-bottom: 1px solid #263241;
+}
+
+.buxa-item-dice-primary label,
+.buxa-item-dice-sources label,
+.buxa-item-decoration-row label {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.buxa-item-dice-primary label > span,
+.buxa-item-dice-sources label > span,
+.buxa-item-decoration-row label > span {
+  color: #718197;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.buxa-item-dice-primary input,
+.buxa-item-dice-primary select,
+.buxa-item-dice-sources input,
+.buxa-item-dice-sources select,
+.buxa-item-decoration-row input,
+.buxa-item-decoration-row select { height: 32px; min-width: 0; }
+
+.buxa-dice-pair { display: grid; grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1fr); align-items: center; gap: 3px; }
+.buxa-dice-pair b,
+.buxa-dice-single b { color: #70849c; text-align: center; font-size: 9px; }
+.buxa-dice-single { display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: center; gap: 3px; }
+
+.buxa-item-dice-sources {
+  display: grid;
+  grid-template-columns: 116px minmax(230px, 1fr) minmax(200px, 1fr);
+  gap: 7px;
+  align-items: end;
+  padding: 9px 10px;
+  border-bottom: 1px solid #263241;
+  background: rgba(7,11,16,.26);
+}
+
+.buxa-item-dice-attribute-toggle > label,
+.buxa-item-dice-options label {
+  height: 32px;
+  display: flex !important;
+  align-items: center;
+  gap: 7px;
+  padding: 0 8px;
+  border: 1px solid #2b394a;
+  background: #0a1018;
+  color: #8797ab;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+
+.buxa-item-dice-attribute-fields {
+  display: grid;
+  grid-template-columns: minmax(145px, 1fr) 96px;
+  gap: 7px;
+  transition: opacity 120ms ease;
+}
+.buxa-item-dice-attribute-fields.is-disabled { opacity: .28; }
+
+.buxa-item-dice-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #263241;
+}
+
+.buxa-item-decoration-head { margin-top: 6px; }
+.buxa-item-decoration-row {
+  display: grid;
+  grid-template-columns: 105px 145px minmax(110px,1fr) 70px 125px 125px 70px 32px;
+  gap: 7px;
+  align-items: end;
+  padding: 9px;
+  border: 1px solid #2c3848;
+  background: #0e151e;
+}
+.buxa-item-decoration-row .is-disabled { opacity: .25; }
+
+/* Item sheet lines --------------------------------------------------------- */
+.buxa-item-dice-lines,
+.buxa-item-increase-lines {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  gap: 6px;
+  padding: 7px 3px;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.buxa-item-tooltip-line {
+  --buxa-tooltip-color: #c8d0dc;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  color: var(--buxa-tooltip-color);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  line-height: 1.32;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--buxa-tooltip-color) 14%, transparent);
+}
+
+.buxa-item-tooltip-line > img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border: 0;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--buxa-tooltip-color) 25%, transparent));
+}
+
+.buxa-item-tooltip-line > i,
+.buxa-item-tooltip-line .buxa-item-increase-glyph {
+  width: 16px;
+  color: var(--buxa-tooltip-color);
+  text-align: center;
+  font-size: 10px;
+}
+
+.buxa-item-tooltip-line > span { min-width: 0; overflow-wrap: anywhere; }
+.buxa-item-tooltip-line > strong { color: var(--buxa-tooltip-color); font-weight: 650; white-space: nowrap; }
+
+.buxa-item-custom-divider {
+  --buxa-tooltip-color: #8b97a7;
+  height: 10px;
+  margin: 4px 0;
+  position: relative;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb,var(--buxa-tooltip-color) 45%,transparent), transparent) center / 100% 1px no-repeat;
+}
+.buxa-item-custom-divider span::after {
+  content: "◇";
+  position: absolute;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  padding: 0 7px;
+  background: #090d13;
+  color: var(--buxa-tooltip-color);
+  font-size: 9px;
+}
+.buxa-item-custom-symbols,
+.buxa-item-custom-text {
+  --buxa-tooltip-color: #8b97a7;
+  margin: 4px 0;
+  color: var(--buxa-tooltip-color);
+  text-align: center;
+  font-family: Georgia,"Times New Roman",serif;
+  letter-spacing: .18em;
+}
+.buxa-item-custom-text { text-align: left; letter-spacing: .04em; }
+.buxa-item-custom-spacer { height: 12px; }
+
+/* Hover tooltip ----------------------------------------------------------- */
+.buxa-item-hover-tooltip {
+  --buxa-rarity-accent: var(--buxa-rarity-name, #aab6c5);
+  width: min(330px, calc(100vw - 20px));
+  max-height: min(430px, calc(100vh - 20px));
+  position: fixed;
+  z-index: 120000;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(5px) scale(.985);
+  border: 1px solid color-mix(in srgb,var(--buxa-rarity-accent) 68%,#364151);
+  background:
+    radial-gradient(circle at 82% 0,color-mix(in srgb,var(--buxa-rarity-color) 18%,transparent),transparent 34%),
+    linear-gradient(180deg,#111620,#080c12 72%);
+  box-shadow: inset 0 0 28px rgba(0,0,0,.55), 0 16px 42px rgba(0,0,0,.48), 0 0 16px color-mix(in srgb,var(--buxa-rarity-accent) 14%,transparent);
+  transition: opacity 130ms ease, transform 130ms ease;
+}
+.buxa-item-hover-tooltip.is-open { opacity: 1; transform: none; }
+.buxa-item-hover-tooltip > header {
+  display: grid;
+  grid-template-columns: 48px minmax(0,1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 10px 11px;
+  border-bottom: 1px solid color-mix(in srgb,var(--buxa-rarity-accent) 28%,#293343);
+}
+.buxa-item-hover-tooltip > header img { width: 48px; height: 48px; object-fit: contain; border: 0; filter: drop-shadow(0 5px 8px rgba(0,0,0,.6)); }
+.buxa-item-hover-tooltip > header div { min-width: 0; display: grid; gap: 3px; }
+.buxa-item-hover-tooltip > header strong { overflow: hidden; color: var(--buxa-rarity-name); font-size: 15px; text-overflow: ellipsis; white-space: nowrap; }
+.buxa-item-hover-tooltip > header span { color: var(--buxa-rarity-accent); font-size: 8px; font-weight: 900; letter-spacing: .08em; }
+.buxa-item-hover-meta { display: flex; flex-wrap: wrap; gap: 6px 10px; padding: 7px 11px; color: #8594a8; font-size: 8px; border-bottom: 1px solid #202a37; }
+.buxa-item-hover-meta span { display: inline-flex; align-items: center; gap: 5px; }
+.buxa-item-hover-meta .is-unmet { color: #ff7079; }
+.buxa-item-hover-lines { display: grid; gap: 5px; padding: 9px 11px 11px; }
+.buxa-item-hover-line { --buxa-tooltip-color:#c8d0dc; display: grid; grid-template-columns: 14px minmax(0,1fr) auto; gap: 6px; align-items: center; color: var(--buxa-tooltip-color); font-size: 9px; }
+.buxa-item-hover-line img { width: 13px; height: 13px; object-fit: contain; border: 0; }
+.buxa-item-hover-line i { width: 13px; color: var(--buxa-tooltip-color); text-align: center; font-size: 8px; }
+.buxa-item-hover-line strong { font-weight: 900; white-space: nowrap; }
+
+/* The compact preview shares the same configurable decorations and colors
+   as the full Item sheet without inheriting its larger spacing. */
+.buxa-item-hover-tooltip {
+  max-width: min(340px, calc(100vw - 20px));
+  max-height: calc(100vh - 20px);
+  overflow-x: hidden;
+  /* Pointer events stay disabled on hover previews; don't expose a scrollbar
+     which cannot be operated without dismissing the hover. */
+  overflow-y: hidden;
+}
+.buxa-item-hover-lines > .buxa-item-custom-divider { margin: 2px 0; }
+.buxa-item-hover-lines > .buxa-item-custom-symbols,
+.buxa-item-hover-lines > .buxa-item-custom-text { margin: 2px 0; font-size: 10px; overflow-wrap: anywhere; }
+.buxa-item-hover-lines > .buxa-item-custom-spacer { height: 7px; }
+.buxa-item-hover-description {
+  margin: 5px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid #293343;
+  color: #b4beca;
+  font-size: 10px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Inventory right-click menu ---------------------------------------------- */
+.buxa-item-context-menu {
+  --buxa-rarity-accent: var(--buxa-rarity-name, #aab6c5);
+  min-width: 250px;
+  max-width: 330px;
+  position: fixed;
+  z-index: 120100;
+  opacity: 0;
+  transform: translateY(4px) scale(.985);
+  border: 1px solid color-mix(in srgb,var(--buxa-rarity-accent) 62%,#354152);
+  background: linear-gradient(180deg,#111721,#090d13);
+  box-shadow: 0 14px 36px rgba(0,0,0,.5), 0 0 14px color-mix(in srgb,var(--buxa-rarity-accent) 12%,transparent);
+  transition: opacity 110ms ease, transform 110ms ease;
+}
+.buxa-item-context-menu.is-open { opacity: 1; transform: none; }
+.buxa-item-context-menu > header { display: grid; grid-template-columns: 36px minmax(0,1fr); gap: 8px; align-items: center; padding: 8px; border-bottom: 1px solid #293344; }
+.buxa-item-context-menu > header img { width: 36px; height: 36px; object-fit: contain; border: 0; }
+.buxa-item-context-menu > header div { min-width: 0; display: grid; gap: 2px; }
+.buxa-item-context-menu > header strong { overflow: hidden; color: var(--buxa-rarity-name); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.buxa-item-context-menu > header span { color: var(--buxa-rarity-accent); font-size: 7px; font-weight: 900; }
+.buxa-item-context-actions { display: grid; gap: 3px; padding: 5px; }
+.buxa-item-context-actions button { min-height: 38px !important; margin: 0 !important; display: grid !important; grid-template-columns: 24px minmax(0,1fr); align-items: center; gap: 6px; padding: 5px 8px !important; border-radius: 0 !important; border: 1px solid transparent !important; background: #0b1119 !important; color: #aab6c5 !important; text-align: left; }
+.buxa-item-context-actions button:hover:not(:disabled) { border-color: color-mix(in srgb,var(--buxa-rarity-accent) 48%,#344152) !important; background: color-mix(in srgb,var(--buxa-rarity-color) 8%,#101722) !important; }
+.buxa-item-context-actions button > i { color: var(--buxa-rarity-accent); text-align: center; }
+.buxa-item-context-actions button > span { min-width: 0; display: grid; gap: 1px; }
+.buxa-item-context-actions strong { color: #dce5ef; font-size: 8px; letter-spacing: .09em; }
+.buxa-item-context-actions small { overflow: hidden; color: #718299; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (max-width: 700px) {
+  .buxa-item-increase-main { grid-template-columns: 1fr 92px 92px 82px 32px; }
+  .buxa-item-increase-tooltip { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .buxa-item-increase-show { grid-column: 1/-1; }
+  .buxa-item-dice-primary { grid-template-columns: minmax(120px,1fr) 130px 80px 110px 32px; }
+  .buxa-item-dice-sources { grid-template-columns: 110px minmax(180px,1fr); }
+  .buxa-item-dice-sources > label:last-child { grid-column: 1/-1; }
+  .buxa-item-decoration-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 520px) {
+  .buxa-item-config-tabs button span { display: none; }
+  .buxa-item-increase-main,
+  .buxa-item-dice-primary { grid-template-columns: 1fr 1fr; }
+  .buxa-item-increase-main label:first-child,
+  .buxa-item-dice-primary label:first-child { grid-column: 1/-1; }
+  .buxa-item-dice-sources { grid-template-columns: 1fr; }
+  .buxa-item-dice-attribute-fields { grid-template-columns: 1fr 90px; }
+  .buxa-item-tooltip-line { grid-template-columns: 16px minmax(0,1fr); }
+  .buxa-item-tooltip-line > strong { grid-column: 2; justify-self: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-item-hover-tooltip,
+  .buxa-item-context-menu { transition: none; }
+}
+
+/* Description is the final lore block, not another large card. */
+.buxa-item-sheet .buxa-item-description {
+  min-height: 0 !important;
+  padding: 10px 3px 4px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.buxa-item-sheet .buxa-item-description p {
+  color: #aeb4be;
+  font-size: 13px;
+  line-height: 1.5;
+}

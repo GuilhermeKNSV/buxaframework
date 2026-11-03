@@ -1,0 +1,173 @@
+/* Storage grants: compact inset compartments, not nested sheet tabs. */
+.buxa .buxa-storage-config-body{padding:13px;display:grid;gap:11px;background:#090f19}
+.buxa .buxa-storage-config-body h4{font:800 11px/1.4 system-ui;color:#a7c5de;letter-spacing:.09em;margin:10px 0 0}
+.buxa .buxa-storage-config-body p{margin:0;color:#849ab1;font-size:11px}
+.buxa .buxa-storage-slot-choices{display:flex;gap:7px;flex-wrap:wrap}
+.buxa .buxa-storage-slot-choices label{display:flex;align-items:center;gap:6px;padding:7px 9px;background:#132032;border:1px solid #293e54;font-size:11px}
+.buxa .buxa-storage-external-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:9px}
+.buxa .buxa-storage-external-editor{border:1px solid #354c62;background:#0c1725;padding:11px;display:grid;gap:11px;margin-top:10px}
+.buxa .buxa-storage-external-fields{display:grid;grid-template-columns:minmax(135px,1.5fr) minmax(132px,1.2fr) minmax(150px,1.35fr) 65px 65px 33px;align-items:end;gap:7px}
+.buxa .buxa-storage-external-fields label,.buxa .buxa-storage-appearance label{display:grid;gap:5px;font-size:10px;color:#98b3ce;font-weight:700}
+.buxa .buxa-storage-external-editor :is(input,select){min-width:0;width:100%;background:#122033;border:1px solid #39546f;color:#e7f2fb;min-height:30px;padding:4px}
+.buxa .buxa-storage-appearance{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.buxa .buxa-storage-appearance label:has(input[type=checkbox]){display:flex;gap:5px;align-items:center}
+.buxa .buxa-storage-appearance input[type=color]{width:46px}
+.buxa .buxa-storage-cell-grid{display:grid;grid-template-columns:repeat(var(--storage-cols,4),minmax(0,1fr));max-width:420px;gap:0;background:#060d16;outline:1px solid #324960}
+.buxa .buxa-storage-cell-grid[hidden]{display:none!important}
+.buxa .buxa-storage-cell-grid .buxa-storage-cell{aspect-ratio:1;border:1px solid #253a52!important;background:#090f18!important;padding:0!important;border-radius:0!important;min-width:0}
+.buxa .buxa-storage-cell-grid .buxa-storage-cell.is-active{background:#315c7c!important;box-shadow:inset 0 0 0 2px #9abfdc}
+.buxa .buxa-external-storage-area{display:flex;flex-wrap:wrap;gap:14px;padding:13px 4px 7px;align-items:flex-start}
+.buxa .buxa-storage-compartment{--buxa-storage-color:#6387a9;flex:0 0 auto;width:max-content;min-width:0;background:#0b1421;border:1px solid color-mix(in srgb,var(--buxa-storage-color),#1b2d43 60%);box-shadow:inset 0 0 16px #04080d;max-width:100%;padding:7px}
+.buxa .buxa-storage-compartment.without-border{border-color:transparent}
+.buxa .buxa-storage-compartment.without-background{background:transparent;box-shadow:none}
+.buxa .buxa-storage-compartment header{height:37px;display:flex;align-items:center;gap:8px;padding:0 4px;margin-bottom:6px;border-bottom:1px solid #263b52}
+.buxa .buxa-storage-compartment header img{width:29px;height:29px;object-fit:contain}
+.buxa .buxa-storage-compartment header strong{font-size:12px;color:var(--buxa-storage-color)}
+.buxa .buxa-storage-compartment header small{font-size:10px;color:#8196ac;margin-left:auto}
+/* Match the main Complex inventory's cell dimension. Wide compartments
+   scroll in their own wrapper rather than shrinking the cells and making the
+   pointer grid disagree with where items are displayed. */
+.buxa .buxa-storage-board-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
+.buxa .buxa-storage-grid{box-sizing:border-box;display:grid;position:relative;grid-template-columns:repeat(var(--buxa-storage-columns),minmax(0,1fr));grid-template-rows:repeat(var(--buxa-storage-rows),58px);gap:0;width:calc(var(--buxa-storage-columns)*58px);min-width:calc(var(--buxa-storage-columns)*58px);max-width:none;height:calc(var(--buxa-storage-rows)*58px);background:#080f18;overflow:visible}
+.buxa .buxa-storage-grid > .buxa-storage-cell{position:relative;width:100%;height:100%;border:1px solid #2b3d53;background:#122031;min-width:0;min-height:0}
+.buxa .buxa-storage-grid > .buxa-storage-cell.is-disabled{visibility:hidden;pointer-events:none}
+.buxa .buxa-storage-grid > .buxa-storage-cell.is-storage-drop-target{background:#235b68;box-shadow:inset 0 0 0 1px #80c8de}
+.buxa .buxa-storage-grid > .buxa-storage-cell.is-storage-invalid{background:#55303e;box-shadow:inset 0 0 0 1px #f07580}
+.buxa .buxa-storage-grid .buxa-inventory-item{inset:1px!important}
+/* Position relative to this particular pouch, not the main inventory.
+   Never use inset:auto, which resets the computed left/top coordinates. */
+.buxa .buxa-storage-grid.is-complex > .buxa-complex-item{
+  --buxa-complex-rows:var(--buxa-storage-rows);
+  --buxa-complex-columns:var(--buxa-storage-columns);
+  position:absolute!important;
+  inset:unset!important;
+  left:calc(var(--buxa-shape-x)*100%/var(--buxa-storage-columns))!important;
+  top:calc(var(--buxa-shape-y)*100%/var(--buxa-storage-rows))!important;
+  right:auto!important;bottom:auto!important;
+  width:calc(var(--buxa-shape-w)*100%/var(--buxa-storage-columns))!important;
+  height:calc(var(--buxa-shape-h)*100%/var(--buxa-storage-rows))!important;
+}
+.buxa .buxa-storage-hidden-toggle{display:flex!important;gap:8px;align-items:center;padding:8px;border:1px solid #40546e;color:#bbd0e5;font-size:11px}
+.buxa .buxa-storage-hidden-toggle input{width:16px;height:16px}
+@media(max-width:600px){.buxa .buxa-storage-external-fields{grid-template-columns:1fr 1fr}.buxa .buxa-storage-external-fields label:first-child{grid-column:1/-1}}
+
+.buxa .buxa-complex-board > .buxa-complex-cell.is-disabled{visibility:hidden;pointer-events:none}
+
+/* The storage painter shares the Item Size editor's connected grid language.
+   Generic module buttons impose min-width, flex and margin styles, so override
+   those explicitly to keep ALL cells touching across all viewport widths. */
+.buxa .buxa-storage-shape-workspace{display:grid;justify-items:center;gap:9px;padding:10px;background:#0a1521;border:1px solid #253d52}
+.buxa .buxa-storage-external-editor:not(.is-custom-storage) .buxa-storage-shape-workspace{display:none}
+.buxa .buxa-storage-cell-grid{
+  position:relative!important;box-sizing:border-box!important;
+  display:grid!important;grid-template-columns:repeat(var(--storage-cols,4),minmax(0,1fr))!important;
+  grid-template-rows:repeat(var(--storage-rows,4),minmax(0,1fr))!important;
+  gap:0!important;padding:0!important;
+  width:min(100%,calc(var(--storage-cols,4) * 54px))!important;
+  max-width:100%!important;aspect-ratio:var(--storage-cols,4) / var(--storage-rows,4)!important;
+  background:#06101a!important;border:1px solid #38516a!important;
+  overflow:hidden!important;isolation:isolate;
+}
+.buxa .buxa-storage-cell-grid>button.buxa-storage-cell{
+  appearance:none!important;display:block!important;position:relative!important;
+  width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+  margin:0!important;padding:0!important;border-radius:0!important;
+  border:1px solid #1c3045!important;outline:none!important;
+  background:#08121d!important;opacity:1!important;box-shadow:none!important;
+  transform:none!important;flex:none!important;float:none!important;aspect-ratio:auto!important;
+  cursor:crosshair!important;transition:background .11s ease,border-color .11s ease!important;
+}
+.buxa .buxa-storage-cell-grid>button.buxa-storage-cell.is-idle{
+  background:#07111b!important;border-color:#18293b!important;cursor:default!important;
+}
+.buxa .buxa-storage-cell-grid>button.buxa-storage-cell.is-adjacent{
+  background:#102436!important;border-color:#395773!important;
+}
+.buxa .buxa-storage-cell-grid>button.buxa-storage-cell.is-filled{
+  background:#285170!important;border-color:#87bce0!important;
+  box-shadow:inset 0 0 0 1px #568aae!important;
+}
+.buxa .buxa-storage-cell-grid>button.buxa-storage-cell:not(:disabled):hover{
+  background:#356887!important;border-color:#b3deff!important;
+}
+.buxa .buxa-storage-shape-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(100%,calc(var(--storage-cols,4) * 54px));font-size:11px;color:#aac8dc}
+.buxa .buxa-storage-shape-footer button{height:30px;min-height:30px;padding:4px 10px;background:#172a3b;border:1px solid #36516a;color:#d1e9fb}
+@media(prefers-reduced-motion:reduce){.buxa .buxa-storage-cell-grid>button.buxa-storage-cell{transition:none!important}}
+
+/* The shape painter shows selected slots only, never item artwork. */
+.buxa .buxa-storage-cell-grid>.buxa-storage-cell{z-index:1}
+
+/* v0.11.28: Fit pouch panels to their visible footprint, not the full
+   configuration-editor canvas. Custom shapes often have empty outer rows and
+   columns; keep their original grid coordinates but clip the unused margins. */
+.buxa .buxa-storage-compartment {
+  box-sizing: border-box;
+  width: calc(var(--buxa-storage-visible-columns, var(--buxa-storage-columns)) * 58px + 12px);
+  max-width: 100%;
+  padding: 5px;
+}
+.buxa .buxa-storage-compartment > header {
+  min-width: 0;
+  gap: 5px;
+  padding: 0 1px;
+}
+.buxa .buxa-storage-compartment > header img {
+  flex: 0 0 23px;
+  width: 23px;
+  height: 23px;
+}
+.buxa .buxa-storage-compartment > header strong {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.buxa .buxa-storage-compartment > header small {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.buxa .buxa-storage-board-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.buxa .buxa-storage-board-viewport {
+  position: relative;
+  box-sizing: border-box;
+  width: calc(var(--buxa-storage-visible-columns, var(--buxa-storage-columns)) * 58px);
+  height: calc(var(--buxa-storage-visible-rows, var(--buxa-storage-rows)) * 58px);
+  overflow: hidden;
+}
+.buxa .buxa-storage-board-viewport > .buxa-storage-grid {
+  position: absolute;
+  left: calc(var(--buxa-storage-crop-x, 0) * -58px);
+  top: calc(var(--buxa-storage-crop-y, 0) * -58px);
+}
+
+/* Inventory backpack tile: direct drop stores the item inside its compartment.
+ * Decoration only; the underlying occupied-cell pointer map remains in charge. */
+.buxa [data-item-id].is-container-drop-target {
+  filter: drop-shadow(0 0 5px rgba(80, 195, 148, .8));
+}
+.buxa [data-item-id].is-container-drop-full {
+  filter: drop-shadow(0 0 5px rgba(225, 82, 82, .8));
+}
+
+/* Independent pouch occupancy mode: keep the six editing controls legible at
+   medium Foundry window widths rather than squeezing the item-mode selector. */
+@media (min-width:601px) and (max-width:940px) {
+  .buxa .buxa-storage-external-fields {grid-template-columns:repeat(2,minmax(0,1fr)) 65px 65px 33px;}
+  .buxa .buxa-storage-external-fields label:first-child {grid-column:span 2;}
+  .buxa .buxa-storage-external-fields label:nth-child(3) {grid-column:span 2;}
+}
+
+/* Complex-shaped items preview as one tile while hovering Simple pouches. */
+.buxa-inventory-drag-ghost.is-simple-storage-ghost{box-sizing:border-box;background:#12263ba8;border:1px solid #86badcbb;box-shadow:0 0 10px #5b8eb255;padding:2px;overflow:hidden!important;}
+.buxa-inventory-drag-ghost.is-simple-storage-ghost>img{width:100%;height:100%;object-fit:contain;}

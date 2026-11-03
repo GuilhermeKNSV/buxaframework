@@ -1,0 +1,39 @@
+<section class="buxa-image-picker">
+  <p class="buxa-dialog-lead">Fullbody is used by the sheet/carousel. Token is used on the board.</p>
+
+  <div class="buxa-image-choice">
+    <div class="buxa-image-preview-wrap">
+      <img data-preview-for="fullbody" src="{{fullbody}}" alt="Fullbody preview">
+    </div>
+    <label>
+      <span>FULLBODY</span>
+      <div class="buxa-path-row">
+        <input type="text" name="fullbody" value="{{fullbody}}" {{#unless editable}}disabled{{/unless}}>
+        <button type="button" data-action="browseImage" data-target="fullbody" {{#unless editable}}disabled{{/unless}} title="Browse files">
+          <i class="fa-solid fa-folder-open"></i>
+        </button>
+      </div>
+    </label>
+  </div>
+
+  <div class="buxa-image-choice">
+    <div class="buxa-image-preview-wrap buxa-token-preview">
+      <img data-preview-for="token" src="{{token}}" alt="Token preview">
+    </div>
+    <label>
+      <span>TOKEN</span>
+      <div class="buxa-path-row">
+        <input type="text" name="token" value="{{token}}" {{#unless editable}}disabled{{/unless}}>
+        <button type="button" data-action="browseImage" data-target="token" {{#unless editable}}disabled{{/unless}} title="Browse files">
+          <i class="fa-solid fa-folder-open"></i>
+        </button>
+      </div>
+    </label>
+  </div>
+
+  <footer class="buxa-dialog-footer">
+    <button type="submit" {{#unless editable}}disabled{{/unless}}>
+      <i class="fa-solid fa-floppy-disk"></i> Save images
+    </button>
+  </footer>
+</section>

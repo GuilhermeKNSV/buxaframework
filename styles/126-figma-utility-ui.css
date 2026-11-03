@@ -1,0 +1,40 @@
+/* Buxa Figma UI V2 — utility windows, compact popovers, dialogs and toasts. */
+.buxa-toast {
+  border-radius:0 !important;
+  border-color:rgba(var(--buxa-toast-rgb),.5);
+  background:#0e1623;
+  box-shadow:0 9px 24px rgba(0,0,0,.32);
+}
+.buxa-toast-copy { padding-block:10px; }
+.buxa-toast-copy strong { font-size:10px; letter-spacing:.075em; }
+.buxa-toast-copy p { color:#deebf8; font-size:12px; line-height:1.4; }
+.buxa-toast-icon { filter:none; }
+.buxa-toast-close { color:#a8b7c9 !important; }
+.buxa-item-action-popover .buxa-item-context-actions > button {
+  min-height:38px !important; border-radius:0 !important;
+  padding:9px 11px !important;
+}
+.buxa-item-action-popover .buxa-item-context-actions > button:hover {
+  background:#253d54 !important;
+}
+.buxa-unstack-popover { padding:6px; }
+.buxa-unstack-popover .buxa-unstack-form > button,
+.buxa-unstack-popover input { border-radius:0 !important; }
+.buxa-equipment-layout-toolbar { gap:9px; padding:10px; }
+.buxa-equipment-layout-adders { gap:5px; }
+.buxa-equipment-layout-options { gap:8px; }
+.buxa-equipment-designer-slot.is-selected { outline-color:#7fbce9; }
+.buxa-equipment-inspector-title { border-bottom:1px solid #293d54; }
+.buxa-asset-source-tabs { gap:6px; }
+.buxa-asset-source-tabs button.is-active { background:#27445e !important; border-color:#7fbce9 !important; }
+.buxa-asset-search { background:#142033; border:1px solid #344b63; }
+.buxa-asset-browser :is(.buxa-asset-pathbar,.buxa-asset-browser-controls) { border-bottom-color:#27394e; }
+.buxa-asset-file { box-shadow:none; transition:background-color 120ms ease,border-color 120ms ease; }
+.buxa-asset-thumb img { object-fit:contain; }
+.buxa-dialog-footer,.buxa-image-picker .buxa-dialog-footer { background:#0e1623; border-top:1px solid #27394e; }
+.buxa-dialog-lead,.buxa-config-intro p { color:#a2b5ca; }
+.buxa-link-user { background:#142033; border-color:#344b61; border-radius:0; }
+.buxa-link-user:hover { background:#21364c; }
+.buxa-actor-config { background:#070b12; }
+.buxa-image-choice,.buxa-image-preview-wrap,.buxa-image-picker { border-radius:0 !important; }
+.buxa .buxa-window-resize-grip { border-radius:0 !important; color:#b1c5d9 !important; }

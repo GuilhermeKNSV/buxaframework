@@ -1,0 +1,78 @@
+<div class="buxa-edit-root {{#if actorPreview}}has-preview{{/if}}">
+  <header class="buxa-edit-header">
+    <div class="buxa-edit-heading"><i class="fa-solid fa-sliders"></i><div>
+      <strong>{{#if batch}}BULK {{kind}} EDITOR{{else}}{{kind}} CONFIGURATION{{/if}}</strong>
+      <small>{{#if batch}}{{count}} selected · Apply only the fields you enable{{else}}Customize your actor and its prototype token{{/if}}</small>
+    </div></div>
+    {{#if batch}}<div class="buxa-edit-people">{{#each names}}<span>{{this}}</span>{{/each}}{{#if extraCount}}<span>+{{extraCount}}</span>{{/if}}</div>{{/if}}
+  </header>
+  <nav class="buxa-edit-tabs" role="tablist" aria-label="Editor sections">
+    {{#each sections}}<button type="button" data-buxa-edit-tab="{{id}}" role="tab" aria-selected="{{#if active}}true{{else}}false{{/if}}" class="{{#if active}}is-active{{/if}}"><i class="fa-solid {{icon}}"></i>{{label}}</button>{{/each}}
+  </nav>
+  <div class="buxa-edit-workspace">
+    {{#if actorPreview}}
+    <aside class="buxa-edit-preview" aria-label="Live prototype token preview">
+      <div class="buxa-edit-preview-header"><span><i class="fa-solid fa-eye"></i> LIVE PREVIEW</span><small>Unsaved changes</small></div>
+      <div class="buxa-edit-preview-scene">
+        <div class="buxa-edit-preview-floor"></div>
+        <svg class="buxa-edit-preview-fx" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <path data-buxa-preview-detection class="buxa-edit-preview-detection"></path>
+          <path data-buxa-preview-sight class="buxa-edit-preview-sight"></path>
+          <path data-buxa-preview-dim class="buxa-edit-preview-dim"></path>
+          <path data-buxa-preview-bright class="buxa-edit-preview-bright"></path>
+        </svg>
+        <div class="buxa-edit-preview-token" data-buxa-preview-token>
+          <img data-buxa-preview-image src="{{previewImage}}" alt="" draggable="false">
+          <span class="buxa-edit-preview-facing" aria-hidden="true"></span>
+        </div>
+      </div>
+      <div class="buxa-edit-preview-details">
+        <strong data-buxa-preview-name>{{previewName}}</strong>
+        <span data-buxa-preview-footprint>1 × 1 squares</span>
+      </div>
+      <div class="buxa-edit-preview-legend">
+        <span><i class="buxa-preview-dot sight"></i><b data-buxa-preview-sight-label>Vision off</b></span>
+        <span><i class="buxa-preview-dot light"></i><b data-buxa-preview-light-label>No light</b></span>
+        <span><i class="buxa-preview-dot detection"></i><b data-buxa-preview-detection-label>No detection</b></span>
+      </div>
+      <p class="buxa-edit-preview-hint">Approximate token, vision and light visualization. The scene determines the actual result.</p>
+    </aside>
+    {{/if}}
+    <div class="buxa-edit-scroll">
+      {{#each sections}}
+      <section class="buxa-edit-panel" data-buxa-edit-panel="{{id}}" {{#unless active}}hidden{{/unless}} role="tabpanel">
+        <div class="buxa-edit-panel-title">{{label}}<small>{{#if ../batch}}Select APPLY for the properties you want to change across the selection.{{else}}Changes apply to future tokens; placed tokens are not modified.{{/if}}</small></div>
+        <div class="buxa-edit-fields">
+          {{#each fields}}
+          <div class="buxa-edit-field {{#if isWide}}is-wide{{/if}} {{#if ../../batch}}is-unselected{{/if}} {{#if isCheck}}is-switch-field{{/if}}" data-buxa-edit-field="{{key}}">
+            <div class="buxa-edit-label"><span>{{label}}</span>{{#if ../../batch}}<label class="buxa-edit-apply"><input type="checkbox" data-buxa-apply><span>APPLY</span></label>{{/if}}</div>
+            {{#if help}}<small class="buxa-edit-field-help">{{help}}</small>{{/if}}
+            {{#if isCheck}}
+              <label class="buxa-edit-toggle"><input type="checkbox" data-buxa-value {{#if selected}}checked{{/if}}><span class="buxa-edit-switch" aria-hidden="true"></span><span class="buxa-edit-switch-word">{{#if selected}}On{{else}}Off{{/if}}</span></label>
+            {{else if isSelect}}
+              <select data-buxa-value aria-label="{{label}}">{{#each options}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select>
+            {{else if hasSlider}}
+              <div class="buxa-edit-range-control">
+                <input type="range" data-buxa-range min="{{sliderMin}}" max="{{sliderMax}}" step="{{step}}" value="{{value}}" aria-label="{{label}} slider">
+                <input type="number" data-buxa-value value="{{value}}" min="{{min}}" max="{{max}}" step="{{step}}" aria-label="{{label}} number" title="Click to type an exact value">
+              </div>
+            {{else if isNumber}}
+              <input type="number" data-buxa-value value="{{value}}" min="{{min}}" max="{{max}}" step="{{step}}">
+            {{else if isColor}}
+              <div class="buxa-edit-color-control"><input type="color" data-buxa-value value="{{value}}" aria-label="{{label}}"><span>Choose color</span></div>
+            {{else if isDetection}}
+              <div class="buxa-edit-detection"><select data-buxa-detection-type aria-label="Detection mode">{{#each detectionOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select><div class="buxa-edit-range-control"><input type="range" data-buxa-range min="0" max="{{detectionSliderMax}}" step="1" value="{{value.range}}" aria-label="Detection range slider"><input data-buxa-detection-range type="number" min="0" max="100000" step="1" aria-label="Detection range" value="{{value.range}}"></div></div>
+            {{else if isArtwork}}
+              <div class="buxa-edit-art-control"><input type="text" data-buxa-value value="{{value}}" placeholder="{{placeholder}}" autocomplete="off" spellcheck="false"><button data-buxa-pick-art type="button" aria-label="Browse artwork" title="Browse artwork"><i class="fa-solid fa-folder-open"></i></button></div>
+            {{else}}
+              <input type="text" data-buxa-value value="{{value}}" placeholder="{{placeholder}}" autocomplete="off" spellcheck="false">
+            {{/if}}
+          </div>
+          {{/each}}
+        </div>
+      </section>
+      {{/each}}
+    </div>
+  </div>
+  <footer class="buxa-edit-footer"><button type="button" data-buxa-close-editor>Cancel</button><button class="buxa-edit-save" data-buxa-save-editor type="submit"><i class="fa-solid fa-floppy-disk"></i>{{#if batch}}Apply to {{count}}{{else}}Save Changes{{/if}}</button></footer>
+</div>

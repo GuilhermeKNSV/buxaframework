@@ -1,0 +1,137 @@
+<section class="buxa-item-sheet {{rarityClass}} {{#if itemUse.exhausted}}is-exhausted{{/if}}" style="{{rarityStyle}}" data-rarity-tier="{{rarityTier}}" data-item-uuid="{{item.uuid}}">
+  <div class="buxa-item-sheet-aura" aria-hidden="true"></div>
+  <div class="buxa-item-sheet-ornament" aria-hidden="true"></div>
+
+  <header class="buxa-item-hero">
+    <div class="buxa-item-hero-copy">
+      <div class="buxa-item-title-row">
+        <h1 data-item-name="{{item.name}}{{#if showQuantity}} x{{quantity}}{{/if}}">{{item.name}}{{#if showQuantity}} x{{quantity}}{{/if}}</h1>
+        {{#if isGM}}<button type="button" class="buxa-item-configure" data-action="configureBuxaItem" title="Configure item"><i class="fa-solid fa-gear"></i></button>{{/if}}
+      </div>
+      <div class="buxa-item-rarity-line"><strong>{{rarity.label}}</strong>{{#if showTypeLabel}}<span class="buxa-item-type-label">{{typeLabel}}</span>{{/if}}</div>
+      <div class="buxa-item-hero-separator" aria-hidden="true"><span></span></div>
+      <div class="buxa-item-meta-list">
+        {{#if rules.equip.enabled}}<div class="buxa-item-meta-row"><i class="fa-solid fa-shirt"></i><span>Slot</span><strong>{{#each slotLabels}}{{this}}{{#unless @last}} · {{/unless}}{{/each}}</strong></div>{{/if}}
+        {{#if rules.levelRequirement.enabled}}<div class="buxa-item-meta-row buxa-item-requirement {{requirementClass}}"><i class="fa-solid fa-bookmark"></i><span>Required</span><strong>Level {{rules.levelRequirement.level}}</strong></div>{{/if}}
+        {{#if rules.multiple.enabled}}<div class="buxa-item-meta-row"><i class="fa-solid fa-layer-group"></i><span>Type</span><strong>Stackable</strong></div>{{/if}}
+      </div>
+    </div>
+    <div class="buxa-item-hero-art">{{#if stackArtwork.custom}}<span class="buxa-stack-composite">{{#each stackArtwork.layers}}<img src="{{img}}" style="{{style}}" alt="">{{/each}}</span>{{else}}<img class="buxa-item-hero-icon" src="{{stackArtwork.img}}" alt="">{{/if}}</div>
+  </header>
+
+  <div class="buxa-item-sheet-scroll">
+    {{#if hasStorageTooltip}}
+      <section class="buxa-storage-sheet-details" style="--buxa-storage-accent:{{storageTooltip.accent}}" aria-label="Storage information">
+        <div class="buxa-storage-sheet-head"><i class="fa-solid fa-box-open" aria-hidden="true"></i><h2>{{storageTooltip.title}}</h2><span class="buxa-storage-sheet-rule" aria-hidden="true"></span></div>
+        {{#if storageTooltip.description}}<p class="buxa-storage-sheet-description">{{storageTooltip.description}}</p>{{/if}}
+        {{#if storageTooltip.hasRows}}
+          <div class="buxa-storage-sheet-rows">
+          {{#each storageTooltip.rows}}
+            <div class="buxa-storage-sheet-row {{#if custom}}is-custom{{/if}}" {{#if hint}}title="{{hint}}"{{/if}}>
+              <i class="{{icon}}" aria-hidden="true"></i>
+              <span class="buxa-storage-sheet-row-label">{{label}}</span>
+              <strong class="buxa-storage-sheet-row-value">{{value}}</strong>
+            </div>
+          {{/each}}
+          </div>
+        {{/if}}
+      </section>
+    {{/if}}
+    {{#if itemUse.limits.enabled}}
+      <section class="buxa-item-use-status {{#if itemUse.exhausted}}is-exhausted{{/if}}" aria-label="Item charges" title="Charges are tracked independently for each Item copy">
+        <div class="buxa-item-use-status-top">
+          <span class="buxa-item-use-caption"><i class="fa-solid {{#if itemUse.exhausted}}fa-lock{{else}}fa-hourglass-half{{/if}}" aria-hidden="true"></i> Charges</span>
+          <span class="buxa-item-use-count"><strong>{{itemUse.remaining}}</strong><span>/ {{itemUse.limits.maxUses}}</span></span>
+        </div>
+        <div class="buxa-item-use-meter" role="progressbar" aria-label="Remaining item charges" aria-valuemin="0" aria-valuemax="{{itemUse.limits.maxUses}}" aria-valuenow="{{itemUse.remaining}}">
+          <span class="buxa-item-use-meter-fill" style="width:{{itemUse.usesPercent}}%"></span>
+        </div>
+        {{#if itemUse.onExhaustLabel}}<div class="buxa-item-use-status-foot"><span>{{itemUse.onExhaustLabel}}</span></div>{{/if}}
+        {{#each itemUse.rechargeLabels}}<div class="buxa-item-use-recharge-line"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> {{this}}</div>{{/each}}
+      </section>
+    {{/if}}
+    {{#if itemUse.hasResourceEffects}}
+      <section class="buxa-item-use-resources" aria-label="Resource use rules">
+        <div class="buxa-item-use-heading"><h2>When used</h2><span class="buxa-item-use-heading-rule" aria-hidden="true"></span></div>
+        <div class="buxa-item-use-effects">
+          {{#each itemUse.resourceEffects}}
+          <div class="buxa-item-use-effect {{#if fill}}is-fill{{else}}is-drain{{/if}}" title="{{description}}">
+            <i class="fa-solid fa-diamond" aria-hidden="true"></i>
+            <span class="buxa-item-use-effect-copy">
+              <span class="buxa-item-use-effect-value"><strong>{{description}}</strong></span>
+            </span>
+          </div>
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+    {{#if itemUse.showStandaloneUse}}{{#if itemUse.isOwned}}
+      {{#if itemUse.exhausted}}
+      <div class="buxa-item-use-action-row"><span class="buxa-item-use-action-note"><i class="fa-solid fa-lock" aria-hidden="true"></i> No charges remaining</span></div>
+      {{else}}
+      <div class="buxa-item-use-action-row">
+        <button type="button" class="buxa-item-use-button" data-use-item-standalone aria-label="Use this item"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i><span>Use item</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      {{/if}}
+    {{/if}}{{/if}}
+    {{#each decorations.beforeDice}}
+      {{#if divider}}<div class="buxa-item-custom-divider" style="{{style}}"><span></span></div>{{/if}}
+      {{#if symbolsType}}<div class="buxa-item-custom-symbols" style="{{style}}">{{symbols}}</div>{{/if}}
+      {{#if textType}}<div class="buxa-item-custom-text" style="{{style}}">{{text}}</div>{{/if}}
+      {{#if spacer}}<div class="buxa-item-custom-spacer"></div>{{/if}}
+    {{/each}}
+
+    {{#if hasDice}}
+      <section class="buxa-item-dice-lines">
+        {{#each diceLines}}
+          <div class="buxa-item-tooltip-line is-dice {{themeClass}} buxa-discovery-{{visibility}}" style="{{style}}">
+            {{#if locked}}<i class="fa-solid fa-lock"></i>{{else}}{{#if hidden}}<i class="fa-solid fa-eye-slash"></i>{{else}}{{#if icon}}<img src="{{icon}}" alt="">{{else}}<i class="fa-solid fa-dice-d20"></i>{{/if}}{{/if}}{{/if}}
+            <span class="buxa-item-effect-copy">
+              <strong class="buxa-item-effect-value">{{displayText}}</strong>
+              <span class="buxa-item-effect-label">{{label}}</span>
+            </span>
+          </div>
+        {{/each}}
+      </section>
+    {{/if}}
+
+    {{#each decorations.between}}
+      {{#if divider}}<div class="buxa-item-custom-divider" style="{{style}}"><span></span></div>{{/if}}
+      {{#if symbolsType}}<div class="buxa-item-custom-symbols" style="{{style}}">{{symbols}}</div>{{/if}}
+      {{#if textType}}<div class="buxa-item-custom-text" style="{{style}}">{{text}}</div>{{/if}}
+      {{#if spacer}}<div class="buxa-item-custom-spacer"></div>{{/if}}
+    {{/each}}
+
+    {{#if hasIncreases}}
+      <section class="buxa-item-increase-lines">
+        {{#each increaseLines}}
+          <div class="buxa-item-tooltip-line is-increase {{themeClass}} buxa-discovery-{{visibility}}" style="{{style}}">
+            {{#if locked}}<i class="fa-solid fa-lock"></i>{{else}}{{#if hidden}}<i class="fa-solid fa-eye-slash"></i>{{else}}{{#if icon}}<img src="{{icon}}" alt="">{{else}}<span class="buxa-item-increase-glyph">◆</span>{{/if}}{{/if}}{{/if}}
+            <span class="buxa-item-effect-copy">
+              <strong class="buxa-item-effect-value">{{valueText}}</strong>
+              <span class="buxa-item-effect-label">{{label}}</span>
+              {{#if passive}}<small class="buxa-item-effect-passive">PASSIVE</small>{{/if}}
+            </span>
+          </div>
+        {{/each}}
+      </section>
+    {{/if}}
+
+    {{#each decorations.beforeDescription}}
+      {{#if divider}}<div class="buxa-item-custom-divider" style="{{style}}"><span></span></div>{{/if}}
+      {{#if symbolsType}}<div class="buxa-item-custom-symbols" style="{{style}}">{{symbols}}</div>{{/if}}
+      {{#if textType}}<div class="buxa-item-custom-text" style="{{style}}">{{text}}</div>{{/if}}
+      {{#if spacer}}<div class="buxa-item-custom-spacer"></div>{{/if}}
+    {{/each}}
+
+    {{#if hasDescriptionParts}}
+      <div class="buxa-item-divider" aria-hidden="true"><span></span></div>
+      <section class="buxa-item-description buxa-modular-description"><p>{{#each descriptionParts}}<span class="buxa-description-fragment buxa-discovery-{{visibility}}">{{prefix}}{{#if locked}}<i class="fa-solid fa-lock"></i> {{/if}}{{text}}</span>{{/each}}</p></section>
+    {{/if}}
+    {{#unless hasConfiguredDetails}}
+      <section class="buxa-item-empty-state"><i class="fa-solid fa-gem" aria-hidden="true"></i><p>No special properties.</p></section>
+    {{/unless}}
+  </div>
+
+  {{#if rules.weight.enabled}}<div class="buxa-item-weight-corner"><i class="fa-solid fa-weight-hanging"></i><span>Weight</span><strong>{{totalWeightText}}</strong></div>{{/if}}
+</section>

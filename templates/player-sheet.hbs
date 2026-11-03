@@ -1,0 +1,424 @@
+<section class="buxa-sheet-shell">
+  <nav class="buxa-sheet-nav" aria-label="Buxa sheet navigation">
+    <div class="buxa-sheet-tabs" role="tablist">
+      <span class="buxa-sheet-tab {{#if isBasicTab}}is-active{{/if}}" data-sheet-tab="basic" role="tab" tabindex="0" aria-selected="{{isBasicTab}}">{{basicTabLabel}}</span>
+      {{#unless npcQuick}}<span class="buxa-sheet-tab {{#if isStatsTab}}is-active{{/if}}" data-sheet-tab="stats" role="tab" tabindex="0" aria-selected="{{isStatsTab}}">STATS</span>{{/unless}}
+      <span class="buxa-sheet-tab {{#if isInventoryTab}}is-active{{/if}}" data-sheet-tab="inventory" role="tab" tabindex="0" aria-selected="{{isInventoryTab}}">INVENTORY</span>
+    </div>
+    {{#if showSheetSettings}}
+      <div class="buxa-sheet-config-wrap">
+        <button class="buxa-sheet-config-button" type="button" data-action="openPlayerSettings" title="{{#if isNpc}}NPC Settings · Quick or Visual{{else}}Player Settings · resource bars and player access{{/if}}" aria-label="{{#if isNpc}}Open NPC Settings{{else}}Open Player Settings{{/if}}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.6 3.1 10.2 1h3.6l.6 2.1c.5.2 1 .4 1.4.8l2-.7 2.5 2.5-.7 2c.3.4.6.9.8 1.4l2.1.6v3.6l-2.1.6c-.2.5-.4 1-.8 1.4l.7 2-2.5 2.5-2-.7c-.4.3-.9.6-1.4.8l-.6 2.1h-3.6l-.6-2.1c-.5-.2-1-.4-1.4-.8l-2 .7-2.5-2.5.7-2c-.3-.4-.6-.9-.8-1.4l-2.1-.6V9.7l2.1-.6c.2-.5.4-1 .8-1.4l-.7-2 2.5-2.5 2 .7c.4-.3.9-.6 1.4-.8ZM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></svg>
+        </button>
+      </div>
+    {{/if}}
+  </nav>
+  <div class="buxa-sheet-scroll {{#if npcQuick}}buxa-npc-quick{{/if}}">
+    <section class="buxa-basic-card" data-sheet-panel="basic" {{#unless isBasicTab}}hidden{{/unless}}>
+      <div class="buxa-portrait-wrap">
+        <div class="buxa-portrait-frame" data-buxa-portrait title="Right-click to choose Fullbody and Token images">
+          <img class="buxa-portrait" data-buxa-portrait-image src="{{fullbody}}" alt="{{actor.name}}">
+          <span class="buxa-portrait-edit-hint" aria-hidden="true">•••</span>
+        </div>
+        <div class="buxa-portrait-switch" aria-label="Portrait image">
+          <button type="button" class="buxa-portrait-toggle" data-action="togglePortraitImage" data-fullbody-src="{{fullbody}}" data-token-src="{{token}}" data-fullbody-icon="{{portraitIcons.fullbody}}" data-token-icon="{{portraitIcons.token}}" data-svg-icons="{{svgIconsEnabled}}" title="Switch portrait image">
+            {{#if svgIconsEnabled}}<img data-buxa-portrait-toggle-icon src="{{portraitIcons.fullbody}}" alt="">{{/if}}
+            <span data-buxa-portrait-toggle-label {{#if svgIconsEnabled}}hidden{{/if}}>BODY</span>
+          </button>
+        </div>
+      </div>
+      <div class="buxa-fields-grid">
+        {{#each fields}}
+          <label class="buxa-field" style="{{style}}">
+            <span class="buxa-field-label">{{label}}</span>
+            <input
+              type="text"
+              name="{{inputName}}"
+              value="{{value}}"
+              {{#unless ../editable}}disabled{{/unless}}
+              autocomplete="off"
+            >
+          </label>
+        {{/each}}
+      </div>
+    </section>
+    {{#if showProgression}}
+      <section class="buxa-progression-card" data-sheet-panel="basic" {{#unless isBasicTab}}hidden{{/unless}} data-buxa-progression>
+        <header class="buxa-progression-heading"><span class="buxa-progression-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 15 7-7 7 7M5 21l7-7 7 7"/></svg></span><span class="buxa-progression-heading-label">PROGRESSION</span><span class="buxa-progression-heading-line" aria-hidden="true"></span></header>
+        <div class="buxa-progression-content {{#unless level.canLevelUp}}no-action{{/unless}}">
+          <div class="buxa-progression-stats">
+            {{#if level.enabled}}
+              <div class="buxa-progression-stat buxa-progression-level" data-buxa-level {{#if isNpc}}title="GM: right-click to set level"{{/if}}>
+                <span class="buxa-progression-stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20h3v-7H4v7Zm6 0h4V8h-4v12Zm7 0h3V3h-3v17Z"/></svg></span>
+                <span class="buxa-progression-stat-copy"><span>{{level.label}}</span><strong>{{level.value}}</strong></span>
+              </div>
+            {{/if}}
+            {{#if points.enabled}}
+              <div class="buxa-progression-stat buxa-progression-points" data-buxa-points {{#if isNpc}}title="GM: right-click to set attribute points"{{/if}}>
+                <span class="buxa-progression-stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2.7 2.8 5.7 6.3.9-4.6 4.5 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.5 6.3-.9L12 2.7Z"/></svg></span>
+                <span class="buxa-progression-stat-copy"><span>{{points.label}}</span><strong>{{points.value}}</strong></span>
+              </div>
+            {{/if}}
+          </div>
+          {{#if level.canLevelUp}}<button type="button" class="buxa-levelup-button {{level.theme.className}}" style="{{level.theme.style}}" data-action="levelUp"><span class="buxa-levelup-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 14 6-6 6 6M6 20l6-6 6 6"/></svg></span><span>+ LEVEL UP</span></button>{{/if}}
+        </div>
+      </section>
+    {{/if}}
+    <section class="buxa-section-card buxa-resources-card" data-sheet-panel="basic" {{#unless isBasicTab}}hidden{{/unless}}>
+      <header class="buxa-section-heading"><span>RESOURCES</span></header>
+      <div class="buxa-resource-grid">
+        {{#each resources}}
+          <article class="buxa-resource" style="{{style}}" data-resource-card="{{id}}">
+            <div class="buxa-resource-name">
+              <span class="buxa-resource-swatch"></span>
+              {{#if showIcon}}<img class="buxa-entry-svg-icon" src="{{iconPath}}" alt="">{{/if}}
+              <strong>{{label}}</strong>
+              {{#if ../editable}}<button type="button" class="buxa-resource-track-toggle {{#if hudTracked}}is-active{{/if}}" data-resource-track-toggle="{{id}}" aria-pressed="{{hudTracked}}" title="{{#if hudTracked}}Stop displaying on token{{else}}Track on token{{/if}}" aria-label="Toggle {{label}} token tracking"><i class="fa-solid fa-location-crosshairs"></i></button>{{/if}}
+              <button type="button" class="buxa-source-trigger" data-action="toggleValueBreakdown" data-breakdown-id="{{breakdown.id}}" aria-expanded="false" title="Sources"><i class="fa-solid fa-list-ul"></i></button>
+            </div>
+            <div class="buxa-resource-track" aria-label="{{label}} {{current}} of {{max}}">
+              <span class="buxa-resource-fill"></span>
+            </div>
+            <div class="buxa-resource-values">
+              <label>
+                <span>CURRENT</span>
+                <input
+                  type="number"
+                  step="{{inputStep}}"
+                  value="{{current}}"
+                  data-resource-current="{{id}}"
+                  {{#unless ../editable}}disabled{{/unless}}
+                >
+              </label>
+              <span class="buxa-resource-slash">/</span>
+              <label>
+                <span>MAX</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="{{inputStep}}"
+                  value="{{max}}"
+                  data-resource-max="{{id}}"
+                  {{#unless ../editable}}disabled{{/unless}}
+                >
+              </label>
+            </div>
+            <div class="buxa-value-breakdown" data-value-breakdown="{{breakdown.id}}" hidden><div class="buxa-breakdown-head"><strong>{{breakdown.title}}</strong></div><div class="buxa-breakdown-list">{{#each breakdown.entries}}{{#if itemId}}<button type="button" class="buxa-breakdown-source is-item is-{{tone}}" style="{{style}}" data-source-item-id="{{itemId}}" title="Find {{label}} in Inventory"><img src="{{image}}" alt=""><span><strong>{{label}}</strong>{{#if detail}}<small>{{detail}}</small>{{/if}}<small class="buxa-source-jump-hint">VIEW IN INVENTORY <i class="fa-solid fa-arrow-right"></i></small></span><b>{{valueText}}</b></button>{{else}}<div class="buxa-breakdown-source is-{{tone}}" style="{{style}}"><i class="{{icon}}"></i><span><strong>{{label}}</strong>{{#if detail}}<small>{{detail}}</small>{{/if}}</span><b>{{valueText}}</b></div>{{/if}}{{/each}}</div></div>
+          </article>
+        {{/each}}
+      </div>
+    </section>
+    {{#if showAttributes}}
+      <section class="buxa-section-card buxa-attributes-card" data-sheet-panel="basic" {{#unless isBasicTab}}hidden{{/unless}}>
+        <header class="buxa-section-heading buxa-attributes-title"><span>ATTRIBUTES</span></header>
+        <div class="buxa-attribute-board" data-attribute-board>
+          {{#each attributes}}
+            {{#if ../npcQuick}}
+              <article class="buxa-npc-attribute-tile" data-attribute-card="{{id}}" data-attribute-row="{{id}}" data-locked="true" title="Right-click to edit {{label}} value, modifier and dice">
+                <button type="button" class="buxa-npc-attribute-dice" data-action="attributeRoll" data-attribute-id="{{id}}" aria-label="Roll {{label}} · {{rollTitle}}" title="Roll {{label}} · {{rollTitle}}" aria-haspopup="menu">
+                  <strong>{{dice}}</strong>
+                </button>
+                <strong class="buxa-npc-attribute-name" title="{{label}}">{{label}}</strong>
+                <span class="buxa-npc-attribute-modifier" aria-label="Modifier {{modifierText}}"><small>MOD</small><b>{{modifierText}}</b></span>
+                <span class="buxa-npc-attribute-value" aria-label="Value {{value}}"><small>VALUE</small><b>{{value}}</b></span>
+              </article>
+            {{else}}
+            <article class="buxa-attribute-card {{#if collapsed}}is-collapsed{{else}}is-expanded{{/if}} {{#if locked}}is-locked{{/if}} {{#if atCap}}is-cap{{/if}} {{#if isReborn}}is-reborn{{/if}}" style="{{style}}" data-attribute-card="{{id}}" {{#if ../isNpc}}title="GM: right-click to edit value, dice and modifier"{{/if}} data-attribute-row="{{id}}" data-collapsed="{{collapsed}}" data-locked="{{locked}}" data-order="{{order}}" {{#if draggable}}draggable="true"{{/if}}>
+              <div class="buxa-attribute-primary">
+                <div class="buxa-attribute-identity">
+                  <div
+                    class="buxa-attribute-emblem is-rollable {{#if showRebirth}}has-rebirth{{/if}} {{#if atCap}}is-ready{{/if}}"
+                    data-action="attributeRoll"
+                    data-attribute-id="{{id}}"
+                    role="button"
+                    tabindex="0"
+                    title="Choose roll · {{rollTitle}}"
+                    aria-haspopup="menu"
+                  >
+                    <b>{{dice}}</b>
+                  </div>
+                  <div class="buxa-attribute-heading">
+                    <div class="buxa-attribute-heading-with-icon">
+                      {{#if showIcon}}<img class="buxa-entry-svg-icon" src="{{iconPath}}" alt="">{{/if}}
+                      <strong>{{label}}</strong>
+                    </div>
+                  </div>
+                </div>
+                <div class="buxa-attribute-stats">
+                  {{#if modifierEnabled}}
+                    <div class="buxa-attribute-mini-stat">
+                      <span>MOD</span>
+                      <strong>{{modifierText}}</strong>
+                    </div>
+                  {{/if}}
+                  {{#if showRebirth}}
+                    <div class="buxa-attribute-mini-stat is-rebirth">
+                      <span>REBIRTH</span>
+                      <strong>{{rebirths}}{{#if rebirthDecoration}} <span class="buxa-rebirth-rank">{{rebirthDecoration}}</span>{{/if}}</strong>
+                    </div>
+                  {{/if}}
+                </div>
+                <div class="buxa-attribute-controls {{#if ../points.enabled}}has-points{{else}}no-points{{/if}}">
+                  {{#if ../points.enabled}}
+                    <button type="button" class="buxa-attribute-step" data-action="attributeDecrease" data-attribute-id="{{id}}" {{#unless canDecrease}}disabled{{/unless}} title="Decrease and refund one point">−</button>
+                  {{/if}}
+                  <button
+                    type="button"
+                    class="buxa-attribute-number {{#if canDirectEdit}}is-editable{{/if}}"
+                    data-attribute-number="{{id}}"
+                    data-value="{{value}}"
+                    data-direct-edit="{{canDirectEdit}}"
+                    title="{{#if canDirectEdit}}Set exact value{{else}}{{label}}{{/if}}"
+                  ><strong>{{value}}</strong></button>
+                  {{#if ../points.enabled}}
+                    <button type="button" class="buxa-attribute-step" data-action="attributeIncrease" data-attribute-id="{{id}}" {{#unless canIncrease}}disabled{{/unless}} title="Spend one point">+</button>
+                  {{/if}}
+                </div>
+                <div class="buxa-attribute-tools">
+                  <button type="button" class="buxa-attr-tool buxa-source-trigger" data-action="toggleValueBreakdown" data-breakdown-id="{{breakdown.id}}" aria-expanded="false" title="Sources"><i class="fa-solid fa-list-ul"></i></button>
+                  <button type="button" class="buxa-attr-tool" data-action="toggleAttributeLock" data-attribute-id="{{id}}" title="{{#if locked}}Unlock{{else}}Lock{{/if}} attribute">
+                    {{#if locked}}<i class="fa-solid fa-lock"></i>{{else}}<i class="fa-solid fa-lock-open"></i>{{/if}}
+                  </button>
+                  {{#if showCollapseToggle}}<button type="button" class="buxa-attr-tool" data-action="toggleAttributeCollapse" data-attribute-id="{{id}}" {{#if locked}}disabled{{/if}} title="{{#if collapsed}}Expand{{else}}Collapse{{/if}} attribute">
+                    {{#if collapsed}}<i class="fa-solid fa-chevron-right"></i>{{else}}<i class="fa-solid fa-chevron-left"></i>{{/if}}
+                  </button>{{/if}}
+                </div>
+              </div>
+              {{#if atCap}}
+                <button type="button" class="buxa-rebirth-gate {{rebirthThemeClass}}" style="{{rebirthThemeStyle}}" data-action="attributeRebirth" data-attribute-id="{{id}}" data-attribute-label="{{label}}" title="Rebirth {{label}} · claim tier {{nextRebirths}}" aria-label="Rebirth {{label}}. Click to unlock tier {{nextRebirths}}.">
+                  <span class="buxa-rebirth-gate-crest" aria-hidden="true"><i class="fa-solid fa-lock"></i><span class="buxa-rebirth-gate-spark"></span></span>
+                  <span class="buxa-rebirth-gate-message"><strong>REBIRTH READY</strong><small>Click to unlock the next tier</small></span>
+                  <span class="buxa-rebirth-gate-level" aria-hidden="true">{{rebirths}} <i class="fa-solid fa-arrow-right"></i> {{nextRebirths}}</span>
+                  <span class="buxa-rebirth-gate-charge" aria-hidden="true"><span></span></span>
+                </button>
+              {{/if}}
+              <div class="buxa-value-breakdown" data-value-breakdown="{{breakdown.id}}" hidden><div class="buxa-breakdown-head"><strong>{{breakdown.title}}</strong></div><div class="buxa-breakdown-list">{{#each breakdown.entries}}{{#if itemId}}<button type="button" class="buxa-breakdown-source is-item is-{{tone}}" style="{{style}}" data-source-item-id="{{itemId}}" title="Find {{label}} in Inventory"><img src="{{image}}" alt=""><span><strong>{{label}}</strong>{{#if detail}}<small>{{detail}}</small>{{/if}}<small class="buxa-source-jump-hint">VIEW IN INVENTORY <i class="fa-solid fa-arrow-right"></i></small></span><b>{{valueText}}</b></button>{{else}}<div class="buxa-breakdown-source is-{{tone}}" style="{{style}}"><i class="{{icon}}"></i><span><strong>{{label}}</strong>{{#if detail}}<small>{{detail}}</small>{{/if}}</span><b>{{valueText}}</b></div>{{/if}}{{/each}}</div></div>
+            </article>
+            {{/if}}
+          {{/each}}
+        </div>
+      </section>
+    {{/if}}
+    <section class="buxa-section-card buxa-stats-card" data-sheet-panel="{{#if npcQuick}}basic{{else}}stats{{/if}}" {{#if npcQuick}}{{#unless isBasicTab}}hidden{{/unless}}{{else}}{{#unless isStatsTab}}hidden{{/unless}}{{/if}}>
+      <header class="buxa-section-heading"><span>STATS</span></header>
+      <div class="buxa-stats-strip">
+        <article class="buxa-stat-compact is-dr {{#if stats.damageReduction.enabled}}is-active{{/if}}">
+          <span class="buxa-stat-compact-label">DR</span>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            value="{{stats.damageReduction.value}}"
+            data-other-stat-dr
+            {{#unless editable}}disabled{{/unless}}
+            aria-label="Damage Reduction"
+          >
+          {{#if stats.damageReduction.enabled}}
+            {{#if stats.damageReduction.resourceLabel}}<small>{{stats.damageReduction.resourceLabel}}</small>{{/if}}
+          {{/if}}
+        </article>
+        <article class="buxa-stat-compact is-initiative {{#if stats.initiative.enabled}}is-active{{/if}}">
+          <span class="buxa-stat-compact-label">INITIATIVE</span>
+          <strong class="buxa-stat-compact-number">{{stats.initiative.valueText}}</strong>
+          {{#if stats.initiative.enabled}}
+            {{#if stats.initiative.attributeLabel}}<small>{{stats.initiative.attributeLabel}}</small>{{/if}}
+          {{/if}}
+        </article>
+      </div>
+      {{#if stats.proficiencies.enabled}}
+        <section class="buxa-proficiencies">
+          <header class="buxa-proficiency-heading">
+            <strong>{{stats.proficiencies.label}}</strong>
+            {{#if stats.proficiencies.points.enabled}}
+              <span class="buxa-proficiency-points" data-buxa-proficiency-points {{#if isNpc}}title="GM: right-click to set proficiency points"{{/if}}>
+                {{stats.proficiencies.points.label}} <b>{{stats.proficiencies.points.value}}</b>
+              </span>
+            {{/if}}
+          </header>
+          {{#if stats.proficiencies.hasEntries}}
+            <div class="buxa-proficiency-grid">
+              {{#each stats.proficiencies.entries}}
+                <article class="buxa-proficiency-row" data-proficiency-row="{{id}}">
+                  {{#if rollEnabled}}
+                    <button type="button" class="buxa-proficiency-roll" data-action="proficiencyRoll" data-proficiency-id="{{id}}" title="Roll {{label}}">d20</button>
+                  {{/if}}
+                  <div class="buxa-proficiency-name">
+                    <div class="buxa-proficiency-name-line">
+                      {{#if showIcon}}<img class="buxa-entry-svg-icon" src="{{iconPath}}" alt="">{{/if}}
+                      <strong>{{label}}</strong>
+                    </div>
+                    {{#if linkedAttributeLabel}}<small>{{linkedAttributeLabel}}</small>{{/if}}
+                  </div>
+                  <div class="buxa-proficiency-values">
+                    {{#if showNumber}}<span class="buxa-proficiency-number">{{value}}</span>{{/if}}
+                    {{#if showModifier}}<strong class="buxa-proficiency-modifier">{{modifierText}}</strong>{{/if}}
+                  </div>
+                  <button type="button" class="buxa-source-trigger buxa-proficiency-source" data-action="toggleValueBreakdown" data-breakdown-id="{{breakdown.id}}" aria-expanded="false" title="Sources"><i class="fa-solid fa-list-ul"></i></button>
+                  {{#if pointsEnabled}}
+                    <div class="buxa-proficiency-controls">
+                      <button type="button" data-action="proficiencyDecrease" data-proficiency-id="{{id}}" {{#unless canDecrease}}disabled{{/unless}} title="Refund one proficiency point">−</button>
+                      <button type="button" data-action="proficiencyIncrease" data-proficiency-id="{{id}}" {{#unless canIncrease}}disabled{{/unless}} title="Spend one proficiency point">+</button>
+                    </div>
+                  {{/if}}
+                  <div class="buxa-value-breakdown" data-value-breakdown="{{breakdown.id}}" hidden><div class="buxa-breakdown-head"><strong>{{breakdown.title}}</strong></div><div class="buxa-breakdown-list">{{#each breakdown.entries}}{{#if itemId}}<button type="button" class="buxa-breakdown-source is-item is-{{tone}}" style="{{style}}" data-source-item-id="{{itemId}}" title="Find {{label}} in Inventory"><img src="{{image}}" alt=""><span><strong>{{label}}</strong>{{#if detail}}<small>{{detail}}</small>{{/if}}<small class="buxa-source-jump-hint">VIEW IN INVENTORY <i class="fa-solid fa-arrow-right"></i></small></span><b>{{valueText}}</b></button>{{else}}<div class="buxa-breakdown-source is-{{tone}}" style="{{style}}"><i class="{{icon}}"></i><span><strong>{{label}}</strong>{{#if detail}}<small>{{detail}}</small>{{/if}}</span><b>{{valueText}}</b></div>{{/if}}{{/each}}</div></div>
+                </article>
+              {{/each}}
+            </div>
+          {{/if}}
+        </section>
+      {{/if}}
+    </section>
+    <section class="buxa-inventory-page" data-sheet-panel="inventory" {{#unless isInventoryTab}}hidden{{/unless}}>
+      <section class="buxa-inventory-section buxa-equipment-section">
+        <header class="buxa-inventory-heading"><strong>EQUIPPED</strong></header>
+        {{#if inventory.hasEquipment}}
+          {{#if inventory.showEquipmentTabs}}<nav class="buxa-equipment-tabs" aria-label="Equipment groups">
+            {{#each inventory.equipmentTabs}}
+              <button type="button" data-equipment-tab="{{id}}" class="{{#if selected}}is-active{{/if}}">{{label}}</button>
+            {{/each}}
+          </nav>{{/if}}
+          {{#each inventory.equipmentTabs}}
+          <div class="buxa-equipment-board" style="{{boardStyle}}" data-equipment-tab-panel="{{id}}" {{#unless selected}}hidden{{/unless}}>
+            {{#each slots}}
+              <article
+                class="buxa-equipment-slot is-{{size}} {{#if item}}has-item {{rarityClass}}{{/if}}"
+                style="{{style}}"
+                data-equipment-slot="{{id}}"
+                data-equipment-type="{{type}}"
+              >
+                {{#if hasBackground}}<img class="buxa-equipment-slot-bg" src="{{background}}" alt="">{{/if}}
+                <span class="buxa-equipment-slot-label">{{label}}</span>
+                {{#if hasMultiplePositions}}
+                  <div class="buxa-equipment-loadout-switch" aria-label="{{label}} loadout positions">
+                    {{#each positions}}
+                      <button
+                        type="button"
+                        class="{{#if active}}is-active{{/if}} {{#if occupied}}has-item{{/if}}"
+                        data-action="selectEquipmentPosition"
+                        data-equipment-slot-id="{{../id}}"
+                        data-equipment-position="{{position}}"
+                        title="{{../label}} {{number}}{{#if occupied}} · occupied{{/if}}"
+                      >{{number}}</button>
+                    {{/each}}
+                  </div>
+                {{/if}}
+                {{#if item}}
+                  <div class="buxa-inventory-item {{item.rarityClass}} {{#if item.exhausted}}buxa-item-exhausted{{/if}}" style="{{item.rarityStyle}}" data-item-id="{{item.id}}">
+                    {{#if item.stackLayers}}<span class="buxa-stack-composite">{{#each item.stackLayers}}<img src="{{img}}" style="{{style}}" alt="" draggable="false">{{/each}}</span>{{else}}<img src="{{item.img}}" alt="" draggable="false">{{/if}}
+                    {{#if item.showQuantity}}<b class="buxa-item-quantity">×{{item.quantity}}</b>{{/if}}{{#if item.exhausted}}<span class="buxa-item-use-lock" aria-label="Out of uses" title="Out of uses"><svg viewBox="0 0 16 18" aria-hidden="true" focusable="false"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2"/><rect x="2.5" y="7" width="11" height="9" rx="2"/><circle cx="8" cy="11.5" r="1"/></svg></span>{{/if}}
+                  </div>
+                {{/if}}
+              </article>
+            {{/each}}
+          </div>
+          {{/each}}
+        {{/if}}
+      </section>
+      {{#if conditions.length}}
+      <section class="buxa-conditions-row" aria-label="Conditions"><strong>CONDITIONS</strong>
+        {{#each conditions}}<div class="bfx-condition-pill" data-bfx-condition-id="{{id}}"><img src="{{img}}" alt=""><span>{{name}}</span>
+          {{#if ../isGM}}<button type="button" data-action="removeCondition" data-condition-id="{{id}}" title="Remove condition" aria-label="Remove {{name}}"><i class="fa-solid fa-xmark"></i></button>{{/if}}
+        </div>{{/each}}
+      </section>
+      {{/if}}
+      <section class="buxa-inventory-section buxa-bag-section">
+        <header class="buxa-inventory-heading">
+          <strong>INVENTORY</strong>
+          <div class="buxa-inventory-actions">
+            {{#if inventory.weight.enabled}}<span class="buxa-inventory-weight {{#if inventory.weight.over}}is-over{{/if}}"><i class="fa-solid fa-weight-hanging"></i> {{inventory.weight.totalText}} / {{inventory.weight.capacityText}}</span>{{/if}}
+            <span class="buxa-inventory-count">{{inventory.used}}/{{inventory.slots}}</span>
+            {{#if inventory.canAutoSort}}
+            <button type="button" class="buxa-auto-sort-toggle {{#if inventory.autoSort}}is-active{{/if}}" data-action="toggleInventoryAutoSort" data-auto-sort="{{inventory.autoSort}}" title="Toggle automatic sorting"><i class="fa-solid fa-arrow-down-short-wide"></i> {{inventory.autoSortLabel}}</button>
+            {{#if inventory.autoSort}}
+              <details class="buxa-inventory-sort-menu"><summary title="Choose automatic sort mode"><i class="fa-solid fa-sort"></i> {{inventory.sortModeLabel}}</summary>
+                <div class="buxa-inventory-sort-popover"><button type="button" class="{{#if inventory.sortQuantity}}is-active{{/if}}" data-action="sortInventory" data-sort-mode="quantity"><i class="fa-solid fa-layer-group"></i><span>QUANTITY</span></button>
+                  <button type="button" class="{{#if inventory.sortAlphabetic}}is-active{{/if}}" data-action="sortInventory" data-sort-mode="alphabetic"><i class="fa-solid fa-arrow-down-a-z"></i><span>ALPHABETICAL</span></button>
+                  <button type="button" class="{{#if inventory.sortRarity}}is-active{{/if}}" data-action="sortInventory" data-sort-mode="rarity"><i class="fa-solid fa-gem"></i><span>RARITY</span></button></div></details>
+            {{/if}}
+            {{/if}}
+          </div>
+        </header>
+        {{#if inventory.complexMode}}
+        <div class="buxa-complex-board" style="{{inventory.complexBoardStyle}}" data-complex-board>
+          {{#each inventory.complexCells}}<div class="buxa-complex-cell {{#unless enabled}}is-disabled{{/unless}}" {{#if enabled}}data-inventory-index="{{index}}" data-hit-item-id="{{itemId}}"{{/if}}></div>{{/each}}
+          {{#each inventory.complexItems}}
+            <div class="buxa-complex-item buxa-inventory-item {{rarityClass}} {{#if exhausted}}buxa-item-exhausted{{/if}} {{#if rectangularShape}}is-rectangular-shape{{/if}}" style="{{style}}" data-item-id="{{id}}" data-complex-item data-rotation="{{rotation}}" data-complex-index="{{index}}">
+              <div class="buxa-complex-backdrop" style="{{artworkStyle}}"></div>
+              <svg class="buxa-complex-decoration" viewBox="{{decoration.viewBox}}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="buxa-complex-outline" d="{{decoration.perimeter}}"></path><path class="buxa-complex-corners" d="{{decoration.corners}}"></path><path class="buxa-complex-ornaments" d="{{decoration.ornaments}}"></path></svg>
+              <div class="buxa-complex-art" style="{{artworkStyle}}">{{#if stackLayers}}<span class="buxa-stack-composite">{{#each stackLayers}}<img src="{{img}}" style="{{style}}" alt="" draggable="false">{{/each}}</span>{{else}}<img src="{{img}}" alt="" draggable="false">{{/if}}</div>
+              {{#each pieces}}
+                <span class="buxa-complex-piece" style="{{style}}" data-buxa-piece-x="{{x}}" data-buxa-piece-y="{{y}}"></span>
+              {{/each}}
+              {{#if showQuantity}}<b class="buxa-item-quantity">×{{quantity}}</b>{{/if}}{{#if exhausted}}<span class="buxa-item-use-lock" aria-label="Out of uses" title="Out of uses"><svg viewBox="0 0 16 18" aria-hidden="true" focusable="false"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2"/><rect x="2.5" y="7" width="11" height="9" rx="2"/><circle cx="8" cy="11.5" r="1"/></svg></span>{{/if}}
+            </div>
+          {{/each}}
+        </div>
+        {{else}}
+        <div class="buxa-inventory-grid">
+          {{#each inventory.inventorySlots}}
+            <div class="buxa-inventory-slot {{#if item}}has-item {{item.rarityClass}}{{/if}}" {{#if item}}style="{{item.rarityStyle}}"{{/if}} data-inventory-index="{{index}}">
+              {{#if item}}
+                <div class="buxa-inventory-item {{item.rarityClass}} {{#if item.exhausted}}buxa-item-exhausted{{/if}}" style="{{item.rarityStyle}}" data-item-id="{{item.id}}">
+                  {{#if item.stackLayers}}<span class="buxa-stack-composite">{{#each item.stackLayers}}<img src="{{img}}" style="{{style}}" alt="" draggable="false">{{/each}}</span>{{else}}<img src="{{item.img}}" alt="" draggable="false">{{/if}}
+                  {{#if item.showQuantity}}<b class="buxa-item-quantity">×{{item.quantity}}</b>{{/if}}{{#if item.exhausted}}<span class="buxa-item-use-lock" aria-label="Out of uses" title="Out of uses"><svg viewBox="0 0 16 18" aria-hidden="true" focusable="false"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2"/><rect x="2.5" y="7" width="11" height="9" rx="2"/><circle cx="8" cy="11.5" r="1"/></svg></span>{{/if}}
+                </div>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#if inventory.hasExternalStorage}}
+        <div class="buxa-external-storage-area">
+          {{#each inventory.externalStorage}}
+          <section class="buxa-storage-compartment {{borderClass}} {{backgroundClass}}" style="{{style}}" data-storage-id="{{storageId}}">
+            <header title="{{label}} · {{sourceName}}"><img src="{{img}}" alt=""><strong>{{label}}</strong>{{#unless compactHeader}}<small>{{sourceName}}</small>{{/unless}}{{#if canClose}}<button type="button" class="buxa-storage-close" data-close-storage="{{providerId}}" title="Close container" aria-label="Close {{label}}">×</button>{{/if}}</header>
+            {{#if isComplex}}
+            <div class="buxa-storage-board-scroll"><div class="buxa-storage-board-viewport"><div class="buxa-storage-grid is-complex" data-storage-board="{{storageId}}" style="{{style}}">
+              {{#each cells}}<div class="buxa-storage-cell {{#unless enabled}}is-disabled{{/unless}}" data-storage-index="{{index}}" data-storage-id="{{../storageId}}" data-hit-item-id="{{hitItemId}}"></div>{{/each}}
+              {{#each items}}<div class="buxa-complex-item buxa-inventory-item {{rarityClass}} {{#if exhausted}}buxa-item-exhausted{{/if}}" style="{{style}}" data-item-id="{{id}}" data-complex-item data-rotation="{{rotation}}" data-storage-item="{{storageId}}" data-complex-index="{{index}}">
+                <div class="buxa-complex-backdrop" style="{{artworkStyle}}"></div>
+                <svg class="buxa-complex-decoration" viewBox="{{decoration.viewBox}}" preserveAspectRatio="none" aria-hidden="true"><path class="buxa-complex-outline" d="{{decoration.perimeter}}"></path><path class="buxa-complex-corners" d="{{decoration.corners}}"></path><path class="buxa-complex-ornaments" d="{{decoration.ornaments}}"></path></svg>
+                <div class="buxa-complex-art" style="{{artworkStyle}}">{{#if stackLayers}}<span class="buxa-stack-composite">{{#each stackLayers}}<img src="{{img}}" style="{{style}}" alt="" draggable="false">{{/each}}</span>{{else}}<img src="{{img}}" alt="" draggable="false">{{/if}}</div>
+                {{#each pieces}}<span class="buxa-complex-piece" style="{{style}}" data-buxa-piece-x="{{x}}" data-buxa-piece-y="{{y}}"></span>{{/each}}
+                {{#if showQuantity}}<b class="buxa-item-quantity">×{{quantity}}</b>{{/if}}{{#if exhausted}}<span class="buxa-item-use-lock" aria-label="Out of uses" title="Out of uses"><svg viewBox="0 0 16 18" aria-hidden="true" focusable="false"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2"/><rect x="2.5" y="7" width="11" height="9" rx="2"/><circle cx="8" cy="11.5" r="1"/></svg></span>{{/if}}
+              </div>{{/each}}
+            </div></div></div>
+            {{else}}
+            <div class="buxa-storage-board-scroll"><div class="buxa-storage-board-viewport"><div class="buxa-storage-grid" data-storage-board="{{storageId}}" style="{{style}}">
+              {{#each cells}}<div class="buxa-storage-cell {{#unless enabled}}is-disabled{{/unless}}" data-storage-index="{{index}}" data-storage-id="{{../storageId}}">
+                {{#if item}}<div class="buxa-inventory-item {{item.rarityClass}} {{#if item.exhausted}}buxa-item-exhausted{{/if}}" style="{{item.rarityStyle}}" data-item-id="{{item.id}}">{{#if item.stackLayers}}<span class="buxa-stack-composite">{{#each item.stackLayers}}<img src="{{img}}" style="{{style}}" alt="" draggable="false">{{/each}}</span>{{else}}<img src="{{item.img}}" alt="" draggable="false">{{/if}}{{#if item.showQuantity}}<b class="buxa-item-quantity">×{{item.quantity}}</b>{{/if}}{{#if item.exhausted}}<span class="buxa-item-use-lock" aria-label="Out of uses" title="Out of uses"><svg viewBox="0 0 16 18" aria-hidden="true" focusable="false"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2"/><rect x="2.5" y="7" width="11" height="9" rx="2"/><circle cx="8" cy="11.5" r="1"/></svg></span>{{/if}}</div>{{/if}}
+              </div>{{/each}}
+            </div></div></div>
+            {{/if}}
+          </section>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#if inventory.hasOverflow}}
+          <div class="buxa-inventory-overflow">
+            <span>OVERFLOW</span>
+            <div>
+              {{#each inventory.overflow}}
+                <div class="buxa-inventory-item {{rarityClass}} {{#if exhausted}}buxa-item-exhausted{{/if}}" style="{{rarityStyle}}" data-item-id="{{id}}">
+                  {{#if stackLayers}}<span class="buxa-stack-composite">{{#each stackLayers}}<img src="{{img}}" style="{{style}}" alt="" draggable="false">{{/each}}</span>{{else}}<img src="{{img}}" alt="" draggable="false">{{/if}}
+                  {{#if showQuantity}}<b class="buxa-item-quantity">×{{quantity}}</b>{{/if}}{{#if exhausted}}<span class="buxa-item-use-lock" aria-label="Out of uses" title="Out of uses"><svg viewBox="0 0 16 18" aria-hidden="true" focusable="false"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2"/><rect x="2.5" y="7" width="11" height="9" rx="2"/><circle cx="8" cy="11.5" r="1"/></svg></span>{{/if}}
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
+      </section>
+    {{#if isNpc}}{{#if isGM}}
+    <section class="buxa-npc-drop-page" data-npc-drop-section>
+      <header class="buxa-npc-drop-heading"><div><strong>DROP</strong></div><span>{{npcDropUsed}} / {{npcDropCapacity}}</span></header>
+      <div class="buxa-npc-drop-grid" data-npc-drop-zone>
+        {{#each npcDropSlots}}
+          <div class="buxa-npc-drop-cell" data-npc-drop-cell="{{index}}">
+            {{#if entry}}<button type="button" class="buxa-npc-drop-item" data-npc-drop-entry="{{entry.id}}" title="{{entry.name}} · Right-click to edit"><img src="{{entry.img}}" alt=""><span>{{entry.chance}}%</span></button>{{else}}<span class="buxa-npc-drop-empty">+</span>{{/if}}
+          </div>
+        {{/each}}
+      </div>
+    </section>{{/if}}{{/if}}
+    </section>
+  </div>
+</section>

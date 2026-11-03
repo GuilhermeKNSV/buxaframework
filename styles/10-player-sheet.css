@@ -1,0 +1,643 @@
+/* -------------------------------------------------------------------------- */
+/* Player sheet                                                                */
+/* -------------------------------------------------------------------------- */
+
+.buxa-player-sheet .window-content {
+  overflow: hidden;
+}
+
+.buxa-sheet-shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--buxa-bg-0);
+}
+
+.buxa-sheet-nav {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  height: 35px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid #222a38;
+  background: linear-gradient(180deg, #111722, #0d1119);
+}
+
+.buxa-sheet-tabs {
+  display: flex;
+  align-items: stretch;
+}
+
+.buxa-sheet-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 1px 8px 0;
+  color: #6e7b91;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+
+.buxa-sheet-tab.is-active {
+  color: #83c9fa;
+}
+
+.buxa-sheet-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  bottom: -1px;
+  height: 2px;
+  background: var(--buxa-accent);
+}
+
+.buxa-sheet-config-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.buxa-sheet-config-button {
+  width: 27px !important;
+  min-width: 27px !important;
+  height: 27px;
+  margin: 0;
+  padding: 5px !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  color: #7c899e !important;
+}
+
+.buxa-sheet-config-button:hover:not(:disabled) {
+  border-color: #2e3b4c !important;
+  background: #151b25 !important;
+  color: #c5d7e7 !important;
+}
+
+.buxa-sheet-config-button svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.buxa-sheet-config-menu {
+  position: absolute;
+  top: 31px;
+  right: 0;
+  width: 148px;
+  padding: 4px;
+  border: 1px solid #313949;
+  border-radius: 3px;
+  background: #111621;
+  box-shadow: 0 12px 28px rgba(0,0,0,.42);
+}
+
+.buxa-sheet-config-menu[hidden] {
+  display: none;
+}
+
+.buxa-sheet-config-menu button {
+  width: 100%;
+  height: 30px;
+  margin: 0;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  border-color: transparent;
+  background: transparent;
+  font-size: 10px;
+}
+
+.buxa-menu-symbol {
+  color: #83b9df;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.buxa-sheet-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px 14px 18px;
+}
+
+.buxa-basic-card,
+.buxa-section-card {
+  border: 1px solid var(--buxa-border-soft);
+  border-radius: 3px;
+  background: rgba(20,24,33,.96);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.012), 0 6px 20px rgba(0,0,0,.10);
+}
+
+.buxa-basic-card {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 11px;
+}
+
+.buxa-portrait-wrap {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.buxa-portrait-frame {
+  position: relative;
+  width: 78px;
+  height: 78px;
+  overflow: hidden;
+  border: 2px solid #303746;
+  border-radius: 3px;
+  background: #0f1219;
+  cursor: context-menu;
+  user-select: none;
+}
+
+.buxa-portrait-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
+}
+
+.buxa-portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+.buxa-portrait-edit-hint {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  min-width: 22px;
+  height: 17px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 2px;
+  background: rgba(8,10,15,.84);
+  color: #bac4d7;
+  font-size: 9px;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.buxa-portrait-frame:hover .buxa-portrait-edit-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.buxa-image-caption,
+.buxa-field-label {
+  color: #606a7f;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+
+
+.buxa-fields-grid {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 10px 8px;
+}
+
+.buxa-field {
+  min-width: 0;
+  grid-column: span var(--buxa-field-span, 6);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.buxa-field input {
+  width: 100%;
+}
+
+
+.buxa-progression-box {
+  min-width: 132px;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #293545;
+  border-left: 2px solid #36566f;
+  background: linear-gradient(180deg, #121923, #10151e);
+  position: relative;
+  overflow: hidden;
+}
+
+.buxa-progression-title {
+  padding: 7px 9px 5px;
+  color: #607086;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.buxa-progression-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid #222c3a;
+  border-bottom: 1px solid #222c3a;
+}
+
+.buxa-progression-stat {
+  min-width: 0;
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1px;
+  position: relative;
+}
+
+.buxa-progression-stat + .buxa-progression-stat {
+  border-left: 1px solid #293342;
+}
+
+.buxa-progression-stat > span {
+  max-width: 100%;
+  overflow: hidden;
+  color: #69778d;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buxa-progression-stat > strong {
+  color: #eef3fb;
+  font-size: 21px;
+  line-height: 23px;
+  font-weight: 900;
+}
+
+.buxa-progression-points > strong {
+  color: #e3c75f;
+}
+
+
+
+.buxa-section-card {
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.buxa-section-heading {
+  min-height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 10px;
+  border-bottom: 1px solid #262d3b;
+  background: #10141d;
+  color: #768298;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+
+/* Resources: one name, one bar, one editable Current/Max pair. */
+
+
+.buxa-resource {
+  --buxa-resource-color: #4f7fdb;
+  --buxa-resource-pct: 0%;
+  min-width: 0;
+  padding: 10px;
+  background: #151a24;
+  position: relative;
+  overflow: hidden;
+}
+
+.buxa-resource-name {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.buxa-resource-swatch {
+  width: 5px;
+  height: 14px;
+  flex: 0 0 auto;
+  border-radius: 1px;
+  background: var(--buxa-resource-color);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--buxa-resource-color) 42%, transparent);
+}
+
+.buxa-resource-name strong {
+  overflow: hidden;
+  color: #d9dfeb;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buxa-resource-track {
+  height: 5px;
+  margin-top: 9px;
+  overflow: hidden;
+  border: 1px solid #29303e;
+  border-radius: 1px;
+  background: #0b0e14;
+}
+
+.buxa-resource-fill {
+  display: block;
+  width: var(--buxa-resource-pct);
+  height: 100%;
+  background: var(--buxa-resource-color);
+  box-shadow: 0 0 9px color-mix(in srgb, var(--buxa-resource-color) 45%, transparent);
+  transition: width 220ms cubic-bezier(.2,.8,.2,1), filter 220ms ease;
+}
+
+.buxa-resource-values {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 6px;
+  align-items: end;
+  margin-top: 8px;
+}
+
+.buxa-resource-values label {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.buxa-resource-values label > span {
+  color: #596478;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.buxa-resource-values input {
+  width: 100%;
+  height: 29px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.buxa-resource-slash {
+  padding-bottom: 5px;
+  color: #4c576a;
+  font-weight: 800;
+}
+
+/* Attributes: table-like layout inspired by the legacy Buxa presentation. */
+.buxa-attributes-title {
+  border-bottom-color: #2d3443;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.buxa-attribute-emblem {
+  width: 39px;
+  min-width: 39px;
+  height: 39px;
+  margin: 0;
+  padding: 3px !important;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0;
+  border: 1px solid color-mix(in srgb, var(--buxa-attribute-color) 78%, #263241) !important;
+  border-radius: 2px !important;
+  background: color-mix(in srgb, var(--buxa-attribute-color) 7%, #11161f) !important;
+  color: var(--buxa-attribute-color) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--buxa-attribute-color) 7%, transparent);
+  line-height: 1;
+  position: relative;
+}
+
+.buxa-attribute-emblem > b {
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.buxa-attribute-emblem > small {
+  max-width: 32px;
+  overflow: hidden;
+  color: inherit;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buxa-attribute-emblem:not(.has-rebirth) > small {
+  font-size: 15px;
+}
+
+button.buxa-attribute-emblem.is-ready {
+  cursor: pointer;
+  animation: buxaReadyPulse 1.9s ease-in-out infinite;
+}
+
+
+
+
+
+
+
+
+
+.buxa-attribute-step {
+  width: 29px !important;
+  min-width: 29px !important;
+  height: 31px;
+  margin: 0;
+  padding: 0 !important;
+  border-radius: 2px !important;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.buxa-attribute-number {
+  width: 58px;
+  min-width: 58px;
+  height: 33px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #3b4455;
+  border-radius: 2px;
+  background: #202631;
+  color: #eef2f8;
+  font-size: 16px;
+  font-weight: 950;
+  user-select: none;
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+}
+
+.buxa-attribute-number.is-editable {
+  cursor: context-menu;
+}
+
+.buxa-attribute-number.is-editable:hover {
+  border-color: color-mix(in srgb, var(--buxa-attribute-color) 55%, #4c718e);
+  background: #242c38;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Small kinetic feedback instead of notification spam. */
+.buxa-resource,
+.buxa-progression-stat,
+.buxa-attribute-row {
+  isolation: isolate;
+}
+
+.buxa-fx-gain,
+.buxa-fx-loss,
+.buxa-fx-level,
+.buxa-fx-rebirth {
+  z-index: 0;
+}
+
+.buxa-fx-gain::after,
+.buxa-fx-loss::after,
+.buxa-fx-level::after,
+.buxa-fx-rebirth::after {
+  content: attr(data-buxa-fx-text);
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  z-index: 8;
+  pointer-events: none;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .05em;
+  text-shadow: 0 2px 6px #000;
+  animation: buxaFloatFx 850ms ease-out both;
+}
+
+.buxa-fx-gain::after { color: #78d89b; }
+.buxa-fx-loss::after { color: #ef7f8f; }
+.buxa-fx-level::after { color: #8fd6ff; }
+.buxa-fx-rebirth::after { color: var(--buxa-attribute-color, #d5a814); }
+
+.buxa-resource.buxa-fx-gain .buxa-resource-fill { filter: brightness(1.6); }
+.buxa-resource.buxa-fx-loss .buxa-resource-fill { filter: brightness(.7) saturate(1.4); }
+
+.buxa-progression-stat.buxa-fx-level,
+.buxa-progression-stat.buxa-fx-gain,
+.buxa-progression-stat.buxa-fx-loss {
+  animation: buxaStatPulse 650ms ease-out;
+}
+
+
+
+
+
+@keyframes buxaFloatFx {
+  0% { opacity: 0; transform: translate(0, -20%) scale(.84); }
+  18% { opacity: 1; transform: translate(0, -50%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-8px, -135%) scale(.96); }
+}
+
+@keyframes buxaStatPulse {
+  0% { background: rgba(95, 177, 226, .28); transform: scale(.96); }
+  45% { background: rgba(95, 177, 226, .10); transform: scale(1.03); }
+  100% { background: transparent; transform: scale(1); }
+}
+
+@keyframes buxaNumberKick {
+  0% { transform: scale(.86); }
+  48% { transform: scale(1.13); }
+  100% { transform: scale(1); }
+}
+
+@keyframes buxaRebirthSweep {
+  0% { filter: brightness(1); }
+  35% { filter: brightness(1.55); box-shadow: inset 3px 0 0 var(--buxa-attribute-color), inset 0 0 42px color-mix(in srgb, var(--buxa-attribute-color) 20%, transparent); }
+  100% { filter: brightness(1); }
+}
+
+@keyframes buxaReadyPulse {
+  0%, 100% { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--buxa-attribute-color) 8%, transparent), 0 0 0 transparent; }
+  50% { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--buxa-attribute-color) 18%, transparent), 0 0 12px color-mix(in srgb, var(--buxa-attribute-color) 24%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa *,
+  .buxa *::before,
+  .buxa *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+
+/* Responsive Player Sheet compatibility retained when legacy config stylesheet was retired. */
+@media (max-width:760px) {
+  .buxa-basic-card { grid-template-columns:80px minmax(0,1fr); }
+  .buxa-progression-box { grid-column:1 / -1; width:100%; min-height:66px; }
+  .buxa-progression-stats { grid-template-columns:repeat(2,minmax(0,120px)); }
+}
+@media (max-width:620px) {
+  .buxa-basic-card { grid-template-columns:1fr; }
+  .buxa-portrait-wrap { width:78px; }
+  .buxa-field { grid-column:1 / -1; }
+  .buxa-progression-box { grid-column:auto; }
+}

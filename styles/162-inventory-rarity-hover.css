@@ -1,0 +1,140 @@
+/* Real rarity-colored inventory pointer feedback.
+ * Complex art is deliberately pointer-transparent: the occupied-cell routing
+ * applies .is-rarity-hovered to exactly one item, including irregular shapes.
+ * No rectangles around Complex footprints and no gameplay document writes. */
+
+/* Simple inventory, Simple storage and overflow are ordinary pointer targets. */
+.buxa :is(.buxa-inventory-grid, .buxa-storage-grid:not(.is-complex), .buxa-inventory-overflow)
+  .buxa-inventory-item:not(.buxa-complex-item) {
+  /* The previous box-shadow transition interpolated through the old Spectrum
+   * frame (often red) before reaching the new item's rarity. Color feedback
+   * is immediate; only non-chromatic brightness is eased. */
+  transition: filter 125ms ease-out !important;
+}
+body:not(.buxa-inventory-pointer-dragging) .buxa
+  :is(.buxa-inventory-grid, .buxa-storage-grid:not(.is-complex), .buxa-inventory-overflow)
+  .buxa-inventory-item:not(.buxa-complex-item):not(.is-dragging):hover {
+  z-index: 8;
+  transform: none !important;
+  filter: brightness(1.22) saturate(1.18) !important;
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 86%, white),
+    inset 0 0 18px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 37%, transparent),
+    0 0 12px 2px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 60%, transparent) !important;
+}
+
+/* Complex items never use :hover on the item itself, since occupied cells own
+ * pointer events. The board's hit map adds this class to the correct art. */
+.buxa :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item > :is(.buxa-complex-art, .buxa-complex-decoration, .buxa-complex-backdrop) {
+  /* Never interpolate filter drop-shadows through an animated Spectrum hue.
+   * The per-item rarity outline and glow must use the same color instantly. */
+  transition: none !important;
+}
+body:not(.buxa-inventory-pointer-dragging) .buxa
+  :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item.is-rarity-hovered:not(.is-dragging) {
+  z-index: 8;
+}
+body:not(.buxa-inventory-pointer-dragging) .buxa
+  :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item.is-rarity-hovered:not(.is-dragging) > .buxa-complex-art {
+  filter: brightness(1.2) saturate(1.2) !important;
+}
+body:not(.buxa-inventory-pointer-dragging) .buxa
+  :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item.is-rarity-hovered:not(.is-dragging) > .buxa-complex-backdrop {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 70%, transparent)) !important;
+}
+body:not(.buxa-inventory-pointer-dragging) .buxa
+  :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item.is-rarity-hovered:not(.is-dragging) > .buxa-complex-decoration {
+  filter:
+    drop-shadow(0 0 4px var(--buxa-rarity-color, #8cbbe0))
+    drop-shadow(0 0 7px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 66%, transparent)) !important;
+}
+body:not(.buxa-inventory-pointer-dragging) .buxa
+  :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item.is-rarity-hovered:not(.is-dragging) > .buxa-complex-decoration > .buxa-complex-outline {
+  opacity: 1;
+  stroke-width: 2px;
+}
+body:not(.buxa-inventory-pointer-dragging) .buxa
+  :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item.is-rarity-hovered:not(.is-dragging) > .buxa-complex-decoration > .buxa-complex-corners {
+  stroke-width: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa :is(.buxa-inventory-grid, .buxa-storage-grid, .buxa-inventory-overflow) .buxa-inventory-item,
+  .buxa :is(.buxa-complex-board, .buxa-storage-grid.is-complex) > .buxa-complex-item > :is(.buxa-complex-art, .buxa-complex-decoration, .buxa-complex-backdrop) {
+    transition: none !important;
+  }
+}
+
+
+/* Keep the Spectrum/RGB animation clock running through pointer enters and
+ * leaves. Stopping/restarting it was the actual red flash: the historical
+ * spectrum keyframes begin at red each time the animation resumes. On hover,
+ * override only the painted border/glow with the ITEM's own rarity color.
+ * !important paint properties outrank animated values without cancelling the
+ * animation, so pointer exit resumes from the current spectrum phase. */
+.buxa .buxa-inventory-grid
+  > .buxa-inventory-slot.has-item.is-rarity-spectrum:hover {
+  border-color: var(--buxa-rarity-color, #8cbbe0) !important;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 24%, transparent),
+    0 0 13px 2px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 57%, transparent) !important;
+}
+/* The Complex outline uses a filter animation, not a border animation.
+ * The hover decoration's !important rarity filter above takes precedence,
+ * without restarting its hue cycle. */
+
+/* The moving preview replaces the source item after a real drag begins.
+ * Ghosts are inserted under <body>, so their rarity is copied explicitly
+ * once (rather than inheriting a generic/red fallback from the sheet). */
+.buxa-inventory-drag-ghost.is-rarity-dragging:not(.is-complex-ghost):not(.is-invalid) {
+  border: 1px solid var(--buxa-rarity-color, #8cbbe0) !important;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 38%, transparent),
+    0 0 11px 2px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 65%, transparent) !important;
+  filter: brightness(1.14) saturate(1.14) !important;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-rarity-dragging:not(.is-invalid):not(.is-merge-hover) {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 72%, transparent)) !important;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-rarity-dragging:not(.is-invalid)
+  > .buxa-complex-art {
+  filter: brightness(1.16) saturate(1.15) !important;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-rarity-dragging:not(.is-invalid)
+  > .buxa-complex-decoration {
+  filter:
+    drop-shadow(0 0 4px var(--buxa-rarity-color, #8cbbe0))
+    drop-shadow(0 0 7px color-mix(in srgb, var(--buxa-rarity-color, #8cbbe0) 62%, transparent)) !important;
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-rarity-dragging:not(.is-invalid)
+  > .buxa-complex-decoration > .buxa-complex-outline {
+  opacity: 1;
+  stroke-width: 2px;
+}
+
+/* Prevent the legacy slot border transition from tweening the current
+ * Spectrum color (which can be red) into the hovered item's actual rarity.
+ * CSS transitions outrank !important paint declarations while active, so
+ * merely overriding border-color/box-shadow was not sufficient. Do not stop
+ * or restart the configured rarity animation itself. */
+.buxa :is(.buxa-inventory-grid, .buxa-equipment-board)
+  :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item {
+  transition: none !important;
+}
+.buxa .buxa-storage-grid:not(.is-complex) .buxa-inventory-item,
+.buxa .buxa-inventory-overflow .buxa-inventory-item {
+  transition: filter 125ms ease-out !important;
+}
+/* The decoration must never animate a red spectrum filter towards a new
+ * hover drop-shadow; animation still runs for configured Spectrum rarities. */
+.buxa :is(.buxa-complex-board, .buxa-storage-grid.is-complex)
+  > .buxa-complex-item > .buxa-complex-decoration {
+  transition: none !important;
+}

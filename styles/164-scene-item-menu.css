@@ -1,0 +1,143 @@
+/* ===========================================================================
+   Scene loot: ARPG pickup nameplate + rarity beam.
+   Intensity scales with data-tier (0 = plain, 4 = top rarity). Only
+   transform / opacity / filter are animated. Respects reduced motion.
+   =========================================================================== */
+.buxa-physical-loot-label.buxa-scene-item-menu {
+  --loot-accent:#90a3bb;
+  --loot-hot:color-mix(in srgb,var(--loot-accent) 52%,white);
+  position:fixed;z-index:100075;display:block;width:max-content;
+  max-width:min(calc(100vw - 16px),460px);padding:0;border:0;background:none;
+  box-shadow:none;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;
+  filter:drop-shadow(0 8px 14px #000b) drop-shadow(0 0 12px color-mix(in srgb,var(--loot-accent) 18%,transparent));
+  animation:buxa-nameplate-in 240ms cubic-bezier(.2,.9,.25,1.12) both;
+}
+.buxa-physical-loot-label.buxa-scene-item-menu::before{display:none!important;content:none!important}
+.buxa-scene-item-menu .buxa-scene-item-nameplate{
+  position:relative;display:flex;align-items:center;justify-content:center;gap:14px;
+  min-width:min(250px,calc(100vw - 40px));max-width:min(460px,calc(100vw - 32px));
+  padding:9px 28px 12px!important;margin:0;border:0!important;border-radius:0!important;
+  overflow:hidden;isolation:isolate;cursor:pointer;color:var(--loot-accent)!important;
+  background:
+    linear-gradient(90deg,transparent,rgba(3,6,11,.56) 14%,rgba(3,6,11,.56) 86%,transparent),
+    linear-gradient(180deg,color-mix(in srgb,var(--loot-accent) 10%,transparent),transparent 72%)!important;
+  transition:transform 120ms ease-out,filter 120ms ease-out;
+}
+/* top hairline + glowing bottom rule that draws in from the center */
+.buxa-scene-item-nameplate::before{content:"";position:absolute;left:10%;right:10%;top:0;height:1px;z-index:1;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--loot-accent) 40%,transparent),transparent)}
+.buxa-scene-item-nameplate::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;z-index:1;
+  background:linear-gradient(90deg,transparent,var(--loot-accent) 22%,var(--loot-hot) 50%,var(--loot-accent) 78%,transparent);
+  box-shadow:0 0 12px var(--loot-accent),0 -2px 14px color-mix(in srgb,var(--loot-accent) 45%,transparent);
+  transform-origin:50% 50%;animation:buxa-nameplate-rule 360ms cubic-bezier(.2,.8,.2,1) 70ms both}
+.buxa-scene-item-menu .buxa-scene-item-name{
+  position:relative;z-index:2;display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font:700 calc(23px * var(--loot-label-scale,1))/1.12 Georgia,'Times New Roman',serif;letter-spacing:.015em;
+  text-shadow:0 0 12px color-mix(in srgb,var(--loot-accent) 42%,transparent),0 1px 0 #000c;
+  animation:buxa-nameplate-name 300ms ease-out 40ms both;
+}
+/* Ornamental wings: line + diamond. Hidden on the plainest tier. */
+.buxa-scene-item-wing{position:relative;z-index:2;flex:0 0 auto;width:calc(14px + var(--tier-n,0)*8px);height:1px;display:block;
+  background:linear-gradient(90deg,transparent,var(--loot-accent));animation:buxa-nameplate-wing 380ms ease-out 120ms both}
+.buxa-scene-item-wing.is-right{transform:scaleX(-1)}
+.buxa-scene-item-wing::after{content:"";position:absolute;right:-3px;top:-2px;width:5px;height:5px;transform:rotate(45deg);
+  background:var(--loot-hot);box-shadow:0 0 8px var(--loot-accent)}
+.buxa-scene-item-menu[data-tier="0"] .buxa-scene-item-wing{display:none}
+.buxa-scene-item-menu[data-tier="1"]{--tier-n:1}.buxa-scene-item-menu[data-tier="2"]{--tier-n:2}
+.buxa-scene-item-menu[data-tier="3"]{--tier-n:3}.buxa-scene-item-menu[data-tier="4"]{--tier-n:4}
+.buxa-scene-item-menu[data-tier="4"] .buxa-scene-item-name{font-size:calc(25px * var(--loot-label-scale,1))}
+/* Shine sweep on hover; high tiers also shimmer the name on a slow loop. */
+.buxa-scene-item-shine{position:absolute;inset:0 auto 0 0;width:38%;z-index:3;pointer-events:none;opacity:0;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.26),transparent);transform:translateX(-130%) skewX(-18deg)}
+.buxa-scene-item-menu .buxa-scene-item-nameplate:is(:hover,:focus-visible){
+  filter:brightness(1.16) saturate(1.1);outline:none;
+  background:
+    linear-gradient(90deg,transparent,rgba(5,9,15,.68) 12%,rgba(5,9,15,.68) 88%,transparent),
+    linear-gradient(180deg,color-mix(in srgb,var(--loot-accent) 22%,transparent),transparent 82%)!important;
+}
+.buxa-scene-item-menu .buxa-scene-item-nameplate:is(:hover,:focus-visible) .buxa-scene-item-name{color:var(--loot-hot)}
+.buxa-scene-item-menu .buxa-scene-item-nameplate:is(:hover,:focus-visible) .buxa-scene-item-shine{animation:buxa-nameplate-shine 620ms ease-out}
+.buxa-scene-item-menu .buxa-scene-item-nameplate:active{transform:scale(.982);filter:brightness(1.35)}
+.buxa-scene-item-menu .buxa-scene-item-nameplate:disabled{opacity:.55;cursor:wait}
+.buxa-scene-item-menu:is([data-tier="2"],[data-tier="3"],[data-tier="4"]) .buxa-scene-item-shine{animation:buxa-nameplate-shine 900ms ease-out 420ms 1 both,buxa-nameplate-shine 900ms ease-out 3.4s infinite}
+.buxa-scene-item-menu[data-spectrum]{animation:buxa-nameplate-in 240ms cubic-bezier(.2,.9,.25,1.12) both,buxa-loot-hue 4.5s linear infinite}
+.buxa-scene-item-menu.is-collected{pointer-events:none;animation:buxa-nameplate-collect 420ms cubic-bezier(.4,0,.8,.4) forwards}
+@keyframes buxa-nameplate-in{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes buxa-nameplate-rule{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+@keyframes buxa-nameplate-name{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none}}
+@keyframes buxa-nameplate-wing{from{opacity:0;width:0}to{opacity:1}}
+@keyframes buxa-nameplate-shine{0%{opacity:0;transform:translateX(-130%) skewX(-18deg)}15%{opacity:1}100%{opacity:0;transform:translateX(330%) skewX(-18deg)}}
+@keyframes buxa-nameplate-collect{0%{opacity:1;filter:brightness(1) drop-shadow(0 0 0 transparent)}35%{opacity:1;transform:translateY(-6px) scale(1.07);filter:brightness(2.2) drop-shadow(0 0 18px var(--loot-accent))}100%{opacity:0;transform:translateY(-26px) scale(1.12);filter:brightness(2.6)}}
+@keyframes buxa-loot-hue{to{filter:hue-rotate(360deg)}}
+
+/* ---- Loot beam -------------------------------------------------------- */
+.buxa-scene-loot-beam{
+  --loot-accent:#e9b45d;--beam-h:200px;--beam-w:20px;
+  --loot-hot:color-mix(in srgb,var(--loot-accent) 30%,white);
+  --loot-mid:color-mix(in srgb,var(--loot-accent) 68%,white);
+  position:fixed;z-index:100070;width:0;height:0;pointer-events:none;isolation:isolate;mix-blend-mode:screen;
+}
+.buxa-scene-loot-beam>*{position:absolute;display:block;left:0;bottom:0;pointer-events:none;translate:-50% 0;will-change:transform,opacity}
+.buxa-scene-loot-beam[data-spectrum]{animation:buxa-loot-hue 4s linear infinite}
+.buxa-loot-beam-flash{width:calc(var(--beam-w)*6);height:calc(var(--beam-w)*2.4);bottom:calc(var(--beam-w)*-1.1);border-radius:50%;
+  background:radial-gradient(ellipse,#fff 0%,var(--loot-hot) 28%,transparent 70%);animation:buxa-loot-beam-flash 520ms ease-out both}
+.buxa-loot-beam-bloom{width:calc(var(--beam-w)*5.2);height:calc(var(--beam-w)*1.7);bottom:calc(var(--beam-w)*-.8);border-radius:50%;
+  background:radial-gradient(ellipse,var(--loot-mid) 0%,color-mix(in srgb,var(--loot-accent) 55%,transparent) 26%,color-mix(in srgb,var(--loot-accent) 18%,transparent) 50%,transparent 74%);
+  filter:blur(3px);animation:buxa-loot-beam-bloom 1.9s ease-in-out infinite alternate}
+.buxa-loot-beam-ring{width:calc(var(--beam-w)*3.2);height:calc(var(--beam-w)*1);bottom:calc(var(--beam-w)*-.5);border-radius:50%;
+  border:1.5px solid var(--loot-mid);box-shadow:0 0 12px var(--loot-accent),inset 0 0 10px color-mix(in srgb,var(--loot-accent) 50%,transparent);
+  animation:buxa-loot-beam-ring 1.9s ease-in-out infinite alternate}
+.buxa-loot-beam-ripple{width:calc(var(--beam-w)*3.2);height:calc(var(--beam-w)*1);bottom:calc(var(--beam-w)*-.5);border-radius:50%;opacity:0;
+  border:1px solid var(--loot-hot);box-shadow:0 0 10px var(--loot-accent);animation:buxa-loot-beam-ripple 2.4s ease-out infinite}
+.buxa-loot-beam-ripple.is-late{animation-delay:1.2s}
+.buxa-scene-loot-beam[data-tier="0"] :is(.buxa-loot-beam-ripple,.buxa-loot-beam-rays),
+.buxa-scene-loot-beam[data-tier="1"] :is(.buxa-loot-beam-ripple.is-late,.buxa-loot-beam-rays){display:none}
+.buxa-loot-beam-aura{width:calc(var(--beam-w)*3.6);height:calc(var(--beam-h)*.96);bottom:calc(var(--beam-w)*.2);
+  background:radial-gradient(ellipse 50% 100% at 50% 100%,color-mix(in srgb,var(--loot-accent) 50%,transparent) 0%,color-mix(in srgb,var(--loot-accent) 14%,transparent) 55%,transparent 100%);
+  filter:blur(6px);transform-origin:50% 100%;
+  animation:buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both,buxa-loot-beam-breathe 2.6s ease-in-out 420ms infinite alternate}
+/* god-rays fanning out from the base (tier 2+) */
+.buxa-loot-beam-rays{width:calc(var(--beam-w)*9);height:calc(var(--beam-h)*.62);bottom:0;transform-origin:50% 100%;opacity:.55;
+  background:repeating-conic-gradient(from -50deg at 50% 100%,transparent 0 6deg,color-mix(in srgb,var(--loot-accent) 70%,transparent) 6.6deg 7.2deg,transparent 7.8deg 15deg);
+  mask-image:radial-gradient(ellipse at 50% 100%,#000 0%,transparent 72%);animation:buxa-loot-beam-sway 5s ease-in-out infinite alternate}
+/* main shaft: tapered, with light pulses travelling upward through it */
+.buxa-loot-beam-column{width:var(--beam-w);height:var(--beam-h);bottom:calc(var(--beam-w)*.1);overflow:hidden;transform-origin:50% 100%;
+  clip-path:polygon(32% 0,68% 0,100% 100%,0 100%);
+  background:linear-gradient(to top,var(--loot-mid) 0%,var(--loot-accent) 26%,color-mix(in srgb,var(--loot-accent) 38%,transparent) 66%,transparent 100%);
+  mask-image:linear-gradient(to top,#000 0%,#000e 55%,transparent 100%);
+  animation:buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both}
+.buxa-loot-beam-column::before{content:"";position:absolute;left:0;right:0;top:0;height:calc(100% + 90px);
+  background:linear-gradient(to top,transparent 0,color-mix(in srgb,var(--loot-hot) 85%,transparent) 38%,transparent 72%) 0 0/100% 90px repeat-y;
+  animation:buxa-loot-beam-pulses 1.15s linear infinite}
+.buxa-loot-beam-core{width:max(3px,calc(var(--beam-w)*.2));height:calc(var(--beam-h)*.94);bottom:calc(var(--beam-w)*.1);transform-origin:50% 100%;
+  background:linear-gradient(to top,#fff 0%,var(--loot-hot) 30%,color-mix(in srgb,var(--loot-accent) 30%,transparent) 72%,transparent 100%);
+  filter:drop-shadow(0 0 7px var(--loot-accent));
+  animation:buxa-loot-beam-rise 360ms cubic-bezier(.2,.9,.25,1) 50ms both,buxa-loot-beam-flicker 1.7s ease-in-out 420ms infinite alternate}
+.buxa-loot-beam-embers{width:calc(var(--beam-w)*3);height:var(--beam-h);bottom:0}
+.buxa-loot-beam-embers>b{position:absolute;left:50%;bottom:2px;width:var(--s);height:var(--s);border-radius:50%;opacity:0;
+  background:radial-gradient(circle,#fff,var(--loot-mid) 55%,transparent 72%);box-shadow:0 0 6px var(--loot-accent);
+  animation:buxa-loot-beam-ember var(--t) ease-out var(--d) infinite}
+/* looted: the shaft whips upward, a shockwave goes out, everything fades */
+.buxa-scene-loot-beam.is-collected>*:not(.buxa-loot-beam-flash):not(.buxa-loot-beam-ripple){animation:buxa-loot-beam-away 420ms cubic-bezier(.4,0,.9,.5) forwards}
+.buxa-scene-loot-beam.is-collected .buxa-loot-beam-flash{width:calc(var(--beam-w)*10);height:calc(var(--beam-w)*4);animation:buxa-loot-beam-burst 520ms ease-out forwards}
+.buxa-scene-loot-beam.is-collected .buxa-loot-beam-ripple{animation:buxa-loot-beam-shock 520ms ease-out forwards}
+.buxa-scene-loot-beam.is-collected .buxa-loot-beam-ripple.is-late{animation-delay:90ms}
+.buxa-scene-loot-beam.is-collected .buxa-loot-beam-ripple{display:block!important}
+@keyframes buxa-loot-beam-rise{from{opacity:0;transform:scaleY(.04)}55%{opacity:1}to{opacity:1;transform:scaleY(1)}}
+@keyframes buxa-loot-beam-flash{from{opacity:1;transform:scale(.3)}to{opacity:0;transform:scale(1.5)}}
+@keyframes buxa-loot-beam-bloom{from{opacity:.7;transform:scale(.92)}to{opacity:1;transform:scale(1.08)}}
+@keyframes buxa-loot-beam-ring{from{opacity:.6;transform:scale(.94)}to{opacity:1;transform:scale(1.06)}}
+@keyframes buxa-loot-beam-ripple{0%{opacity:.85;transform:scale(.3)}100%{opacity:0;transform:scale(1.9)}}
+@keyframes buxa-loot-beam-breathe{from{opacity:.65}to{opacity:1}}
+@keyframes buxa-loot-beam-flicker{from{opacity:.8}to{opacity:1}}
+@keyframes buxa-loot-beam-sway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes buxa-loot-beam-pulses{from{transform:translateY(0)}to{transform:translateY(-90px)}}
+@keyframes buxa-loot-beam-ember{0%{opacity:0;transform:translate3d(var(--x),0,0) scale(.7)}12%{opacity:1}100%{opacity:0;transform:translate3d(calc(var(--x) + var(--dx)),calc(var(--beam-h)*-.82),0) scale(.2)}}
+@keyframes buxa-loot-beam-away{to{opacity:0;transform:translateY(-40px) scaleX(.15) scaleY(1.25)}}
+@keyframes buxa-loot-beam-burst{from{opacity:1;transform:scale(.3)}to{opacity:0;transform:scale(1.4)}}
+@keyframes buxa-loot-beam-shock{0%{opacity:1;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}
+@media(prefers-reduced-motion:reduce){
+  .buxa-scene-loot-beam *,.buxa-scene-item-menu,.buxa-scene-item-menu *{animation:none!important}
+  .buxa-loot-beam-embers,.buxa-loot-beam-ripple,.buxa-loot-beam-rays{display:none}
+  .buxa-scene-item-menu .buxa-scene-item-nameplate{transition:none}
+}

@@ -1,0 +1,63 @@
+/* Ground labels and the DOM fallback beam share the canvas beam vocabulary. */
+.buxa-physical-loot-label.buxa-scene-item-menu.buxa-visual {
+  --loot-accent: var(--rv-light); --loot-hot: var(--rv-text);
+  filter: drop-shadow(0 5px 7px #000b);
+  animation: buxa-nameplate-expand 380ms cubic-bezier(.18,.82,.25,1) both;
+}
+.buxa-scene-item-menu.buxa-visual .buxa-scene-item-nameplate {
+  padding: 10px 17px !important; gap: 10px;
+  background: var(--rv-surface), linear-gradient(180deg, #11161df0, #080b11ed) !important;
+  outline: 1px solid var(--rv-line); outline-offset: -1px;
+  border-top: 1px solid var(--rv-light) !important;
+  box-shadow: inset 0 0 0 3px #0008 !important;
+  color: var(--rv-text) !important;
+}
+.buxa-scene-item-menu.buxa-visual .buxa-scene-item-name { font: 600 clamp(13px,1.5vw,17px)/1.15 Georgia,serif; letter-spacing: .025em; color: var(--rv-text); text-shadow: 0 2px 3px #000; }
+.buxa-scene-item-menu.buxa-visual .buxa-scene-item-wing {
+  flex: 0 0 22px; width: 22px; height: 26px; transform: none !important;
+  background: var(--rv-light); mask: var(--rv-crest) center/contain no-repeat;
+  filter: none !important; opacity: .7;
+}
+.buxa-scene-item-menu.buxa-visual .buxa-scene-item-shine {
+  width: 25%; background: linear-gradient(90deg, transparent, #ffffff24, transparent);
+  animation: buxa-rv-sheen 7s ease-in-out infinite; animation-play-state: var(--rv-motion-state);
+}
+.buxa-scene-item-menu.buxa-visual .buxa-scene-item-nameplate::after { background: none; box-shadow: none; }
+.buxa-scene-item-menu.buxa-visual .buxa-scene-item-nameplate:is(:hover,:focus-visible) {
+  background: var(--rv-surface), linear-gradient(180deg, var(--rv-deep), #11151e) !important;
+  outline-color: var(--rv-text); box-shadow: inset 0 0 0 3px #0008, 0 0 10px var(--rv-wash) !important;
+}
+.buxa-scene-item-menu.buxa-visual.is-collected { animation: buxa-nameplate-collect 420ms cubic-bezier(.4,0,.8,.4) forwards; }
+.buxa-scene-loot-beam.buxa-visual { --loot-accent: var(--rv-light); --loot-hot: var(--rv-text); pointer-events: none; filter: none; }
+.buxa-scene-loot-beam.buxa-visual .buxa-loot-beam-sigil {
+  position: absolute; width: 75px; height: 75px; left: calc(50% - 37.5px); bottom: -32px;
+  background: var(--rv-light); mask: var(--rv-crest) center/contain no-repeat;
+  transform: scaleY(.32); opacity: .65; pointer-events: none;
+}
+.buxa-scene-loot-beam.buxa-visual .buxa-loot-beam-column {
+  background: linear-gradient(to top, var(--rv-light), color-mix(in srgb,var(--rv-light) 40%, transparent) 60%, transparent);
+  opacity: .4; filter: none;
+}
+.buxa-scene-loot-beam.buxa-visual .buxa-loot-beam-aura {
+  /* The DOM fallback follows the same rule as Pixi: every beam has motion,
+     independent of the Item rarity's separate 'Animated glow' toggle. */
+  animation: buxa-loot-beam-breathe 2.6s ease-in-out infinite alternate;
+  animation-play-state: running;
+}
+.buxa-scene-loot-beam.buxa-beam-dust :is(.buxa-loot-beam-rays,.buxa-loot-beam-sigil,.buxa-loot-beam-embers,.buxa-loot-beam-core),
+.buxa-scene-loot-beam.buxa-beam-shaft :is(.buxa-loot-beam-rays,.buxa-loot-beam-sigil,.buxa-loot-beam-embers) { display: none; }
+.buxa-scene-loot-beam.buxa-beam-dust .buxa-loot-beam-column { opacity: .12; height: 40%; }
+.buxa-scene-loot-beam.buxa-beam-shaft .buxa-loot-beam-column { width: 7px; opacity: .2; }
+.buxa-scene-loot-beam.buxa-beam-wisp .buxa-loot-beam-column { clip-path: polygon(48% 0,58% 30%,38% 60%,75% 85%,55% 100%,30% 90%,25% 65%,45% 35%); }
+.buxa-scene-loot-beam.buxa-beam-lattice .buxa-loot-beam-column { clip-path: none; mask: repeating-linear-gradient(transparent 0 18px,#000 19px 21px), linear-gradient(90deg,transparent 35%,#000 36% 42%,transparent 43% 57%,#000 58% 64%,transparent 65%); }
+.buxa-scene-loot-beam.buxa-beam-helix .buxa-loot-beam-column { clip-path: polygon(50% 0,85% 24%,25% 60%,75% 100%,40% 100%,10% 65%,70% 24%); }
+.buxa-scene-loot-beam.buxa-beam-flame .buxa-loot-beam-column { clip-path: polygon(48% 0,70% 35%,55% 30%,90% 75%,80% 100%,15% 100%,5% 70%,30% 35%,25% 60%,50% 30%); }
+.buxa-scene-loot-beam.buxa-beam-prism .buxa-loot-beam-column { width: calc(var(--beam-w) * 1.5); clip-path: polygon(50% 0,90% 55%,50% 100%,10% 55%); background: linear-gradient(100deg,#8ff8da77,#dfbdff88,var(--rv-light)); }
+.buxa-scene-loot-beam.buxa-beam-votive .buxa-loot-beam-column { clip-path: none; mask: linear-gradient(90deg,#000 0 10%,transparent 10% 30%,#000 30% 42%,transparent 42% 58%,#000 58% 70%,transparent 70% 90%,#000 90%); }
+.buxa-scene-loot-beam.buxa-beam-forge .buxa-loot-beam-column { clip-path: polygon(20% 0,80% 0,80% 100%,65% 100%,65% 8%,35% 8%,35% 100%,20% 100%); }
+.buxa-scene-loot-beam.buxa-beam-rift .buxa-loot-beam-column { width: calc(var(--beam-w) * 1.3); background: linear-gradient(90deg,var(--rv-light),#090711 35% 65%,var(--rv-light)); clip-path: polygon(48% 0,75% 30%,62% 40%,90% 70%,70% 100%,20% 100%,8% 75%,32% 50%,20% 28%); opacity: .7; }
+.buxa-scene-loot-beam.buxa-beam-spire .buxa-loot-beam-column { clip-path: polygon(50% 0,56% 28%,90% 36%,56% 43%,65% 100%,35% 100%,44% 43%,10% 36%,44% 28%); background: linear-gradient(#fff,var(--rv-light)); }
+.buxa-scene-loot-beam.buxa-beam-rupture .buxa-loot-beam-column { clip-path: polygon(35% 0,80% 28%,53% 30%,90% 62%,60% 60%,78% 100%,18% 100%,40% 62%,10% 65%,48% 30%,20% 35%); }
+@media (prefers-reduced-motion: reduce) {
+  .buxa-scene-item-menu.buxa-visual, .buxa-scene-loot-beam.buxa-visual * { animation: none !important; }
+}

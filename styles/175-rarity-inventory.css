@@ -1,0 +1,72 @@
+/* Square item frames. Never change drag geometry, masks, placement or hit areas. */
+.buxa :is(.buxa-inventory-slot,.buxa-equipment-slot).buxa-visual.has-item.has-item,
+.buxa-hotbar .buxa-hb-slot.buxa-visual.has-item {
+  --rc: var(--rv-light); --rc-hi: var(--rv-text);
+  border: 1px var(--rv-border-style) var(--rv-line) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(155deg, #171d26, #080b10) !important;
+  box-shadow: inset 0 0 0 2px #05070b, inset 0 -8px 14px -9px var(--rv-light) !important;
+  /* Do not animate the element: its transform belongs to drag/drop. */
+  animation: none !important; isolation: isolate;
+}
+.buxa :is(.buxa-inventory-slot,.buxa-equipment-slot).buxa-visual.has-item.has-item::before,
+.buxa-hotbar .buxa-hb-slot.buxa-visual.has-item::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: var(--rv-surface), radial-gradient(ellipse at 50% 110%, var(--rv-wash), transparent 70%) !important;
+  opacity: var(--buxa-rarity-bg-opacity, 1) !important;
+  filter: brightness(var(--buxa-rarity-bg-brightness, 1));
+  animation: var(--rv-motion) var(--rv-period) ease-in-out infinite !important;
+  animation-play-state: var(--rv-motion-state) !important;
+}
+.buxa :is(.buxa-inventory-slot,.buxa-equipment-slot).buxa-visual.has-item.has-item::after,
+.buxa-hotbar .buxa-hb-slot.buxa-visual.has-item::after {
+  content: ''; position: absolute; inset: 2px; z-index: 6; pointer-events: none;
+  border: none !important; box-shadow: none !important;
+  background: var(--rv-light) !important; mask: var(--rv-frame) center/100% 100% no-repeat;
+  opacity: .85 !important; animation: none !important;
+}
+.buxa :is(.buxa-inventory-slot,.buxa-equipment-slot).buxa-visual.has-item.has-item:is(:hover,:focus-within),
+.buxa-hotbar .buxa-hb-slot.buxa-visual.has-item:is(:hover,:focus-visible) {
+  border-color: var(--rv-text) !important;
+  box-shadow: inset 0 0 0 2px #05070b, inset 0 -12px 19px -11px var(--rv-light), 0 0 0 1px var(--rv-line) !important;
+}
+.buxa :is(.buxa-inventory-slot,.buxa-equipment-slot).buxa-visual.has-item.has-item.buxa-rarity-bg-full::before {
+  background: var(--rv-surface), linear-gradient(145deg, color-mix(in srgb, var(--rv-base) 48%, #10151d), var(--rv-deep)) !important;
+}
+.buxa .buxa-complex-item.buxa-visual { --rc: var(--rv-light); --rc-hi: var(--rv-text); animation: none !important; }
+.buxa .buxa-complex-item.buxa-visual > .buxa-complex-backdrop {
+  background: linear-gradient(145deg, #171d26, #080b10) !important; animation: none !important;
+}
+.buxa .buxa-complex-item.buxa-visual > .buxa-complex-backdrop::before {
+  background: var(--rv-surface), radial-gradient(ellipse at bottom, var(--rv-wash), transparent 65%) !important;
+  opacity: var(--buxa-rarity-bg-opacity, 1);
+  filter: brightness(var(--buxa-rarity-bg-brightness, 1));
+}
+.buxa .buxa-complex-item.buxa-visual.buxa-rarity-bg-full > .buxa-complex-backdrop::before {
+  background: var(--rv-surface), linear-gradient(145deg, color-mix(in srgb, var(--rv-base) 48%, #10151d), var(--rv-deep)) !important;
+}
+.buxa .buxa-complex-item.buxa-visual > .buxa-complex-backdrop::after {
+  background: linear-gradient(110deg, transparent 38%, #ffffff16 49%, transparent 61%);
+  animation: var(--rv-motion) var(--rv-period) ease-in-out infinite;
+  animation-play-state: var(--rv-motion-state);
+}
+.buxa .buxa-complex-item.buxa-visual > .buxa-complex-art { filter: drop-shadow(0 3px 5px #0009) !important; }
+.buxa .buxa-complex-item.buxa-visual > .buxa-complex-decoration { filter: none !important; }
+.buxa .buxa-complex-item.buxa-visual > .buxa-complex-decoration > .buxa-complex-outline { stroke: var(--rv-line); stroke-width: 1.2px; }
+.buxa .buxa-complex-item.buxa-visual > .buxa-complex-decoration > .buxa-complex-corners { stroke: var(--rv-light); stroke-width: 2px; }
+.buxa .buxa-complex-item.buxa-material-ash > .buxa-complex-decoration > .buxa-complex-outline { stroke-dasharray: 3 3; }
+.buxa .buxa-complex-item:is(.buxa-material-etched,.buxa-material-reliquary) > .buxa-complex-decoration > .buxa-complex-outline { stroke-dasharray: 14 2 2 2; }
+.buxa .buxa-complex-item.buxa-material-forged > .buxa-complex-decoration > .buxa-complex-corners { stroke-width: 3px; }
+.buxa .buxa-complex-item.buxa-material-obsidian > .buxa-complex-decoration > .buxa-complex-outline { stroke-dasharray: 20 4; }
+.buxa-visual :is(.buxa-item-quantity,.buxa-item-qty,.buxa-stack-quantity,.buxa-hb-count),
+.buxa-visual.buxa-complex-item .buxa-complex-quantity {
+  z-index: 8; border-radius: 0 !important; background: #080b12f2 !important;
+  border: 1px solid var(--rv-line); border-top-color: var(--rv-light);
+  color: #f2efe7 !important; font: 700 11px/1.2 Arial,sans-serif;
+  text-shadow: 0 1px 2px #000; padding: 1px 4px;
+}
+body.buxa-inventory-pointer-dragging .buxa .buxa-visual::before { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .buxa :is(.buxa-inventory-slot,.buxa-equipment-slot).buxa-visual.has-item.has-item::before,
+  .buxa-hotbar .buxa-hb-slot.buxa-visual.has-item::before { animation: none !important; }
+}

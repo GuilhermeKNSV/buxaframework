@@ -1,0 +1,59 @@
+<!doctype html><meta charset="utf-8"><title>Buxa motion checks</title>
+<link rel="stylesheet" href="../styles/buxa.css">
+<style>body{margin:0;background:#0b1525;color:white;font:14px Arial}#results{position:absolute;top:410px;white-space:pre-wrap}.test-sheet{position:absolute;inset:0;width:850px;height:400px}.test-slot{position:absolute!important;left:520px!important;top:140px!important;width:116px!important;height:174px!important}.test-source{position:absolute;left:100px;top:100px;width:56px;height:56px}img{border:0}</style>
+<pre id="results">RUNNING</pre>
+<script type="module">
+import {animateGhostRotation,cancelGhostRotation} from '../scripts/apps/inventory-drag-motion.js';
+import {prepareEquipmentDropMotion,commitEquipmentDropMotion} from '../scripts/apps/equipment-drop-motion.js';
+import {shapeArtworkStyle} from '../scripts/core/shape-artwork.js';
+import {createComplexDecorationSvg} from '../scripts/apps/complex-shape-decoration.js';
+import {rotatedCells,shapeBounds} from '../scripts/core/inventory-shapes.js';
+const output=document.querySelector('#results'), results=[];
+const check=(ok,label)=>{if(!ok)throw Error(label);results.push('PASS '+label);};
+const near=(a,b)=>Math.abs(a-b)<.2;
+const icon='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M48 3L25 30 14 28 9 33 19 43 8 55 13 60 26 48 36 57 41 52 37 40 61 12Z" fill="#80d8ff" stroke="#edf8ff" stroke-width="2"/></svg>');
+function ghostAt(x=110,y=100){const ghost=document.createElement('div');ghost.className='buxa-inventory-drag-ghost';Object.assign(ghost.style,{position:'fixed',left:'0',top:'0',width:'56px',height:'56px',transform:`translate(${x}px,${y}px)`});ghost.innerHTML=`<img src="${icon}" style="width:100%;height:100%">`;document.body.append(ghost);return ghost;}
+function fixture(){
+ const root=document.createElement('div');root.className='buxa test-sheet';root.innerHTML=`<div class="test-source buxa-inventory-item" data-item-id="sword"><img src="${icon}"></div><article class="test-slot buxa-equipment-slot has-item" data-equipment-slot="weapon" style="--buxa-equipped-art-transform:translate(5px,-8px) rotate(15deg) scale(1.2)"></article>`;document.body.append(root);
+ const state={placements:{sword:{area:'inventory',index:0}},equipmentActive:{weapon:0}};
+ return {root,state,slot:root.querySelector('article'),sheet:{element:root,actor:{getFlag:()=>state}},ghost:ghostAt()};
+}
+function equip(f){f.state.placements.sword={area:'equipment',slotId:'weapon',position:0};f.root.querySelector('.test-source').remove();f.slot.innerHTML=`<div class="buxa-inventory-item" data-item-id="sword"><img src="${icon}"></div>`;}
+try{
+ const g=ghostAt(100,50);g.classList.add('is-complex-ghost');
+ const shape={cells:[{x:0,y:0},{x:0,y:1},{x:1,y:1}],imageScale:100,imageX:50,imageY:50,imageRotation:0};let turns=0;
+ const render=()=>{const cells=rotatedCells(shape,turns),b=shapeBounds(cells);g.style.width=`${b.width*58}px`;g.style.height=`${b.height*58}px`;g.innerHTML=`<div class="buxa-complex-backdrop" style='${shapeArtworkStyle(shape,turns)}'></div><div class="buxa-complex-art" style='${shapeArtworkStyle(shape,turns)}'><img src="${icon}"></div>`;g.append(createComplexDecorationSvg(document,cells));};render();
+ animateGhostRotation(g,()=>{turns=1;render();});
+ let surface=g.querySelector('.buxa-drag-rotation-surface'),animation=surface.getAnimations()[0];animation.pause();animation.currentTime=0;
+ check(new DOMMatrix(getComputedStyle(surface).transform).b<-.99,'rotation starts a visible clockwise quarter-turn');
+ animation.currentTime=80;check(Math.abs(new DOMMatrix(getComputedStyle(surface).transform).b)>.01,'rotation has an interpolated midpoint');
+ const oldCorner=surface.querySelector('.buxa-complex-art img').getBoundingClientRect();
+ animateGhostRotation(g,()=>{turns=2;render();});
+ surface=g.querySelector('.buxa-drag-rotation-surface');animation=surface.getAnimations()[0];animation.pause();animation.currentTime=0;
+ const newCorner=surface.querySelector('.buxa-complex-art img').getBoundingClientRect();
+ check(near(oldCorner.left,newCorner.left)&&near(oldCorner.top,newCorner.top),'rapid R continues from the currently rendered pose');
+ for(let i=0;i<6;i++){animateGhostRotation(g,()=>{turns=(turns+1)%4;render();});surface=g.querySelector('.buxa-drag-rotation-surface');animation=surface.getAnimations()[0];animation.pause();animation.currentTime=30;}
+ check(g.querySelectorAll('.buxa-drag-rotation-surface').length===1,'rapid rotation keeps one visual surface');
+ animation.finish();await animation.finished;await Promise.resolve();check(!g.querySelector('.buxa-drag-rotation-surface'),'rotation completion restores normal ghost children');
+ animateGhostRotation(g,()=>{turns=(turns+1)%4;render();});cancelGhostRotation(g);check(!g.querySelector('.buxa-drag-rotation-surface'),'cancel removes the active rotation');g.remove();
+
+ let f=fixture();const motion=prepareEquipmentDropMotion(f.sheet,'sword',{area:'equipment',slotId:'weapon'},f.ghost,f.slot);f.ghost.remove();
+ check(getComputedStyle(f.root.querySelector('[data-item-id]')).visibility==='hidden','only the flight ghost remains visible while save is pending');
+ equip(f);await Promise.resolve();motion.complete(true);
+ let flights=[...document.querySelectorAll('.buxa-equipment-flight')];check(flights.length===2,'successful equip crossfades from ghost into actual slot artwork');
+ let animations=flights.map(n=>n.getAnimations()[0]);animations.forEach(a=>{a.pause();a.currentTime=150;});
+ const destination=flights[1];check(getComputedStyle(destination.querySelector('img')).visibility==='visible','destination artwork stays visible inside flight');
+ check(getComputedStyle(destination.querySelector('img')).transform!=='none','flight preserves saved equipment artwork transform');
+ const middle=destination.getBoundingClientRect();check(middle.left>110&&middle.left<524,'ghost travels between pointer and slot');
+ check(!flights.some(n=>n.querySelector('[data-item-id]')),'overlays cannot impersonate inventory hit targets');
+ const moved=f.slot.querySelector('[data-item-id]').cloneNode(true);f.slot.replaceChildren(moved);await new Promise(r=>setTimeout(r,0));check(moved.classList.contains('buxa-equip-motion-hidden'),'sheet rerender during flight keeps one visible item');
+ animations.forEach(a=>a.finish());await Promise.all(animations.map(a=>a.finished));await Promise.resolve();
+ check(document.querySelectorAll('.buxa-equipment-flight').length===0,'arrival removes all flight overlays');check(getComputedStyle(moved).visibility==='visible','arrival reveals the equipped item');f.root.remove();
+
+ f=fixture();const failed=prepareEquipmentDropMotion(f.sheet,'sword',{area:'equipment',slotId:'weapon'},f.ghost,f.slot);f.ghost.remove();await commitEquipmentDropMotion(failed,async()=>false);check(!document.querySelector('.buxa-equipment-flight')&&!f.root.querySelector('.buxa-equip-motion-hidden'),'rejected equip restores source and cleans ghost');f.root.remove();
+ f=fixture();const rejected=prepareEquipmentDropMotion(f.sheet,'sword',{area:'equipment',slotId:'weapon'},f.ghost,f.slot);f.ghost.remove();try{await commitEquipmentDropMotion(rejected,async()=>{throw Error('save failed')});}catch{}check(!document.querySelector('.buxa-equipment-flight'),'save error cleans the flight');f.root.remove();
+ f=fixture();const closed=prepareEquipmentDropMotion(f.sheet,'sword',{area:'equipment',slotId:'weapon'},f.ghost,f.slot);f.ghost.remove();f.root.remove();await new Promise(r=>setTimeout(r,0));check(!document.querySelector('.buxa-equipment-flight'),'closing the sheet removes the pending flight');
+ output.textContent=results.join('\n')+'\nALL BROWSER CHECKS PASSED';
+}catch(error){output.textContent=results.join('\n')+'\nFAIL '+error.stack;}
+</script>
+

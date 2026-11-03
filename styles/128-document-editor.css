@@ -1,0 +1,53 @@
+/* Buxa document editor — single Actor and selective multi-edit. */
+.buxa.buxa-document-editor {--buxa-editor-bg:#0a1019; --buxa-editor-card:#121e2d; --buxa-editor-input:#0c1725; --buxa-editor-stroke:#294056; --buxa-editor-accent:#78addc;}
+.buxa-document-editor .window-content {padding:0 !important; background:var(--buxa-editor-bg) !important;overflow:hidden;display:flex;flex-direction:column;}
+.buxa-document-editor .window-content > * {min-height:0;flex:1 1 auto;}
+.buxa-document-editor .window-content > [data-application-part] {height:100%;min-height:0;}
+.buxa-document-editor .buxa-edit-root {display:flex;flex-direction:column;height:100%;min-height:0;color:#e5ecf5;font-family:system-ui,-apple-system,sans-serif;font-size:12px;line-height:1.35;}
+.buxa-edit-header {padding:15px 18px 13px;display:flex;flex-direction:column;gap:9px;background:#121c2a;border-bottom:1px solid var(--buxa-editor-stroke);}
+.buxa-edit-heading {display:flex;align-items:center;gap:12px;}
+.buxa-edit-heading>i {font-size:18px;color:var(--buxa-editor-accent);}
+.buxa-edit-heading strong {display:block;font-size:13px;letter-spacing:.075em;}
+.buxa-edit-heading small {display:block;color:#95a8bc;margin-top:4px;font-size:10px;}
+.buxa-edit-people {display:flex;flex-wrap:wrap;max-height:55px;overflow:auto;gap:4px;}
+.buxa-edit-people span {padding:3px 7px;border:1px solid #253a51;background:#182536;font-size:10px;color:#b3c7dc;}
+.buxa-edit-tabs {display:flex;gap:0;border-bottom:1px solid #294056;padding:0 10px;background:#0e1723;flex:0 0 auto;overflow-x:auto;scrollbar-width:thin;}
+.buxa-edit-tabs button {padding:12px 14px;border:0;border-bottom:2px solid transparent;background:transparent;color:#9baec4;font-size:11px;font-weight:700;letter-spacing:.04em;white-space:nowrap;display:flex;align-items:center;gap:8px;cursor:pointer;box-shadow:none;min-width:0;}
+.buxa-edit-tabs button:hover {background:#192839;color:#edf5ff;}
+.buxa-edit-tabs button.is-active {border-bottom-color:#80b6e9;background:#192b40;color:#f6f9ff;}
+.buxa-edit-scroll {flex:1 1 auto;min-height:0;overflow-y:auto;padding:16px 18px;overscroll-behavior:contain;scrollbar-width:thin;}
+.buxa-edit-panel[hidden] {display:none!important;}
+.buxa-edit-panel-title {font-size:13px;text-transform:uppercase;letter-spacing:.05em;font-weight:750;margin:0 0 13px;}
+.buxa-edit-panel-title small {display:block;font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:#8ea3bc;margin-top:5px;}
+.buxa-edit-fields {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.buxa-edit-field {min-width:0;padding:11px;background:var(--buxa-editor-card);border:1px solid var(--buxa-editor-stroke);transition:border-color .12s ease,background-color .12s ease,opacity .12s ease;}
+.buxa-edit-field:focus-within {border-color:#608aaf;}
+.buxa-edit-field.is-unselected {opacity:.52;}
+.buxa-edit-label {display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:8px;font-size:10px;font-weight:650;color:#bdcde2;text-transform:uppercase;letter-spacing:.025em;}
+.buxa-edit-apply {display:inline-flex;gap:5px;align-items:center;color:#91abc8;cursor:pointer;font-size:9px;}
+.buxa-edit-apply input {margin:0;accent-color:#79b7e9;width:14px;height:14px;}
+.buxa-edit-field input:not([type="checkbox"]),.buxa-edit-field select {width:100%;min-width:0;height:34px;background:var(--buxa-editor-input);color:#edf4fa;border:1px solid #37516c;border-radius:0;padding:6px 9px;font:inherit;outline:none;box-shadow:none;}
+.buxa-edit-field input:focus,.buxa-edit-field select:focus {border-color:#7ab4e4;}
+.buxa-edit-field input[type="color"] {padding:3px;cursor:pointer;}
+.buxa-edit-field input:disabled,.buxa-edit-field select:disabled {opacity:.55;cursor:not-allowed;}
+.buxa-edit-field .buxa-edit-toggle {display:flex;gap:9px;align-items:center;height:34px;color:#b7cde4;font-size:11px;}
+.buxa-edit-toggle input {accent-color:#80b6e9;width:17px;height:17px;}
+.buxa-edit-detection {display:grid;grid-template-columns:minmax(0,1fr) 85px;gap:6px;}
+.buxa-edit-footer {flex:0 0 auto;display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;background:#101a27;border-top:1px solid #294056;}
+.buxa-edit-footer button {border-radius:0;background:#162434;border:1px solid #38516b;color:#d4e0ed;min-width:100px;height:36px;font:inherit;font-weight:700;cursor:pointer;}
+.buxa-edit-footer button.buxa-edit-save {background:#275076;color:#fff;border-color:#578dbb;}
+.buxa-edit-footer button:hover {filter:brightness(1.13);}
+.buxa-edit-footer button:disabled {opacity:.5;cursor:wait;}
+@media(max-width:600px){.buxa-edit-fields{grid-template-columns:minmax(0,1fr)}.buxa-edit-header{padding:10px}.buxa-edit-scroll{padding:10px}.buxa-edit-footer{padding:10px}.buxa-edit-tabs button{padding:10px 9px;}}
+@media(prefers-reduced-motion:reduce){.buxa-edit-field{transition:none;}}
+/* Sidebar multi-select state follows existing squared Buxa directory language. */
+.buxa-world-item-directory > .buxa-multiedit-toggle {display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 20px);height:32px;margin:1px 10px 6px;padding:6px 10px;background:#16283b;border:1px solid #375372;border-radius:0;color:#c4d4e6;font-size:11px;font-weight:700;cursor:pointer;box-shadow:none;}
+.buxa-world-item-directory > .buxa-multiedit-toggle.is-active {background:#2b5273;color:#fff;border-color:#7ca9d2;}
+.buxa-world-multibar {display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #344f6b;background:#101e30;color:#b9cede;font-size:11px;}
+.buxa-world-multibar[hidden]{display:none!important;}
+.buxa-world-multibar .buxa-multi-count {flex:1;min-width:0;}
+.buxa-world-multibar button {border-radius:0;background:#28496c;border:1px solid #537a9e;color:#f0f6fc;padding:6px 10px;font-size:10px;cursor:pointer;}
+.buxa-world-multibar button:disabled{opacity:.45;cursor:default;}
+.buxa-world-item-card.is-multi-selected {outline:2px solid #7cb9e9!important;outline-offset:-2px;background:#213952!important;}
+.buxa-world-item-card.is-multi-selected:before {content:'✓';position:absolute;top:3px;right:5px;color:#c3e4ff;font:bold 15px sans-serif;z-index:2;}
+.buxa-world-item-directory.is-multi-select .buxa-world-item-card {cursor:crosshair;}

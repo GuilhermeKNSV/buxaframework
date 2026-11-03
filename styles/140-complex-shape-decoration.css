@@ -1,0 +1,116 @@
+/* v0.11.19 — One perimeter painter for every item footprint and rarity.
+   Old per-cell strokes / bounding-box corners created broken edges on L/T
+   shapes and looked different from the dragged version of the same item. */
+.buxa-complex-item,
+.buxa-inventory-drag-ghost.is-complex-ghost {
+  --buxa-shape-ink: var(--buxa-rarity-accent, var(--buxa-rarity-color, #8cb6d3));
+}
+
+/* The cells remain transparent hit targets. None paints its own border,
+   shadow or decoration: the single SVG below owns all visible edges. */
+.buxa .buxa-complex-item > .buxa-complex-piece,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-ghost-cell,
+.buxa-inventory-drag-ghost.is-complex-ghost.is-invalid > .buxa-complex-ghost-cell {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  background: transparent !important;
+}
+.buxa .buxa-complex-item > .buxa-complex-decoration,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-decoration {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  overflow: visible !important;
+  pointer-events: none !important;
+  z-index: 4 !important;
+  color: var(--buxa-shape-ink);
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--buxa-rarity-color,#85afd0) 24%, transparent));
+}
+.buxa-complex-decoration > path {
+  fill: none !important;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: miter;
+  stroke-linecap: square;
+  pointer-events: none;
+}
+.buxa-complex-decoration > .buxa-complex-outline {
+  stroke: var(--buxa-shape-ink);
+  stroke-width: 1px;
+  opacity: .68;
+}
+.buxa-complex-decoration > .buxa-complex-corners {
+  stroke: var(--buxa-shape-ink);
+  stroke-width: 2.2px;
+  opacity: 1;
+}
+.buxa-complex-decoration > .buxa-complex-ornaments {
+  stroke: var(--buxa-shape-ink);
+  stroke-width: 2.2px;
+  stroke-linecap: round;
+  opacity: 0;
+}
+.buxa-complex-item.has-rarity-ornament .buxa-complex-ornaments,
+.buxa-inventory-drag-ghost.has-rarity-ornament .buxa-complex-ornaments { opacity: .92; }
+.buxa-complex-item.has-rarity-glint .buxa-complex-corners,
+.buxa-inventory-drag-ghost.has-rarity-glint .buxa-complex-corners {
+  stroke-width: 2.6px;
+  filter: drop-shadow(0 0 2px var(--buxa-rarity-color,#85afd0));
+}
+
+/* A masked background stays dark even when the global rarity glow opacity is
+   set to zero. Full background and glint are additional, configurable tints. */
+.buxa-complex-item > .buxa-complex-backdrop,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-backdrop {
+  background: linear-gradient(145deg, #1d2b3e, #0e1827 78%) !important;
+  filter: none !important;
+}
+.buxa-complex-item > .buxa-complex-backdrop::before,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-complex-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: var(--buxa-rarity-bg-opacity,1);
+  filter: brightness(var(--buxa-rarity-bg-brightness,1));
+  pointer-events: none;
+  background: radial-gradient(ellipse at 45% 20%, color-mix(in srgb,var(--buxa-rarity-color,#85afd0) 32%,transparent), transparent 72%);
+}
+.buxa-complex-item.buxa-rarity-bg-full > .buxa-complex-backdrop::before,
+.buxa-inventory-drag-ghost.buxa-rarity-bg-full > .buxa-complex-backdrop::before {
+  background: linear-gradient(155deg,
+    color-mix(in srgb,var(--buxa-rarity-color,#85afd0) 75%,#202c3d),
+    color-mix(in srgb,var(--buxa-rarity-color,#85afd0) 40%,#121c2a));
+}
+.buxa-complex-item.has-rarity-glint > .buxa-complex-backdrop::after,
+.buxa-inventory-drag-ghost.has-rarity-glint > .buxa-complex-backdrop::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(125deg,transparent 18%,#ffffff18 35%,transparent 47%);
+}
+
+/* Animated/spectrum custom rarities affect only the small ornament overlay,
+   never the artwork, position, or item hit targets. */
+@keyframes buxa-complex-border-glow {
+  0%,100% { opacity: .75; }
+  50% { opacity: 1; }
+}
+@keyframes buxa-complex-spectrum-border {
+  to { filter: hue-rotate(360deg); }
+}
+.buxa-complex-item.is-rarity-animated > .buxa-complex-decoration {
+  animation: buxa-complex-border-glow 2.8s ease-in-out infinite;
+}
+.buxa-complex-item.is-rarity-spectrum > .buxa-complex-decoration {
+  animation: buxa-complex-spectrum-border 5s linear infinite;
+}
+body.buxa-inventory-pointer-dragging .buxa-complex-decoration { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .buxa-complex-item > .buxa-complex-decoration { animation: none !important; }
+}
+
+.buxa-inventory-drag-ghost.is-complex-ghost.is-invalid { --buxa-shape-ink: #f18295; }

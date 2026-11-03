@@ -1,0 +1,99 @@
+/* NPC dialog isolation: Foundry's global button heights and sheet label rules
+   must not turn multiline NPC mode buttons into overlapping one-line strips. */
+.buxa.buxa-npc-settings-app .buxa-npc-settings{min-width:0;box-sizing:border-box;gap:15px}
+.buxa.buxa-npc-settings-app .buxa-npc-mode-list{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;min-width:0}
+.buxa.buxa-npc-settings-app .buxa-npc-mode-list > .buxa-npc-mode{
+  display:grid!important;grid-template-columns:24px minmax(0,1fr) 18px;align-items:center;
+  width:100%;height:auto!important;min-height:75px!important;max-height:none!important;
+  padding:12px!important;gap:11px;box-sizing:border-box;text-align:left;
+  white-space:normal!important;line-height:1.35!important;border-radius:0!important;
+}
+.buxa.buxa-npc-settings-app .buxa-npc-mode > span{display:flex!important;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;width:100%;white-space:normal!important}
+.buxa.buxa-npc-settings-app .buxa-npc-mode > span > strong{display:block;font-size:13px;line-height:1.25}
+.buxa.buxa-npc-settings-app .buxa-npc-mode > span > small{display:block!important;white-space:normal!important;overflow-wrap:break-word;font:11px/1.45 Arial,sans-serif!important}
+.buxa.buxa-npc-settings-app .buxa-npc-mode > i{flex:none;justify-self:center}
+.buxa.buxa-npc-settings-app .buxa-npc-settings header > div{min-width:0}
+.buxa.buxa-npc-settings-app .buxa-npc-settings header small{line-height:1.5;white-space:normal}
+.buxa.buxa-npc-settings-app .buxa-npc-drop-settings{min-width:0;margin:0;gap:13px;padding:13px}
+.buxa.buxa-npc-settings-app .buxa-npc-drop-settings label{min-width:0;line-height:1.45;gap:7px}
+.buxa.buxa-npc-settings-app .buxa-npc-drop-settings :is(input,select){box-sizing:border-box;max-width:100%;width:100%;min-width:0;min-height:32px}
+.buxa.buxa-npc-settings-app .buxa-npc-drop-settings .buxa-npc-setting-slider{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:9px;align-items:center;min-width:0}
+.buxa.buxa-npc-settings-app .buxa-npc-drop-settings input[type="range"]{padding:0;min-height:20px;height:20px;accent-color:#78b8e7}
+.buxa.buxa-npc-settings-app .buxa-npc-drop-settings input[type="number"]{text-align:center;padding:5px 2px;font-variant-numeric:tabular-nums}
+.buxa.buxa-npc-settings-app .buxa-npc-mode-hint{white-space:normal;overflow-wrap:anywhere}
+
+/* Drop rules: compact, responsive, scrollable when the quantity range is large. */
+.buxa-npc-drop-shade{box-sizing:border-box;padding:16px;overflow:auto;align-items:center;justify-items:center}
+.buxa-npc-drop-dialog{
+  display:flex;flex-direction:column;gap:0;box-sizing:border-box;
+  width:min(560px,100%);height:min(570px,calc(100dvh - 32px));max-height:calc(100dvh - 32px);padding:0!important;
+  border:1px solid #415e76;background:#0b1625;color:#d9e7f4;
+  overflow:hidden;min-width:0;border-radius:0!important;
+}
+.buxa-npc-drop-dialog .buxa-drop-dialog-header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  flex-shrink:0;min-width:0;margin:0;padding:14px 17px!important;border-bottom:1px solid #314b60;
+}
+.buxa-npc-drop-dialog .buxa-drop-dialog-header>div{min-width:0;display:flex;flex-direction:column;gap:4px}
+.buxa-npc-drop-dialog .buxa-drop-dialog-header strong{display:block;font:bold 15px/1.35 Arial,sans-serif;overflow-wrap:anywhere}
+.buxa-npc-drop-dialog .buxa-drop-dialog-header small{color:#86a9c2;font:700 10px/1.3 Arial,sans-serif;letter-spacing:.09em}
+.buxa-npc-drop-dialog .buxa-drop-dialog-header button{flex:none;min-width:30px;height:30px;font-size:17px;padding:0}
+.buxa-npc-drop-dialog .buxa-drop-dialog-body{display:flex;flex:1 1 auto;min-height:0;flex-direction:column;gap:13px;min-width:0;padding:14px 17px 16px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+.buxa-npc-drop-dialog .buxa-drop-rule-section{display:flex;flex-direction:column;gap:9px;min-width:0;padding:0 0 13px;border-bottom:1px solid #253a4b}
+.buxa-npc-drop-dialog .buxa-drop-rule-section:last-child{border-bottom:none;padding-bottom:0}
+.buxa-npc-drop-dialog .buxa-drop-field-heading{display:flex;justify-content:space-between;align-items:baseline;gap:10px;min-width:0;color:#e1effa;font:700 12px/1.4 Arial,sans-serif}
+.buxa-npc-drop-dialog .buxa-drop-field-heading small{font:11px/1.4 Arial,sans-serif;color:#8ea9bc;max-width:55%;text-align:right}
+.buxa-npc-drop-dialog .buxa-drop-field-heading :is(label,strong){font:700 12px/1.4 Arial,sans-serif}
+.buxa-npc-drop-dialog .buxa-drop-slider-field{display:grid;grid-template-columns:minmax(0,1fr) 78px;align-items:center;gap:12px;min-width:0}
+.buxa-npc-drop-dialog .buxa-drop-slider-field>input[type="range"]{width:100%;min-width:0;height:22px;min-height:22px;padding:0;border:0;background:transparent;accent-color:#79bee8;cursor:pointer}
+.buxa-npc-drop-dialog .buxa-drop-number{display:flex;align-items:center;min-width:0;background:#13273b;border:1px solid #466985;padding-right:6px}
+.buxa-npc-drop-dialog .buxa-drop-number input{border:0!important;min-width:0;width:100%;background:transparent;padding:8px 3px 8px 7px;text-align:center}
+.buxa-npc-drop-dialog .buxa-drop-number span{color:#7cb2d8;font-weight:bold}
+.buxa-npc-drop-dialog input[type="number"]{font-variant-numeric:tabular-nums;text-align:center;min-height:32px;box-sizing:border-box}
+.buxa-npc-drop-dialog .buxa-drop-quantity-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;min-width:0}
+.buxa-npc-drop-dialog .buxa-drop-quantity-field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.buxa-npc-drop-dialog .buxa-drop-quantity-field>span{font:11px Arial,sans-serif;color:#9eb9cd}
+.buxa-npc-drop-dialog .buxa-drop-quantity-field .buxa-drop-slider-field{grid-template-columns:minmax(0,1fr) 54px;gap:7px}
+.buxa-npc-drop-dialog .buxa-drop-quantity-field input[type="number"]{padding:5px 2px;width:100%}
+/* The optional weights editor belongs after destination and never changes
+   the popup's outer height. Only the selected rows scroll inside it. */
+.buxa-npc-drop-dialog .buxa-drop-weights-section{gap:0}
+.buxa-npc-drop-dialog .buxa-drop-weights-toggle{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:15px;min-width:0;cursor:pointer;padding:4px 0}
+.buxa-npc-drop-dialog .buxa-drop-weights-text{display:flex;flex-direction:column;gap:4px;min-width:0}
+.buxa-npc-drop-dialog .buxa-drop-weights-text strong{font:700 12px/1.4 Arial,sans-serif;color:#e1effa}
+.buxa-npc-drop-dialog .buxa-drop-weights-text small{font:11px/1.4 Arial,sans-serif;color:#90afc4}
+.buxa-npc-drop-dialog .buxa-drop-weights-switch{display:block;position:relative;flex:0 0 40px;width:40px;height:22px;border:1px solid #506f89;background:#142536;box-sizing:border-box;transition:background .14s ease,border-color .14s ease}
+.buxa-npc-drop-dialog .buxa-drop-weights-switch:has(input:checked){background:#245273;border-color:#8ac7ef}
+.buxa-npc-drop-dialog .buxa-drop-weights-switch input{position:absolute;inset:0;margin:0;opacity:0;cursor:pointer;z-index:2}
+.buxa-npc-drop-dialog .buxa-drop-weights-knob{position:absolute;top:3px;left:3px;width:14px;height:14px;background:#9aafbf;transition:transform .14s ease,background .14s ease;pointer-events:none}
+.buxa-npc-drop-dialog .buxa-drop-weights-switch input:checked+.buxa-drop-weights-knob{transform:translateX(18px);background:#e3f7ff}
+.buxa-npc-drop-dialog .buxa-drop-weights-switch:has(input:focus-visible){outline:2px solid #a3d7f4;outline-offset:3px}
+.buxa-npc-drop-dialog .buxa-drop-weights-content{display:flex;flex-direction:column;gap:10px;min-height:0;margin-top:13px}
+.buxa-npc-drop-dialog .buxa-drop-weights-content[hidden]{display:none!important}
+.buxa-npc-drop-dialog .buxa-drop-odds-presets{display:flex;flex-wrap:wrap;gap:6px}
+.buxa-npc-drop-dialog .buxa-drop-odds-presets button{padding:6px 9px;background:#13273a;font-size:11px;min-height:29px}
+.buxa-npc-drop-dialog .buxa-drop-odds-presets button:hover{border-color:#8abde0}
+.buxa-npc-drop-dialog .buxa-drop-odds-list{display:flex;flex-direction:column;gap:3px;height:186px;min-height:0;flex:0 0 186px;overflow-y:auto;overflow-x:hidden;padding:6px;background:#0a1220;border:1px solid #293f54;box-sizing:border-box}
+.buxa-npc-drop-dialog .buxa-drop-odds-row{display:grid;grid-template-columns:38px minmax(0,1fr) 56px 53px;align-items:center;gap:8px;min-width:0;padding:5px 2px;border-bottom:1px solid #1b3043;color:#aac4d6}
+.buxa-npc-drop-dialog .buxa-drop-odds-row:last-child{border-bottom:0}
+.buxa-npc-drop-dialog .buxa-drop-odds-row input[type="range"]{width:100%;min-width:0;accent-color:#79bee8;border:none;background:none;padding:0;height:18px;min-height:18px}
+.buxa-npc-drop-dialog .buxa-drop-odds-row input[type="number"]{width:100%;padding:5px 1px;min-height:28px}
+.buxa-npc-drop-dialog .buxa-drop-odds-percent{font:700 11px Arial,sans-serif;text-align:right;color:#92cdea}
+.buxa-npc-drop-dialog .buxa-drop-odds-quantity{font:700 12px Arial,sans-serif;color:#d9eaf5}
+.buxa-npc-drop-dialog .buxa-drop-odds-list.has-zero-odds{border-color:#b97b6d}
+.buxa-npc-drop-dialog .buxa-drop-odds-help{font:11px/1.55 Arial,sans-serif;color:#9bb4c6;overflow-wrap:break-word}
+.buxa-npc-drop-dialog .buxa-drop-odds-help b{color:#dceefa}
+.buxa-npc-drop-dialog select[name="destination"]{width:100%;box-sizing:border-box;min-height:34px}
+.buxa-npc-drop-dialog>footer{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;flex-shrink:0;border-top:1px solid #314c62;padding:12px 17px;margin:0;background:#0a1421}
+.buxa-npc-drop-dialog>footer button{min-height:34px;padding:7px 12px;font:700 11px Arial,sans-serif}
+.buxa-npc-drop-dialog>footer .buxa-drop-save{background:#214767;border-color:#77b5e2;color:#f0faff}
+.buxa-npc-drop-dialog>footer .buxa-drop-remove{background:#211925;border-color:#78505a;color:#ecc8ce}
+@media(max-width:460px){
+  .buxa-npc-drop-shade{padding:7px}
+  .buxa-npc-drop-dialog{height:min(570px,calc(100dvh - 14px));max-height:calc(100dvh - 14px)}
+  .buxa-npc-drop-dialog .buxa-drop-dialog-body{padding:10px}
+  .buxa-npc-drop-dialog .buxa-drop-quantity-pair{gap:8px}
+  .buxa-npc-drop-dialog .buxa-drop-slider-field{gap:7px}
+  .buxa-npc-drop-dialog .buxa-drop-odds-row{grid-template-columns:28px minmax(0,1fr) 45px 45px;gap:4px}
+  .buxa-npc-drop-dialog>footer{padding:10px}
+}

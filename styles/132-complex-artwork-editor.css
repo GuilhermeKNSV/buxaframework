@@ -1,0 +1,39 @@
+/* v0.11.8: joined-cell painter and single masked image renderer. */
+.buxa .buxa-shape-editor-grid{position:relative;isolation:isolate;grid-template-columns:repeat(8,minmax(0,1fr));padding:0;gap:0;aspect-ratio:1;max-width:480px;width:min(100%,480px);overflow:hidden;background:#050b12}
+.buxa .buxa-shape-editor-grid button.buxa-shape-tile{border:1px solid #1b2c3d;background:#080f18;opacity:1;position:relative;aspect-ratio:1;min-height:0;z-index:2;cursor:pointer;pointer-events:auto}
+.buxa .buxa-shape-editor-grid button.buxa-shape-tile.is-idle{border-color:#172637;background:#09111a;opacity:1}
+.buxa .buxa-shape-editor-grid button.buxa-shape-tile.is-adjacent{background:#0b1a28;border-color:#294357}
+.buxa .buxa-shape-editor-grid button.buxa-shape-tile.is-idle:hover{background:#203a51;border-color:#658bab}
+.buxa .buxa-shape-editor-grid button.buxa-shape-tile.is-filled{background:#18344d77;border-color:#6eabd1;box-shadow:inset 0 0 0 1px #5182a9;opacity:1}
+.buxa .buxa-shape-editor-grid button.buxa-shape-tile.is-filled:hover{background:#254c6588}
+.buxa .buxa-shape-editor-grid .buxa-shape-art-layer{position:absolute;pointer-events:auto;z-index:3;touch-action:none;cursor:grab;overflow:hidden;mask-position:center;-webkit-mask-position:center;}
+.buxa .buxa-shape-editor-grid .buxa-shape-art-layer:active{cursor:grabbing}
+.buxa .buxa-shape-art-layer img,.buxa-complex-art>img{position:absolute!important;left:50%!important;top:50%!important;width:var(--buxa-art-w,100%)!important;height:var(--buxa-art-h,100%)!important;max-width:none!important;max-height:none!important;object-fit:contain!important;transform:translate(calc(-50% + var(--buxa-art-x,0%)),calc(-50% + var(--buxa-art-y,0%))) rotate(var(--buxa-art-angle,0deg)) scale(var(--buxa-art-scale,1))!important;transform-origin:center center!important;border:0!important;border-radius:0!important;opacity:1!important;filter:none!important;pointer-events:none!important;user-select:none}
+.buxa-complex-item{pointer-events:none!important}
+.buxa-complex-item>.buxa-complex-art{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;mask-position:center;-webkit-mask-position:center}
+.buxa-complex-item>.buxa-complex-piece{z-index:2;pointer-events:auto;border:1px solid var(--buxa-rarity-color,#537392);background:transparent!important;box-shadow:inset 0 0 0 1px #36566a55;cursor:grab}
+.buxa-complex-item>.buxa-complex-piece:hover{border-color:#b8d8f3}
+.buxa-complex-item>.buxa-item-quantity{z-index:4}
+.buxa-inventory-drag-ghost.is-complex-ghost>.buxa-complex-art{position:absolute;inset:0;overflow:hidden;pointer-events:none;mask-position:center;-webkit-mask-position:center}
+.buxa-inventory-drag-ghost.is-complex-ghost>.buxa-complex-ghost-cell{background:transparent;box-shadow:inset 0 0 0 1px #6bb4ee77;opacity:1}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-invalid>.buxa-complex-ghost-cell{background:#a82e3440;box-shadow:inset 0 0 0 1px #e35f6f}
+.buxa .buxa-footprint-section .buxa-footprint-body{max-width:700px}
+.buxa .buxa-footprint-head span{max-width:510px}
+@media(max-width:520px){.buxa .buxa-shape-editor-grid{max-width:350px}}
+@media(prefers-reduced-motion:reduce){.buxa .buxa-shape-editor-grid button.buxa-shape-tile{transition:none!important}}
+
+.buxa .buxa-footprint-tools{display:flex;align-items:center;gap:6px}
+.buxa .buxa-footprint-tools button{display:grid;place-items:center;width:29px;height:29px;min-width:29px;padding:0;border:1px solid #334f67;background:#13263a;color:#b5d5ed;cursor:pointer}
+.buxa .buxa-footprint-tools button:hover{border-color:#77a6c9;color:#fff}
+
+/* v0.13.41: exclusively the logical occupied grid squares own pointer input.
+   Artwork and piece rectangles could intercept neighboring shapes' cells,
+   especially where the art's bounds or a rotated L-shape covered a hole.
+   inventory-board-hit-bindings forwards occupied-cell pointerdown, contextmenu,
+   and double-click to the correct item using data-hit-item-id. */
+.buxa .buxa-complex-board > .buxa-complex-item,
+.buxa .buxa-complex-board > .buxa-complex-item *,
+.buxa .buxa-storage-grid.is-complex > .buxa-complex-item,
+.buxa .buxa-storage-grid.is-complex > .buxa-complex-item * {
+  pointer-events: none !important;
+}

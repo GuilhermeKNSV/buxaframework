@@ -1,0 +1,42 @@
+/* Draggable WYSIWYG controls for the right-click ground loot FX. */
+.buxa-board-preview-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.buxa-board-preview-toggle{display:inline-flex;align-items:center;gap:10px;padding:6px 10px;border:1px solid #45667c;border-radius:999px;background:#101d2a;color:#bbd7e9;font:800 10px Arial,sans-serif;letter-spacing:.08em;cursor:pointer}
+.buxa-board-preview-toggle-knob{width:32px;height:18px;border-radius:999px;background:#203447;position:relative;box-shadow:inset 0 0 0 1px #547790}
+.buxa-board-preview-toggle-knob::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#d2e9f8;transition:left .18s ease,background .18s ease,box-shadow .18s ease}
+.buxa-board-preview-toggle.is-active .buxa-board-preview-toggle-knob{background:#173040;box-shadow:inset 0 0 0 1px #7cc0e7}
+.buxa-board-preview-toggle.is-active .buxa-board-preview-toggle-knob::after{left:16px;background:#fff;box-shadow:0 0 10px #84cfff}
+.buxa-board-preview-toggle-label{white-space:nowrap}
+.buxa-board-preview-selectors{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:#98b4c8;font:700 10px Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.buxa-board-preview-selectors button{padding:6px 9px;border:1px solid #395166;background:#101b28;color:#adcde5;font:700 10px Arial,sans-serif;cursor:pointer}
+.buxa-board-preview-selectors button.is-active{border-color:#8ed3f6;color:#fff;box-shadow:inset 2px 0 #8ed3f6}
+.buxa-board-preview-selectors button:disabled{opacity:.45;cursor:default}
+.buxa-board-fx-reset{border:0;background:transparent;text-align:left;color:#83c4f1;font-size:11px;cursor:pointer}
+.buxa-board-scene-preview[hidden]{display:none!important}
+.buxa-board-scene-preview{position:absolute;inset:0;pointer-events:none;z-index:1;--buxa-scene-preview-rarity:#65baff}
+.buxa-board-fx-beam{position:absolute;width:56px;height:180px;transform-origin:50% 100%;pointer-events:none;touch-action:none;filter:drop-shadow(0 0 6px var(--buxa-scene-preview-rarity));z-index:1}
+.buxa-board-fx-shaft{position:absolute;left:calc(50% - 9px);bottom:5px;width:18px;height:170px;clip-path:polygon(40% 0,60% 0,100% 100%,0 100%);background:linear-gradient(to top,var(--buxa-scene-preview-rarity),color-mix(in srgb,var(--buxa-scene-preview-rarity) 22%,transparent) 65%,transparent);opacity:.6}
+.buxa-board-fx-shaft::after{content:"";position:absolute;inset:0 7px;background:linear-gradient(to top,#fff,var(--buxa-scene-preview-rarity),transparent);opacity:.7}
+.buxa-board-fx-ring{position:absolute;left:3px;right:3px;bottom:-1px;height:15px;border:1px solid var(--buxa-scene-preview-rarity);border-radius:50%;background:radial-gradient(ellipse,color-mix(in srgb,var(--buxa-scene-preview-rarity) 30%,transparent),transparent);box-shadow:0 0 16px var(--buxa-scene-preview-rarity)}
+.buxa-board-fx-label{position:absolute;max-width:270px;min-width:110px;padding:8px 12px;background:rgba(0,0,0,.67);color:var(--buxa-scene-preview-rarity);font:bold 17px Georgia,serif;white-space:nowrap;text-align:center;pointer-events:none;touch-action:none;text-shadow:0 0 8px currentColor;z-index:4}
+.buxa-board-fx-resize,.buxa-board-image-handle{position:absolute;width:21px;height:21px;display:none;place-items:center;padding:0;background:#14283a;border:1px solid #83bde6;color:white;border-radius:0;cursor:nwse-resize;pointer-events:auto;z-index:5}
+.buxa-board-fx-beam.is-editing,.buxa-board-fx-label.is-editing,.buxa-board-image-art.is-editing{outline:1px solid #91d0f1;box-shadow:0 0 0 1px #0b1420 inset,0 0 18px #78caf650}
+.buxa-board-fx-beam.is-editing,.buxa-board-fx-label.is-editing{cursor:move}
+.buxa-board-fx-beam.is-editing .buxa-board-fx-resize,.buxa-board-fx-label.is-editing .buxa-board-fx-resize,.buxa-board-image-art.is-editing .buxa-board-image-handle{display:grid}
+.buxa-board-fx-resize{right:-8px;bottom:-8px}
+.buxa-board-image-art{z-index:2}
+.buxa-board-fx-shadow{position:absolute;bottom:-5px;left:3px;width:50px;height:14px;border-radius:50%;background:radial-gradient(ellipse,#02050ac0,#02050a50 54%,transparent 78%);filter:blur(2px)}
+
+/* Give the actively edited overlay the hit-testing layer, not the image.
+   Unselected effects continue to draw behind the actual image. */
+.buxa-board-scene-preview[data-active-target="beam"],
+.buxa-board-scene-preview[data-active-target="label"]{z-index:5}
+.buxa-board-image-stage[data-preview-open="true"]:not([data-preview-target="image"]) .buxa-board-image-art{
+  pointer-events:none;
+}
+.buxa-board-scene-preview[data-active-target="beam"] .buxa-board-fx-beam,
+.buxa-board-scene-preview[data-active-target="label"] .buxa-board-fx-label{
+  pointer-events:auto;
+}
+@media (prefers-reduced-motion:reduce){
+  .buxa-board-preview-toggle-knob::after{transition:none}
+}

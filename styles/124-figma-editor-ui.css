@@ -1,0 +1,66 @@
+.buxa-item-config-app .window-content,
+.buxa-actor-config-app .window-content { background:#070b12 !important; }
+/* Item configuration and utility editor styling. Module Configuration moved to 30-module-config-system.css. */
+.buxa-item-config-tabs {
+  display:flex; align-items:center; gap:5px; padding:5px; background:#0e1623;
+  border-bottom:1px solid #27394e; overflow-x:auto; scrollbar-width:thin;
+}
+.buxa-item-config-tabs button {
+  min-width:max-content; padding:9px 12px; min-height:35px;
+  background:#142033 !important; border:1px solid #2f4055 !important;
+  color:#a6bbd0 !important; font-size:10px !important;
+}
+.buxa-item-config-tabs button:is(.is-active,[aria-selected="true"]) {
+  background:#203955 !important; border-color:#749dc4 !important;
+  color:#eef7ff !important; box-shadow:inset 0 -2px #7fbce9;
+}
+.buxa-item-config-app .buxa-item-config-scroll { padding:14px; gap:12px; }
+.buxa-item-config-identity-v2,.buxa-item-config-section,.buxa-item-property-card {
+  background:#0e1623; border:1px solid #27394e; box-shadow:none;
+}
+.buxa-item-config-identity-v2 { background:#101b2c; gap:14px; padding:14px; }
+.buxa-item-config-section>header,.buxa-item-property-card>header {
+  min-height:44px; padding:10px 13px; background:#142033;
+  border-bottom:1px solid #2a3f56;
+}
+.buxa-item-config-section header strong,.buxa-item-property-card header strong { color:#d9e7f5; font-size:10px; letter-spacing:.07em; }
+.buxa-item-config-section header small { color:#9aafc6; font-size:10px; line-height:1.4; }
+.buxa-item-config-section-body { padding:14px; }
+.buxa-item-field>span { color:#9bafc5 !important; font-size:10px !important; }
+.buxa-item-config-art { background:#142033 !important; border-color:#41566b !important; }
+.buxa-item-config-footer { gap:8px; }
+/* Dice/increase cards keep their interaction and source picker machinery intact. */
+.buxa-rule-editor { min-width:0; }
+.buxa-rule-card {
+  border:1px solid #2c425b !important; border-radius:0 !important;
+  background:#0e1623 !important; box-shadow:none !important; overflow:hidden;
+}
+.buxa-rule-card-header { background:#142033 !important; border-bottom:1px solid #2c425b !important; border-radius:0 !important; }
+.buxa-rule-card-heading strong { color:#e1ebf6 !important; font-size:12px !important; }
+.buxa-rule-card-heading small { color:#98abc1 !important; font-size:10px !important; }
+.buxa-rule-card-icon { border-radius:0 !important; }
+.buxa-rule-editor .buxa-rule-card-body { padding:0 14px 14px; }
+.buxa-rule-source-card { min-width:0; border:1px solid #2b4055 !important; background:#142033 !important; border-radius:0 !important; }
+.buxa-rule-section-heading { padding:13px 0 10px; }
+.buxa-rule-section-heading strong { color:#d4e3f2; }
+.buxa-rule-editor .buxa-rule-field>span { color:#a1b5cb !important; font-size:10px !important; }
+.buxa-rule-editor :is(.buxa-choice-trigger,.buxa-rule-source-card select) { border-radius:0 !important; }
+.buxa-segmented { gap:5px; }
+.buxa-segmented span { min-height:36px; border-radius:0; background:#142033; border-color:#354b61; font-size:10px; }
+.buxa-segmented input:checked+span { background:#203b55; color:#e5f3ff; border-color:#7fbce9; }
+.buxa-item-slot-chip { border-radius:0; }
+.buxa-item-config-section-body.is-disabled { opacity:.36; }
+/* Utility editors */
+.buxa-equipment-layout-shell,.buxa-asset-browser { background:#070b12; }
+.buxa-equipment-layout-toolbar,.buxa-asset-browser-top { background:#0e1623; border-bottom:1px solid #293d54; }
+.buxa-equipment-slot-inspector { background:#0e1623; border-left:1px solid #293d54; }
+.buxa-equipment-designer-stage,.buxa-asset-browser-body { background:#070b12; }
+.buxa-asset-file,.buxa-equipment-designer-slot { border:1px solid #35485e; border-radius:0 !important; background:#142033; }
+.buxa-asset-file:hover,.buxa-asset-file.is-selected { border-color:#7fbce9; background:#1a344d; }
+@media(max-width:690px){
+ .buxa-item-config-app .buxa-item-config-scroll{padding:9px}
+ .buxa-item-config-identity-v2{gap:9px;padding:9px}
+}
+@media(max-width:420px){
+ .buxa-item-config-tabs button{padding:7px 9px;font-size:9px !important}
+}

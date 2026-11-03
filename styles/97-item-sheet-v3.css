@@ -1,0 +1,291 @@
+/* -------------------------------------------------------------------------- */
+/* Item sheet v3: stable config controls + stronger rarity identity           */
+/* -------------------------------------------------------------------------- */
+
+/* Item configuration should never collapse its own layout when toggled. */
+.buxa-item-config-app .window-content {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.buxa-item-config-root {
+  width: 100%;
+  height: 100% !important;
+  min-height: 0;
+  flex: 1 1 auto;
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.buxa-item-config-app .buxa-item-config-scroll {
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: auto !important;
+}
+
+.buxa-item-config-section-body,
+.buxa-item-property-card > div,
+.buxa-item-slot-chip-grid,
+.buxa-item-type-label-field,
+.buxa-item-config-note {
+  transition: opacity 120ms ease, filter 120ms ease;
+}
+
+.buxa-item-config-section-body.is-disabled,
+.buxa-item-property-card > div.is-disabled,
+.buxa-item-slot-chip-grid.is-disabled,
+.buxa-item-type-label-field.is-disabled,
+.buxa-item-config-note:not(.is-active) {
+  opacity: .28;
+  filter: saturate(.55);
+}
+
+.buxa-item-type-label-config {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  align-items: center;
+  padding: 9px 10px;
+  border: 1px solid #2d394a;
+  background: #0c131c;
+}
+
+.buxa-item-type-label-config > div:first-child {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.buxa-item-type-label-config strong {
+  color: #c9d3df;
+  font-size: 8px;
+  letter-spacing: .08em;
+}
+
+.buxa-item-type-label-config small {
+  color: #68788d;
+  font-size: 7px;
+}
+
+.buxa-item-type-label-field {
+  grid-column: 1 / -1;
+}
+
+.buxa-item-type-label-field input {
+  width: 100%;
+  height: 32px;
+}
+
+/* Rarity owns the sheet identity. */
+.buxa-item-sheet {
+  --buxa-rarity-accent: var(--buxa-rarity-name, #b9c1cc);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--buxa-rarity-accent) 52%, #252d39) !important,
+    inset 0 0 56px rgba(0,0,0,.64),
+    0 0 14px color-mix(in srgb, var(--buxa-rarity-accent) 10%, transparent) !important;
+}
+
+.buxa-item-sheet .buxa-item-title-row h1,
+.buxa-item-sheet.buxa-rarity-secret .buxa-item-title-row h1 {
+  color: var(--buxa-rarity-name) !important;
+  text-shadow:
+    0 0 1px rgba(255,255,255,.08),
+    0 0 14px color-mix(in srgb, var(--buxa-rarity-accent) 28%, transparent) !important;
+}
+
+.buxa-item-sheet .buxa-item-rarity-line strong {
+  color: var(--buxa-rarity-accent) !important;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--buxa-rarity-accent) 18%, transparent);
+}
+
+.buxa-item-rarity-line strong::after { content: none !important; }
+
+.buxa-item-type-label {
+  color: #a8adb7 !important;
+}
+
+.buxa-item-type-label::before {
+  content: "·";
+  margin-right: 7px;
+  color: color-mix(in srgb, var(--buxa-rarity-accent) 50%, #606774);
+}
+
+.buxa-item-sheet-aura {
+  background:
+    radial-gradient(circle at 86% 11%, color-mix(in srgb, var(--buxa-rarity-accent) 26%, transparent), transparent 23%),
+    radial-gradient(ellipse at 18% -8%, color-mix(in srgb, var(--buxa-rarity-accent) 11%, transparent), transparent 35%),
+    radial-gradient(ellipse at 50% 100%, rgba(0,0,0,.32), transparent 58%) !important;
+}
+
+.buxa-item-sheet-ornament {
+  opacity: .84 !important;
+  background:
+    linear-gradient(90deg, var(--buxa-rarity-accent), transparent) 0 0 / 48px 1px no-repeat,
+    linear-gradient(180deg, var(--buxa-rarity-accent), transparent) 0 0 / 1px 48px no-repeat,
+    linear-gradient(-90deg, var(--buxa-rarity-accent), transparent) 100% 0 / 48px 1px no-repeat,
+    linear-gradient(180deg, var(--buxa-rarity-accent), transparent) 100% 0 / 1px 48px no-repeat,
+    radial-gradient(circle at 7px 7px, color-mix(in srgb, var(--buxa-rarity-accent) 75%, white) 0 1px, transparent 2px),
+    radial-gradient(circle at calc(100% - 7px) 7px, color-mix(in srgb, var(--buxa-rarity-accent) 75%, white) 0 1px, transparent 2px),
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--buxa-rarity-accent) 27%, transparent), transparent) 50% 100% / 62% 1px no-repeat !important;
+}
+
+.buxa-item-hero {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--buxa-rarity-accent) 5%, transparent), transparent 68%),
+    transparent !important;
+}
+
+.buxa-item-hero-separator::before,
+.buxa-item-divider::before {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--buxa-rarity-accent) 52%, transparent), transparent 90%) !important;
+}
+
+.buxa-item-hero-separator span,
+.buxa-item-divider span {
+  border-color: color-mix(in srgb, var(--buxa-rarity-accent) 68%, #bcb5a4) !important;
+}
+
+/* Cleaner property presentation: rows, not chips. */
+.buxa-item-meta-line { display: none !important; }
+
+.buxa-item-meta-list {
+  display: grid;
+  gap: 4px;
+  margin-top: 1px;
+  max-width: 100%;
+}
+
+.buxa-item-meta-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 13px 58px minmax(0, 1fr);
+  gap: 7px;
+  align-items: baseline;
+  color: #aab3c0;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.buxa-item-meta-row i {
+  width: 13px;
+  color: color-mix(in srgb, var(--buxa-rarity-accent) 45%, #6f7f94);
+  text-align: center;
+  font-size: 9px;
+}
+
+.buxa-item-meta-row > span {
+  color: #667489;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+
+.buxa-item-meta-row > strong {
+  min-width: 0;
+  color: #c6ccd5;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.buxa-item-meta-row.is-met > strong { color: #7edb9d; }
+.buxa-item-meta-row.is-unmet > strong { color: #ff6c75; }
+
+.buxa-item-hero-icon {
+  filter:
+    drop-shadow(0 12px 18px rgba(0,0,0,.62))
+    drop-shadow(0 0 13px color-mix(in srgb, var(--buxa-rarity-accent) 16%, transparent)) !important;
+}
+
+/* Animated rarities make the sheet feel alive without recoloring the art. */
+.buxa-item-sheet.is-rarity-animated .buxa-item-sheet-aura {
+  animation: buxa-item-v3-aura 3.4s ease-in-out infinite;
+}
+
+.buxa-item-sheet.is-rarity-animated .buxa-item-sheet-ornament {
+  animation: buxa-item-v3-ornament 3.4s ease-in-out infinite;
+}
+
+.buxa-item-sheet.is-rarity-spectrum .buxa-item-sheet-aura,
+.buxa-item-sheet.is-rarity-spectrum .buxa-item-sheet-ornament {
+  animation: buxa-item-v3-spectrum-aura 5.4s linear infinite !important;
+}
+
+.buxa-item-sheet.is-rarity-spectrum.has-rarity-name-color .buxa-item-title-row h1,
+.buxa-item-sheet.is-rarity-spectrum .buxa-item-rarity-line strong {
+  background: linear-gradient(90deg, #ff6879, #ffcc5b, #74df8a, #66cfff, #9287ff, #ed77ff, #ff6879);
+  background-size: 320% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  animation: buxa-item-v3-spectrum-text 5.4s linear infinite;
+  text-shadow: none !important;
+}
+
+.buxa-item-sheet.buxa-rarity-secret {
+  background:
+    radial-gradient(circle at 84% 8%, rgba(91, 33, 45, .18), transparent 26%),
+    radial-gradient(ellipse at 25% 0, rgba(162, 168, 179, .06), transparent 38%),
+    linear-gradient(180deg, #0d0d12, #06080c 74%) !important;
+}
+
+.buxa-item-sheet.buxa-rarity-secret .buxa-item-sheet-ornament {
+  filter: drop-shadow(0 0 7px rgba(160,166,177,.08));
+}
+
+@keyframes buxa-item-v3-aura {
+  0%,100% { opacity: .58; }
+  50% { opacity: 1; }
+}
+
+@keyframes buxa-item-v3-ornament {
+  0%,100% { opacity: .56; }
+  50% { opacity: .96; }
+}
+
+@keyframes buxa-item-v3-spectrum-aura {
+  0% { filter: hue-rotate(0deg); opacity: .72; }
+  50% { opacity: 1; }
+  100% { filter: hue-rotate(360deg); opacity: .72; }
+}
+
+@keyframes buxa-item-v3-spectrum-text {
+  to { background-position: 320% 0; }
+}
+
+@media (max-width: 600px) {
+  .buxa-item-meta-row {
+    grid-template-columns: 13px 52px minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-item-sheet.is-rarity-animated .buxa-item-sheet-aura,
+  .buxa-item-sheet.is-rarity-animated .buxa-item-sheet-ornament,
+  .buxa-item-sheet.is-rarity-spectrum .buxa-item-sheet-aura,
+  .buxa-item-sheet.is-rarity-spectrum .buxa-item-sheet-ornament,
+  .buxa-item-sheet.is-rarity-spectrum.has-rarity-name-color .buxa-item-title-row h1,
+  .buxa-item-sheet.is-rarity-spectrum .buxa-item-rarity-line strong {
+    animation: none !important;
+  }
+}
+
+/* Dark rarity colors still need a visible inventory/equipment identity. */
+.buxa .buxa-equipment-slot.has-item,
+.buxa .buxa-inventory-slot.has-item {
+  border-color: color-mix(in srgb, var(--buxa-rarity-accent) 78%, #2f3a49) !important;
+  box-shadow:
+    inset 0 0 18px rgba(0,0,0,.46),
+    0 0 8px color-mix(in srgb, var(--buxa-rarity-accent) 16%, transparent) !important;
+}
+
+.buxa .buxa-equipment-slot.has-item.has-rarity-ornament::after,
+.buxa .buxa-inventory-slot.has-item.has-rarity-ornament::after {
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--buxa-rarity-accent) 60%, transparent), transparent) 50% 0 / 72% 1px no-repeat,
+    radial-gradient(circle at 7px 7px, color-mix(in srgb, var(--buxa-rarity-accent) 88%, white) 0 1px, transparent 2px),
+    radial-gradient(circle at calc(100% - 7px) 7px, color-mix(in srgb, var(--buxa-rarity-accent) 88%, white) 0 1px, transparent 2px),
+    radial-gradient(ellipse at 50% -8%, color-mix(in srgb, var(--buxa-rarity-accent) 24%, transparent), transparent 68%) !important;
+}

@@ -1,0 +1,189 @@
+/* Buxa world Item sidebar. Replaces core visuals only, retaining its documents. */
+#sidebar #items.buxa-dir-active, #items.sidebar-tab.buxa-dir-active,
+.sidebar-tab[data-tab="items"].buxa-dir-active {
+  min-height:0; flex-direction:column; /* Leave active/hidden tab display to Foundry. */
+}
+#sidebar #items.buxa-dir-active > :not(.buxa-world-item-directory),
+#items.sidebar-tab.buxa-dir-active > :not(.buxa-world-item-directory),
+.sidebar-tab[data-tab="items"].buxa-dir-active > :not(.buxa-world-item-directory) { display:none !important; }
+.buxa-world-item-directory {
+  --buxa-world-ink:#e9edf4;
+  color:var(--buxa-world-ink); width:100%; height:100%; min-height:0; min-width:0;
+  display:flex; flex-direction:column; overflow:hidden;
+  background:linear-gradient(165deg,#121a29 0%,#0b101c 64%,#0b1019 100%);
+  font:500 12px/1.35 system-ui,-apple-system,sans-serif;
+}
+.buxa-world-toolbar { display:grid; grid-template-columns:1fr 1fr; gap:7px; flex:0 0 auto; padding:11px 10px 9px; border-bottom:1px solid #ffffff0b; }
+.buxa-world-toolbar button { display:flex; align-items:center; justify-content:center; gap:7px; min-width:0; min-height:35px; border-radius:7px; border:1px solid #4b5c72; background:linear-gradient(180deg,#233047,#161f31); color:#dfebfc; font:700 11px system-ui; box-shadow:none; padding:7px 5px; cursor:pointer; transition:background 130ms,border-color 130ms; }
+.buxa-world-toolbar button:hover { border-color:#8eb7df; background:#2a4360; }
+.buxa-world-toolbar button i { color:#a6c4e6; font-size:12px; }
+.buxa-world-toolbar button[hidden] { display:none !important; }
+.buxa-world-searchbar { display:flex; flex:0 0 auto; align-items:center; gap:9px; min-height:42px; padding:2px 10px 4px 14px; border-bottom:1px solid #2b384c; color:#91a3bb; }
+.buxa-world-searchbar > i { flex:none; font-size:13px; }
+.buxa-world-searchbar input[type="search"] { background:transparent; border:0; outline:0; box-shadow:none; color:#e8eff9; padding:7px 0; margin:0; min-width:0; width:100%; font:500 12px system-ui; }
+.buxa-world-searchbar input::placeholder { color:#8798ae; }
+.buxa-world-searchbar input:focus { box-shadow:none; border:0; outline:0; }
+.buxa-world-searchbar button { flex:0 0 27px; width:27px; height:27px; display:grid; place-items:center; padding:0; margin:0; color:#a8c2dc; border:0; border-radius:5px; background:transparent; cursor:pointer; }
+.buxa-world-searchbar button:hover { background:#243952; color:#fff; }
+.buxa-world-list { flex:1 1 auto; min-height:0; overflow:auto; overscroll-behavior:contain; padding:8px 7px 25px; scrollbar-width:thin; scrollbar-color:#40516b transparent; }
+.buxa-world-tree-node { padding-inline-start:calc(var(--buxa-tree-depth, 0) * 12px); min-width:0; }
+.buxa-world-item-card, .buxa-world-folder-card {
+  appearance:none; display:flex; position:relative; isolation:isolate; align-items:center;
+  width:100%; box-sizing:border-box; min-width:0; min-height:57px; max-height:none;
+  margin:0 0 5px; gap:10px; padding:6px 7px; overflow:hidden;
+  text-align:left; border-radius:7px; cursor:pointer; font-family:inherit;
+  color:var(--buxa-world-ink,#eef3fc);
+  transition:background-color 115ms ease,border-color 115ms ease, box-shadow 115ms ease;
+}
+.buxa-world-item-card {
+  border:1px solid color-mix(in srgb,var(--buxa-card-accent) 36%,#293342);
+  background:linear-gradient(110deg,color-mix(in srgb,var(--buxa-card-accent) 8%,#131c2a),#101721 78%);
+  box-shadow:inset 2px 0 0 color-mix(in srgb,var(--buxa-card-accent) 80%,transparent);
+}
+.buxa-world-item-card:hover, .buxa-world-item-card:focus-visible {
+  background:linear-gradient(100deg,color-mix(in srgb,var(--buxa-card-accent) 18%,#142336),#182535);
+  border-color:var(--buxa-card-accent); box-shadow:inset 2px 0 0 var(--buxa-card-accent),0 0 10px color-mix(in srgb,var(--buxa-card-accent) 16%,transparent);
+}
+.buxa-world-item-card.is-glint::after { content:""; position:absolute; pointer-events:none; inset:0; opacity:.32; background:linear-gradient(110deg,transparent 30%,color-mix(in srgb,var(--buxa-card-accent) 22%,transparent) 50%,transparent 70%); transform:translateX(-120%); transition:transform 420ms ease; }
+.buxa-world-item-card.is-glint:hover::after { transform:translateX(120%); }
+.buxa-world-art { width:43px; height:43px; flex:0 0 43px; display:grid; place-items:center; overflow:hidden; border-radius:5px; background:#141d2b; border:1px solid color-mix(in srgb,var(--buxa-card-accent) 46%,#283347); }
+.buxa-world-art img { display:block; width:100%; height:100%; object-fit:contain; object-position:center; background:transparent; max-width:none; max-height:none; margin:0; padding:0; border:0; border-radius:0; }
+.buxa-world-details { min-width:0; flex:1 1 auto; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:5px; white-space:normal; overflow:hidden; }
+.buxa-world-item-name { color:#e8ecf4; max-width:100%; display:block; font:700 12px/1.24 system-ui; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.buxa-world-meta { display:flex; align-items:center; flex-wrap:wrap; min-width:0; max-width:100%; column-gap:5px; row-gap:2px; font:700 9px/1.2 system-ui; color:#93a4ba; text-transform:uppercase; letter-spacing:.03em; }
+.buxa-world-rarity { color:var(--buxa-card-accent); background:color-mix(in srgb,var(--buxa-card-accent) 10%,#14202f); border:1px solid color-mix(in srgb,var(--buxa-card-accent) 31%,transparent); border-radius:3px; padding:2px 4px; }
+.buxa-world-meta-sep { height:2px; width:2px; border-radius:50%; background:#6e7e8f; }
+.buxa-world-type { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:102px; }
+.buxa-world-level,.buxa-world-path { opacity:.85; }
+.buxa-world-path { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.buxa-world-quantity { align-self:flex-start; flex:0 0 auto; padding:2px 4px; border:1px solid #405570; border-radius:4px; background:#1d2b3e; color:#cbd8e7; font:800 10px system-ui; }
+.buxa-world-folder-card { min-height:49px; background:#172130; border:1px solid color-mix(in srgb,var(--buxa-folder-accent) 24%,#2e3948); box-shadow:inset 2px 0 0 var(--buxa-folder-accent); }
+.buxa-world-folder-card:hover,.buxa-world-folder-card:focus-visible { background:#233247; border-color:var(--buxa-folder-accent); }
+.buxa-world-folder-art { flex:0 0 42px; width:42px; height:36px; display:grid; place-items:center; border-radius:6px; background:color-mix(in srgb,var(--buxa-folder-accent) 13%,#142131); color:var(--buxa-folder-accent); font-size:19px; }
+.buxa-world-folder-caption { color:#95a4b7; font:700 9px system-ui; }
+.buxa-world-folder-chevron { flex:0 0 auto; font-size:10px; color:var(--buxa-folder-accent); margin-right:2px; }
+.buxa-world-empty { margin:24px 6px; text-align:center; color:#8797aa; font-size:12px; }
+.buxa-world-item-card.is-dragging { opacity:.45; }
+.buxa-world-folder-card.is-drop-target, .buxa-world-list.is-drop-target { outline:1px dashed #9bbfea; outline-offset:-2px; background-color:#264767; }
+.buxa-world-item-directory button:focus-visible { outline:2px solid #8fbdeb; outline-offset:-2px; }
+/* Folder panels use the exact same cards as the main list, not default Foundry rows. */
+.buxa-folder-entries .buxa-world-item-card,.buxa-folder-entries .buxa-world-folder-card { width:100%; margin-bottom:5px; min-height:57px; padding:5px 7px; gap:8px; text-align:left; }
+.buxa-folder-entries .buxa-world-folder-card { min-height:49px; }
+.buxa-folder-entries .buxa-world-art { width:39px; height:39px; flex-basis:39px; }
+.buxa-folder-entries .buxa-world-folder-art { flex-basis:39px; width:39px; }
+.buxa-folder-entries .buxa-world-details { flex:1 1 auto; }
+.buxa-folder-entries .buxa-world-item-name { font-size:11px; }
+.buxa-folder-entries .buxa-world-meta { font-size:8px; }
+.buxa-folder-entries .buxa-world-quantity { font-size:9px; }
+@media (max-width:340px) {
+  .buxa-world-item-directory .buxa-world-toolbar { padding-inline:6px; gap:5px; }
+  .buxa-world-item-directory .buxa-world-list { padding-inline:5px; }
+  .buxa-world-item-card { gap:7px; padding:5px; }
+  .buxa-world-art { flex-basis:38px; width:38px; height:38px; }
+  .buxa-world-item-name { font-size:11px; }
+  .buxa-world-type { max-width:65px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .buxa-world-item-card,.buxa-world-folder-card { transition:none; }
+  .buxa-world-item-card.is-glint::after { display:none; }
+}
+/* Undo generic legacy folder-row span rules; nested card metadata needs its own flex sizing. */
+.buxa-folder-entries .buxa-world-item-card span,
+.buxa-folder-entries .buxa-world-folder-card span { flex:initial; min-width:0; white-space:normal; overflow:visible; text-overflow:clip; }
+.buxa-folder-entries .buxa-world-item-card .buxa-world-details,
+.buxa-folder-entries .buxa-world-folder-card .buxa-world-details { flex:1 1 auto; overflow:hidden; }
+.buxa-folder-entries .buxa-world-item-card .buxa-world-item-name,
+.buxa-folder-entries .buxa-world-folder-card .buxa-world-item-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.buxa-folder-entries .buxa-world-item-card .buxa-world-art,
+.buxa-folder-entries .buxa-world-folder-card .buxa-world-folder-art { flex:0 0 39px; overflow:hidden; }
+.buxa-folder-entries .buxa-world-item-card .buxa-world-rarity { flex:0 0 auto; }
+.buxa-folder-entries .buxa-world-item-card .buxa-world-type { flex:0 1 auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.buxa-folder-entries .buxa-folder-entry > .buxa-world-folder-chevron { font-size:10px; color:var(--buxa-folder-accent); }
+
+/* Flat Buxa item directory: never force a hidden Foundry tab to be displayed. */
+#sidebar #items.buxa-dir-active:not(.active),
+#items.sidebar-tab.buxa-dir-active:not(.active),
+.sidebar-tab[data-tab="items"].buxa-dir-active:not(.active) { display:none !important; }
+.buxa-world-item-directory button,
+.buxa-world-item-directory input,
+.buxa-world-item-card, .buxa-world-folder-card,
+.buxa-world-art, .buxa-world-folder-art, .buxa-world-rarity,
+.buxa-world-meta-sep, .buxa-world-quantity { border-radius:0 !important; }
+/* Stable reorder indicator: overlays the list instead of inserting a large
+   placeholder. No layout shifts, hit-test changes, or cascading hover flicker. */
+.buxa-world-list, .buxa-folder-entries { position:relative; }
+.buxa-world-reorder-guide {
+  position:absolute; top:0; left:9px; right:9px; z-index:12;
+  height:2px; margin:0; padding:0; pointer-events:none;
+  background:#91bddc; border:0;
+  box-shadow:0 0 0 1px #0b1826,0 0 7px #74a6cb55;
+  will-change:transform;
+  transition:transform 90ms cubic-bezier(.25,.8,.25,1);
+}
+.buxa-world-reorder-guide::before {
+  content:""; position:absolute; left:0; top:-3px;
+  width:8px; height:8px; background:#91bddc;
+  transform:rotate(45deg); pointer-events:none;
+}
+/* Keep rarity colors quiet under the drag cursor; retain them after drop. */
+.buxa-world-item-directory.is-reordering .buxa-world-item-card,
+.buxa-folder-panels.is-reordering .buxa-world-item-card {
+  transition:none !important;
+}
+.buxa-world-item-directory.is-reordering .buxa-world-item-card::after,
+.buxa-folder-panels.is-reordering .buxa-world-item-card::after { display:none !important; }
+.buxa-world-item-directory.is-reordering .buxa-world-item-card:hover:not(:focus-visible),
+.buxa-folder-panels.is-reordering .buxa-world-item-card:hover:not(:focus-visible) {
+  background:linear-gradient(110deg,color-mix(in srgb,var(--buxa-card-accent) 8%,#131c2a),#101721 78%);
+  border-color:color-mix(in srgb,var(--buxa-card-accent) 36%,#293342);
+  box-shadow:inset 2px 0 0 color-mix(in srgb,var(--buxa-card-accent) 80%,transparent);
+}
+.buxa-world-tree-node:has(> .is-dragging) { opacity:.55; }
+.buxa-world-tree-node:has(> .is-dragging) .is-dragging { opacity:1; }
+@media (prefers-reduced-motion:reduce) { .buxa-world-reorder-guide { transition:none; } }
+
+/* Shared Buxa directory presentation for Actors and Scenes. Let Foundry
+   control which tab is visible; never force an inactive directory to display. */
+#sidebar #actors.buxa-dir-active,
+#sidebar #scenes.buxa-dir-active,
+#actors.sidebar-tab.buxa-dir-active,
+#scenes.sidebar-tab.buxa-dir-active,
+.sidebar-tab[data-tab="actors"].buxa-dir-active,
+.sidebar-tab[data-tab="scenes"].buxa-dir-active { min-height:0; flex-direction:column; }
+#sidebar #actors.buxa-dir-active > :not(.buxa-world-item-directory),
+#sidebar #scenes.buxa-dir-active > :not(.buxa-world-item-directory),
+#actors.sidebar-tab.buxa-dir-active > :not(.buxa-world-item-directory),
+#scenes.sidebar-tab.buxa-dir-active > :not(.buxa-world-item-directory),
+.sidebar-tab[data-tab="actors"].buxa-dir-active > :not(.buxa-world-item-directory),
+.sidebar-tab[data-tab="scenes"].buxa-dir-active > :not(.buxa-world-item-directory) { display:none !important; }
+#sidebar #actors.buxa-dir-active:not(.active),
+#sidebar #scenes.buxa-dir-active:not(.active),
+#actors.sidebar-tab.buxa-dir-active:not(.active),
+#scenes.sidebar-tab.buxa-dir-active:not(.active),
+.sidebar-tab[data-tab="actors"].buxa-dir-active:not(.active),
+.sidebar-tab[data-tab="scenes"].buxa-dir-active:not(.active) { display:none !important; }
+.buxa-world-folder-card.is-main {
+  border-color:color-mix(in srgb, var(--buxa-folder-accent) 55%, #3b4a5b);
+  background:linear-gradient(100deg, color-mix(in srgb,var(--buxa-folder-accent) 14%,#14202f), #172435 90%);
+}
+.buxa-world-folder-card.is-main .buxa-world-item-name { color:#ffe5e8; }
+.buxa-world-folder-card.is-main .buxa-world-folder-art { color:#f17d84; }
+.buxa-world-item-directory button,
+.buxa-generic-panels button, .buxa-generic-panels img { border-radius:0 !important; }
+.buxa-generic-directory .buxa-world-type { max-width:180px; }
+.buxa-generic-panels .buxa-world-item-card { --buxa-card-accent:#8fb0cc; }
+.buxa-generic-panels .buxa-world-item-card.is-dragging { opacity:.48; }
+.buxa-world-folder-card.is-dragging,.buxa-folder-entry.is-folder.is-dragging{opacity:.46}
+.buxa-world-folder-card[draggable="true"]{cursor:grab}
+
+
+/* A custom tab's folder is a section, not a draggable child folder. */
+.buxa-world-folder-card.is-tab-root { border-color:#4b7193; box-shadow:inset 2px 0 #80b0d7; }
+.buxa-world-folder-card.is-tab-root[draggable="false"] { cursor:pointer; }
+
+/* A quiet full-area drop hint. Empty space accepts moves, but unlike the old
+   ROOT bar this never adds another UI row or intercepts pointer events. */
+.buxa-world-item-directory .buxa-world-list.is-root-drop-target {
+  box-shadow: inset 0 0 0 1px #6fa1cb95;
+  background-color: #29405a19;
+}

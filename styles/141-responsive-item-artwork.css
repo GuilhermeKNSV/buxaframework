@@ -1,0 +1,42 @@
+/* Proportional equipment artwork enlargement. Square inventory icons are
+ * unchanged. Tall and wide equipment slots enlarge artwork uniformly without
+ * stretching, using the slot's dominant axis and clipping transparent margins.
+ * Shape-aware complex inventory artwork has its own renderer. */
+.buxa .buxa-equipment-slot.has-item > .buxa-inventory-item {
+  position: absolute !important;
+  inset: 2px !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.buxa .buxa-equipment-slot.has-item > .buxa-inventory-item > img {
+  display: block;
+  box-sizing: border-box;
+  width: var(--buxa-equipped-art-width, 100%) !important;
+  height: var(--buxa-equipped-art-height, 100%) !important;
+  min-width: 0;
+  min-height: 0;
+  max-width: none !important;
+  max-height: none !important;
+  padding: 3px !important;
+  object-fit: var(--buxa-equipped-art-fit, contain) !important;
+  object-position: center center !important;
+  transform: var(--buxa-equipped-art-transform,none) !important;
+  transform-origin: center center !important;
+  will-change: auto;
+}
+.buxa .buxa-inventory-slot.has-item > .buxa-inventory-item > img {
+  box-sizing: border-box;
+  padding: 2px !important;
+  object-fit: contain !important;
+  transform: none !important;
+}
+
+/* Stack composites use the same size-specific transform as single artwork. */
+.buxa .buxa-equipment-slot.has-item > .buxa-inventory-item > .buxa-stack-composite {
+  transform:var(--buxa-equipped-art-transform,none) !important;
+  transform-origin:center center !important;
+}

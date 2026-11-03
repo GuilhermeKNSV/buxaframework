@@ -1,0 +1,74 @@
+/* Compact, neutral Quick-only tiles. Do not inherit player's expanded/collapsed,
+   rarity or rebirth animations: Visual mode keeps those styles untouched. */
+.buxa-npc-sheet:has(.buxa-npc-quick) .buxa-sheet-nav { border-bottom-color: #2c3d51; }
+.buxa-npc-sheet .buxa-npc-quick .buxa-attribute-board {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 192px), 1fr));
+  align-items: stretch; gap: 6px;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-tile {
+  display: grid; grid-template-columns: 26px minmax(0, 1fr) auto auto;
+  gap: 7px; align-items: center; min-width: 0; min-height: 43px;
+  padding: 5px 8px; border: 1px solid #30445a; border-left: 2px solid #6589ac;
+  border-radius: 2px; background: linear-gradient(105deg, #152232, #0d1420);
+  color: #e3ebf6; box-shadow: inset 0 1px 0 #ffffff0b;
+  animation: none !important; transition: none !important;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-dice {
+  width: 26px; height: 29px; margin: 0; padding: 0;
+  border: 1px solid #364e69; border-radius: 2px; background: #101a29;
+  color: #dceaff; font: 700 12px/1 Arial, sans-serif; cursor: pointer;
+  display: grid; place-items: center; box-shadow: none;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-dice:hover,
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-dice:focus-visible {
+  background: #203752; border-color: #87b6eb; outline: 1px solid #87b6eb;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-name {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: 700 11px/1.2 Arial, sans-serif; color: #edf3fc;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-modifier,
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-value {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 27px; max-width: 62px; gap: 2px; font-variant-numeric: tabular-nums;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-modifier small,
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-value small {
+  font: 700 7px/1 Arial, sans-serif; letter-spacing: .06em; color: #8299b3;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-modifier b,
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-value b {
+  font: 800 13px/1.1 Arial, sans-serif; overflow: hidden; text-overflow: ellipsis;
+  max-width: 100%; color: #e6edf8;
+}
+.buxa-npc-sheet .buxa-npc-quick .buxa-npc-attribute-value b { color: #fff; }
+.buxa-npc-sheet .buxa-npc-quick .buxa-section-card,
+.buxa-npc-sheet .buxa-npc-quick .buxa-resource,
+.buxa-npc-sheet .buxa-npc-quick .buxa-progression-card { animation: none !important; }
+.buxa-npc-sheet .buxa-npc-quick .buxa-stats-card { margin-top: 10px; }
+/* Settings and direct-override popovers */
+.buxa-npc-settings-app .window-content, .buxa-npc-cheat-app .window-content {
+  background: #0b111d; color: #e4edf9; padding: 0;
+}
+.buxa-npc-settings, .buxa-npc-cheat { padding: 17px; display: grid; gap: 14px; }
+.buxa-npc-settings header, .buxa-npc-cheat header { display: flex; align-items: center; gap: 12px; }
+.buxa-npc-settings header > i, .buxa-npc-cheat header > i { font-size: 20px; color: #89baf5; }
+.buxa-npc-settings header div, .buxa-npc-cheat header div { display: grid; gap: 3px; }
+.buxa-npc-settings header small, .buxa-npc-cheat header small { color: #a6b5cb; font-size: 11px; }
+.buxa-npc-mode-list { display: grid; gap: 8px; }
+.buxa-npc-mode { display:flex; align-items:center; gap: 12px; padding: 14px; color: #e4edf9;
+  border: 1px solid #304256; border-radius: 5px; text-align: left; background: #151e2c; cursor:pointer; }
+.buxa-npc-mode:hover { border-color: #6fa5df; background: #18283d; }
+.buxa-npc-mode.is-selected { border-color: #83b8f4; background: #162941; }
+.buxa-npc-mode > i { color: #8cb7ea; font-size: 18px; }
+.buxa-npc-mode span { display: grid; gap: 4px; flex: 1; }
+.buxa-npc-mode span small { color: #afc0d5; font-size: 11px; line-height: 1.4; }
+.buxa-npc-mode-hint, .buxa-npc-cheat p { color: #9fb2c9; font-size: 11px; margin: 0; line-height: 1.5; }
+.buxa-npc-cheat-field { display: grid; gap: 5px; }
+.buxa-npc-cheat-field span { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-weight: 600; }
+.buxa-npc-cheat-field span small { font-weight: 400; color: #a6b5cb; }
+.buxa-npc-cheat-field input { width: 100%; height: 34px; background: #101c2c; color: #f3f7ff;
+  border: 1px solid #3a5572; border-radius: 4px; padding: 0 9px; }
+.buxa-npc-cheat footer { display: flex; justify-content: flex-end; }
+.buxa-npc-save { background:#245183; color: #fff; border: 1px solid #78a4d5; border-radius: 4px; padding: 7px 12px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .buxa-npc-settings * { transition: none !important; } }

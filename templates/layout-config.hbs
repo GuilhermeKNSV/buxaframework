@@ -1,0 +1,435 @@
+<section class="buxa-config-shell buxa-config-shell-v2">
+  <aside class="buxa-config-sidebar"><div class="buxa-config-brand"><i class="fa-solid fa-cubes"></i><div><strong>BUXA</strong><small>FRAMEWORK</small></div></div>
+    <div class="buxa-config-tree"><span class="buxa-config-tree-label">MODULE</span>
+      <button type="button" data-config-section="player-sheet" class="is-selected"><i class="fa-solid fa-user-gear"></i> Player Sheet</button><button type="button" data-config-section="inventory"><i class="fa-solid fa-box-open"></i> Inventory</button><button type="button" data-config-section="npc"><i class="fa-solid fa-skull"></i> NPC</button><button type="button" data-config-section="items"><i class="fa-solid fa-gem"></i> Items</button><button type="button" data-config-section="ui"><i class="fa-solid fa-display"></i> UI</button><button type="button" data-config-section="addons"><i class="fa-solid fa-puzzle-piece"></i> Addons</button>
+    </div>
+  </aside><div class="buxa-config-workspace">
+    <div class="buxa-config-top"><header class="buxa-config-header"><div><h2 data-config-heading>Player Sheet</h2></div></header>
+      <nav class="buxa-config-tabs" data-player-sheet-tabs>
+        <button type="button" data-config-tab="basic" class="is-active">General</button><button type="button" data-config-tab="resources">Resources</button><button type="button" data-config-tab="level">Level</button><button type="button" data-config-tab="attributes">Attributes</button><button type="button" data-config-tab="stats">Stats</button><button type="button" data-config-tab="proficiencies">Proficiencies</button><button type="button" data-config-tab="rebirths">Rebirths</button>
+      </nav>
+      <nav class="buxa-config-tabs" data-ui-tabs hidden>
+        <button type="button" data-config-ui-tab="warning" class="is-active"><i class="fa-solid fa-triangle-exclamation"></i> Warning</button>
+        <button type="button" data-config-ui-tab="item-ui"><i class="fa-solid fa-boxes-stacked"></i> Item UI</button>
+      </nav></div>
+    <main class="buxa-config-main">
+      <section data-config-panel="basic">
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>Sheet</h3></div></div>
+          <div class="buxa-config-mini-grid two"><label><span>Tab name</span><input data-basic-tab-label type="text" value="{{config.basicTabLabel}}"></label><label><span>Number display</span><select data-number-display-mode>{{#each numberDisplayOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label></div>
+          <label class="buxa-config-toggle">
+            <input data-make-default type="checkbox" {{#if config.makeDefault}}checked{{/if}}>
+            <span><strong>Default Actor sheet</strong><small>Reload required after changing this.</small></span>
+          </label>
+          {{#if actorTypes.length}}
+            <div class="buxa-actor-types">
+              <span class="buxa-field-label">Actor types</span>
+              <div class="buxa-actor-type-grid">
+                {{#each actorTypes}}
+                  <label><input data-actor-type type="checkbox" value="{{id}}" {{#if checked}}checked{{/if}}> <span>{{id}}</span></label>
+                {{/each}}
+              </div>
+            </div>
+          {{/if}}
+        </div>
+        <div class="buxa-config-panel">
+          <div class="buxa-config-section-title">
+            <div><h3>Fields</h3></div>
+            <button type="button" data-action="addField"><i class="fa-solid fa-plus"></i> Add field</button>
+          </div>
+          <div class="buxa-config-field-head"><span></span><span>Label</span><span>Width 2–12</span><span></span></div>
+          <div class="buxa-config-fields" data-fields-list>
+            {{#each fields}}
+              <div class="buxa-config-field-row" data-field-row data-field-id="{{id}}">
+                <span class="buxa-drag-handle"><i class="fa-solid fa-grip-lines"></i></span>
+                <div class="buxa-label-cell">
+                  <input data-field-label type="text" value="{{label}}">
+                  {{#if locked}}<small>Actor name</small>{{/if}}
+                </div>
+                <input data-field-width type="number" min="2" max="12" step="1" value="{{width}}">
+                <div class="buxa-config-row-actions">
+                  <button type="button" data-action="moveFieldUp" title="Move up"><i class="fa-solid fa-chevron-up"></i></button>
+                  <button type="button" data-action="moveFieldDown" title="Move down"><i class="fa-solid fa-chevron-down"></i></button>
+                  {{#unless locked}}<button type="button" data-action="removeField" title="Remove"><i class="fa-solid fa-trash"></i></button>{{/unless}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div></section>
+      <section data-config-panel="resources" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title">
+            <div><h3>Resources</h3></div>
+            <button type="button" data-action="addResource"><i class="fa-solid fa-plus"></i> Add resource</button>
+          </div>
+          <div class="buxa-config-resource-list" data-resources-list>
+            {{#each resources}}
+              <article class="buxa-config-resource" data-resource-row data-resource-id="{{id}}" data-resource-locked="{{locked}}" data-resource-link="{{link}}">
+                <div class="buxa-config-resource-main">
+                  <span class="buxa-drag-handle"><i class="fa-solid fa-grip-lines"></i></span>
+                  <label><span>Name</span><input data-resource-label type="text" value="{{label}}"></label>
+                  <label><span>Color</span><input data-resource-color type="color" value="{{color}}"></label>
+                  <label><span>Starting max</span><input data-resource-start type="number" min="0" step="1" value="{{startMax}}"></label>
+                  <label>
+                    <span>Link</span>
+                    {{#if locked}}
+                      <div class="buxa-config-fixed-link"><i class="fa-solid fa-link"></i> {{systemLinkLabel}}</div>
+                    {{else}}
+                      <select data-resource-link>
+                        {{#each linkOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+                      </select>
+                    {{/if}}
+                  </label>
+                  <div class="buxa-config-row-actions">
+                    <button type="button" data-action="moveResourceUp" title="Move up"><i class="fa-solid fa-chevron-up"></i></button>
+                    <button type="button" data-action="moveResourceDown" title="Move down"><i class="fa-solid fa-chevron-down"></i></button>
+                    {{#unless locked}}<button type="button" data-action="removeResource" title="Remove"><i class="fa-solid fa-trash"></i></button>{{/unless}}
+                  </div>
+                </div>
+                <div class="buxa-config-icon-control" data-entry-icon-control>
+                  <label title="Show this SVG on the player sheet"><input data-resource-icon-enabled type="checkbox" {{#if icon.enabled}}checked{{/if}}> SVG</label>
+                  <span class="buxa-config-icon-preview {{#unless icon.path}}is-empty{{/unless}}" data-icon-preview>{{#if icon.path}}<img src="{{icon.path}}" alt="">{{/if}}</span>
+                  <button type="button" class="buxa-config-icon-pick" data-action="pickEntrySvg" data-icon-kind="resource">PICK SVG</button>
+                  <input data-resource-icon-path type="hidden" value="{{icon.path}}">
+                </div>
+                <label class="buxa-config-toggle compact">
+                  <input data-resource-sync-max type="checkbox" {{#if syncCurrentOnMax}}checked{{/if}}>
+                  <span><strong>Changing Max refills Current</strong></span>
+                </label>
+                <details class="buxa-config-advanced">
+                  <summary>On level up</summary>
+                  <div class="buxa-config-mini-grid">
+                    <label><span>Max +</span><input data-resource-max-gain type="number" min="0" step="1" value="{{levelUp.maxGain}}"></label>
+                    <label><span>Every levels</span><input data-resource-max-every type="number" min="1" step="1" value="{{levelUp.maxEveryLevels}}"></label>
+                    <label>
+                      <span>Restore</span>
+                      <select data-resource-restore-mode>
+                        {{#each restoreOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+                      </select>
+                    </label>
+                    <label><span>Amount / %</span><input data-resource-restore-amount type="number" min="0" step="1" value="{{levelUp.restoreAmount}}"></label>
+                    <label><span>Every levels</span><input data-resource-restore-every type="number" min="1" step="1" value="{{levelUp.restoreEveryLevels}}"></label>
+                  </div>
+                </details>
+              </article>
+            {{/each}}
+          </div>
+        </div>
+      </section>      <section data-config-panel="level" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>Level</h3></div></div>
+          <label class="buxa-config-toggle prominent">
+            <input data-level-enabled type="checkbox" {{#if config.level.enabled}}checked{{/if}}>
+            <span><strong>Enable level</strong></span>
+          </label>
+          <div class="buxa-config-mini-grid three">
+            <label><span>Label</span><input data-level-label type="text" value="{{config.level.label}}"></label>
+            <label><span>Starting level</span><input data-level-start type="number" min="0" step="1" value="{{config.level.startingLevel}}"></label>
+            <label>
+              <span>Level up permission</span>
+              <select data-level-permission>
+                <option value="gm" {{#if levelPermissionGm}}selected{{/if}}>GM only</option>
+                <option value="owner" {{#if levelPermissionOwner}}selected{{/if}}>GM + Owners</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </section>
+      <section data-config-panel="attributes" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>Points</h3></div></div>
+          <label class="buxa-config-toggle prominent">
+            <input data-points-enabled type="checkbox" {{#if config.attributes.points.enabled}}checked{{/if}}>
+            <span><strong>Enable points</strong></span>
+          </label>
+          <div class="buxa-config-mini-grid three">
+            <label><span>Label</span><input data-points-label type="text" value="{{config.attributes.points.label}}"></label>
+            <label><span>Starting points</span><input data-points-start type="number" min="0" step="1" value="{{config.attributes.points.startingPoints}}"></label>
+            <label><span>Gain</span><input data-points-grant type="number" min="0" step="1" value="{{config.attributes.points.grantAmount}}"></label>
+            <label><span>Every levels</span><input data-points-every type="number" min="1" step="1" value="{{config.attributes.points.grantEveryLevels}}"></label>
+          </div>
+          <div class="buxa-config-toggle-grid">
+            <label class="buxa-config-toggle compact"><input data-points-player-decrease type="checkbox" {{#if config.attributes.points.playersCanDecrease}}checked{{/if}}><span><strong>Players can refund points</strong></span></label>
+            <label class="buxa-config-toggle compact"><input data-points-direct-entry type="checkbox" {{#if config.attributes.points.directValueEntry}}checked{{/if}}><span><strong>Allow direct value entry</strong></span></label>
+            <label class="buxa-config-toggle compact"><input data-points-below-zero type="checkbox" {{#if config.attributes.points.allowBelowZero}}checked{{/if}}><span><strong>Allow negative values</strong></span></label>
+          </div>
+        </div>
+        <div class="buxa-config-panel">
+          <div class="buxa-config-section-title">
+            <div><h3>Attributes</h3></div>
+            <button type="button" data-action="addAttribute">+ Add attribute</button>
+          </div>
+          <label class="buxa-config-toggle compact"><input type="checkbox" data-attributes-allow-collapse {{#if config.attributes.allowCollapse}}checked{{/if}}><span><strong>Allow attribute minimize / maximize</strong><small>Disable to keep all attribute cards expanded, with their Sources controls available.</small></span></label>
+          <div class="buxa-config-attribute-list" data-attributes-list>
+            {{#each attributes}}
+              <article class="buxa-config-attribute" data-attribute-row data-attribute-id="{{id}}">
+                <div class="buxa-config-attribute-main">
+                  <span class="buxa-drag-handle">⋮⋮</span>
+                  <label><span>Name</span><input data-attribute-label type="text" value="{{label}}"></label>
+                  <label>
+                    <span>D&D 5e link</span>
+                    <select data-attribute-ability>
+                      {{#each abilityOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}} ({{id}})</option>{{/each}}
+                    </select>
+                  </label>
+                  <div class="buxa-config-row-actions">
+                    <button type="button" data-action="moveAttributeUp" title="Move up">↑</button>
+                    <button type="button" data-action="moveAttributeDown" title="Move down">↓</button>
+                    <button type="button" data-action="removeAttribute" title="Remove">×</button>
+                  </div>
+                </div>
+                <div class="buxa-config-attribute-features two">
+                  <details class="buxa-config-advanced">
+                    <summary>Appearance</summary>
+                    <div class="buxa-config-icon-control" data-entry-icon-control>
+                      <label title="Show this SVG on the player sheet"><input data-attribute-icon-enabled type="checkbox" {{#if icon.enabled}}checked{{/if}}> SVG</label>
+                      <span class="buxa-config-icon-preview {{#unless icon.path}}is-empty{{/unless}}" data-icon-preview>{{#if icon.path}}<img src="{{icon.path}}" alt="">{{/if}}</span>
+                      <button type="button" class="buxa-config-icon-pick" data-action="pickEntrySvg" data-icon-kind="attribute">PICK SVG</button>
+                      <input data-attribute-icon-path type="hidden" value="{{icon.path}}">
+                    </div>
+                    <div class="buxa-config-mini-grid two">
+                      <label><span>Accent</span><input data-attribute-color type="color" value="{{appearance.color}}"></label>
+                      <label><span>Decoration</span><input data-attribute-decoration type="text" maxlength="10" value="{{appearance.decoration}}"></label>
+                    </div>
+                  </details>
+                  <details class="buxa-config-advanced">
+                    <summary>Modifier</summary>
+                    <label class="buxa-config-toggle compact"><input data-attribute-modifier-enabled type="checkbox" {{#if modifier.enabled}}checked{{/if}}><span><strong>Enable modifier</strong></span></label>
+                    <div class="buxa-config-mini-grid one-line"><label><span>+1 every points</span><input data-attribute-modifier-every type="number" min="1" step="1" value="{{modifier.everyPoints}}"></label></div>
+                  </details>
+                </div>
+              </article>
+            {{/each}}
+          </div>
+        </div>
+      </section>
+      <section data-config-panel="stats" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>Stats</h3></div></div>
+          <div class="buxa-config-stat-grid">
+            <div class="buxa-config-stat-block">
+              <div class="buxa-config-stat-title">DR</div>
+              <label class="buxa-config-toggle compact"><input data-dr-enabled type="checkbox" {{#if config.otherStats.damageReduction.enabled}}checked{{/if}}><span><strong>Enable</strong></span></label>
+              <label><span>Resource</span><select data-dr-resource>{{#each damageResourceOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+            </div>
+            <div class="buxa-config-stat-block">
+              <div class="buxa-config-stat-title">Initiative</div>
+              <label class="buxa-config-toggle compact"><input data-initiative-enabled type="checkbox" {{#if config.otherStats.initiative.enabled}}checked{{/if}}><span><strong>Enable</strong></span></label>
+              <label><span>Attribute</span><select data-initiative-attribute><option value="">None</option>{{#each initiativeAttributeOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section data-config-panel="proficiencies" hidden>
+        <div class="buxa-config-panel">
+          <div class="buxa-config-section-title">
+            <div><h3>Proficiencies</h3></div>
+            <button type="button" data-action="addProficiency">+ Add proficiency</button>
+          </div>
+          <div class="buxa-config-proficiency-top">
+            <label class="buxa-config-toggle compact"><input data-proficiencies-enabled type="checkbox" {{#if config.proficiencies.enabled}}checked{{/if}}><span><strong>Enable proficiencies</strong></span></label>
+            <label><span>Section label</span><input data-proficiencies-label type="text" value="{{config.proficiencies.label}}"></label>
+            <label><span>Type</span><select data-proficiencies-mode><option value="modifier" {{#if proficiencyModeModifier}}selected{{/if}}>Proficiency only</option><option value="attribute" {{#if proficiencyModeAttribute}}selected{{/if}}>Attribute-style proficiency</option></select></label>
+          </div>
+          <div class="buxa-config-proficiency-points">
+            <label class="buxa-config-toggle compact"><input data-proficiency-points-enabled type="checkbox" {{#if config.proficiencies.points.enabled}}checked{{/if}}><span><strong>Proficiency points</strong></span></label>
+            <div class="buxa-config-mini-grid four">
+              <label><span>Label</span><input data-proficiency-points-label type="text" value="{{config.proficiencies.points.label}}"></label>
+              <label><span>Starting</span><input data-proficiency-points-start type="number" min="0" step="1" value="{{config.proficiencies.points.startingPoints}}"></label>
+              <label><span>Gain</span><input data-proficiency-points-grant type="number" min="0" step="1" value="{{config.proficiencies.points.grantAmount}}"></label>
+              <label><span>Every levels</span><input data-proficiency-points-every type="number" min="1" step="1" value="{{config.proficiencies.points.grantEveryLevels}}"></label>
+            </div>
+            <div class="buxa-config-toggle-grid">
+              <label class="buxa-config-toggle compact"><input data-proficiency-points-player-decrease type="checkbox" {{#if config.proficiencies.points.playersCanDecrease}}checked{{/if}}><span><strong>Players can refund</strong></span></label>
+              <label class="buxa-config-toggle compact"><input data-proficiency-points-below-zero type="checkbox" {{#if config.proficiencies.points.allowBelowZero}}checked{{/if}}><span><strong>Allow negative values</strong></span></label>
+            </div>
+          </div>
+          <div class="buxa-config-proficiency-list" data-proficiencies-list>
+            {{#each proficiencies}}
+              <article class="buxa-config-proficiency" data-proficiency-config-row data-proficiency-id="{{id}}">
+                <div class="buxa-config-proficiency-main">
+                  <span class="buxa-drag-handle">⋮⋮</span>
+                  <label class="buxa-config-inline-check" title="Enabled"><input data-proficiency-enabled type="checkbox" {{#if enabled}}checked{{/if}}></label>
+                  <label><span>Name</span><input data-proficiency-label type="text" value="{{label}}"></label>
+                  <label><span>Linked attribute</span><select data-proficiency-attribute>{{#each attributeOptions}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+                  <div class="buxa-config-row-actions">
+                    <button type="button" data-action="moveProficiencyUp" title="Move up">↑</button>
+                    <button type="button" data-action="moveProficiencyDown" title="Move down">↓</button>
+                    <button type="button" data-action="removeProficiency" title="Remove">×</button>
+                  </div>
+                </div>
+                <div class="buxa-config-icon-control" data-entry-icon-control>
+                  <label title="Show this SVG on the player sheet"><input data-proficiency-icon-enabled type="checkbox" {{#if icon.enabled}}checked{{/if}}> SVG</label>
+                  <span class="buxa-config-icon-preview {{#unless icon.path}}is-empty{{/unless}}" data-icon-preview>{{#if icon.path}}<img src="{{icon.path}}" alt="">{{/if}}</span>
+                  <button type="button" class="buxa-config-icon-pick" data-action="pickEntrySvg" data-icon-kind="proficiency">PICK SVG</button>
+                  <input data-proficiency-icon-path type="hidden" value="{{icon.path}}">
+                </div>
+                <div class="buxa-proficiency-attribute-options">
+                  <label><span>+1 MOD every</span><input data-proficiency-modifier-every type="number" min="1" step="1" value="{{modifierEveryPoints}}"></label>
+                  <label class="buxa-config-toggle compact"><input data-proficiency-feature-dice type="checkbox" {{#if features.dice}}checked{{/if}}><span><strong>d20 roll</strong></span></label>
+                  <label class="buxa-config-toggle compact"><input data-proficiency-feature-reroll type="checkbox" {{#if features.reroll}}checked{{/if}}><span><strong>Roll modes</strong></span></label>
+                  <label class="buxa-config-toggle compact"><input data-proficiency-feature-number type="checkbox" {{#if features.number}}checked{{/if}}><span><strong>Number</strong></span></label>
+                  <label class="buxa-config-toggle compact"><input data-proficiency-feature-modifier type="checkbox" {{#if features.modifier}}checked{{/if}}><span><strong>Modifier</strong></span></label>
+                </div>
+              </article>
+            {{/each}}
+          </div>
+        </div>
+      </section>
+      <section data-config-panel="ui-warning" hidden>
+        <div class="buxa-config-panel no-top-margin buxa-warning-config">
+          <div class="buxa-config-section-title">
+            <div>
+              <h3>Warnings &amp; notifications</h3>
+              <small>Customize Buxa's warning, saved, error and information popups.</small>
+            </div>
+            <span class="buxa-warning-config-badge"><i class="fa-solid fa-bolt"></i> LIVE UI</span>
+          </div>
+          <div class="buxa-warning-settings-row">
+            <label class="buxa-warning-duration">
+              <span>Automatic dismissal</span>
+              <span class="buxa-warning-duration-input">
+                <input data-warning-dismiss-seconds type="number" min="0" max="60" step="1" value="{{config.ui.warning.durationSeconds}}" aria-label="Notification duration in seconds">
+                <small>seconds</small>
+              </span>
+              <small>Notifications fade out after this many seconds. Use 0 to keep them visible until closed.</small>
+            </label>
+          </div>
+        </div>
+        <div class="buxa-config-panel buxa-warning-config">
+          <div class="buxa-config-section-title">
+            <div><h3>Screen placement</h3><small>Choose where notifications appear at the top of the screen.</small></div>
+          </div>
+          <div class="buxa-warning-position-picker" role="group" aria-label="Notification position">
+            <label class="buxa-warning-position-option">
+              <input type="radio" name="buxa-warning-position" data-warning-position value="left" {{#if warningPositionLeft}}checked{{/if}}>
+              <span class="buxa-warning-position-content"><span class="buxa-position-illustration"><i></i></span><strong>Left</strong></span>
+            </label>
+            <label class="buxa-warning-position-option">
+              <input type="radio" name="buxa-warning-position" data-warning-position value="center" {{#if warningPositionCenter}}checked{{/if}}>
+              <span class="buxa-warning-position-content"><span class="buxa-position-illustration"><i></i></span><strong>Middle</strong></span>
+            </label>
+            <label class="buxa-warning-position-option">
+              <input type="radio" name="buxa-warning-position" data-warning-position value="right" {{#if warningPositionRight}}checked{{/if}}>
+              <span class="buxa-warning-position-content"><span class="buxa-position-illustration"><i></i></span><strong>Right</strong></span>
+            </label>
+          </div>
+          <div class="buxa-warning-preview-actions">
+            <p><i class="fa-solid fa-circle-info"></i> Preview uses the options above, even before you save.</p>
+            <button type="button" data-action="previewWarning"><i class="fa-solid fa-eye"></i> Preview warning</button>
+          </div>
+        </div>
+      </section>
+      <section data-config-panel="ui-item-ui" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>Item directory</h3><small>Customize world-item folders and navigation.</small></div></div>
+          <label class="buxa-config-toggle prominent">
+            <input data-ui-item-folders-left type="checkbox" {{#if config.ui.itemUi.openFoldersLeft}}checked{{/if}}>
+            <span><strong>Open folders to the left</strong><small>Click a folder to open a new panel beside the Items directory. Nested folders open another panel to its left. Drag items between panels or back into the directory.</small></span>
+          </label>
+        </div>
+      </section>
+      <section data-config-panel="inventory" hidden>
+        <div class="buxa-config-panel no-top-margin"><div class="buxa-config-section-title"><div><h3>Inventory</h3></div></div>
+          <div class="buxa-config-mini-grid two">
+            <label><span>Inventory mode</span><select data-inventory-mode><option value="simple" {{#unless inventoryComplex}}selected{{/unless}}>Simple · individual slots</option><option value="complex" {{#if inventoryComplex}}selected{{/if}}>Complex · shaped items</option></select></label>
+            <label><span>Complex automatic sorting</span><select data-inventory-complex-sort><option value="off" {{#unless config.inventory.complex.autoSort}}selected{{/unless}}>Disabled (manual only)</option><option value="on" {{#if config.inventory.complex.autoSort}}selected{{/if}}>Enabled (auto-pack)</option></select></label>
+            <label><span>Complex columns</span><input data-inventory-complex-columns type="number" min="2" max="20" value="{{config.inventory.complex.columns}}"></label>
+            <label><span>Complex rows</span><input data-inventory-complex-rows type="number" min="1" max="40" value="{{config.inventory.complex.rows}}"></label>
+          </div>
+          <div class="buxa-config-mini-grid two"><label><span>Inventory slots</span><input data-inventory-slots type="number" min="1" max="200" step="1" value="{{config.inventory.slots}}"></label><label><span>Default max weight</span><input data-inventory-weight-capacity type="number" min="0" step="0.1" value="{{config.inventory.weight.capacity}}"></label></div>
+          <label class="buxa-config-toggle prominent"><input data-inventory-weight-enabled type="checkbox" {{#if config.inventory.weight.enabled}}checked{{/if}}><span><strong>Enable inventory weight</strong><small>Tracked item stacks add their configured weight to this total.</small></span></label>
+        </div>
+        <div class="buxa-config-panel"><div class="buxa-config-section-title"><div><h3>Equipment layout</h3></div></div><div class="buxa-equipment-layout-config-row"><div><strong><span data-equipment-slot-count>{{equipmentSlotCount}}</span> slots</strong></div><button type="button" data-action="organizeEquipmentLayout"><i class="fa-solid fa-grid-2"></i> Organize equipment location</button></div></div>
+      </section>
+      <section data-config-panel="npc" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>NPC · Dropping</h3><small></small></div></div>
+          <div class="buxa-config-mini-grid two">
+            <label><span>Default Drop slots</span><input type="number" min="1" max="200" step="1" data-npc-drop-default-slots value="{{config.npc.dropping.defaultSlots}}"></label>
+            <label><span>HP resource</span><select data-npc-drop-resource>{{#each resources}}<option value="{{id}}" {{#if npcDropSelected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+          </div>
+        </div>
+      </section>
+      <section data-config-panel="items" hidden>
+        <div class="buxa-config-panel no-top-margin buxa-physical-visual-setting">
+          <div class="buxa-config-section-title"><div><h3>Dropped item visuals</h3><small>Choose the world appearance of items lying on a scene. Rarity colors are inherited from your rarity configuration.</small></div></div>
+          <div class="buxa-physical-visual-options" role="group" aria-label="Physical item visual effect">
+            <label><input type="radio" data-physical-item-visual name="buxa-physical-item-visual" value="beam" {{#if physicalVisualBeam}}checked{{/if}}><span><strong>Beam</strong><small>Animated light shaft and ground glow</small></span></label>
+            <label><input type="radio" data-physical-item-visual name="buxa-physical-item-visual" value="shadow" {{#if physicalVisualShadow}}checked{{/if}}><span><strong>Shadow</strong><small>Soft contact shadow with a subtle rarity edge</small></span></label>
+          </div>
+        </div>
+
+        <div class="buxa-config-panel no-top-margin"><div class="buxa-config-section-title"><div><h3>Item rarities</h3><small>Rarity styling is shared by Buxa item sheets, inventory items and equipped slots.</small></div><button type="button" data-rarity-add><i class="fa-solid fa-plus"></i> Add rarity</button></div>
+          <div class="buxa-rarity-global-background"><label><span>Background opacity</span><div><input data-rarity-global-opacity type="range" min="0" max="100" step="1" value="{{config.items.background.opacity}}"><output data-rarity-global-opacity-output>{{config.items.background.opacity}}%</output></div></label><label><span>Background brightness</span><div><input data-rarity-global-brightness type="range" min="25" max="250" step="1" value="{{config.items.background.brightness}}"><output data-rarity-global-brightness-output>{{config.items.background.brightness}}%</output></div></label></div>
+          <div class="buxa-rarity-config-list" data-rarity-list>{{#each rarities}}
+            <article class="buxa-rarity-config-row" data-rarity-row data-rarity-id="{{id}}" style="--buxa-rarity-preview:{{color}}"><div class="buxa-rarity-config-main"><span class="buxa-rarity-swatch"></span><label><span>Name</span><input data-rarity-label type="text" value="{{label}}"></label><label><span>Color</span><input data-rarity-color type="color" value="{{color}}"></label><span class="buxa-rarity-config-id">{{id}}</span><button type="button" data-rarity-action="remove" title="Remove rarity">×</button></div>
+              <div class="buxa-rarity-config-flags"><label><input data-rarity-name-color type="checkbox" {{#if nameColor}}checked{{/if}}> Name color</label><label><input data-rarity-animated type="checkbox" {{#if animated}}checked{{/if}}> Animated glow</label><label><input data-rarity-ornament type="checkbox" {{#if ornament}}checked{{/if}}> Ornament</label><label><input data-rarity-spectrum type="checkbox" {{#if spectrum}}checked{{/if}}> Spectrum / RGB</label><label><input data-rarity-glint type="checkbox" {{#if glint}}checked{{/if}}> Name glint</label></div>
+              <label class="buxa-rarity-beam-opacity"><span>Beam opacity</span><input type="range" data-rarity-beam-opacity-slider min="0" max="100" step="1" value="{{beamOpacity}}"><input type="number" data-rarity-beam-opacity-number min="0" max="100" step="1" value="{{beamOpacity}}"><small>%</small></label>
+              <div class="buxa-rarity-background-config"><span>Background</span><div class="buxa-rarity-background-options"><label><input data-rarity-background type="radio" name="rarity-background-{{id}}" value="glint" {{#if backgroundGlint}}checked{{/if}}><span>GLINT</span></label><label><input data-rarity-background type="radio" name="rarity-background-{{id}}" value="full" {{#if backgroundFull}}checked{{/if}}><span>FULL COLOR</span></label></div></div>
+            </article>
+          {{/each}}</div>
+        </div>
+      </section>
+      <section data-config-panel="addons" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>Addons</h3></div></div>
+          <div class="buxa-addon-grid">
+            <label class="buxa-addon-card"><input data-addon-svg-icons type="checkbox" {{#if config.addons.svgIcons.enabled}}checked{{/if}}><span class="buxa-addon-main"><strong>SVG Icons</strong><small>BUILT-IN</small></span></label>
+            <label class="buxa-addon-card"><input data-addon-carousel-tracker type="checkbox" {{#if config.addons.carouselTracker.enabled}}checked{{/if}}><span class="buxa-addon-main"><strong>Carousel Combat Tracker</strong>{{#if carouselTrackerActive}}<small class="is-active">ACTIVE</small>{{else}}{{#if carouselTrackerInstalled}}<small>INSTALLED</small>{{else}}<small>NOT INSTALLED</small>{{/if}}{{/if}}</span></label>
+            <label class="buxa-addon-card"><input data-addon-sequencer type="checkbox" {{#if config.addons.sequencer.enabled}}checked{{/if}}><span class="buxa-addon-main"><strong>Sequencer — Scene VFX</strong><small>{{#if addonSequencerActive}}ACTIVE{{else}}INACTIVE / NOT INSTALLED{{/if}} · Optional scene-item effect</small></span></label>
+            <div class="buxa-addon-card buxa-addon-info"><span class="buxa-addon-main"><strong>Automated Animations</strong><small>{{#if addonAutoAnimationsActive}}ACTIVE{{else}}INACTIVE / NOT INSTALLED{{/if}} · Item attack animations managed by that module</small></span></div>
+            <div class="buxa-addon-card buxa-addon-info"><span class="buxa-addon-main"><strong>socketlib</strong><small>{{#if addonSocketlibActive}}ACTIVE{{else}}INACTIVE / NOT INSTALLED{{/if}} · Library available to integrations; Buxa keeps its existing secure transfer channel</small></span></div>
+            <div class="buxa-addon-card buxa-addon-info"><span class="buxa-addon-main"><strong>Game-icons.net</strong><small>{{#if addonGameIconsInstalled}}INSTALLED{{else}}NOT INSTALLED{{/if}} · SVG icon library; browse via Icon source below</small></span><button type="button" class="buxa-addon-asset-button" data-action="chooseGameIcons">Use as icon source</button></div>
+          </div>
+          <div class="buxa-sequencer-asset"><label><span>Sequencer scene-item effect file</span><input type="text" data-addon-sequencer-asset value="{{config.addons.sequencer.effectFile}}" placeholder="modules/your-effects/loot-effect.webm" spellcheck="false"><button type="button" data-action="pickSequencerAsset"><i class="fa-solid fa-folder-open"></i> Browse effects</button></label><small>Optional: choose a valid SVG, GIF, WebM or image from Foundry's files. Plays when taking or opening scene loot if Sequencer is active. Leave blank for no extra effect; Buxa's own visuals still work.</small></div>
+          <div class="buxa-icon-source-config"><div class="buxa-config-section-title"><div><h3>Icon source</h3></div></div>
+            <input data-addon-icon-source-source type="hidden" value="{{config.addons.iconSource.source}}"><input data-addon-icon-source-path type="hidden" value="{{config.addons.iconSource.path}}">
+            <div class="buxa-icon-source-row"><span class="buxa-icon-source-location"><small data-addon-icon-source-source-display>{{#if iconSourcePublic}}CORE DATA{{else}}USER DATA{{/if}}</small><strong data-addon-icon-source-display>{{#if config.addons.iconSource.path}}{{config.addons.iconSource.path}}{{else}}ROOT{{/if}}</strong></span><button type="button" data-action="chooseIconSource"><i class="fa-solid fa-folder-open"></i> CHOOSE FOLDER</button></div>
+          </div>
+        </div></section>
+      <section data-config-panel="rebirths" hidden>
+        <div class="buxa-config-panel no-top-margin">
+          <div class="buxa-config-section-title"><div><h3>Rebirth Rules</h3></div></div>
+          <div class="buxa-config-rebirth-rule-list" data-rebirth-attribute-list>
+            {{#each attributes}}
+              <article class="buxa-config-rebirth-rule" data-rebirth-attribute-row data-rebirth-attribute-id="{{id}}">
+                <div class="buxa-config-rebirth-rule-head"><strong>{{label}}</strong></div>
+                <label class="buxa-config-toggle compact"><input data-attribute-rebirth-enabled type="checkbox" {{#if rebirth.enabled}}checked{{/if}}><span><strong>Enable rebirth</strong></span></label>
+                <div class="buxa-config-mini-grid three">
+                  <label><span>Max points</span><input data-attribute-rebirth-max type="number" min="1" step="1" value="{{rebirth.maxPoints}}"></label>
+                  <label><span>+1 die every rebirths</span><input data-attribute-dice-every type="number" min="1" step="1" value="{{rebirth.gainDieEveryRebirths}}"></label>
+                  <label><span>Base modifier cap</span><input data-attribute-base-mod-cap type="number" min="0" step="1" value="{{rebirth.baseModifierCap}}"></label>
+                  <label><span>Cap + per rebirth</span><input data-attribute-mod-cap-gain type="number" min="0" step="1" value="{{rebirth.modifierCapPerRebirth}}"></label>
+                </div>
+                <label class="buxa-config-toggle compact"><input data-attribute-lock-modifier type="checkbox" {{#if rebirth.lockModifier}}checked{{/if}}><span><strong>Lock modifier by rebirth</strong></span></label>
+              </article>
+            {{/each}}
+          </div>
+          <div class="buxa-config-section-title buxa-rebirth-subtitle">
+            <div><h3>Rarity</h3></div>
+          </div>
+          <div class="buxa-rebirth-global-editor">
+            <div class="buxa-rebirth-style-head"><span>REBIRTH</span><span>COLOR</span><span>DECORATION</span><span>PREVIEW</span><span></span></div>
+            <div data-rebirth-styles>
+              {{#each rebirthStyles}}
+                <div class="buxa-rebirth-style-row is-global" data-rebirth-style-row data-rebirth-style-level="{{level}}">
+                  <span class="buxa-rebirth-style-level">R{{level}}</span>
+                  <input data-rebirth-style-color type="color" value="{{color}}" title="Color">
+                  <input data-rebirth-style-decoration type="text" maxlength="10" value="{{decoration}}" title="Decoration">
+                  <span class="buxa-rebirth-style-preview" style="--buxa-preview-color: {{color}}"><b>{{level}}</b><small>{{decoration}}</small></span>
+                  <button type="button" data-action="removeRebirthStyle" title="Remove">×</button>
+                </div>
+              {{/each}}
+            </div>
+            <button type="button" class="buxa-add-rebirth-style" data-action="addRebirthStyle">+ Add rarity</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="buxa-config-footer">
+      <button type="button" data-action="resetLayout"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+      <button type="submit" class="buxa-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+    </footer>
+  </div>
+</section>

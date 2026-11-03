@@ -1,0 +1,366 @@
+/* Scene artworks are unadorned until right-click. Controls use sharp, compact UI. */
+.buxa-gm-opener{position:fixed;top:45%;left:0;z-index:100;display:grid;place-items:center;width:23px;height:67px;background:#132336;border:1px solid #38546b;color:#c7e8ff;cursor:pointer;box-shadow:0 6px 18px #0005;transition:transform .2s,left .2s}
+.buxa-gm-opener svg{width:17px;height:17px;transition:transform .2s}
+.buxa-gm-opener:hover{background:#1c3852;color:#fff}
+.buxa-gm-opener.is-open{left:316px}
+.buxa-gm-opener.is-open svg{transform:rotate(180deg)}
+.buxa-gm-panel{position:fixed;z-index:99;top:0;left:0;width:min(316px,calc(100vw - 28px));height:100dvh;transform:translateX(-102%);transition:transform .23s ease;background:linear-gradient(165deg,#112133,#09131f);color:#d9ebfb;border-right:1px solid #30495f;box-shadow:8px 0 32px #02060a66;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box}
+.buxa-gm-panel.is-open{transform:translateX(0)}
+.buxa-gm-panel button{border-radius:0!important}
+.buxa-gm-head{padding:25px 17px 17px;display:flex;align-items:start;justify-content:space-between;border-bottom:1px solid #263a4b}
+.buxa-gm-head small{font-size:9px;letter-spacing:.22em;color:#6cbedb;font-weight:850}
+.buxa-gm-head h3{font-size:22px;font-weight:750;color:#fff;margin:5px 0 0}
+.buxa-gm-head button{width:30px;height:30px;padding:0;border:0;background:transparent;color:#99b6ca;font-size:25px;cursor:pointer}
+.buxa-gm-tabs,.buxa-gm-subtabs{display:flex;gap:8px;padding:12px 16px 0}
+.buxa-gm-tabs button,.buxa-gm-subtabs button{min-width:70px;padding:9px 12px;background:#122436;border:1px solid #23435b;color:#92b0c9;cursor:pointer;font-size:11px;font-weight:800;letter-spacing:.08em}
+.buxa-gm-tabs button.is-active,.buxa-gm-subtabs button.is-active{border-color:#56b5de;background:#1a3449;color:#eefaff}
+.buxa-gm-content{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2a4964 transparent}
+.buxa-gm-subtabs{padding-top:15px}
+.buxa-gm-group{margin:16px;padding:14px 12px 9px;border:1px solid #253c50;background:#0c1a29}
+.buxa-gm-group-title{display:flex;flex-direction:column;gap:3px;margin:0 0 12px}
+.buxa-gm-group-title strong{font-size:13px;color:#f1f7ff}.buxa-gm-group-title small{font-size:10px;color:#89a8bd;line-height:1.4}
+.buxa-gm-switch{display:flex;align-items:center;justify-content:space-between;padding:10px 0 14px;border-bottom:1px solid #243a4b;gap:10px;cursor:pointer}
+.buxa-gm-switch>span,.buxa-gm-range>span{display:flex;flex-direction:column;gap:4px}
+.buxa-gm-switch strong,.buxa-gm-range strong{font-size:11px;color:#dcecfb}.buxa-gm-switch small,.buxa-gm-range small{font-size:10px;color:#839db2;line-height:1.35}
+.buxa-gm-switch input{appearance:none;width:37px;height:20px;min-width:37px;background:#35465a;border:1px solid #506378;border-radius:0;position:relative;cursor:pointer}
+.buxa-gm-switch input:before{content:'';position:absolute;top:3px;left:3px;width:12px;height:12px;background:#d2dfeb;transition:left .15s}
+.buxa-gm-switch input:checked{background:#2b8fb7;border-color:#55b5de}.buxa-gm-switch input:checked:before{left:20px;background:white}
+.buxa-gm-switch i{display:none}
+.buxa-gm-range{display:block;padding:13px 0;border-bottom:1px solid #253b4c}
+.buxa-gm-range>div{display:grid;grid-template-columns:minmax(0,1fr) 54px auto;align-items:center;gap:8px;margin-top:10px}
+.buxa-gm-range input[type=range]{accent-color:#67c5ec;max-width:100%;width:100%}
+.buxa-gm-range input[type=number]{width:54px;min-width:0;background:#142739;border:1px solid #3b5c73;padding:6px 4px;color:#eaf7ff;text-align:center;font-size:12px;box-sizing:border-box}
+.buxa-gm-range div span{font-size:10px;color:#8eabbf}
+.buxa-gm-save{margin:0 16px 20px;width:calc(100% - 32px);background:#286a90;border:1px solid #4ca7d4;padding:11px;color:white;font-weight:750;cursor:pointer}
+.buxa-physical-quantity-backdrop{position:fixed;inset:0;z-index:100000;background:#01040a9a;display:grid;place-items:center}
+.buxa-physical-quantity{width:min(350px,90vw);padding:22px;background:#0f1c2a;border:1px solid #36536c;color:#eaf4ff;box-shadow:0 18px 60px #000b}
+.buxa-physical-quantity header{display:flex;flex-direction:column;gap:5px}.buxa-physical-quantity header span{font-size:9px;color:#78cce9;letter-spacing:.2em}.buxa-physical-quantity header strong{font-size:20px}
+.buxa-physical-quantity p{font-size:12px;color:#a6bfd3;margin:17px 0}
+.buxa-physical-quantity-row{display:flex;gap:7px}.buxa-physical-quantity-row input{min-width:0;flex:1;background:#0a1520;color:white;border:1px solid #3a5c76;text-align:center;font-size:19px}
+.buxa-physical-quantity button{border-radius:0!important;padding:10px;background:#172e42;color:#e4f4ff;border:1px solid #35546c;cursor:pointer}
+.buxa-physical-quantity-row button{width:39px}.buxa-physical-quantity footer{display:flex;justify-content:end;gap:8px;margin-top:20px}
+.buxa-physical-quantity [data-submit]{background:#225b81;border-color:#54aeda}
+/* Minimal ground-loot label: inspired by PoE / Diablo. The name is the action. */
+.buxa-physical-loot-label{position:fixed;z-index:100000;display:inline-flex;align-items:stretch;max-width:min(350px,90vw);padding:0;background:rgba(7,12,18,.48);border:0;border-bottom:2px solid var(--loot-accent,#91acc4);box-shadow:0 5px 20px #0006,0 1px 12px color-mix(in srgb,var(--loot-accent) 28%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
+.buxa-physical-loot-label::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 25%,color-mix(in srgb,var(--loot-accent) 14%,transparent) 50%,transparent 70%);opacity:.6;}
+.buxa-physical-loot-label.is-rare::before{animation:buxa-loot-name-shimmer 2.8s ease-in-out infinite alternate;}
+.buxa-physical-loot-label button{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;outline-offset:-3px;}
+.buxa-physical-loot-label .buxa-physical-loot-name{position:relative;flex:1;min-width:0;max-width:330px;padding:9px 14px;color:var(--loot-accent);font-size:14px;font-weight:850;white-space:normal;overflow-wrap:anywhere;line-height:1.2;text-align:center;letter-spacing:.015em;text-shadow:0 1px 2px #000,0 0 12px color-mix(in srgb,var(--loot-accent) 40%,transparent);cursor:pointer;}
+.buxa-physical-loot-label .buxa-physical-loot-name:disabled{opacity:.68;cursor:not-allowed;}
+.buxa-physical-loot-label .buxa-physical-loot-name:not(:disabled):hover{color:white;text-shadow:0 0 9px var(--loot-accent),0 1px 2px black;}
+.buxa-physical-loot-label .buxa-physical-loot-edit{position:relative;display:grid;place-items:center;width:30px;min-width:30px;color:#d2e3f4;border-left:1px solid rgba(220,238,255,.14)!important;cursor:pointer;}
+.buxa-physical-loot-label .buxa-physical-loot-edit svg{width:15px;height:15px;}
+.buxa-physical-loot-label .buxa-physical-loot-edit:hover{color:#fff;background:rgba(255,255,255,.1)!important;}
+@keyframes buxa-loot-name-shimmer{from{opacity:.28}to{opacity:.85}}
+@media(prefers-reduced-motion:reduce){.buxa-physical-loot-label.is-rare::before{animation:none}.buxa-gm-panel,.buxa-gm-opener{transition:none}}
+
+/* Scene item drag projection: image only, without its inventory rarity frame. */
+.buxa-physical-drop-ghost{position:fixed;z-index:99999;pointer-events:none;opacity:.76;box-sizing:border-box;border:1px solid #8ad9ff99;background:#091d2b24;filter:drop-shadow(0 3px 11px #040a14a3);}
+.buxa-physical-drop-ghost img{display:block;width:100%;height:100%;object-fit:contain;}
+.buxa-physical-drop-ghost.is-invalid{border-color:#e75d65;filter:grayscale(.6);}
+/* Direct canvas artwork manipulation. All handles remain square. */
+.buxa-physical-editor{position:fixed;z-index:100001;box-sizing:border-box;border:1px dashed #83d8ff;box-shadow:0 0 0 1px #051622,0 0 20px #53bafa69;cursor:move;touch-action:none;pointer-events:auto;}
+.buxa-physical-editor-frame{position:absolute;inset:0;pointer-events:none;border:1px solid #bfeeff66;}
+.buxa-physical-editor [data-handle]{position:absolute;width:25px;height:25px;border:1px solid #a6dfff;background:#10283d;color:#e8f9ff;font-size:17px;cursor:pointer;display:grid;place-items:center;padding:0;border-radius:0!important;}
+.buxa-physical-editor [data-handle=rotate]{top:-35px;left:calc(50% - 13px);cursor:crosshair;}
+.buxa-physical-editor [data-handle=resize]{right:-12px;bottom:-12px;cursor:nwse-resize;}
+.buxa-physical-editor-actions{position:absolute;top:calc(100% + 20px);left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:7px 8px;background:#0b1621;border-top:2px solid #4c809e;border-bottom:2px solid #4c809e;color:#d0e5f4;white-space:nowrap;box-shadow:0 10px 25px #0009;cursor:default;}
+.buxa-physical-editor-actions span{font-size:10px;letter-spacing:.16em;margin:0 8px;font-weight:800;color:#8fc3df;}
+.buxa-physical-editor-actions button{background:#203c55;color:#ebf8ff;border:1px solid #456c87;border-radius:0!important;padding:6px 9px;font-weight:700;cursor:pointer;}
+.buxa-physical-editor-actions [data-save]{background:#276786;border-color:#72c1ee;}
+.buxa-physical-loot [data-edit]{background:#1d3345;border-color:#617d97;}
+
+/* Settings > Items > Dropped item visuals. Flat, sharp options. */
+
+/* External Item Directory -> Actor sheet: actual grid footprint preview. */
+.buxa-external-inventory-preview{position:fixed;z-index:100005;pointer-events:none!important;box-sizing:border-box;opacity:.85;filter:drop-shadow(0 4px 9px #0009);}
+.buxa-external-inventory-cell{position:absolute;display:block;box-sizing:border-box;background:rgba(59,173,213,.24);border:1px solid rgba(129,225,255,.88);box-shadow:inset 0 0 11px rgba(75,201,245,.16);}
+.buxa-external-inventory-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.9;pointer-events:none;}
+.buxa-external-inventory-preview.is-invalid .buxa-external-inventory-cell{background:rgba(211,61,79,.29);border-color:#eb6575;}
+.buxa-external-inventory-preview.is-invalid .buxa-external-inventory-art{opacity:.45;filter:grayscale(.65);}
+/* v0.13.15: external handoffs render the exact joined/masked complex item,
+   not a stretched rectangle with one generic image. */
+.buxa-external-inventory-preview.buxa-inventory-drag-ghost.is-complex-ghost {
+  position:fixed!important;z-index:100005!important;transform:none!important;
+  margin:0!important;pointer-events:none!important;
+  background:transparent!important;overflow:visible!important;
+}
+.buxa-external-inventory-preview > .buxa-complex-backdrop,
+.buxa-external-inventory-preview > .buxa-complex-art {position:absolute!important;inset:0!important;pointer-events:none!important;}
+.buxa-external-inventory-preview > .buxa-complex-art {z-index:2!important;}
+.buxa-external-inventory-preview > .buxa-complex-backdrop {z-index:1!important;}
+.buxa-external-inventory-preview > .buxa-complex-ghost-cell {z-index:3;}
+.buxa-external-inventory-preview > .buxa-complex-decoration {z-index:4!important;}
+
+.buxa-external-inventory-preview > .buxa-external-rotate-hint {
+  position:absolute!important;top:calc(100% + 4px);left:0;
+  width:max-content;max-width:170px;height:auto;padding:3px 7px;
+  font:700 10px/1.3 sans-serif;letter-spacing:.05em;
+  color:#d9f1ff;background:#102238;border:1px solid #4b8aab;
+  box-shadow:0 4px 13px #0009;pointer-events:none;z-index:5;
+}
+/* Closable, explicitly opened unequipped storage. */
+.buxa-storage-compartment>header .buxa-storage-close{margin-left:auto!important;min-width:23px!important;width:23px!important;height:23px!important;padding:0!important;border:0!important;border-radius:0!important;background:rgba(255,255,255,.07)!important;color:#d8eaff!important;font:700 17px/1 Arial,sans-serif;cursor:pointer;}
+.buxa-storage-compartment>header .buxa-storage-close:hover{background:rgba(224,87,94,.3)!important;color:white!important}
+/* Floating physical chest inventory. Flat surfaces, compact grid, no rounded cards. */
+.buxa-ground-container-window{position:fixed;z-index:100015;right:max(18px,4vw);top:20%;width:min(340px,calc(100vw - 24px));max-height:min(68vh,620px);display:flex;flex-direction:column;color:#dceefc;background:#0b1724f5;border:1px solid #44647e;box-shadow:0 22px 48px #000a;font-family:Arial,sans-serif;}
+.buxa-ground-head{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:#142439;border-bottom:2px solid #4b89b3}.buxa-ground-head div{display:flex;flex-direction:column;gap:4px}.buxa-ground-head small{font-size:9px;letter-spacing:.16em;color:#84cce9;font-weight:800}.buxa-ground-head strong{font-size:17px;color:#fff}.buxa-ground-head button{background:transparent;border:0;color:#c3daeb;font-size:24px;cursor:pointer;padding:0 5px}
+.buxa-ground-scroll{overflow-y:auto;padding:14px;min-height:0}.buxa-ground-subheading{font-size:11px;font-weight:800;color:#b6d6e9;margin:0 0 9px;text-transform:uppercase}.buxa-ground-compartment{margin-bottom:16px}.buxa-ground-cells{display:grid;grid-template-columns:repeat(var(--ground-cols),minmax(0,1fr));gap:3px}.buxa-ground-cell{aspect-ratio:1;border:1px solid #31506a;background:#122436;min-width:0;min-height:0}.buxa-ground-cell.is-blocked{background:#070f19;border-color:#162c3b}.buxa-ground-cell>button{height:100%;width:100%;display:flex;align-items:center;justify-content:center;position:relative;background:rgba(53,89,118,.2);color:white;cursor:pointer;border:1px solid #6288a1;padding:3px}.buxa-ground-cell>button:hover{border-color:#ade7ff}.buxa-ground-cell img{max-width:95%;max-height:90%;object-fit:contain}.buxa-ground-cell span{position:absolute;bottom:0;left:0;right:0;font-size:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#040c17b9;padding:2px}
+.buxa-ground-transfer{border-top:1px solid #375166;padding-top:12px;display:flex;flex-direction:column;gap:9px}.buxa-ground-transfer label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:#9fc1d4}.buxa-ground-transfer select{background:#132b3e;border:1px solid #345975;color:#e4f4ff;padding:7px;min-width:0}.buxa-ground-transfer button{cursor:pointer;border:1px solid #5ea1c2;background:#215676;color:white;padding:9px;font-weight:800}.buxa-ground-transfer p{font-size:10px;color:#91adc0;line-height:1.5;margin:0}
+
+/* v0.13.22 — Scene storage uses exactly the inventory's cell/artwork language.
+   No bottom forms, dropdowns or generic 1x1 inventory buttons. */
+.buxa-ground-container-window.buxa{width:max-content;min-width:230px;max-width:min(660px,calc(100vw - 24px));max-height:min(75vh,760px);background:#0a1320;overflow:hidden;border:1px solid #344f69;box-shadow:0 20px 55px #0009;}
+.buxa-ground-container-window .buxa-ground-head{height:47px;min-height:47px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 10px;background:#111e30;border-bottom:1px solid #2c4661;}
+.buxa-ground-container-window .buxa-ground-head>div{display:flex;align-items:center;gap:8px;min-width:0;flex-direction:row;}
+.buxa-ground-container-window .buxa-ground-head img{width:25px;height:25px;object-fit:contain;flex:none;}
+.buxa-ground-container-window .buxa-ground-head strong{font-size:12px;color:#cfe9fc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.buxa-ground-container-window .buxa-ground-head [data-ground-close]{font-size:22px;line-height:1;border:0;border-radius:0;min-width:25px;min-height:25px;background:transparent;color:#b9d7e9;}
+.buxa-ground-container-window .buxa-ground-head [data-ground-close]:hover{background:#70323a;color:#fff;}
+.buxa-ground-container-window .buxa-ground-scroll.buxa-external-storage-area{display:flex;flex-direction:column;flex-wrap:nowrap;gap:9px;max-height:calc(min(75vh,760px) - 48px);overflow:auto;align-items:flex-start;min-width:0;padding:8px;}
+.buxa-ground-container-window.buxa .buxa-storage-compartment{margin:0;max-width:none;width:calc(var(--buxa-storage-columns) * 58px + 12px);}
+.buxa-ground-container-window.buxa .buxa-storage-compartment>header{height:25px;margin-bottom:4px;padding:0 4px;min-width:0;}
+.buxa-ground-container-window.buxa .buxa-storage-compartment>header strong{font-size:11px;color:#9ecada;}
+.buxa-ground-container-window.buxa .buxa-storage-grid{overflow:visible;isolation:isolate;}
+.buxa-ground-container-window.buxa .buxa-storage-grid>.buxa-complex-item{cursor:grab;touch-action:none;}
+.buxa-ground-container-window.buxa .buxa-storage-grid>.buxa-complex-item.is-dragging{opacity:.28;}
+.buxa-ground-container-window.buxa .buxa-storage-cell.is-storage-drop-target{background:#1e5761!important;box-shadow:inset 0 0 0 2px #7ed0e0;}
+.buxa-ground-container-window.buxa .buxa-storage-cell.is-storage-invalid{background:#5b2639!important;box-shadow:inset 0 0 0 2px #ef8191;}
+.buxa-ground-drag-ghost{position:fixed!important;left:0;top:0;width:52px;height:52px;padding:0;box-sizing:border-box;pointer-events:none!important;z-index:100250;opacity:.88;background:#11243b55;border:1px solid #8ec7e9;box-shadow:0 5px 18px #0009;transform:translate3d(-200px,-200px,0);}
+.buxa-ground-drag-ghost>img{width:100%;height:100%;object-fit:contain;display:block;}
+
+.buxa-ground-drag-ghost.buxa-inventory-drag-ghost.is-complex-ghost{position:fixed!important;left:0!important;top:0!important;z-index:100250!important;pointer-events:none!important;margin:0!important;opacity:.95;overflow:visible;transform-origin:top left;}
+.buxa-ground-drag-ghost .buxa-complex-decoration{display:block;position:absolute;inset:0;width:100%;height:100%;}
+.buxa-ground-drag-ghost.is-invalid .buxa-complex-decoration{filter:drop-shadow(0 0 3px #f26578)!important}
+
+/* 0.13.26 — Crop irregular storage footprints to their ACTUAL occupied
+   bounds while preserving the full grid/slot indices behind a viewport. */
+.buxa-ground-container-window.buxa {
+  width: min(calc(var(--buxa-ground-window-columns, 3) * 58px + 2px), calc(100vw - 12px)) !important;
+  min-width: 0 !important;
+  max-width: calc(100vw - 12px) !important;
+  height: max-content !important;
+  min-height: 0 !important;
+  max-height: calc(100vh - 12px) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+.buxa-ground-container-window.buxa [data-ground-body] {
+  display: flex !important;
+  flex-flow: column nowrap !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  height: max-content !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+.buxa-ground-container-window.buxa .buxa-ground-head {
+  flex: 0 0 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 4px 6px !important;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.buxa-ground-container-window.buxa .buxa-ground-head:active { cursor: grabbing; }
+.buxa-ground-container-window.buxa .buxa-ground-head [data-ground-close] {cursor:pointer;flex:0 0 25px;}
+.buxa-ground-container-window.buxa .buxa-ground-scroll.buxa-external-storage-area {
+  display: flex !important;
+  flex: 0 1 auto !important;
+  flex-flow: column nowrap !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: max-content !important;
+  min-height: 0 !important;
+  max-height: calc(100vh - 54px) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+}
+.buxa-ground-container-window.buxa .buxa-storage-compartment.buxa-ground-compartment {
+  flex: 0 0 auto !important;
+  display: block !important;
+  width: calc(var(--buxa-storage-visible-columns) * 58px) !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: max-content !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+.buxa-ground-container-window.buxa .buxa-ground-compartment>header {
+  display: flex;
+  align-items: center;
+  height: 20px !important;
+  min-height: 20px !important;
+  padding: 2px 4px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  box-sizing: border-box !important;
+}
+.buxa-ground-container-window.buxa .buxa-storage-board-scroll {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: max-content !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+.buxa-ground-container-window.buxa .buxa-storage-board-viewport {
+  position: relative !important;
+  width: calc(var(--buxa-storage-visible-columns) * 58px) !important;
+  height: calc(var(--buxa-storage-visible-rows) * 58px) !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+.buxa-ground-container-window.buxa .buxa-storage-board-viewport > .buxa-storage-grid {
+  position: absolute !important;
+  left: calc(var(--buxa-storage-crop-x, 0) * -58px) !important;
+  top: calc(var(--buxa-storage-crop-y, 0) * -58px) !important;
+}
+.buxa-ground-container-window.buxa .buxa-storage-grid {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: repeat(var(--buxa-storage-columns), 58px) !important;
+  grid-template-rows: repeat(var(--buxa-storage-rows), 58px) !important;
+  width: calc(var(--buxa-storage-columns) * 58px) !important;
+  min-width: calc(var(--buxa-storage-columns) * 58px) !important;
+  max-width: none !important;
+  height: calc(var(--buxa-storage-rows) * 58px) !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+  overflow: visible !important;
+  isolation: isolate;
+  box-sizing: border-box !important;
+}
+
+/* Inventory and external transfer previews must stay ABOVE the draggable
+   ground-storage window, but never consume pointer hit tests. Previous ghost
+   z-index=100000 was below ground window=100015, making items disappear
+   behind the window and giving the appearance that drops failed. */
+.buxa-inventory-drag-ghost:not(.buxa-ground-drag-ghost),
+.buxa-inventory-drag-ghost.is-complex-ghost:not(.buxa-ground-drag-ghost) {
+  z-index: 100350 !important;
+  pointer-events: none !important;
+}
+.buxa-external-inventory-preview.buxa-inventory-drag-ghost.is-complex-ghost {
+  z-index: 100360 !important;
+  pointer-events: none !important;
+}
+.buxa-ground-drag-ghost.buxa-inventory-drag-ghost.is-complex-ghost {
+  z-index: 100370 !important;
+  pointer-events: none !important;
+}
+/* Keyboard access for ground-container cells; does not affect pointer dragging. */
+.buxa-ground-container-window .buxa-storage-cell:focus-visible,
+.buxa-ground-container-window [data-ground-content-id]:focus-visible {
+  outline:2px solid #a8e5ff!important;outline-offset:-2px;z-index:5;
+}
+.buxa-ground-screenreader-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
+/* Ground window cell size is supplied by the JS grid geometry. */
+.buxa-ground-container-window.buxa{width:min(calc(var(--buxa-ground-window-columns,3) * var(--buxa-storage-cell-px,58px) + 2px),calc(100vw - 12px))!important;}
+.buxa-ground-container-window.buxa .buxa-storage-board-scroll,
+.buxa-ground-container-window.buxa .buxa-storage-board-viewport{width:calc(var(--buxa-storage-visible-columns) * var(--buxa-storage-cell-px,58px))!important;}
+.buxa-ground-container-window.buxa .buxa-storage-board-viewport{height:calc(var(--buxa-storage-visible-rows) * var(--buxa-storage-cell-px,58px))!important;}
+.buxa-ground-container-window.buxa .buxa-storage-board-viewport > .buxa-storage-grid {
+ left:calc(var(--buxa-storage-crop-x,0) * -1 * var(--buxa-storage-cell-px,58px))!important;
+ top:calc(var(--buxa-storage-crop-y,0) * -1 * var(--buxa-storage-cell-px,58px))!important;
+ grid-template-columns:repeat(var(--buxa-storage-columns),var(--buxa-storage-cell-px,58px))!important;
+ grid-template-rows:repeat(var(--buxa-storage-rows),var(--buxa-storage-cell-px,58px))!important;
+ width:calc(var(--buxa-storage-columns) * var(--buxa-storage-cell-px,58px))!important;
+ min-width:calc(var(--buxa-storage-columns) * var(--buxa-storage-cell-px,58px))!important;
+ height:calc(var(--buxa-storage-rows) * var(--buxa-storage-cell-px,58px))!important;
+}
+.buxa-ground-container-window.buxa .buxa-storage-grid > .buxa-storage-cell {
+  box-sizing:border-box!important;
+}
+/* Corrupt/stale placements must never cover active slots outside their mask.
+   Recovery appears only when contents were placed against an older shape. */
+.buxa-ground-container-window.buxa .buxa-ground-recovery{
+  display:grid;gap:5px;box-sizing:border-box;width:100%;padding:6px;
+  border-top:1px solid #526a7f;color:#d8ebfa;background:#0a1422;
+}
+.buxa-ground-container-window.buxa .buxa-ground-recovery>strong{font-size:10px;color:#ffc281;text-transform:uppercase;letter-spacing:.04em}
+.buxa-ground-container-window.buxa .buxa-ground-recovery>small{font-size:9px;color:#9db4c5;line-height:1.4}
+.buxa-ground-container-window.buxa .buxa-ground-recovery-list{display:flex;flex-wrap:wrap;gap:4px}
+.buxa-ground-container-window.buxa .buxa-ground-recovery-item{
+  display:flex;align-items:center;gap:5px;min-height:34px;padding:3px;min-width:0;
+  border:1px solid #4a6a80;background:#12253a;cursor:grab;touch-action:none;
+}
+.buxa-ground-container-window.buxa .buxa-ground-recovery-item img{width:25px;height:25px;object-fit:contain;pointer-events:none}
+.buxa-ground-container-window.buxa .buxa-ground-recovery-item span{font-size:10px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.buxa-ground-container-window.buxa .buxa-ground-recovery-item.is-dragging{opacity:.5}
+/* Unified cross-surface ground-storage preview. Unlike the Pixi scene
+   sprite, this lives above the floating chest; it never intercepts drops. */
+.buxa-ground-transfer-ghost.buxa-inventory-drag-ghost.is-complex-ghost {
+  position:fixed!important;z-index:100380!important;
+  transform:none!important;transform-origin:top left!important;
+  aspect-ratio:auto!important;right:auto!important;bottom:auto!important;
+  pointer-events:none!important;overflow:visible!important;
+  background:rgba(12,24,40,.28);border:1px solid var(--buxa-rarity-accent,#92c0ec);
+  box-sizing:border-box;opacity:.95;
+}
+.buxa-ground-transfer-ghost .buxa-complex-backdrop,
+.buxa-ground-transfer-ghost .buxa-complex-art {pointer-events:none!important;}
+.buxa-ground-transfer-ghost.is-invalid {border-color:#eb6172!important;filter:drop-shadow(0 0 5px #e34a60);}
+
+/* v0.13.44 — Ground chests are NOT Actor inventory boards. Actor inventory
+   routes pointer input through its occupied-cell hit map, but ground chests
+   bind pointerdown directly to their saved content elements. The general
+   v0.13.41 `.buxa-storage-grid.is-complex > .buxa-complex-item *` rule
+   otherwise disables EVERY occupied item piece in the floating chest.
+   Enable input only on actual occupied cells, never artwork or the item's
+   bounding rectangle: L-shape holes and adjacent objects remain accurate. */
+.buxa-ground-container-window.buxa .buxa-storage-grid.is-complex > .buxa-complex-item > .buxa-complex-piece {
+  pointer-events: auto !important;
+  touch-action: none;
+  cursor: grab;
+}
+.buxa-ground-container-window.buxa .buxa-storage-grid.is-complex > .buxa-complex-item.is-dragging > .buxa-complex-piece {
+  cursor: grabbing;
+}
+
+/* GM Item > Trashcan: destructive actions are explicit and confirm first. */
+.buxa-gm-panel [data-gm-pane][hidden]{display:none!important}
+.buxa-gm-trash-pane{padding:22px 16px;display:grid;align-content:start;gap:15px}
+.buxa-gm-trash-zone{min-height:148px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;border:1px dashed #8c4c55;background:#180f18;color:#ef9da8;text-align:center;pointer-events:auto;font:800 11px Arial,sans-serif;letter-spacing:.07em;transition:background .14s,border-color .14s}
+.buxa-gm-trash-zone>i{font-size:31px}
+.buxa-gm-trash-zone.is-over,.buxa-gm-trash-zone:hover{background:#3a1b28;border-color:#f37482}
+.buxa-gm-trash-select,.buxa-gm-trash-selection button{padding:11px;background:#162738;border:1px solid #4a738d;color:#e6f3ff;font-weight:700;cursor:pointer}
+.buxa-gm-trash-select[aria-pressed="true"]{border-color:#e27c8d;color:#ffc5ce;background:#34202b}
+.buxa-gm-trash-selection{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#d3e4f2;font-size:12px}
+.buxa-gm-trash-selection button{border-color:#c95768;background:#5e2531;color:white}
+.buxa-gm-trash-selection button:disabled{opacity:.35;cursor:default}
+/* Independent GM trash modes: scene tokens or world directory Items. */
+.buxa-gm-trash-selection[hidden]{display:none!important}
+.buxa-gm-trash-pane [data-trash-main-select]{margin-top:4px}
+.buxa-world-item-card.is-trash-selected,
+.buxa-folder-entry.is-item.is-trash-selected{
+  border-color:#f47b86!important;
+  box-shadow:inset 3px 0 0 #f47b86,0 0 0 1px #f47b8677,0 0 14px #d8435855!important;
+  background:#38202c!important;
+}
+body.buxa-trash-main-selecting :is(.buxa-world-item-directory,.buxa-folder-panels) .buxa-world-item-card{cursor:crosshair}
+body.buxa-trash-main-selecting :is(.buxa-world-item-directory,.buxa-folder-panels) .buxa-world-item-card:not(.is-trash-selected):hover{outline:1px solid #f47b86a0;outline-offset:-1px}

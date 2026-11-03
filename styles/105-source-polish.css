@@ -1,0 +1,119 @@
+/* -------------------------------------------------------------------------- */
+/* Value source drawer polish + stable expanded attribute layout              */
+/* -------------------------------------------------------------------------- */
+
+/* Expanded attributes use a real grid. An older flex override caused the
+   value controls to collapse into each other when the source button was added. */
+.buxa-attribute-card.is-expanded .buxa-attribute-primary {
+  display: grid !important;
+  grid-template-columns: minmax(180px, 1fr) max-content 126px max-content !important;
+  grid-template-areas: "identity stats controls tools" !important;
+  gap: 10px !important;
+  align-items: center !important;
+  min-width: 0;
+}
+
+.buxa-attribute-card.is-expanded .buxa-attribute-identity { grid-area: identity !important; min-width: 0; }
+.buxa-attribute-card.is-expanded .buxa-attribute-stats { grid-area: stats !important; }
+.buxa-attribute-card.is-expanded .buxa-attribute-controls {
+  grid-area: controls !important;
+  display: grid !important;
+  grid-template-columns: 30px 62px 30px !important;
+  gap: 4px !important;
+  width: 130px !important;
+  min-width: 130px !important;
+  justify-content: end !important;
+}
+.buxa-attribute-card.is-expanded .buxa-attribute-controls.no-points {
+  grid-template-columns: 68px !important;
+  width: 68px !important;
+  min-width: 68px !important;
+}
+.buxa-attribute-card.is-expanded .buxa-attribute-step {
+  width: 30px !important;
+  min-width: 30px !important;
+  max-width: 30px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+}
+.buxa-attribute-card.is-expanded .buxa-attribute-number {
+  width: 62px !important;
+  min-width: 62px !important;
+  max-width: 62px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 5px !important;
+}
+.buxa-attribute-card.is-expanded .buxa-attribute-number strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 14px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.buxa-attribute-card.is-expanded .buxa-attribute-tools {
+  grid-area: tools !important;
+  display: flex !important;
+  gap: 2px !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  min-width: max-content;
+}
+
+/* Source drawer: compact source list only. */
+.buxa-value-breakdown {
+  background: #0b1017 !important;
+}
+.buxa-breakdown-head {
+  min-height: 28px !important;
+  padding: 6px 9px !important;
+  justify-content: flex-start !important;
+  background: linear-gradient(90deg, rgba(76,139,181,.055), transparent 48%) !important;
+}
+.buxa-breakdown-head > strong {
+  color: #718197 !important;
+  font-size: 7px !important;
+  letter-spacing: .12em !important;
+}
+.buxa-breakdown-summary,
+.buxa-breakdown-footer { display: none !important; }
+.buxa-breakdown-list {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+  gap: 1px !important;
+  padding: 1px !important;
+}
+.buxa-breakdown-source {
+  min-height: 39px !important;
+  grid-template-columns: 26px minmax(0, 1fr) auto !important;
+  gap: 7px !important;
+  padding: 5px 8px !important;
+}
+.buxa-breakdown-source > i,
+.buxa-breakdown-source > img {
+  width: 26px !important;
+  height: 26px !important;
+}
+.buxa-breakdown-source > i { font-size: 11px !important; }
+.buxa-breakdown-source > span { gap: 1px !important; }
+.buxa-breakdown-source > span strong { font-size: 8px !important; }
+.buxa-breakdown-source > span small {
+  color: color-mix(in srgb, var(--buxa-source-color) 50%, #69778a) !important;
+  font-size: 7px !important;
+}
+.buxa-breakdown-source > b {
+  color: #c2d1df;
+  font-size: 9px !important;
+  letter-spacing: .03em;
+}
+
+@media (max-width: 650px) {
+  .buxa-attribute-card.is-expanded .buxa-attribute-primary {
+    grid-template-columns: minmax(150px, 1fr) max-content !important;
+    grid-template-areas:
+      "identity tools"
+      "stats controls" !important;
+    row-gap: 7px !important;
+  }
+  .buxa-attribute-card.is-expanded .buxa-attribute-controls { justify-self: end; }
+  .buxa-breakdown-list { grid-template-columns: 1fr !important; }
+}

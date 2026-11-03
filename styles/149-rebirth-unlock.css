@@ -1,0 +1,277 @@
+/* Rebirth lock gate and responsive score controls. Loaded last to win against
+   legacy fixed-width sheet variants without changing their stored layouts. */
+.buxa .buxa-attribute-board { container-type: inline-size; }
+.buxa .buxa-attribute-card.is-expanded .buxa-attribute-primary {
+  grid-template-columns: minmax(0, 1fr) max-content minmax(150px, auto) max-content !important;
+  gap: clamp(5px, 1.1vw, 12px) !important;
+}
+.buxa .buxa-attribute-card.is-expanded .buxa-attribute-controls.has-points {
+  grid-template-columns: 30px minmax(78px, 1fr) 30px !important;
+  width: auto !important;
+  min-width: 150px !important;
+  max-width: none !important;
+}
+.buxa .buxa-attribute-card.is-expanded .buxa-attribute-controls.no-points {
+  grid-template-columns: minmax(78px, 1fr) !important;
+  min-width: 78px !important;
+  width: auto !important;
+}
+.buxa .buxa-attribute-card.is-expanded .buxa-attribute-number {
+  width: 100% !important;
+  min-width: 78px !important;
+  max-width: none !important;
+  padding-inline: 6px !important;
+  font-variant-numeric: tabular-nums;
+}
+.buxa .buxa-attribute-card.is-expanded .buxa-attribute-number strong {
+  font-size: clamp(13px, 1.2vw, 16px) !important;
+  font-variant-numeric: tabular-nums;
+  overflow: visible;
+  text-overflow: clip;
+}
+.buxa .buxa-attribute-card.is-expanded .buxa-attribute-stats { flex-shrink: 0; }
+.buxa .buxa-attribute-card.is-expanded .buxa-attribute-tools { min-width: max-content; }
+
+@container (max-width: 610px) {
+  .buxa .buxa-attribute-card.is-expanded .buxa-attribute-primary {
+    grid-template-columns: minmax(0, 1fr) max-content !important;
+    grid-template-areas: "identity stats" "controls tools" !important;
+    gap: 7px 10px !important;
+  }
+  .buxa .buxa-attribute-card.is-expanded .buxa-attribute-controls { justify-self: start; }
+  .buxa .buxa-attribute-card.is-expanded .buxa-attribute-tools { justify-self: end; }
+}
+
+/* Ready means an entire attribute is sealed until rebirth, not one tiny tool. */
+.buxa .buxa-attribute-card.is-cap { isolation: isolate; }
+.buxa .buxa-rebirth-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
+  margin: 0 !important;
+  padding: 9px clamp(13px, 3%, 26px) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2%, 18px);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  border: 1px solid color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 72%, #425675) !important;
+  border-radius: 1px !important;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 24px, rgba(255,255,255,.013) 25px 26px),
+    radial-gradient(ellipse at 48% 50%, color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 17%, transparent), transparent 70%),
+    linear-gradient(105deg, #090f19 8%, #172235 52%, #090f19 96%) !important;
+  color: #eaf4ff !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), inset 0 0 25px rgba(0,0,0,.45), 0 0 18px color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 13%, transparent);
+  opacity: 1;
+  transition: background .16s ease, border-color .16s ease, filter .16s ease;
+}
+.buxa .buxa-rebirth-gate:disabled { opacity: 1 !important; cursor: progress; }
+.buxa .buxa-rebirth-gate::before,
+.buxa .buxa-rebirth-gate::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.buxa .buxa-rebirth-gate::before {
+  inset: 0;
+  border-left: 3px solid var(--buxa-next-rebirth-color, #6db0ed);
+  border-right: 3px solid var(--buxa-next-rebirth-color, #6db0ed);
+  opacity: .78;
+}
+.buxa .buxa-rebirth-gate::after {
+  top: -120%;
+  left: -35%;
+  width: 24%;
+  height: 340%;
+  transform: rotate(26deg);
+  background: linear-gradient(90deg, transparent, rgba(220,240,255,.15), transparent);
+  animation: buxa-rebirth-gleam 3.3s ease-in-out infinite;
+}
+.buxa .buxa-rebirth-gate:hover:not(:disabled),
+.buxa .buxa-rebirth-gate:focus-visible {
+  filter: brightness(1.18);
+  border-color: var(--buxa-next-rebirth-color, #6db0ed) !important;
+  outline: 2px solid color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 70%, transparent);
+  outline-offset: -3px;
+}
+.buxa .buxa-rebirth-gate-crest {
+  position: relative;
+  flex: 0 0 41px;
+  width: 41px;
+  height: 41px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  color: color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 68%, #e4f6ff);
+  border: 1px solid color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 50%, #2a3443);
+  background: color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 13%, #0b111a);
+  transform: rotate(-5deg);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 15%, transparent);
+}
+.buxa .buxa-rebirth-gate-message { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.buxa .buxa-rebirth-gate-message strong {
+  color: #eef6ff;
+  font-size: clamp(11px, 1.2vw, 14px);
+  letter-spacing: .17em;
+  line-height: 1.15;
+  font-weight: 900;
+}
+.buxa .buxa-rebirth-gate-message small { color: #8ea6bf; font-size: 9px; letter-spacing: .05em; }
+.buxa .buxa-rebirth-gate-level {
+  color: color-mix(in srgb, var(--buxa-next-rebirth-color, #6db0ed) 50%, #eaf5ff);
+  font-size: 14px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.buxa .buxa-rebirth-gate-level i { opacity: .7; margin-inline: 7px; font-size: 11px; }
+.buxa .buxa-rebirth-gate-charge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  background: rgba(255,255,255,.09);
+}
+.buxa .buxa-rebirth-gate-charge span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--buxa-next-rebirth-color, #6db0ed);
+  box-shadow: 0 0 12px var(--buxa-next-rebirth-color, #6db0ed);
+  transform-origin: left;
+  transform: scaleX(.08);
+}
+.buxa .buxa-attribute-card.is-rebirth-charging .buxa-rebirth-gate {
+  animation: buxa-rebirth-charge-glow .88s ease-in forwards;
+  filter: none !important;
+}
+.buxa .buxa-attribute-card.is-rebirth-charging .buxa-rebirth-gate-charge span {
+  animation: buxa-rebirth-charge-fill .83s cubic-bezier(.16,.73,.36,1) forwards;
+}
+.buxa .buxa-attribute-card.is-rebirth-charging .buxa-rebirth-gate-crest {
+  animation: buxa-rebirth-lock-strain .83s ease-in forwards;
+}
+.buxa .buxa-attribute-card.is-rebirth-breaking .buxa-rebirth-gate-crest {
+  animation: buxa-rebirth-lock-break .42s ease-out forwards;
+}
+.buxa .buxa-attribute-card.buxa-fx-rebirth {
+  animation: buxa-rebirth-tier-reveal 1.55s cubic-bezier(.22,.61,.36,1) both;
+}
+.buxa .buxa-attribute-card.buxa-fx-rebirth::before {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 7;
+  background:
+    linear-gradient(120deg, transparent 41%, color-mix(in srgb, var(--buxa-attribute-color) 88%, #fff) 50%, transparent 59%),
+    radial-gradient(ellipse, color-mix(in srgb, var(--buxa-attribute-color) 40%, transparent), transparent 70%);
+  animation: buxa-rebirth-energy-break 1.45s ease-out both;
+  pointer-events: none;
+}
+.buxa .buxa-attribute-card.buxa-fx-rebirth::after {
+  z-index: 8;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  color: #effaff;
+  text-shadow: 0 0 16px var(--buxa-attribute-color);
+  letter-spacing: .2em;
+  font-size: 12px;
+  white-space: nowrap;
+  animation: buxa-rebirth-label-reveal 1.55s ease both;
+}
+@keyframes buxa-rebirth-gleam {
+  0%, 62%, 100% { translate: -240% 0; opacity: 0; }
+  72% { opacity: 1; }
+  88% { translate: 750% 0; opacity: 0; }
+}
+@keyframes buxa-rebirth-charge-fill { 0% { transform: scaleX(.08); } 82% { transform: scaleX(.91); } 100% { transform: scaleX(1); } }
+@keyframes buxa-rebirth-charge-glow {
+  0% { box-shadow: inset 0 0 20px rgba(0,0,0,.45); }
+  85% { box-shadow: inset 0 0 42px color-mix(in srgb, var(--buxa-next-rebirth-color) 30%, transparent), 0 0 17px var(--buxa-next-rebirth-color); }
+  100% { box-shadow: inset 0 0 75px color-mix(in srgb, var(--buxa-next-rebirth-color) 40%, transparent), 0 0 28px var(--buxa-next-rebirth-color); }
+}
+@keyframes buxa-rebirth-lock-strain { 0%, 30% { transform: rotate(-5deg) scale(1); } 50% { transform: rotate(7deg) scale(1.08); } 68% { transform: rotate(-8deg) scale(1.1); } 100% { transform: rotate(0deg) scale(1.24); } }
+@keyframes buxa-rebirth-lock-break { from { opacity: 1; transform: scale(1.24); } to { opacity: 0; transform: scale(1.9) rotate(-25deg); } }
+@keyframes buxa-rebirth-tier-reveal { 0% { filter: brightness(2.5); transform: scale(1.018); } 28% { filter: brightness(1.7); } 100% { filter: brightness(1); transform: scale(1); } }
+@keyframes buxa-rebirth-energy-break { 0% { opacity: 1; clip-path: inset(0 49%); } 35% { opacity: 1; clip-path: polygon(0 0, 55% 0, 48% 27%, 58% 44%, 45% 70%, 55% 100%, 0 100%); } 65% { opacity: .75; clip-path: inset(0); } 100% { opacity: 0; clip-path: inset(0); } }
+@keyframes buxa-rebirth-label-reveal { 0%, 22% { opacity: 0; } 40% { opacity: 1; } 78% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Compact attribute tiles still show a usable whole-tile lock without clipping. */
+.buxa .buxa-attribute-card.is-collapsed .buxa-rebirth-gate {
+  gap: 6px;
+  padding-inline: 8px !important;
+}
+.buxa .buxa-attribute-card.is-collapsed .buxa-rebirth-gate-crest {
+  flex-basis: 29px;
+  width: 29px;
+  height: 29px;
+  font-size: 13px;
+}
+.buxa .buxa-attribute-card.is-collapsed .buxa-rebirth-gate-message strong {
+  font-size: 9px;
+  letter-spacing: .065em;
+}
+.buxa .buxa-attribute-card.is-collapsed .buxa-rebirth-gate-message small { display: none; }
+.buxa .buxa-attribute-card.is-collapsed .buxa-rebirth-gate-level { font-size: 11px; }
+.buxa .buxa-attribute-card.is-collapsed .buxa-rebirth-gate-level i { margin-inline: 2px; }
+
+/* The lock itself shatters on the newly colored row, even if Foundry replaced
+   the ready bar during Actor.update(). */
+.buxa .buxa-rebirth-burst {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+  animation: buxa-rebirth-burst-fade 1.55s ease both;
+}
+.buxa .buxa-rebirth-burst > i {
+  color: color-mix(in srgb, var(--buxa-attribute-color) 76%, white);
+  font-size: 32px;
+  text-shadow: 0 0 22px var(--buxa-attribute-color);
+  animation: buxa-rebirth-open-lock 1.55s ease-out both;
+}
+.buxa .buxa-rebirth-burst > span {
+  --dx: -40px; --dy: -24px;
+  position: absolute;
+  width: 17px;
+  height: 21px;
+  border: 2px solid color-mix(in srgb, var(--buxa-attribute-color) 75%, #e9f9ff);
+  background: color-mix(in srgb, var(--buxa-attribute-color) 48%, transparent);
+  box-shadow: 0 0 12px var(--buxa-attribute-color);
+  clip-path: polygon(0 0, 100% 0, 75% 45%, 100% 100%, 0 76%);
+  animation: buxa-rebirth-shard-flight 1.55s ease-out both;
+}
+.buxa .buxa-rebirth-burst > span:nth-of-type(2) { --dx: 44px; --dy: -33px; rotate: 70deg; }
+.buxa .buxa-rebirth-burst > span:nth-of-type(3) { --dx: -56px; --dy: 36px; rotate: 145deg; }
+.buxa .buxa-rebirth-burst > span:nth-of-type(4) { --dx: 48px; --dy: 43px; rotate: 220deg; }
+@keyframes buxa-rebirth-burst-fade { 0%, 17% { opacity: 0; } 31%, 65% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes buxa-rebirth-open-lock { 0% { opacity: 0; transform: scale(.7); } 28% { opacity: 1; transform: scale(1.15); } 48% { opacity: 0; transform: scale(1.95) rotate(-18deg); } 100% { opacity: 0; transform: scale(2.2); } }
+@keyframes buxa-rebirth-shard-flight { 0%, 28% { opacity: 0; transform: translate(0,0) scale(.5); } 39% { opacity: 1; transform: translate(0,0) scale(1); } 78% { opacity: .9; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(100deg) scale(.65); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa .buxa-rebirth-gate::after,
+  .buxa .buxa-attribute-card.is-rebirth-charging .buxa-rebirth-gate,
+  .buxa .buxa-attribute-card.is-rebirth-charging .buxa-rebirth-gate-charge span,
+  .buxa .buxa-attribute-card.is-rebirth-charging .buxa-rebirth-gate-crest,
+  .buxa .buxa-attribute-card.is-rebirth-breaking .buxa-rebirth-gate-crest,
+  .buxa .buxa-attribute-card.buxa-fx-rebirth,
+  .buxa .buxa-attribute-card.buxa-fx-rebirth::before,
+  .buxa .buxa-attribute-card.buxa-fx-rebirth::after,
+  .buxa .buxa-rebirth-burst, .buxa .buxa-rebirth-burst > * { animation: none !important; }
+  .buxa .buxa-attribute-card.buxa-fx-rebirth::before,
+  .buxa .buxa-attribute-card.buxa-fx-rebirth::after,
+  .buxa .buxa-rebirth-burst { opacity: 0; }
+}

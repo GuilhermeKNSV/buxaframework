@@ -1,0 +1,21 @@
+/* The preview lives under document.body, not inside .buxa. Keep this
+   selector global so rarity animation rules cannot hijack its position. */
+.buxa-inventory-drag-ghost,
+.buxa-inventory-drag-ghost *,
+.buxa-inventory-drag-ghost::before,
+.buxa-inventory-drag-ghost::after {
+  animation: none !important;
+  transition: none !important;
+}
+.buxa-inventory-drag-ghost {
+  box-sizing: border-box;
+  contain: layout paint style;
+  will-change: transform;
+}
+.buxa-inventory-drag-ghost img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}

@@ -1,0 +1,100 @@
+/* ===========================================================================
+   Rarity cards v2 — the item sheet / hover card.
+   Light from the rarity color pours in from the art corner, a glowing top rule
+   caps the card, the item sits on a lit pedestal, ornament rarities get corner
+   brackets and a single light sweep plays when the card opens.
+   =========================================================================== */
+.buxa-item-sheet.buxa-item-sheet {
+  --rc: var(--buxa-rarity-color, #8cbbe0);
+  --rc-hi: color-mix(in srgb, var(--rc) 60%, white);
+  background:
+    radial-gradient(62% 40% at 84% 0%, color-mix(in srgb, var(--rc) 30%, transparent), transparent 72%),
+    radial-gradient(54% 36% at 0% 100%, color-mix(in srgb, var(--rc) 10%, transparent), transparent 72%),
+    repeating-linear-gradient(135deg, #ffffff06 0 1px, transparent 1px 8px),
+    linear-gradient(180deg, #10151f, #080b11 58%, #05070b);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--rc) 66%, #1c2430),
+    inset 0 0 0 2px #000a,
+    inset 0 0 0 3px color-mix(in srgb, var(--rc) 14%, transparent),
+    inset 0 0 64px #000c;
+  animation: none;
+}
+@supports (color: oklch(from red l c h)) {
+  .buxa-item-sheet.buxa-item-sheet.is-rarity-spectrum {
+    --rc: oklch(from var(--buxa-rarity-color, #8cbbe0) l c calc(h + var(--rc-hue)));
+    animation: buxa-rc-hue 7s linear infinite !important;
+  }
+}
+.buxa-item-sheet.buxa-item-sheet:not(.is-rarity-spectrum) { filter: none; }
+
+/* glowing top rule */
+.buxa-item-sheet .buxa-item-hero::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; z-index: 3; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--rc) 18%, var(--rc-hi) 50%, var(--rc) 82%, transparent);
+  box-shadow: 0 0 14px var(--rc), 0 3px 26px color-mix(in srgb, var(--rc) 50%, transparent);
+}
+.buxa-item-sheet.has-rarity-glint .buxa-item-hero::after,
+.buxa-item-sheet.is-rarity-animated .buxa-item-hero::after {
+  content: ""; position: absolute; top: 0; left: 0; width: 22%; height: 2px; z-index: 4; pointer-events: none;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  animation: buxa-card-rule-travel 4.8s ease-in-out infinite;
+}
+/* aura: breathing light + one sweep when the card opens */
+.buxa-item-sheet .buxa-item-sheet-aura {
+  opacity: .9;
+  background:
+    radial-gradient(circle at 86% 10%, color-mix(in srgb, var(--rc) 24%, transparent), transparent 26%),
+    radial-gradient(ellipse at 50% 100%, #0006, transparent 56%);
+}
+.buxa-item-sheet .buxa-item-sheet-aura::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent calc(var(--rc-sweep) - 12%), color-mix(in srgb, var(--rc) 40%, #ffffff30) var(--rc-sweep), transparent calc(var(--rc-sweep) + 12%));
+  animation: buxa-rc-sweep-once 1100ms ease-out 80ms 1 both;
+}
+.buxa-item-sheet.is-rarity-animated .buxa-item-sheet-aura { animation: buxa-item-sheet-aura 3.4s ease-in-out infinite; }
+
+/* corner brackets for ornament rarities (never a second full frame) */
+.buxa-item-sheet.has-rarity-ornament .buxa-item-sheet-ornament {
+  inset: 6px; opacity: .95; --cb: 16px;
+  background:
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 0 / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 0 / 2px var(--cb) no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 0 / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 0 / 2px var(--cb) no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 100% / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 0 100% / 2px var(--cb) no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 100% / var(--cb) 2px no-repeat,
+    linear-gradient(var(--rc-hi), var(--rc-hi)) 100% 100% / 2px var(--cb) no-repeat,
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--rc) 40%, transparent), transparent) 50% 100% / 46% 1px no-repeat !important;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--rc) 60%, transparent));
+}
+
+/* item art on a lit pedestal */
+.buxa-item-sheet .buxa-item-hero-art::before {
+  content: ""; position: absolute; inset: -14% -16% -22%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(52% 40% at 50% 84%, color-mix(in srgb, var(--rc) 55%, transparent), transparent 72%),
+    radial-gradient(60% 56% at 50% 52%, color-mix(in srgb, var(--rc) 26%, transparent), transparent 72%);
+}
+.buxa-item-sheet .buxa-item-hero-art :is(.buxa-item-hero-icon, .buxa-stack-composite) {
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--rc) 52%, transparent)) drop-shadow(0 6px 8px #000b);
+}
+.buxa-item-sheet:is(.is-rarity-animated, .has-rarity-glint) .buxa-item-hero-art :is(.buxa-item-hero-icon, .buxa-stack-composite) {
+  animation: buxa-card-art-float 4.2s ease-in-out infinite;
+}
+
+/* typography accents */
+.buxa-item-sheet .buxa-item-title-row h1 { text-shadow: 0 0 20px color-mix(in srgb, var(--rc) 38%, transparent), 0 1px 0 #000d; }
+.buxa-item-sheet .buxa-item-rarity-line strong { color: var(--rc-hi); letter-spacing: .1em; text-shadow: 0 0 10px color-mix(in srgb, var(--rc) 45%, transparent); }
+.buxa-item-sheet .buxa-item-rarity-line strong::before {
+  content: ""; display: inline-block; width: 5px; height: 5px; margin-right: 8px; transform: rotate(45deg) translateY(-1px);
+  background: var(--rc-hi); box-shadow: 0 0 8px var(--rc);
+}
+.buxa-item-sheet .buxa-item-hero-separator { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--rc) 40%, transparent)); }
+
+@keyframes buxa-card-rule-travel { 0% { transform: translateX(-120%); opacity: 0; } 12% { opacity: .95; } 55%, 100% { transform: translateX(460%); opacity: 0; } }
+@keyframes buxa-card-art-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) {
+  .buxa-item-sheet .buxa-item-sheet-aura::after, .buxa-item-sheet .buxa-item-hero::after,
+  .buxa-item-sheet .buxa-item-hero-art :is(.buxa-item-hero-icon, .buxa-stack-composite) { animation: none !important; }
+}

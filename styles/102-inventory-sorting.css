@@ -1,0 +1,94 @@
+/* -------------------------------------------------------------------------- */
+/* Inventory sorting + occupied item sizing guard                              */
+/* -------------------------------------------------------------------------- */
+
+/* Rarity backgrounds must never change the item's original absolute fit. */
+.buxa .buxa-equipment-slot.has-item > .buxa-inventory-item,
+.buxa .buxa-inventory-slot.has-item > .buxa-inventory-item {
+  position: absolute !important;
+  inset: 2px !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.buxa .buxa-equipment-slot.has-item > .buxa-inventory-item img,
+.buxa .buxa-inventory-slot.has-item > .buxa-inventory-item img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+}
+
+.buxa-inventory-sort-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.buxa-inventory-sort-menu > summary {
+  min-width: 62px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 7px;
+  border: 1px solid #303b4e;
+  background: #151b25;
+  color: #77869a;
+  cursor: pointer;
+  list-style: none;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .04em;
+  user-select: none;
+}
+.buxa-inventory-sort-menu > summary::-webkit-details-marker { display: none; }
+.buxa-inventory-sort-menu[open] > summary,
+.buxa-inventory-sort-menu > summary:hover {
+  border-color: #4b708a;
+  background: #142333;
+  color: #a7dcff;
+}
+
+.buxa-inventory-sort-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 30;
+  width: 142px;
+  display: grid;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid #344258;
+  background: #0b1119;
+  box-shadow: 0 10px 24px rgba(0,0,0,.45);
+}
+
+.buxa-inventory-sort-popover button {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 29px !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  display: grid !important;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  color: #8494aa !important;
+  text-align: left;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: .035em;
+}
+.buxa-inventory-sort-popover button:hover {
+  border-color: #31455a !important;
+  background: #13202d !important;
+  color: #c9eaff !important;
+}
+.buxa-inventory-sort-popover button i { text-align: center; color: #6688a3; }
+
+.buxa-bag-section { overflow: visible; }
+.buxa-bag-section .buxa-inventory-heading { position: relative; z-index: 12; }

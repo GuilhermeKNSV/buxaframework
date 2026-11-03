@@ -1,0 +1,109 @@
+<section class="buxa-asset-browser {{#if isDirectoryPicker}}is-directory-picker{{/if}}">
+  <header class="buxa-library-header">
+    <div class="buxa-library-heading">
+      <span class="buxa-library-symbol"><i class="fa-solid fa-images"></i></span>
+      <span class="buxa-library-title"><strong>IMAGE LIBRARY</strong><small>Browse artwork and choose an image</small></span>
+    </div>
+    <nav class="buxa-library-sources" aria-label="Image source">
+      <button type="button" data-action="changeSource" data-source="data" class="{{#if isData}}is-active{{/if}}"><i class="fa-solid fa-hard-drive"></i> User data</button>
+      <button type="button" data-action="changeSource" data-source="public" class="{{#if isPublic}}is-active{{/if}}"><i class="fa-solid fa-layer-group"></i> Core data</button>
+      <button type="button" data-action="goHome" class="buxa-library-default-button {{#if isAtHome}}is-active{{/if}}" title="Open configured default folder: {{homePath}}"><i class="fa-solid fa-location-dot"></i> Default folder</button>
+    </nav>
+    <button type="button" class="buxa-library-icon-button" data-action="refreshAssets" title="Refresh directory and used images" aria-label="Refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+  </header>
+
+  <div class="buxa-library-toolbar">
+    <label class="buxa-library-search"><i class="fa-solid fa-magnifying-glass"></i><input data-asset-search type="search" placeholder="Search images in this folder and its subfolders..." value="{{query}}" autocomplete="off"></label>
+    <div class="buxa-library-filter" aria-label="Image filters">
+      <button type="button" data-action="setCollection" data-collection="all" class="{{#if isAll}}is-active{{/if}}">All</button>
+      <button type="button" data-action="setCollection" data-collection="favorites" class="{{#if isFavorites}}is-active{{/if}}"><i class="fa-solid fa-star"></i> Favorites</button>
+      <button type="button" data-action="setCollection" data-collection="used" class="{{#if isUsed}}is-active{{/if}}">In use</button>
+      <button type="button" data-action="setCollection" data-collection="unused" class="{{#if isUnused}}is-active{{/if}}">Unused</button>
+    </div>
+  </div>
+
+  <div class="buxa-library-location">
+    <button type="button" data-action="goHome" class="buxa-library-icon-button" title="Configured default image folder" aria-label="Default folder"><i class="fa-solid fa-house"></i></button>
+    <button type="button" data-action="goUp" class="buxa-library-icon-button" title="Parent folder" aria-label="Parent folder"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="buxa-library-crumbs" aria-label="Current image folder">
+      {{#each breadcrumbs}}<button type="button" data-action="browseDirectory" data-path="{{path}}">{{label}}</button>{{/each}}
+    </div>
+    {{#if allowDirectorySelect}}<button type="button" data-action="chooseDirectory" class="buxa-library-directory-choose"><i class="fa-regular fa-folder-open"></i> USE THIS FOLDER</button>{{/if}}
+  </div>
+
+  <div class="buxa-library-workspace">
+    <aside class="buxa-library-sidebar">
+      <section class="buxa-library-side-section buxa-library-favorite-section">
+        <h3><i class="fa-solid fa-star"></i> FAVORITE FOLDERS <span>{{favoriteFolders.length}}</span></h3>
+        <div class="buxa-library-side-list">
+          {{#each favoriteFolders}}
+            <div class="buxa-library-side-row {{#if active}}is-active{{/if}}">
+              <button type="button" data-action="browseDirectory" data-path="{{path}}" title="{{path}}"><i class="fa-regular fa-folder-open"></i> <span>{{name}}</span></button>
+              <button type="button" class="buxa-library-star is-favorite" data-action="favoriteFolder" data-path="{{path}}" title="Remove favorite" aria-label="Remove favorite folder"><i class="fa-solid fa-star"></i></button>
+            </div>
+          {{else}}
+            <div class="buxa-library-side-empty">Star a folder to pin it here.</div>
+          {{/each}}
+        </div>
+      </section>
+      <section class="buxa-library-side-section buxa-library-tree-section">
+        <h3><i class="fa-regular fa-folder"></i> FOLDERS <span>{{folders.length}}</span></h3>
+        <div class="buxa-library-tree" role="tree" aria-label="Folders">
+          {{#each folders}}
+            <div class="buxa-library-tree-row {{#if selected}}is-active{{/if}}" style="--buxa-indent: {{indent}}px" role="treeitem" aria-selected="{{selected}}">
+              <button type="button" class="buxa-library-expand" data-action="toggleFolder" data-path="{{path}}" title="Expand or collapse"><i class="fa-solid {{#if expanded}}fa-chevron-down{{else}}fa-chevron-right{{/if}}"></i></button>
+              <button type="button" class="buxa-library-folder-name" data-action="browseDirectory" data-path="{{path}}" title="{{path}}"><i class="fa-regular fa-folder"></i> <span>{{name}}</span></button>
+              {{#if path}}<button type="button" class="buxa-library-star {{#if favorite}}is-favorite{{/if}}" data-action="favoriteFolder" data-path="{{path}}" title="Favorite folder" aria-label="Toggle favorite folder"><i class="fa-{{#if favorite}}solid{{else}}regular{{/if}} fa-star"></i></button>{{/if}}
+            </div>
+          {{/each}}
+        </div>
+      </section>
+      <div class="buxa-library-default-location"><i class="fa-solid fa-location-dot"></i><span>DEFAULT FOLDER</span><small title="{{homePath}}">{{homePath}}</small></div>
+    </aside>
+
+    <main class="buxa-library-content">
+      <div class="buxa-library-gallery-head">
+        <strong>{{#if isFavorites}}Favorite images{{else}}{{#if isUsed}}Images in use{{else}}{{#if isUnused}}Unused images{{else}}Artwork{{/if}}{{/if}}{{/if}}</strong>
+        <span data-asset-status>{{#if searchBusy}}{{galleryStatus}}{{else}}{{count}} images · {{galleryStatus}}{{/if}}</span>
+      </div>
+      <div class="buxa-library-gallery" aria-label="Image gallery">
+        {{#each files}}
+          <div class="buxa-asset-tile {{#if selected}}is-selected{{/if}} {{#if svg}}is-svg{{/if}}" data-asset-preview-path="{{path}}">
+            <button type="button" class="buxa-asset-tile-main" data-action="selectAsset" data-path="{{path}}" title="{{name}}"><span class="buxa-asset-tile-img"><img data-asset-thumb-img src="{{src}}" loading="lazy" alt="{{name}}"><i class="fa-regular fa-image buxa-asset-tile-fallback"></i></span><span class="buxa-asset-tile-title">{{name}}</span></button>
+            <button type="button" class="buxa-asset-tile-star {{#if favorite}}is-favorite{{/if}}" data-action="favoriteImage" data-path="{{path}}" title="{{#if favorite}}Remove favorite{{else}}Add to favorites{{/if}}" aria-label="Toggle favorite image"><i class="fa-{{#if favorite}}solid{{else}}regular{{/if}} fa-star"></i></button>
+            {{#if used}}<span class="buxa-asset-tile-used" title="Used by: {{usedBy}}"><i class="fa-solid fa-link"></i> IN USE</span>{{/if}}
+            {{#if selected}}<span class="buxa-asset-tile-selected"><i class="fa-solid fa-check"></i></span>{{/if}}
+          </div>
+        {{else}}
+          <div class="buxa-library-empty"><i class="fa-solid fa-images"></i><strong>{{#if searchBusy}}Loading images...{{else}}No images found{{/if}}</strong><span>{{#if searchBusy}}Scanning this folder and all subfolders{{else}}Open another folder, change the filter or search for an image.{{/if}}</span></div>
+        {{/each}}
+      </div>
+      {{#if hasMore}}<button type="button" class="buxa-library-load-more" data-action="showMore">Show more images ({{displayedCount}} of {{count}})</button>{{/if}}
+    </main>
+
+    <aside class="buxa-library-preview">
+      <div class="buxa-library-preview-heading"><i class="fa-regular fa-eye"></i> PREVIEW</div>
+      <div class="buxa-asset-preview-stage {{#if previewSvg}}is-svg{{/if}}">
+        <img data-asset-preview src="{{previewSrc}}" alt="{{previewName}}" {{#unless previewPath}}hidden{{/unless}}>
+        <div class="buxa-asset-preview-empty" data-asset-preview-placeholder {{#if previewPath}}hidden{{/if}}><i class="fa-regular fa-image"></i><span>Select or hover an image</span></div>
+      </div>
+      <div class="buxa-library-preview-info">
+        <div class="buxa-library-preview-info-head"><strong data-asset-preview-name>{{previewName}}</strong><button type="button" class="buxa-library-star {{#if previewFavorite}}is-favorite{{/if}}" data-action="favoriteImage" data-preview-favorite="1" data-path="{{previewPath}}" title="Favorite preview image" aria-label="Toggle favorite image"><i class="fa-solid fa-star"></i></button></div>
+        <div data-asset-preview-location class="buxa-library-preview-path">{{previewPath}}</div>
+        <div data-asset-preview-used class="buxa-library-preview-used" {{#unless previewUsedBy}}hidden{{/unless}}><i class="fa-solid fa-link"></i> {{previewUsedBy}}</div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="buxa-library-footer">
+    <div class="buxa-library-selection"><small>SELECTED {{#if allowDirectorySelect}}FOLDER{{else}}IMAGE{{/if}}</small><span data-selected-path>{{#if allowDirectorySelect}}{{target}}{{else}}{{selected}}{{/if}}</span></div>
+    <div class="buxa-library-footer-actions">
+      {{#if allowClear}}<button type="button" class="buxa-library-secondary" data-action="clearAsset">NONE</button>{{/if}}
+      {{#if allowDirectorySelect}}
+        <button type="button" class="buxa-library-primary" data-action="chooseDirectory"><i class="fa-solid fa-check"></i> USE FOLDER</button>
+      {{else}}
+        <button type="button" class="buxa-library-primary" data-action="chooseAsset" {{#unless selected}}disabled{{/unless}}><i class="fa-solid fa-check"></i> USE IMAGE</button>
+      {{/if}}
+    </div>
+  </footer>
+</section>

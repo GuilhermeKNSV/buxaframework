@@ -1,0 +1,401 @@
+/* Give named rarities their own quiet visual language across the sheet,
+   inventory, ground nameplate, and pickup beam. */
+
+/* Item sheets and hover cards. */
+.buxa-item-sheet.buxa-rarity-uncommon .buxa-item-sheet-aura,
+.buxa-item-hover-tooltip.buxa-rarity-uncommon > header {
+  background-image: radial-gradient(ellipse at 78% 26%, color-mix(in srgb, var(--buxa-rarity-color) 32%, transparent), transparent 58%);
+}
+.buxa-item-sheet.buxa-rarity-magic .buxa-item-sheet-aura,
+.buxa-item-hover-tooltip.buxa-rarity-magic > header {
+  background-image: radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 30%, transparent), transparent 58%);
+}
+.buxa-item-sheet.buxa-rarity-uncommon .buxa-item-sheet-aura { animation: buxa-uncommon-bloom 4.4s ease-in-out infinite; }
+.buxa-item-sheet.buxa-rarity-rare .buxa-item-sheet-aura {
+  background-image: linear-gradient(115deg, transparent 25%, color-mix(in srgb, var(--buxa-rarity-color) 10%, transparent) 48%, transparent 70%),
+    radial-gradient(ellipse at 82% 18%, color-mix(in srgb, var(--buxa-rarity-color) 31%, transparent), transparent 60%);
+  background-size: 220% 100%, auto;
+  animation: buxa-rare-glint 6.2s ease-in-out infinite;
+}
+.buxa-item-sheet.buxa-rarity-epic .buxa-item-sheet-aura {
+  background-image: radial-gradient(ellipse at 76% 28%, color-mix(in srgb, var(--buxa-rarity-color) 42%, transparent), transparent 48%),
+    radial-gradient(ellipse at 18% 72%, color-mix(in srgb, #7165ff 24%, transparent), transparent 52%);
+  background-size: 135% 130%;
+  animation: buxa-epic-surge 7.5s ease-in-out infinite;
+}
+.buxa-item-sheet.buxa-rarity-legendary .buxa-item-sheet-aura { animation: buxa-legendary-glow 3.8s ease-in-out infinite; }
+.buxa-item-sheet.buxa-rarity-mythical .buxa-item-sheet-aura {
+  background-image: radial-gradient(ellipse at 76% 22%, color-mix(in srgb, #73e8db 35%, transparent), transparent 50%),
+    radial-gradient(ellipse at 26% 76%, color-mix(in srgb, #be79ff 32%, transparent), transparent 54%),
+    radial-gradient(ellipse at 82% 80%, color-mix(in srgb, var(--buxa-rarity-color) 36%, transparent), transparent 48%);
+  background-size: 145% 140%;
+  animation: buxa-mythical-aurora 10s ease-in-out infinite alternate;
+}
+.buxa-item-sheet.buxa-rarity-relic .buxa-item-sheet-aura {
+  background-image: radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 44%, transparent), transparent 54%),
+    radial-gradient(ellipse at 34% 78%, color-mix(in srgb, #d39464 22%, transparent), transparent 58%);
+  animation: buxa-relic-hearth 5.4s ease-in-out infinite;
+}
+.buxa-item-sheet.buxa-rarity-masterwork .buxa-item-sheet-aura {
+  background-image: radial-gradient(ellipse at 78% 18%, color-mix(in srgb, var(--buxa-rarity-color) 36%, transparent), transparent 54%),
+    linear-gradient(180deg, transparent 70%, color-mix(in srgb, var(--buxa-rarity-color) 9%, transparent));
+  animation: buxa-masterwork-ember 2.8s ease-in-out infinite;
+}
+.buxa-item-sheet.buxa-rarity-secret .buxa-item-sheet-aura { animation: buxa-secret-veil 7s ease-in-out infinite; }
+.buxa-item-sheet.buxa-rarity-special .buxa-item-sheet-aura { animation: buxa-special-flare 2.4s ease-in-out infinite; }
+.buxa-item-sheet.buxa-rarity-divine .buxa-item-sheet-aura {
+  background-image: radial-gradient(ellipse at 76% 20%, color-mix(in srgb, white 55%, var(--buxa-rarity-color)) 0%, color-mix(in srgb, var(--buxa-rarity-color) 28%, transparent) 34%, transparent 66%),
+    radial-gradient(ellipse at 16% 84%, color-mix(in srgb, white 22%, #9deaff) 0%, transparent 58%);
+  background-size: 130% 140%;
+  animation: buxa-divine-dawn 6.8s ease-in-out infinite;
+}
+.buxa-item-sheet.buxa-rarity-divine.has-rarity-glint .buxa-item-title-row h1::after { display: none; }
+.buxa-item-sheet.buxa-rarity-divine .buxa-item-title-row h1 {
+  animation: buxa-divine-name 4.8s ease-in-out infinite;
+}
+
+/* Matching hover-card light keeps rarity visible when the sheet is closed. */
+.buxa-item-hover-tooltip.buxa-rarity-rare > header {
+  background-image: linear-gradient(115deg, transparent 25%, color-mix(in srgb, var(--buxa-rarity-color) 11%, transparent) 48%, transparent 70%),
+    radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 28%, transparent), transparent 62%);
+  background-size: 220% 100%, auto;
+  animation: buxa-rare-glint 6.2s ease-in-out infinite;
+}
+.buxa-item-hover-tooltip.buxa-rarity-unique > header {
+  background-image: repeating-conic-gradient(from 14deg at 78% 24%, transparent 0 28deg, color-mix(in srgb, var(--buxa-rarity-color) 9%, transparent) 30deg 31deg, transparent 34deg 45deg),
+    radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 28%, transparent), transparent 62%);
+}
+.buxa-item-hover-tooltip.buxa-rarity-epic > header {
+  background-image: radial-gradient(ellipse at 78% 22%, color-mix(in srgb, var(--buxa-rarity-color) 42%, transparent), transparent 55%),
+    radial-gradient(ellipse at 18% 86%, color-mix(in srgb, #7165ff 22%, transparent), transparent 60%);
+  background-size: 135% 140%;
+  animation: buxa-epic-surge 7.5s ease-in-out infinite;
+}
+.buxa-item-hover-tooltip.buxa-rarity-legendary > header {
+  background-image: linear-gradient(115deg, transparent 32%, color-mix(in srgb, white 22%, transparent) 49%, transparent 66%),
+    radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 36%, transparent), transparent 62%);
+  background-size: 240% 100%, auto;
+  animation: buxa-rare-glint 5.2s ease-in-out infinite;
+}
+.buxa-item-hover-tooltip.buxa-rarity-mythical > header {
+  background-image: radial-gradient(ellipse at 76% 22%, color-mix(in srgb, #73e8db 34%, transparent), transparent 54%),
+    radial-gradient(ellipse at 26% 78%, color-mix(in srgb, #be79ff 30%, transparent), transparent 58%),
+    radial-gradient(ellipse at 84% 82%, color-mix(in srgb, var(--buxa-rarity-color) 34%, transparent), transparent 52%);
+  background-size: 145% 140%;
+  animation: buxa-mythical-aurora 10s ease-in-out infinite alternate;
+}
+.buxa-item-hover-tooltip:is(.buxa-rarity-relic, .buxa-rarity-masterwork, .buxa-rarity-secret, .buxa-rarity-special, .buxa-rarity-divine) > header {
+  background-image: radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 34%, transparent), transparent 62%);
+}
+.buxa-item-hover-tooltip.buxa-rarity-relic > header {
+  background-image: radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 44%, transparent), transparent 56%),
+    radial-gradient(ellipse at 34% 82%, color-mix(in srgb, #d39464 20%, transparent), transparent 60%);
+  animation: buxa-relic-hearth 5.4s ease-in-out infinite;
+}
+.buxa-item-hover-tooltip.buxa-rarity-masterwork > header { background-image: linear-gradient(180deg, transparent 62%, color-mix(in srgb, var(--buxa-rarity-color) 13%, transparent)), radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 34%, transparent), transparent 62%); }
+.buxa-item-hover-tooltip.buxa-rarity-secret > header { background-image: radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 42%, transparent), transparent 62%), linear-gradient(135deg, #ffffff08, transparent 56%); }
+.buxa-item-hover-tooltip.buxa-rarity-special > header { background-image: radial-gradient(ellipse at 78% 24%, color-mix(in srgb, var(--buxa-rarity-color) 42%, transparent), transparent 62%), linear-gradient(115deg, transparent 30%, color-mix(in srgb, white 12%, transparent) 49%, transparent 66%); background-size: auto, 220% 100%; animation: buxa-rare-glint 3.4s ease-in-out infinite; }
+.buxa-item-hover-tooltip.buxa-rarity-divine > header {
+  background-image: radial-gradient(ellipse at 76% 20%, color-mix(in srgb, white 52%, var(--buxa-rarity-color)) 0%, color-mix(in srgb, var(--buxa-rarity-color) 25%, transparent) 38%, transparent 68%),
+    radial-gradient(ellipse at 16% 84%, color-mix(in srgb, white 20%, #9deaff), transparent 58%);
+  background-size: 130% 140%;
+  animation: buxa-divine-dawn 6.8s ease-in-out infinite;
+}
+
+/* Rarity frames keep their existing borders; the light within each frame
+   changes shape instead of giving every rarity the same sweep. */
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item:is(.buxa-rarity-uncommon, .buxa-rarity-magic)::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-rare::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item:is(.buxa-rarity-epic, .buxa-rarity-unique)::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-legendary::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-mythical::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-relic::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-masterwork::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-secret::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-special::after,
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-divine::after {
+  background: none !important;
+  animation: none;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item:is(.buxa-rarity-uncommon, .buxa-rarity-magic) {
+  animation: buxa-uncommon-frame 4.4s ease-in-out infinite;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-rare::after {
+  background: linear-gradient(115deg, transparent 39%, #ffffff60 50%, transparent 61%) 0 0 / 240% 100% no-repeat !important;
+  animation: buxa-rare-frame 5.6s ease-in-out infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-unique::after {
+  background: radial-gradient(circle at 50% 50%, transparent 34%, color-mix(in srgb, var(--rc) 24%, transparent) 35%, transparent 37%),
+    repeating-conic-gradient(from 0deg at 50% 50%, transparent 0 28deg, color-mix(in srgb, var(--rc) 10%, transparent) 30deg 32deg, transparent 34deg 45deg) !important;
+  animation: buxa-epic-frame 9s linear infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-epic::after {
+  background: radial-gradient(ellipse at 72% 32%, color-mix(in srgb, var(--rc) 42%, transparent), transparent 58%),
+    radial-gradient(ellipse at 24% 78%, color-mix(in srgb, #7165ff 24%, transparent), transparent 62%) !important;
+  background-size: 135% 140% !important;
+  animation: buxa-epic-surge 7.5s ease-in-out infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-legendary::after {
+  background: linear-gradient(115deg, transparent 34%, #fff9 49%, transparent 64%) 0 0 / 240% 100% no-repeat !important;
+  animation: buxa-rare-frame 4.6s ease-in-out infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-mythical::after {
+  background: radial-gradient(ellipse at 72% 24%, #73e8db60, transparent 58%),
+    radial-gradient(ellipse at 22% 76%, #be79ff58, transparent 62%),
+    radial-gradient(ellipse at 82% 82%, color-mix(in srgb, var(--rc) 40%, transparent), transparent 58%) !important;
+  background-size: 145% 140% !important;
+  opacity: .82 !important;
+  animation: buxa-mythical-aurora 10s ease-in-out infinite alternate !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-relic {
+  animation: buxa-relic-slot-glow 5.4s ease-in-out infinite;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-relic::after {
+  background: radial-gradient(ellipse at 72% 28%, color-mix(in srgb, var(--rc) 42%, transparent), transparent 58%),
+    radial-gradient(ellipse at 30% 82%, #d3946448, transparent 64%) !important;
+  animation: buxa-relic-hearth 5.4s ease-in-out infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-masterwork::after {
+  background: repeating-linear-gradient(135deg, transparent 0 8px, color-mix(in srgb, var(--rc) 22%, transparent) 9px 10px, transparent 11px 18px) !important;
+  animation: buxa-masterwork-frame 2.8s ease-in-out infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-secret::after {
+  background: radial-gradient(ellipse at 50% 50%, transparent 18%, #b9c6d31a 65%, transparent 78%) !important;
+  animation: buxa-secret-frame 7s ease-in-out infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-special::after {
+  background: radial-gradient(ellipse at 50% 50%, transparent 25%, color-mix(in srgb, var(--rc) 32%, transparent) 72%, transparent 100%) !important;
+  animation: buxa-special-frame 2.4s ease-in-out infinite !important;
+}
+.buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item.buxa-rarity-divine::after {
+  background: radial-gradient(ellipse at 70% 20%, #ffffff68, color-mix(in srgb, var(--rc) 34%, transparent) 38%, transparent 68%),
+    radial-gradient(ellipse at 18% 84%, #9deaff44, transparent 60%) !important;
+  background-size: 130% 140% !important;
+  opacity: .78 !important;
+  animation: buxa-divine-dawn 6.8s ease-in-out infinite !important;
+}
+.buxa .buxa-complex-item.buxa-rarity-epic > .buxa-complex-backdrop::after {
+  background: radial-gradient(ellipse at 72% 28%, color-mix(in srgb, var(--rc) 40%, transparent), transparent 58%),
+    radial-gradient(ellipse at 24% 78%, color-mix(in srgb, #7165ff 22%, transparent), transparent 64%) !important;
+  background-size: 135% 140% !important;
+  animation: buxa-epic-surge 7.5s ease-in-out infinite;
+}
+.buxa .buxa-complex-item.buxa-rarity-legendary > .buxa-complex-backdrop::after {
+  background: linear-gradient(115deg, transparent 34%, #fff9 49%, transparent 64%) 0 0 / 240% 100% no-repeat !important;
+  animation: buxa-rare-frame 4.6s ease-in-out infinite;
+}
+.buxa .buxa-complex-item.buxa-rarity-mythical > .buxa-complex-backdrop::after {
+  background: radial-gradient(ellipse at 72% 24%, #73e8db60, transparent 58%),
+    radial-gradient(ellipse at 22% 76%, #be79ff58, transparent 62%),
+    radial-gradient(ellipse at 82% 82%, color-mix(in srgb, var(--rc) 40%, transparent), transparent 58%) !important;
+  background-size: 145% 140% !important;
+  animation: buxa-mythical-aurora 10s ease-in-out infinite alternate;
+}
+.buxa .buxa-complex-item.buxa-rarity-relic > .buxa-complex-backdrop::after {
+  background: radial-gradient(ellipse at 72% 28%, color-mix(in srgb, var(--rc) 42%, transparent), transparent 58%),
+    radial-gradient(ellipse at 30% 82%, #d3946448, transparent 64%) !important;
+  animation: buxa-relic-hearth 5.4s ease-in-out infinite;
+}
+.buxa .buxa-complex-item.buxa-rarity-masterwork > .buxa-complex-backdrop::after {
+  background: repeating-linear-gradient(135deg, transparent 0 8px, color-mix(in srgb, var(--rc) 22%, transparent) 9px 10px, transparent 11px 18px) !important;
+  animation: buxa-masterwork-frame 2.8s ease-in-out infinite;
+}
+.buxa .buxa-complex-item.buxa-rarity-secret > .buxa-complex-backdrop::after {
+  background: radial-gradient(ellipse at 50% 50%, transparent 18%, #b9c6d31a 65%, transparent 78%) !important;
+  animation: buxa-secret-frame 7s ease-in-out infinite;
+}
+.buxa .buxa-complex-item.buxa-rarity-special > .buxa-complex-backdrop::after {
+  background: radial-gradient(ellipse at 50% 50%, transparent 25%, color-mix(in srgb, var(--rc) 32%, transparent) 72%, transparent 100%) !important;
+  animation: buxa-special-frame 2.4s ease-in-out infinite;
+}
+.buxa .buxa-complex-item.buxa-rarity-divine > .buxa-complex-backdrop::after {
+  background: radial-gradient(ellipse at 70% 20%, #ffffff68, color-mix(in srgb, var(--rc) 34%, transparent) 38%, transparent 68%),
+    radial-gradient(ellipse at 18% 84%, #9deaff44, transparent 60%) !important;
+  background-size: 130% 140% !important;
+  opacity: .78;
+  animation: buxa-divine-dawn 6.8s ease-in-out infinite;
+}
+
+/* Ground nameplates and their temporary pickup beams. */
+.buxa-scene-item-menu[data-rarity="uncommon"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--loot-accent) 22%, transparent), transparent 72%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.46) 10%, rgba(3,6,11,.46) 90%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="magic"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--loot-accent) 25%, transparent), transparent 72%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.46) 10%, rgba(3,6,11,.46) 90%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="rare"] .buxa-scene-item-nameplate { outline: 1px solid color-mix(in srgb, var(--loot-accent) 44%, transparent); outline-offset: -4px; }
+.buxa-scene-item-menu[data-rarity="epic"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 70% 50%, color-mix(in srgb, var(--loot-accent) 28%, transparent), transparent 68%),
+    radial-gradient(ellipse at 24% 50%, #7165ff35, transparent 72%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.50) 9%, rgba(3,6,11,.50) 91%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="unique"] .buxa-scene-item-nameplate {
+  background: repeating-conic-gradient(from 0deg at 50% 50%, transparent 0 28deg, color-mix(in srgb, var(--loot-accent) 8%, transparent) 30deg 31deg, transparent 34deg 45deg),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.48) 9%, rgba(3,6,11,.48) 91%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="legendary"] .buxa-scene-item-shine { animation: buxa-nameplate-shine 900ms ease-out 420ms 1 both, buxa-nameplate-shine 900ms ease-out 3.2s infinite; }
+.buxa-scene-item-menu[data-rarity="mythical"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 76% 38%, #73e8db55, transparent 68%),
+    radial-gradient(ellipse at 24% 68%, #be79ff50, transparent 70%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.50) 9%, rgba(3,6,11,.50) 91%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="relic"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 70% 50%, color-mix(in srgb, var(--loot-accent) 36%, transparent), transparent 68%),
+    radial-gradient(ellipse at 32% 64%, #d3946440, transparent 72%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.54) 9%, rgba(3,6,11,.54) 91%, transparent) !important;
+  box-shadow: inset 0 0 26px color-mix(in srgb, var(--loot-accent) 16%, transparent),
+    0 0 22px color-mix(in srgb, var(--loot-accent) 24%, transparent);
+}
+.buxa-scene-item-menu[data-rarity="masterwork"] .buxa-scene-item-nameplate {
+  background: linear-gradient(180deg, transparent 0 74%, color-mix(in srgb, var(--loot-accent) 20%, transparent) 100%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.48) 9%, rgba(3,6,11,.48) 91%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="secret"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--loot-accent) 18%, transparent), transparent 74%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.68) 9%, rgba(3,6,11,.68) 91%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="special"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--loot-accent) 26%, transparent), transparent 70%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.46) 9%, rgba(3,6,11,.46) 91%, transparent) !important;
+}
+.buxa-scene-item-menu[data-rarity="divine"] .buxa-scene-item-nameplate {
+  background: radial-gradient(ellipse at 72% 36%, color-mix(in srgb, white 42%, var(--loot-accent)) 0%, transparent 64%),
+    radial-gradient(ellipse at 24% 72%, #a9efff50, transparent 70%),
+    linear-gradient(90deg, transparent, rgba(3,6,11,.48) 9%, rgba(3,6,11,.48) 91%, transparent) !important;
+  box-shadow: 0 0 26px color-mix(in srgb, var(--loot-accent) 30%, transparent);
+}
+.buxa-scene-item-menu:is([data-rarity="epic"], [data-rarity="mythical"], [data-rarity="relic"], [data-rarity="divine"]) .buxa-scene-item-wing,
+.buxa-scene-item-menu:is([data-rarity="epic"], [data-rarity="mythical"], [data-rarity="relic"], [data-rarity="divine"]) .buxa-scene-item-nameplate::before,
+.buxa-scene-item-menu:is([data-rarity="epic"], [data-rarity="mythical"], [data-rarity="relic"], [data-rarity="divine"]) .buxa-scene-item-nameplate::after {
+  display: none !important;
+}
+.buxa-scene-item-menu:is([data-rarity="epic"], [data-rarity="mythical"], [data-rarity="relic"], [data-rarity="divine"]) .buxa-scene-item-shine {
+  inset: 0; width: 100%; z-index: 1; opacity: .55; transform: none;
+  background-size: 160% 160%, 160% 160%;
+  mix-blend-mode: screen;
+}
+.buxa-scene-item-menu[data-rarity="epic"] .buxa-scene-item-shine {
+  background: radial-gradient(ellipse at 22% 48%, #ffffff18, transparent 54%),
+    radial-gradient(ellipse at 78% 48%, color-mix(in srgb, var(--loot-accent) 28%, transparent), transparent 68%);
+  animation: buxa-epic-scene-light 7.5s ease-in-out infinite alternate;
+}
+.buxa-scene-item-menu[data-rarity="mythical"] .buxa-scene-item-shine {
+  background: radial-gradient(ellipse at 20% 52%, #73e8db48, transparent 60%),
+    radial-gradient(ellipse at 80% 42%, #be79ff50, transparent 64%);
+  animation: buxa-mythical-aurora 10s ease-in-out infinite alternate;
+}
+.buxa-scene-item-menu[data-rarity="relic"] .buxa-scene-item-shine {
+  background: radial-gradient(ellipse at 68% 50%, color-mix(in srgb, var(--loot-accent) 34%, transparent), transparent 64%),
+    radial-gradient(ellipse at 30% 56%, #d3946440, transparent 68%);
+  animation: buxa-relic-scene-glow 5.4s ease-in-out infinite;
+}
+.buxa-scene-item-menu[data-rarity="divine"] .buxa-scene-item-shine {
+  background: radial-gradient(ellipse at 72% 34%, #ffffff48, transparent 58%),
+    radial-gradient(ellipse at 24% 70%, #a9efff48, transparent 64%);
+  animation: buxa-divine-scene-dawn 6.8s ease-in-out infinite;
+}
+.buxa-scene-loot-beam[data-rarity="legendary"] .buxa-loot-beam-core { filter: drop-shadow(0 0 9px var(--loot-accent)); }
+.buxa-scene-loot-beam:is([data-rarity="epic"], [data-rarity="mythical"], [data-rarity="relic"], [data-rarity="divine"]) .buxa-loot-beam-rays { display: none; }
+.buxa-scene-loot-beam[data-rarity="epic"] .buxa-loot-beam-aura {
+  background: radial-gradient(ellipse 42% 100% at 40% 100%, color-mix(in srgb, var(--loot-accent) 44%, transparent), transparent 100%),
+    radial-gradient(ellipse 48% 88% at 68% 100%, #7165ff42, transparent 100%);
+  animation: buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both, buxa-epic-beam-glow 7.5s ease-in-out 420ms infinite;
+}
+.buxa-scene-loot-beam[data-rarity="epic"] .buxa-loot-beam-column {
+  background: linear-gradient(to top, var(--loot-mid), color-mix(in srgb, #9d82ff 64%, var(--loot-accent)) 35%, color-mix(in srgb, var(--loot-accent) 24%, transparent) 76%, transparent 100%);
+}
+.buxa-scene-loot-beam[data-rarity="legendary"] .buxa-loot-beam-embers { filter: drop-shadow(0 0 4px var(--loot-hot)); }
+.buxa-scene-loot-beam[data-rarity="mythical"] .buxa-loot-beam-aura {
+  background: radial-gradient(ellipse at 36% 100%, #73e8db66, transparent 100%), radial-gradient(ellipse at 70% 100%, #be79ff62, transparent 100%),
+    radial-gradient(ellipse at 54% 100%, color-mix(in srgb, var(--loot-accent) 36%, transparent), transparent 100%);
+  background-size: 145% 140%;
+  animation: buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both, buxa-mythical-aurora 10s ease-in-out 420ms infinite alternate;
+}
+.buxa-scene-loot-beam[data-rarity="mythical"] .buxa-loot-beam-column {
+  background: linear-gradient(to top, var(--loot-mid), color-mix(in srgb, #73e8db 72%, var(--loot-accent)) 34%, color-mix(in srgb, #be79ff 46%, transparent) 68%, transparent 100%);
+  background-size: 100% 140%;
+  animation: buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both, buxa-mythical-shaft 8s ease-in-out 420ms infinite alternate;
+}
+.buxa-scene-loot-beam[data-rarity="relic"] .buxa-loot-beam-aura {
+  background: radial-gradient(ellipse at 62% 100%, color-mix(in srgb, var(--loot-accent) 50%, transparent), transparent 100%), radial-gradient(ellipse at 34% 100%, #d3946450, transparent 100%);
+  animation: buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both, buxa-relic-beam-hearth 5.4s ease-in-out 420ms infinite;
+}
+.buxa-scene-loot-beam[data-rarity="relic"] .buxa-loot-beam-ring { animation: none; }
+.buxa-scene-loot-beam[data-rarity="relic"] .buxa-loot-beam-embers { filter: drop-shadow(0 0 5px var(--loot-accent)); }
+.buxa-scene-loot-beam[data-rarity="divine"] .buxa-loot-beam-aura {
+  background: radial-gradient(ellipse 45% 100% at 46% 100%, color-mix(in srgb, white 56%, var(--loot-accent)) 0%, color-mix(in srgb, var(--loot-accent) 30%, transparent) 55%, transparent 100%),
+    radial-gradient(ellipse 52% 86% at 70% 100%, #a9efff54, transparent 100%);
+  animation: buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both, buxa-divine-beam-dawn 6.8s ease-in-out 420ms infinite;
+}
+.buxa-scene-loot-beam[data-rarity="divine"] .buxa-loot-beam-column {
+  background: linear-gradient(to top, color-mix(in srgb, white 72%, var(--loot-accent)), color-mix(in srgb, white 36%, var(--loot-accent)) 32%, color-mix(in srgb, var(--loot-accent) 22%, transparent) 68%, transparent 100%);
+}
+.buxa-scene-loot-beam[data-rarity="divine"] .buxa-loot-beam-core { filter: drop-shadow(0 0 9px white) drop-shadow(0 0 14px var(--loot-accent)); }
+.buxa-scene-loot-beam[data-rarity="masterwork"] .buxa-loot-beam-embers { animation: buxa-loot-beam-ember-heat 1.8s ease-in-out infinite alternate; }
+.buxa-scene-loot-beam[data-rarity="secret"] .buxa-loot-beam-aura { filter: blur(9px) saturate(.65); animation: buxa-loot-beam-rise 420ms cubic-bezier(.2,.9,.25,1) both, buxa-loot-beam-secret 4s ease-in-out 420ms infinite alternate; }
+.buxa-scene-loot-beam[data-rarity="special"] .buxa-loot-beam-core { animation: buxa-loot-beam-rise 360ms cubic-bezier(.2,.9,.25,1) 50ms both, buxa-loot-beam-flicker 900ms steps(2,end) 420ms infinite alternate; }
+
+/* Resource-use text is a single readable statement instead of three labels. */
+.buxa-item-sheet .buxa-item-use-effect,
+.buxa-item-hover-tooltip .buxa-item-use-effect { grid-template-columns: 13px minmax(0, 1fr); }
+.buxa-item-use-effect-value strong { overflow-wrap: anywhere; }
+.buxa-item-sheet .buxa-item-use-status-foot { justify-content: flex-start; }
+
+@keyframes buxa-uncommon-bloom { 0%,100% { opacity: .66; } 50% { opacity: 1; } }
+@keyframes buxa-rare-glint { 0%,58%,100% { background-position: 180% 0, 0 0; } 78% { background-position: -80% 0, 0 0; } }
+@keyframes buxa-epic-surge {
+  0%,100% { opacity: .72; background-position: 0% 20%, 100% 78%, 50% 50%; }
+  50% { opacity: 1; background-position: 100% 72%, 0% 28%, 50% 50%; }
+}
+@keyframes buxa-epic-scene-light { 0%,100% { opacity: .3; background-position: 0% 50%, 100% 50%; } 50% { opacity: .72; background-position: 100% 50%, 0% 50%; } }
+@keyframes buxa-legendary-glow { 0%,100% { opacity: .78; } 50% { opacity: 1; } }
+@keyframes buxa-mythical-aurora {
+  0% { opacity: .65; background-position: 0% 12%, 100% 88%, 36% 38%; }
+  50% { opacity: .94; background-position: 70% 82%, 20% 16%, 90% 74%; }
+  100% { opacity: .74; background-position: 100% 24%, 0% 72%, 18% 16%; }
+}
+@keyframes buxa-mythical-shaft { 0%,100% { background-position: 50% 100%; } 50% { background-position: 50% 0%; } }
+@keyframes buxa-relic-hearth {
+  0%,100% { opacity: .62; background-position: 15% 70%, 80% 30%; }
+  42% { opacity: .82; }
+  52% { opacity: .96; background-position: 70% 24%, 26% 76%; }
+  64% { opacity: .72; }
+  74% { opacity: .88; }
+}
+@keyframes buxa-relic-slot-glow {
+  0%,100% { box-shadow: inset 0 0 16px #0008, 0 0 7px color-mix(in srgb, var(--rc) 20%, transparent); }
+  48% { box-shadow: inset 0 0 16px #0008, 0 0 14px color-mix(in srgb, var(--rc) 38%, transparent); }
+  58% { box-shadow: inset 0 0 16px #0008, 0 0 19px color-mix(in srgb, var(--rc) 48%, transparent); }
+  72% { box-shadow: inset 0 0 16px #0008, 0 0 9px color-mix(in srgb, var(--rc) 26%, transparent); }
+}
+@keyframes buxa-relic-scene-glow { 0%,100% { opacity: .28; background-position: 12% 50%, 82% 50%; } 48% { opacity: .64; } 58% { opacity: .84; background-position: 72% 50%, 18% 50%; } 72% { opacity: .4; } }
+@keyframes buxa-relic-beam-hearth { 0%,100% { opacity: .58; background-position: 15% 100%, 80% 100%; } 48% { opacity: .82; } 58% { opacity: 1; background-position: 72% 100%, 20% 100%; } 72% { opacity: .68; } }
+@keyframes buxa-masterwork-ember { 0%,100% { opacity: .72; } 42% { opacity: 1; } 54% { opacity: .82; } 68% { opacity: .98; } }
+@keyframes buxa-secret-veil { 0%,100% { opacity: .66; } 50% { opacity: .92; } }
+@keyframes buxa-special-flare { 0%,100% { opacity: .72; } 48% { opacity: 1; } 56% { opacity: .8; } 64% { opacity: 1; } }
+@keyframes buxa-divine-dawn { 0%,100% { opacity: .74; background-position: 50% 0%, 0% 100%, 50% 50%; } 50% { opacity: 1; background-position: 50% 72%, 100% 10%, 50% 50%; } }
+@keyframes buxa-divine-scene-dawn { 0%,100% { opacity: .24; background-position: 50% 0%, 0% 100%; } 50% { opacity: .62; background-position: 50% 100%, 100% 0%; } }
+@keyframes buxa-divine-beam-dawn { 0%,100% { opacity: .62; background-position: 50% 0%, 100% 100%; } 50% { opacity: .96; background-position: 50% 100%, 0% 0%; } }
+@keyframes buxa-divine-name { 0%,100% { text-shadow: 0 0 12px color-mix(in srgb, var(--buxa-rarity-color) 32%, transparent), 0 1px 0 #000d; } 50% { text-shadow: 0 0 22px color-mix(in srgb, white 44%, var(--buxa-rarity-color)), 0 1px 0 #000d; } }
+@keyframes buxa-uncommon-frame { 0%,100% { box-shadow: inset 0 0 18px #0008, 0 0 7px color-mix(in srgb, var(--rc) 15%, transparent); } 50% { box-shadow: inset 0 0 18px #0007, 0 0 14px color-mix(in srgb, var(--rc) 38%, transparent); } }
+@keyframes buxa-rare-frame { 0%,65%,100% { background-position: 180% 0; } 82% { background-position: -80% 0; } }
+@keyframes buxa-epic-frame { to { transform: rotate(360deg); } }
+@keyframes buxa-masterwork-frame { 0%,100% { filter: brightness(.96); } 45% { filter: brightness(1.14); } 58% { filter: brightness(1); } 70% { filter: brightness(1.12); } }
+@keyframes buxa-secret-frame { 0%,100% { opacity: .28; } 50% { opacity: .72; } }
+@keyframes buxa-special-frame { 0%,100% { filter: saturate(1); } 50% { filter: saturate(1.3) brightness(1.1); } }
+@keyframes buxa-epic-beam-glow { 0%,100% { opacity: .52; background-position: 0% 100%, 100% 100%; } 50% { opacity: .88; background-position: 100% 100%, 0% 100%; } }
+@keyframes buxa-loot-beam-ember-heat { from { filter: brightness(.9); } to { filter: brightness(1.6); } }
+@keyframes buxa-loot-beam-secret { from { opacity: .42; } to { opacity: .82; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-item-sheet .buxa-item-sheet-aura,
+  .buxa-item-sheet.buxa-rarity-divine .buxa-item-title-row h1,
+  .buxa-item-hover-tooltip > header,
+  .buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item,
+  .buxa :is(.buxa-inventory-slot, .buxa-equipment-slot).has-item::after,
+  .buxa .buxa-complex-item > .buxa-complex-backdrop::after,
+  .buxa-scene-item-menu[data-rarity] .buxa-scene-item-shine,
+  .buxa-scene-loot-beam[data-rarity] * { animation: none !important; }
+}

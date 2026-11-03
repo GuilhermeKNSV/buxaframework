@@ -1,0 +1,34 @@
+/* Cursor translation stays immediate. Only the inner visual turns. */
+.buxa-inventory-drag-ghost > .buxa-drag-rotation-surface {
+  position: absolute !important;
+  transform-origin: 0 0 !important;
+  pointer-events: none !important;
+  will-change: transform;
+}
+.buxa-equipment-flight {
+  position: fixed;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  pointer-events: none !important;
+  z-index: 100001;
+  transform-origin: 0 0;
+  will-change: transform, opacity;
+}
+.buxa .buxa-equip-motion-hidden { visibility: hidden !important; }
+.buxa-equipment-flight, .buxa-equipment-flight * { pointer-events: none !important; }
+
+/* The spinning old footprint extends beyond the new one. Paint containment
+ * clipped tall/wide/L-shaped items depending on the cell under the pointer. */
+.buxa-inventory-drag-ghost.is-complex-ghost.is-rotating-ghost,
+.buxa-inventory-drag-ghost.is-complex-ghost > .buxa-drag-rotation-surface {
+  contain: layout style !important;
+  overflow: visible !important;
+  clip-path: none !important;
+}
+/* Only the inner surface draws the corners during the turn. */
+.buxa-inventory-drag-ghost.is-rotating-ghost.is-rectangular-shape::after { display:none !important; }

@@ -1,0 +1,306 @@
+/* v0.10.4 — readable, responsive item rule editor; scoped away from actual item tooltips. */
+.buxa-item-config-app .buxa-rule-editor {
+  container-type: inline-size;
+  gap: 12px;
+}
+.buxa-item-config-app .buxa-rule-editor-intro {
+  min-height: 68px;
+  padding: 13px 15px;
+  border-color: #344152;
+  background: linear-gradient(125deg, #17212c, #101822 76%);
+}
+.buxa-rule-editor-intro strong { font-size: 11px; color: #e4e9f0; letter-spacing: .09em; }
+.buxa-rule-editor-intro small { max-width: 460px; color: #94a2b4; font-size: 11px; line-height: 1.45; }
+.buxa-rule-editor-intro button {
+  padding: 0 14px !important;
+  min-width: 118px !important;
+  height: 35px !important;
+  border-radius: 5px !important;
+  border: 1px solid #486078 !important;
+  background: #203344 !important;
+  color: #d4e3ef !important;
+  font-size: 10px !important;
+  white-space: nowrap;
+  transition: background 150ms, border-color 150ms, transform 150ms;
+}
+.buxa-rule-editor-intro button:hover { background: #294459 !important; border-color: #80a6c4 !important; transform: translateY(-1px); }
+.buxa-rule-editor .buxa-item-increase-list,
+.buxa-rule-editor .buxa-item-dice-list { display: grid; gap: 12px; }
+.buxa-rule-editor .buxa-rule-card {
+  min-width: 0;
+  overflow: visible;
+  border: 1px solid #354354;
+  border-radius: 7px;
+  background: #101821;
+  box-shadow: 0 6px 16px rgba(0,0,0,.13), inset 0 1px rgba(255,255,255,.02);
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.buxa-rule-editor .buxa-rule-card:hover { border-color: #53677d; }
+.buxa-rule-card-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  min-height: 60px;
+  padding: 10px 13px;
+  background: linear-gradient(120deg, #1a2531, #151e28);
+  border-radius: 6px 6px 0 0;
+  border-bottom: 1px solid #2c3a4a;
+}
+.buxa-rule-card-icon {
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #3b5369;
+  border-radius: 6px;
+  color: #bad3e6;
+  background: #1c2b39;
+  font-size: 15px;
+}
+.buxa-rule-card-heading { display: grid; flex: 1; min-width: 0; gap: 4px; }
+.buxa-rule-card-heading strong {
+  color: #e2e8ef;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: .015em;
+}
+.buxa-rule-card-heading small {
+  color: #9baab9;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.buxa-rule-editor .buxa-rule-card-header > button {
+  flex: 0 0 32px;
+  display: grid;
+  place-items: center;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  margin: 0 !important;
+  border: 1px solid #364858 !important;
+  border-radius: 5px !important;
+  color: #aebaca !important;
+  background: #182430 !important;
+  transition: color 140ms, background 140ms, transform 140ms;
+}
+.buxa-rule-editor .buxa-rule-card-header > button:hover { background: #253646 !important; color: #edf3fa !important; }
+.buxa-rule-editor .buxa-rule-card-header > .buxa-item-increase-remove:hover { color: #f3b5b5 !important; background: #382328 !important; border-color: #754047 !important; }
+.buxa-rule-card.is-collapsed .buxa-rule-card-header { border-bottom: 0; border-radius: 6px; }
+.buxa-rule-card.is-collapsed .buxa-rule-card-body { display: none; }
+.buxa-rule-card.is-collapsed .buxa-rule-card-collapse i { transform: rotate(180deg); }
+.buxa-rule-card-collapse i { transition: transform 160ms ease; }
+.buxa-rule-editor .buxa-rule-card-body { min-width: 0; padding: 0 14px 13px; }
+.buxa-rule-section-heading { display: flex; flex-wrap: wrap; gap: 5px 10px; align-items: baseline; padding: 14px 0 10px; }
+.buxa-rule-section-heading strong { color: #d0dbe6; font-size: 11px; font-weight: 700; }
+.buxa-rule-section-heading small { color: #8899aa; font-size: 10px; line-height: 1.4; }
+.buxa-rule-editor .buxa-rule-field { display: grid; min-width: 0; gap: 6px; align-content: start; margin: 0 !important; }
+.buxa-rule-editor .buxa-rule-field > span {
+  color: #9aaaae !important;
+  font-size: 9px !important;
+  font-weight: 750 !important;
+  letter-spacing: .065em !important;
+}
+.buxa-rule-field em { float: right; color: #728396; font-size: 9px; font-style: normal; font-weight: 400; letter-spacing: 0; }
+.buxa-rule-editor .buxa-rule-field input:not([type="color"]),
+.buxa-rule-editor .buxa-rule-field select,
+.buxa-rule-editor .buxa-rule-field .buxa-choice-trigger {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 38px !important;
+  min-height: 38px;
+  margin: 0 !important;
+  border: 1px solid #3a495a !important;
+  border-radius: 5px !important;
+  color: #d8e0e9 !important;
+  background: #121d29 !important;
+  font-size: 12px !important;
+  font-weight: 600;
+}
+.buxa-rule-editor .buxa-rule-field input:not([type="color"]):focus-visible,
+.buxa-rule-editor .buxa-rule-field select:focus-visible,
+.buxa-rule-editor .buxa-rule-field .buxa-choice-trigger:focus-visible {
+  outline: 2px solid #619cc2;
+  outline-offset: 1px;
+}
+.buxa-rule-editor .buxa-item-increase-main {
+  display: grid;
+  grid-template-columns: minmax(165px, 2fr) 90px minmax(120px, 1fr) minmax(150px, 1.25fr);
+  align-items: end;
+  gap: 11px;
+  padding: 0 0 13px;
+  border: 0;
+  background: none;
+}
+.buxa-rule-editor .buxa-item-dice-primary {
+  display: grid;
+  grid-template-columns: minmax(130px, 1.5fr) minmax(132px, 1fr) 98px minmax(124px, 1fr);
+  align-items: end;
+  gap: 11px;
+  padding: 0 0 13px;
+  border: 0;
+  background: none;
+}
+.buxa-rule-editor .buxa-dice-pair { grid-template-columns: minmax(0, 1fr) 15px minmax(0, 1fr); gap: 5px; }
+.buxa-rule-editor .buxa-dice-pair b,
+.buxa-rule-editor .buxa-dice-single b { font-size: 12px; font-weight: 700; color: #90a5b9; }
+.buxa-rule-editor .buxa-item-dice-sources {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  align-items: stretch;
+  gap: 11px;
+  padding: 0 0 12px;
+  border: 0;
+  background: transparent;
+}
+.buxa-rule-source-card {
+  display: grid;
+  align-content: start;
+  gap: 11px;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #2f4050;
+  border-radius: 6px;
+  background: #111e2a;
+}
+.buxa-rule-editor .buxa-rule-switch {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  min-width: 0;
+  min-height: 32px;
+  gap: 9px;
+  margin: 0 !important;
+  color: #c0cddb;
+  font-size: 11px !important;
+  letter-spacing: .01em;
+  cursor: pointer;
+}
+.buxa-rule-editor .buxa-rule-switch input { flex: 0 0 16px; width: 16px; height: 16px; margin: 0 !important; accent-color: #84b1d0; cursor: pointer; }
+.buxa-rule-editor .buxa-rule-switch > span { display: grid; gap: 3px; line-height: 1.3; }
+.buxa-rule-editor .buxa-rule-switch strong { font-size: 11px; color: #cddae5; }
+.buxa-rule-editor .buxa-rule-switch small { color: #8597a9; font-size: 10px; }
+.buxa-rule-editor .buxa-item-dice-attribute-fields {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 86px;
+  gap: 8px;
+  transition: opacity 140ms;
+}
+.buxa-rule-editor .buxa-item-dice-attribute-fields.is-disabled { display: none; }
+.buxa-rule-source-hint { color: #8294a6; font-size: 10px; line-height: 1.45; }
+.buxa-rule-editor .buxa-item-dice-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 17px;
+  padding: 10px 0;
+  background: transparent;
+  border-top: 1px solid #293747;
+  border-bottom: 0;
+}
+.buxa-rule-editor .buxa-item-dice-options > span { color: #91a5b8; font-size: 9px; font-weight: 750; letter-spacing: .08em; margin-right: 3px; }
+.buxa-rule-editor .buxa-item-dice-options .buxa-rule-switch { background: transparent; border: 0; padding: 0; height: 28px; }
+.buxa-rule-editor .buxa-rule-appearance { min-width: 0; overflow: hidden; border: 1px solid #2f3f50; border-radius: 6px; background: #0d161f; }
+.buxa-rule-editor .buxa-rule-appearance summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 43px;
+  padding: 8px 12px;
+  color: #aebbcc;
+  cursor: pointer;
+  list-style: none;
+  transition: background 130ms;
+}
+.buxa-rule-editor .buxa-rule-appearance summary::-webkit-details-marker { display: none; }
+.buxa-rule-editor .buxa-rule-appearance summary:hover { background: #192633; }
+.buxa-rule-editor .buxa-rule-appearance summary:focus-visible { outline: 2px solid #619cc2; outline-offset: -2px; }
+.buxa-rule-appearance-title { display: inline-flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.buxa-rule-appearance-title i { font-size: 12px; color: #95aabb; }
+.buxa-rule-appearance-title strong { font-size: 11px; color: #cfdae5; }
+.buxa-rule-appearance-title small { font-size: 10px; color: #8597aa; }
+.buxa-rule-appearance-chevron { font-size: 10px; transition: transform 150ms; }
+.buxa-rule-appearance[open] .buxa-rule-appearance-chevron { transform: rotate(180deg); }
+.buxa-rule-editor .buxa-rule-appearance-body { padding: 13px; border-top: 1px solid #293746; }
+.buxa-rule-editor .buxa-item-increase-tooltip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 13px;
+  align-items: end;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.buxa-rule-editor .buxa-item-increase-show { align-self: end; height: 38px; padding: 0; border: 0; background: transparent; }
+.buxa-rule-editor .buxa-item-increase-tooltip .is-disabled { display: none; }
+.buxa-rule-editor .buxa-item-increase-tooltip input[type="color"] { width: 100%; height: 38px; padding: 4px; border: 1px solid #3a495a; border-radius: 5px; background: #121d29; }
+.buxa-rule-editor .buxa-item-tooltip-icon-field > div { display: grid; grid-template-columns: minmax(0,1fr) 38px; gap: 6px; }
+.buxa-rule-editor .buxa-item-tooltip-icon-field button { width: 38px !important; min-width: 38px !important; height: 38px !important; border-radius: 5px !important; border-color: #3b4e60 !important; background: #213343 !important; color: #c2d4e2 !important; }
+/* Native source selects stay in the DOM for form data, but not keyboard navigation. */
+.buxa-rule-editor .buxa-choice { position: relative; display: block; min-width: 0; }
+.buxa-rule-editor .buxa-choice-native { position: absolute !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; overflow: hidden !important; }
+.buxa-rule-editor .buxa-choice-trigger { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 12px !important; text-align: left; cursor: pointer; }
+.buxa-rule-editor .buxa-choice-trigger:disabled { opacity: .35; cursor: not-allowed; }
+.buxa-choice-trigger-value { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.buxa-choice-trigger i { flex: 0 0 auto; color: #9ab1c4; font-size: 10px; }
+/* Floating source list: positioned relative to the viewport to escape Foundry clipping. */
+.buxa-choice-popover {
+  position: fixed;
+  z-index: 250000;
+  box-sizing: border-box;
+  max-width: calc(100vw - 20px);
+  max-height: min(370px, calc(100vh - 28px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #6e8ba4;
+  border-radius: 8px;
+  background: #151f2b;
+  box-shadow: 0 20px 42px rgba(0,0,0,.56), 0 0 0 1px rgba(0,0,0,.3);
+  animation: buxa-choice-in 130ms ease-out;
+}
+@keyframes buxa-choice-in { from { opacity: 0; transform: translateY(-4px) scale(.99); } to { opacity: 1; transform: none; } }
+.buxa-choice-search { display: flex; align-items: center; gap: 10px; padding: 11px; border-bottom: 1px solid #324153; color: #9baebf; }
+.buxa-choice-search input { flex: 1; min-width: 0; width: 100%; height: 36px !important; padding: 0 10px !important; border-radius: 5px !important; border: 1px solid #455b72 !important; background: #101923 !important; color: #f0f3f8 !important; font-size: 12px !important; }
+.buxa-choice-results { flex: 1; min-height: 0; overflow: auto; padding: 5px; scrollbar-width: thin; scrollbar-color: #3d5165 #151f2b; }
+.buxa-choice-group { padding: 11px 10px 5px; font-size: 9px; font-weight: 800; letter-spacing: .1em; color: #8599ae; }
+.buxa-choice-option { display: flex !important; align-items: center; gap: 8px; width: 100% !important; min-height: 35px !important; height: auto !important; padding: 7px 10px !important; margin: 1px 0 !important; text-align: left !important; border: 1px solid transparent !important; border-radius: 5px !important; background: none !important; color: #d6e1eb !important; font-size: 12px !important; white-space: normal !important; cursor: pointer; }
+.buxa-choice-option span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.buxa-choice-option small { flex: 0 1 auto; max-width: 105px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #7b8da0; font-size: 9px; font-weight: 500; }
+.buxa-choice-option i { margin-left: auto; color: #a0c9e6; }
+.buxa-choice-option:is(:hover,:focus-visible) { background: #2a4055 !important; border-color: #496881 !important; outline: none; }
+.buxa-choice-option.is-selected { background: #1d3144 !important; color: #e4f3ff !important; }
+.buxa-choice-empty { padding: 13px; color: #96aabc; font-size: 11px; line-height: 1.4; }
+@container (max-width: 675px) {
+  .buxa-rule-editor .buxa-item-increase-main { grid-template-columns: minmax(0, 1fr) minmax(85px, .35fr); }
+  .buxa-rule-editor .buxa-item-increase-main > :nth-child(3),
+  .buxa-rule-editor .buxa-item-increase-main > :nth-child(4) { grid-column: span 1; }
+  .buxa-rule-editor .buxa-item-dice-primary { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .buxa-rule-editor .buxa-item-increase-tooltip { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@container (max-width: 520px) {
+  .buxa-rule-editor .buxa-item-dice-sources { grid-template-columns: 1fr; }
+  .buxa-rule-editor .buxa-item-increase-main { grid-template-columns: 1fr 100px; }
+  .buxa-rule-editor .buxa-item-increase-main > :nth-child(3),
+  .buxa-rule-editor .buxa-item-increase-main > :nth-child(4) { grid-column: span 1; }
+}
+@container (max-width: 395px) {
+  .buxa-rule-editor .buxa-item-increase-main,
+  .buxa-rule-editor .buxa-item-dice-primary,
+  .buxa-rule-editor .buxa-item-increase-tooltip { grid-template-columns: 1fr; }
+  .buxa-rule-editor .buxa-item-increase-main > * { grid-column: auto !important; }
+  .buxa-rule-card-heading small { font-size: 10px; }
+  .buxa-rule-appearance-title small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .buxa-choice-popover { animation: none; }
+  .buxa-rule-editor * { transition-duration: .01ms !important; }
+}

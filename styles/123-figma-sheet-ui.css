@@ -1,0 +1,92 @@
+/* Player, inventory, equipment, and item sheet — Figma UI V2.
+   Layout remains existing modular Handlebars, only its presentation changes. */
+.buxa-player-sheet .buxa-sheet-shell { background:#070b12; }
+.buxa-sheet-nav {
+  min-height:54px; padding:8px 12px; background:#0e1623;
+  border-bottom:1px solid #27394e;
+}
+.buxa-sheet-tabs { min-width:0; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.buxa-sheet-tab {
+  background:#142033 !important; border:1px solid #2d4157 !important;
+  border-radius:0 !important; color:#91a4ba !important;
+  font-size:11px !important; font-weight:750 !important;
+  min-height:32px; padding:8px 16px !important;
+  transition:background-color 120ms ease,border-color 120ms ease,color 120ms ease;
+}
+.buxa-sheet-tab:is(.is-active,[aria-selected="true"]) {
+  background:#203955 !important; color:#eaf3fc !important;
+  border-color:#7fbce9 !important;
+  box-shadow:inset 0 -2px 0 #7fbce9 !important;
+}
+.buxa-sheet-scroll { padding:15px; scrollbar-color:#405872 transparent; }
+.buxa-basic-card,.buxa-section-card,.buxa-progression-card {
+  border:1px solid #27394e !important;
+  background:#0e1623 !important;
+  box-shadow:none !important; border-radius:0 !important;
+}
+.buxa-basic-card { gap:14px; }
+.buxa-portrait-frame { border:1px solid #354e67; background:#142033; }
+.buxa-portrait { object-fit:contain; }
+.buxa-fields-grid { gap:10px; }
+.buxa-field { background:#142033; border-color:#34495e; padding:7px 9px; }
+.buxa-field:focus-within { border-color:#80b5e2; }
+.buxa-field input { color:#eaf2fc; }
+.buxa-section-heading,.buxa-progression-heading {
+  min-height:39px; background:#142033; color:#d2e2f3;
+  border-bottom:1px solid #27394e; padding-inline:13px;
+}
+.buxa-progression-content { padding:12px; }
+.buxa-progression-stat,.buxa-resource { border:1px solid #304357; background:#142033; box-shadow:none; }
+.buxa-resource-track { background:#26384b; overflow:hidden; border-radius:0; }
+.buxa-resource-fill { border-radius:0; }
+.buxa-resource-name strong { color:#d7e5f4; }
+.buxa-inventory-section,.buxa-equipment-section {
+  background:#0b111b !important; border:1px solid #27394e !important;
+  border-radius:0 !important; box-shadow:none !important;
+}
+.buxa-inventory-heading { background:#142033 !important; border-bottom:1px solid #27394e; }
+.buxa-inventory-grid { gap:5px; contain:layout style; }
+.buxa-inventory-slot,.buxa-equipment-slot {
+  background:#101b2c; border:1px solid #2c4158;
+  border-radius:0 !important; box-shadow:inset 0 1px rgba(255,255,255,.02);
+  transition:border-color 120ms ease,background-color 120ms ease;
+}
+.buxa-inventory-slot:hover,.buxa-equipment-slot:hover {
+  border-color:#759fc2; background:#192b42;
+}
+.buxa-inventory-slot.has-item,.buxa-equipment-slot.has-item { background:#172336; }
+.buxa-inventory-item img { object-fit:contain; }
+.buxa-item-quantity {
+  font:800 10px/1.2 system-ui,sans-serif; border-radius:0 !important;
+  border:1px solid #516783; background:#1b2c42; color:#eff5fb;
+  box-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+.buxa-inventory-slot.is-inventory-drop-target,.buxa-equipment-slot.is-inventory-drop-target {
+  border-color:#89cbff !important; background:#1b334b !important;
+}
+/* Preserve rarity-specific hero artwork, ornaments and data-driven hues. */
+.buxa-item-sheet-app .window-content { background:#070b12; }
+.buxa-item-sheet { background-color:#070b12; }
+.buxa-item-hero { min-height:132px; border-bottom:1px solid #31445b; padding:18px; }
+.buxa-item-hero-copy { min-width:0; }
+.buxa-item-title-row { gap:9px; }
+.buxa-item-title-row h1 { font-size:clamp(17px,3.1vw,26px); overflow-wrap:anywhere; }
+/* The hero artwork is meant to float over rarity atmosphere, never sit in an opaque tile. */
+.buxa-item-hero-art { background:transparent !important; border:0 !important; isolation:isolate; }
+.buxa-item-hero-art .buxa-item-hero-icon { display:block; max-width:100%; max-height:124px; width:auto; height:auto !important; margin-left:auto; padding:0 !important; background:transparent !important; border:0 !important; object-fit:contain; object-position:center; }
+.buxa-item-hero-icon { object-fit:contain; }
+.buxa-item-rarity-line { gap:8px; font-size:10px; }
+.buxa-item-sheet-scroll { padding:14px 18px 18px; }
+.buxa-item-tooltip-line { min-width:0; gap:10px; padding-block:8px; }
+.buxa-item-effect-copy { min-width:0; overflow-wrap:anywhere; }
+.buxa-item-effect-value { font-weight:800; }
+.buxa-item-description { color:#d3deec; line-height:1.65; }
+.buxa-item-sheet-quantity { border-radius:0 !important; }
+@media(max-width:510px){
+ .buxa-sheet-scroll{padding:9px}
+ .buxa-basic-card{gap:9px}
+ .buxa-sheet-nav{padding:7px}
+ .buxa-sheet-tab{padding:7px 10px !important;font-size:10px !important}
+ .buxa-item-hero{padding:12px}
+ .buxa-item-sheet-scroll{padding:10px 12px}
+}

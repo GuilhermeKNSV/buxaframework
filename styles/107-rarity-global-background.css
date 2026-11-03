@@ -1,0 +1,47 @@
+/* -------------------------------------------------------------------------- */
+/* Global rarity background tuning                                            */
+/* -------------------------------------------------------------------------- */
+
+.buxa .buxa-equipment-slot.has-item,
+.buxa .buxa-inventory-slot.has-item {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.018), transparent 28%),
+    #090d14 !important;
+}
+
+.buxa .buxa-equipment-slot.has-item::before,
+.buxa .buxa-inventory-slot.has-item::before {
+  content: "" !important;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--buxa-rarity-bg-opacity, 1) !important;
+  filter: brightness(var(--buxa-rarity-bg-brightness, 1));
+  transform: translateZ(0);
+}
+
+.buxa .buxa-equipment-slot.has-item.buxa-rarity-bg-glint::before,
+.buxa .buxa-inventory-slot.has-item.buxa-rarity-bg-glint::before {
+  background:
+    radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--buxa-rarity-color) 34%, transparent) 0%, color-mix(in srgb, var(--buxa-rarity-color) 16%, transparent) 38%, transparent 74%),
+    linear-gradient(180deg, color-mix(in srgb, var(--buxa-rarity-color) 20%, transparent), transparent 40%, rgba(0,0,0,.22) 100%);
+}
+
+.buxa .buxa-equipment-slot.has-item.buxa-rarity-bg-full::before,
+.buxa .buxa-inventory-slot.has-item.buxa-rarity-bg-full::before {
+  background:
+    radial-gradient(ellipse at 50% 24%, rgba(255,255,255,.18), transparent 45%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--buxa-rarity-color) 82%, #303641) 0%,
+      color-mix(in srgb, var(--buxa-rarity-color) 68%, #161d27) 46%,
+      color-mix(in srgb, var(--buxa-rarity-color) 46%, #080c12) 100%
+    );
+}
+
+.buxa .buxa-equipment-slot.has-item:hover::before,
+.buxa .buxa-inventory-slot.has-item:hover::before {
+  opacity: var(--buxa-rarity-bg-opacity, 1) !important;
+}
+

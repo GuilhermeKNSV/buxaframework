@@ -1,0 +1,245 @@
+/* Item uses and resource effects belong to the same rarity-led presentation
+   as Increase and Dice. No separate cards, badge over artwork, or footer CTA. */
+.buxa-item-sheet .buxa-item-use-status,
+.buxa-item-hover-tooltip .buxa-item-hover-charges{
+  --buxa-use-color:var(--buxa-rarity-accent,var(--buxa-rarity-color,#aab4c2));
+  position:relative;
+  min-width:0;
+  margin:14px 0 8px;
+  padding:13px 3px 9px;
+  border:0;
+  border-top:1px solid color-mix(in srgb,var(--buxa-use-color) 31%,#303946);
+  background:none;
+  box-shadow:none;
+}
+.buxa-item-use-status-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  min-width:0;
+}
+.buxa-item-use-caption{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  color:color-mix(in srgb,var(--buxa-use-color,var(--buxa-rarity-color,#aab4c2)) 63%,#bec8d5);
+  font:700 10px/1.4 Georgia,"Times New Roman",serif;
+  letter-spacing:.08em;
+}
+.buxa-item-use-caption i{font-size:10px;opacity:.75}
+.buxa-item-use-count{
+  display:inline-flex;
+  align-items:baseline;
+  gap:4px;
+  white-space:nowrap;
+}
+.buxa-item-use-count strong{
+  color:var(--buxa-rarity-name,#e0e5ec);
+  font:700 17px/1.2 Georgia,"Times New Roman",serif;
+}
+.buxa-item-use-count>span{color:#7c8799;font:500 11px/1.3 Georgia,"Times New Roman",serif}
+.buxa-item-use-meter{
+  position:relative;
+  display:block;
+  height:3px;
+  margin:9px 0 8px;
+  overflow:hidden;
+  border:0;
+  background:#263140;
+  box-shadow:inset 0 1px 2px #0008;
+}
+.buxa-item-use-meter-fill{
+  position:absolute;
+  inset:0 auto 0 0;
+  width:0;
+  background:linear-gradient(90deg,
+    color-mix(in srgb,var(--buxa-use-color,var(--buxa-rarity-color,#b8c3d0)) 54%,#364455),
+    var(--buxa-use-color,var(--buxa-rarity-color,#b8c3d0)));
+  box-shadow:0 0 7px color-mix(in srgb,var(--buxa-use-color,#b8c3d0) 24%,transparent);
+  transition:width .22s ease;
+}
+.buxa-item-use-status-foot{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:5px 16px;
+  flex-wrap:wrap;
+  color:#7f8a98;
+  font:500 9px/1.4 system-ui,sans-serif;
+  letter-spacing:.015em;
+}
+.buxa-item-use-status-foot span:last-child{color:#7b8390;font-size:9px}
+.buxa-item-use-status.is-exhausted,
+.buxa-item-hover-charges.is-exhausted{--buxa-charge-alert:#c59ca0}
+.buxa-item-use-status.is-exhausted .buxa-item-use-caption i,
+.buxa-item-use-status.is-exhausted .buxa-item-use-status-foot span:first-child,
+.buxa-item-hover-charges.is-exhausted .buxa-item-use-caption i{color:var(--buxa-charge-alert)}
+.buxa-item-use-status.is-exhausted .buxa-item-use-count strong,
+.buxa-item-hover-charges.is-exhausted>strong{color:#c4acb0}
+/* Resource lines read like an item's normal effects, not a configuration form. */
+.buxa-item-sheet .buxa-item-use-resources,
+.buxa-item-hover-tooltip .buxa-item-use-resources{
+  display:block;
+  min-width:0;
+  margin:6px 0 13px;
+  padding:0 3px;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.buxa-item-use-heading{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+  margin:0 0 4px;
+  color:color-mix(in srgb,var(--buxa-rarity-accent,#b6c3d1) 60%,#a9b6c8);
+}
+.buxa-item-use-heading h2{
+  margin:0;
+  color:inherit;
+  font:700 9px/1.5 Georgia,"Times New Roman",serif;
+  letter-spacing:.065em;
+  white-space:nowrap;
+}
+.buxa-item-use-heading-rule{
+  flex:1;
+  min-width:10px;
+  height:1px;
+  background:linear-gradient(90deg,
+    color-mix(in srgb,var(--buxa-rarity-accent,#b6c3d1) 24%,transparent),
+    transparent);
+}
+.buxa-item-use-effects{display:grid;gap:0;min-width:0}
+.buxa-item-sheet .buxa-item-use-effect,
+.buxa-item-hover-tooltip .buxa-item-use-effect{
+  display:grid;
+  grid-template-columns:13px minmax(0,1fr) auto;
+  align-items:start;
+  gap:11px;
+  min-width:0;
+  margin:0;
+  padding:9px 1px 9px 2px;
+  border:0;
+  border-bottom:1px solid rgba(160,170,189,.09);
+  background:none;
+  box-shadow:none;
+}
+.buxa-item-use-effect:last-child{border-bottom:0}
+.buxa-item-use-effect>i{
+  padding-top:5px;
+  font-size:7px;
+  text-align:center;
+  color:color-mix(in srgb,var(--buxa-rarity-accent,#b8c4d2) 65%,#a9b9c7);
+}
+.buxa-item-use-effect-copy{display:grid;gap:3px;min-width:0}
+.buxa-item-use-effect-value{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:5px 8px;
+  min-width:0;
+  color:#c6cad0;
+  font:400 14px/1.35 Georgia,"Times New Roman",serif;
+}
+.buxa-item-use-effect-value strong{
+  min-width:0;
+  color:var(--buxa-rarity-name,#e0e4eb);
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+.buxa-item-use-effect-value>span{color:#b9c1ca;overflow-wrap:anywhere}
+.buxa-item-use-effect-detail{
+  color:#8e9cae;
+  font:500 10px/1.4 Georgia,"Times New Roman",serif;
+  letter-spacing:.02em;
+}
+.buxa-item-use-effect-timing{
+  justify-self:end;
+  align-self:center;
+  padding-left:6px;
+  white-space:nowrap;
+  color:#798799;
+  font:700 9px/1.4 Georgia,"Times New Roman",serif;
+  letter-spacing:.05em;
+}
+.buxa-item-use-action-row{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  min-height:31px;
+  margin:5px 2px 12px;
+  padding:6px 0 0;
+  border-top:1px solid color-mix(in srgb,var(--buxa-rarity-accent,#b8c4d2) 21%,#27313c);
+}
+.buxa-item-sheet .buxa-item-use-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+  flex:none;
+  width:auto;
+  min-width:0;
+  min-height:24px;
+  margin:0;
+  padding:3px 2px 4px 9px;
+  border:0;
+  border-bottom:1px solid color-mix(in srgb,var(--buxa-rarity-accent,#c1c9d2) 45%,transparent);
+  border-radius:0;
+  background:none;
+  box-shadow:none;
+  color:var(--buxa-rarity-name,#d5dce7);
+  font:700 11px/1.4 Georgia,"Times New Roman",serif;
+  letter-spacing:.09em;
+  cursor:pointer;
+  transition:color .16s ease,border-color .16s ease,text-shadow .16s ease;
+}
+.buxa-item-sheet .buxa-item-use-button i:first-child{color:var(--buxa-rarity-accent,#b6c2d1);font-size:11px}
+.buxa-item-sheet .buxa-item-use-button i:last-child{color:#798698;font-size:9px;transition:transform .16s ease}
+.buxa-item-sheet .buxa-item-use-button:hover:not(:disabled){
+  color:#fff;
+  border-bottom-color:var(--buxa-rarity-accent,#d7e1ed);
+  background:none;
+  text-shadow:0 0 12px color-mix(in srgb,var(--buxa-rarity-accent,#c1ccd7) 35%,transparent);
+}
+.buxa-item-sheet .buxa-item-use-button:hover:not(:disabled) i:last-child{transform:translateX(3px)}
+.buxa-item-sheet .buxa-item-use-button:focus-visible{outline:1px solid var(--buxa-rarity-accent,#dce5f0);outline-offset:3px}
+.buxa-item-use-action-note{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:#8e7b83;
+  font:500 10px/1.4 Georgia,"Times New Roman",serif;
+  letter-spacing:.03em;
+}
+.buxa-item-use-action-note i{font-size:10px}
+/* Inventory hover follows the same restrained typography and rarity. */
+.buxa-item-hover-tooltip .buxa-item-hover-charges{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:baseline;
+  gap:4px 10px;
+  margin:0;
+  padding:9px 11px 5px;
+}
+.buxa-item-hover-charges>strong{color:var(--buxa-rarity-name,#dae2ec);font:700 13px/1.3 Georgia,"Times New Roman",serif}
+.buxa-item-hover-charges .buxa-item-use-caption{font-size:9px}
+.buxa-item-hover-charges .buxa-item-use-meter{grid-column:1/-1;margin:4px 0 0;height:2px}
+.buxa-item-hover-tooltip .buxa-item-use-resources{margin:0;padding:9px 11px 5px}
+.buxa-item-hover-tooltip .buxa-item-use-heading{margin-bottom:3px}
+.buxa-item-hover-tooltip .buxa-item-use-heading h2{font-size:9px}
+.buxa-item-hover-tooltip .buxa-item-use-effect{grid-template-columns:10px minmax(0,1fr) auto;gap:6px;padding:7px 1px}
+.buxa-item-hover-tooltip .buxa-item-use-effect>i{font-size:6px;padding-top:4px}
+.buxa-item-hover-tooltip .buxa-item-use-effect-value{font-size:12px;gap:4px}
+.buxa-item-hover-tooltip .buxa-item-use-effect-detail,
+.buxa-item-hover-tooltip .buxa-item-use-effect-timing{font-size:9px}
+@media(max-width:380px){
+  .buxa-item-sheet .buxa-item-use-effect{grid-template-columns:12px minmax(0,1fr);gap:7px}
+  .buxa-item-sheet .buxa-item-use-effect-timing{grid-column:2;justify-self:start;padding:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .buxa-item-use-meter-fill,.buxa-item-sheet .buxa-item-use-button,
+  .buxa-item-sheet .buxa-item-use-button i:last-child{transition:none}
+}

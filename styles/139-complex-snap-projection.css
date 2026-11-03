@@ -1,0 +1,21 @@
+/* v0.11.18: One ghost only. The same resolved placement drives both its
+   transform and the saved grid origin; no second projection or doubled art. */
+.buxa-inventory-drag-ghost.is-complex-ghost {
+  transition: none !important;
+  animation: none !important;
+  pointer-events: none !important;
+  opacity: .90 !important;
+  filter: drop-shadow(0 0 3px rgba(72, 108, 143, .35));
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-invalid {
+  opacity: .58 !important;
+  filter: drop-shadow(0 0 4px rgba(227, 84, 111, .36));
+}
+.buxa-inventory-drag-ghost.is-complex-ghost.is-merge-hover {
+  opacity: 0 !important;
+}
+/* Hide the dragged source completely. The old 18% copy looked like a second
+   item underneath the new ghost and made stacked coins nearly unreadable. */
+.buxa .buxa-complex-item.is-dragging {
+  opacity: 0 !important;
+}

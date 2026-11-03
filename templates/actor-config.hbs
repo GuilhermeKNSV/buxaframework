@@ -1,0 +1,27 @@
+<section class="buxa-actor-config">
+  <header class="buxa-config-intro">
+    <h2>Link Player</h2>
+    <p>Linked users become Owners of this Actor and can open/edit its Buxa sheet. With nobody linked, the sheet remains GM-only.</p>
+  </header>
+
+  <div class="buxa-link-user-list">
+    {{#if noUsers}}
+      <div class="buxa-empty-state">No non-GM users exist in this world yet.</div>
+    {{else}}
+      {{#each users}}
+        <label class="buxa-link-user">
+          <input data-link-user type="checkbox" value="{{id}}" {{#if checked}}checked{{/if}}>
+          <span class="buxa-link-user-dot {{#if active}}is-online{{/if}}"></span>
+          <span class="buxa-link-user-name">{{name}}</span>
+          <span class="buxa-link-user-status">{{#if active}}ONLINE{{else}}OFFLINE{{/if}}</span>
+        </label>
+      {{/each}}
+    {{/if}}
+  </div>
+
+  <footer class="buxa-dialog-footer">
+    <button type="submit" class="buxa-primary">
+      <i class="fa-solid fa-link"></i> Save links
+    </button>
+  </footer>
+</section>

@@ -1,0 +1,591 @@
+/* Native Combat data + Buxa presentation, GM-only. Native tracker remains usable for players. */
+#combat.buxa-combat-integrated, .combat-tracker.buxa-combat-integrated, [data-appid='combat'].buxa-combat-integrated {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+}
+.buxa-combat-integrated > :not(.buxa-combat-pane) { display: none !important; }
+.buxa-combat-integrated, .buxa-combat-integrated *, .buxa-combat-integrated *::before, .buxa-combat-integrated *::after { border-radius: 0 !important; }
+.buxa-combat-pane {
+  --enc-bg: #07101c;
+  --enc-panel: #0c1828;
+  --enc-panel-2: #102236;
+  --enc-panel-3: #13283f;
+  --enc-border: #21374d;
+  --enc-border-strong: #36587c;
+  --enc-text: #dbe9f6;
+  --enc-text-soft: #88a0b6;
+  --enc-accent: #77c8ff;
+  --enc-accent-2: #49a8e6;
+  --enc-danger: #d36a78;
+  --enc-warn: #d6a266;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--enc-text);
+  background:
+    radial-gradient(circle at top, rgba(40, 89, 133, 0.28), transparent 32%),
+    linear-gradient(180deg, #091221 0%, var(--enc-bg) 100%);
+  font: 500 12px/1.3 Inter, "Segoe UI", Arial, sans-serif;
+}
+.buxa-enc-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+.buxa-combat-pane button {
+  appearance: none;
+  border-radius: 0;
+  cursor: pointer;
+  border: 1px solid var(--enc-border);
+  background: linear-gradient(180deg, rgba(19, 40, 63, 0.95), rgba(14, 28, 45, 0.95));
+  color: var(--enc-text);
+  font: 700 11px/1 Inter, "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.03em;
+  transition: border-color 140ms ease, background 140ms ease, color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+}
+.buxa-combat-pane button:hover:not(:disabled) {
+  border-color: var(--enc-accent);
+  background: linear-gradient(180deg, rgba(24, 51, 79, 0.98), rgba(16, 35, 54, 0.98));
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(120, 201, 255, 0.14);
+}
+.buxa-combat-pane button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+  box-shadow: none;
+}
+.buxa-enc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--enc-border);
+}
+.buxa-enc-head strong {
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  color: #f1f7fd;
+}
+.buxa-enc-head button {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  font-size: 24px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  border-color: var(--enc-border-strong);
+  background: linear-gradient(180deg, rgba(20, 44, 70, 0.98), rgba(13, 28, 44, 0.98));
+}
+.buxa-enc-list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding: 10px 12px 12px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(40, 66, 92, 0.85);
+}
+.buxa-enc-tab {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 30px;
+  flex: 0 0 auto;
+  min-width: 142px;
+  max-width: 220px;
+  border: 1px solid rgba(44, 68, 90, 0.9);
+  background: rgba(11, 22, 35, 0.88);
+}
+.buxa-enc-tab.is-current { border-color: var(--enc-accent); }
+.buxa-enc-tab-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  max-width: none;
+  padding: 10px 12px;
+  overflow: hidden;
+  text-align: left;
+  border: 0 !important;
+  background: transparent !important;
+}
+.buxa-enc-tab-delete {
+  width: 30px;
+  min-width: 30px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 1px solid rgba(44, 68, 90, 0.9) !important;
+  background: rgba(15, 25, 39, 0.95) !important;
+  color: #bf9097;
+  font-size: 17px;
+}
+.buxa-enc-tab-delete:hover:not(:disabled) { color: #ffd0d5; }
+.buxa-enc-list button::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  background: transparent;
+  transition: background 140ms ease;
+}
+.buxa-enc-list .buxa-enc-tab-main.is-current {
+  border-color: var(--enc-accent);
+  background: linear-gradient(180deg, rgba(20, 47, 74, 0.98), rgba(13, 30, 49, 0.98));
+  box-shadow: inset 0 0 0 1px rgba(119, 200, 255, 0.18);
+}
+.buxa-enc-list .buxa-enc-tab-main.is-current::after { background: linear-gradient(90deg, #90dcff, #4aa8e6); }
+.buxa-enc-list button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.buxa-enc-list button small {
+  color: #7e98ad;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+.buxa-enc-empty {
+  padding: 15px 14px;
+  color: var(--enc-text-soft);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.buxa-enc-active {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+.buxa-enc-combat-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 14px 8px;
+}
+.buxa-enc-combat-title b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 20px;
+  line-height: 1.1;
+}
+.buxa-enc-combat-title small {
+  flex-shrink: 0;
+  color: #8babbe;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.buxa-enc-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+.buxa-enc-actions button {
+  min-height: 38px;
+  padding: 9px 10px;
+  justify-content: center;
+  text-align: center;
+  border-color: #31516f;
+}
+.buxa-enc-entries {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 96px;
+  scrollbar-width: thin;
+  padding: 8px 10px 10px;
+  border-top: 1px solid rgba(37, 57, 76, 0.9);
+}
+.buxa-enc-combatant {
+  margin: 0 0 9px;
+  background: linear-gradient(180deg, rgba(10, 20, 34, 0.96), rgba(8, 17, 29, 0.96));
+  border: 1px solid rgba(36, 57, 76, 0.95);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+.buxa-enc-combatant.is-selected {
+  border-color: rgba(106, 193, 242, 0.88);
+  box-shadow: 0 0 0 1px rgba(119, 200, 255, 0.18), 0 10px 22px rgba(0, 0, 0, 0.22);
+}
+.buxa-enc-combatant.is-unplaced { border-left: 2px solid var(--enc-warn); }
+.buxa-enc-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: stretch;
+}
+.buxa-combat-pane button.buxa-enc-row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 66px;
+  padding: 8px 10px;
+  border: 0;
+  background: linear-gradient(180deg, rgba(17, 33, 52, 0.82), rgba(13, 25, 39, 0.82));
+  text-align: left;
+}
+.buxa-enc-row img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border: 1px solid rgba(79, 112, 145, 0.9);
+  background: #0a1320;
+}
+.buxa-enc-row-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+.buxa-enc-row b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #f0f7ff;
+}
+.buxa-enc-row small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  color: var(--enc-text-soft);
+}
+.buxa-enc-ini {
+  min-width: 36px;
+  padding: 9px 6px;
+  border: 1px solid rgba(69, 102, 132, 0.88);
+  background: rgba(9, 19, 31, 0.7);
+  color: #f1d77f;
+  font-size: 18px;
+  text-align: center;
+}
+.buxa-combat-pane button.buxa-enc-remove {
+  width: 38px;
+  min-width: 38px;
+  min-height: 66px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-left: 1px solid rgba(47, 68, 89, 0.95);
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  color: #c78f98;
+  font-size: 20px;
+  background: rgba(11, 23, 36, 0.9);
+}
+.buxa-enc-inline-detail {
+  overflow: hidden;
+  padding: 10px;
+  border-top: 1px solid rgba(37, 57, 76, 0.9);
+  background: linear-gradient(180deg, rgba(11, 23, 38, 0.98), rgba(8, 18, 29, 0.98));
+  animation: buxaCombatOpen 180ms ease-out;
+}
+.buxa-enc-inline-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.buxa-enc-inline-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #eaf4fd;
+}
+.buxa-enc-inline-top small {
+  color: #748aa0;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+.buxa-enc-inline-attributes .buxa-hb-attributes {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100%;
+  height: auto !important;
+  padding: 0;
+  background: transparent;
+}
+.buxa-enc-inline-attributes .buxa-hb-attribute-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  padding: 0;
+}
+.buxa-enc-inline-attributes .buxa-hb-attribute {
+  width: 100%;
+  min-width: 0;
+  min-height: 54px;
+  padding: 4px 3px;
+  background: linear-gradient(180deg, rgba(18, 39, 61, 0.92), rgba(13, 27, 42, 0.92));
+  border: 1px solid rgba(50, 77, 101, 0.92);
+}
+.buxa-enc-resource-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 8px;
+}
+.buxa-enc-resource-list span {
+  --enc-resource: #668eab;
+  padding: 7px 10px;
+  border: 1px solid rgba(45, 67, 89, 0.96);
+  border-left: 3px solid var(--enc-resource);
+  background: rgba(21, 37, 56, 0.9);
+  color: #dce8f5;
+  font: 700 10px/1 Inter, "Segoe UI", Arial, sans-serif;
+}
+.buxa-enc-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  padding-top: 8px;
+}
+.buxa-combat-pane button.buxa-enc-item {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-height: 36px;
+  padding: 4px 8px 4px 5px;
+  text-align: left;
+}
+.buxa-enc-item img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.buxa-enc-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+}
+.buxa-enc-dead {
+  border-top: 1px solid rgba(37, 57, 76, 0.96);
+  background: linear-gradient(180deg, rgba(8, 15, 25, 0.98), rgba(6, 12, 20, 0.98));
+}
+.buxa-enc-dead-toggle {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(30, 47, 64, 0.9);
+  background: transparent !important;
+}
+.buxa-enc-dead-arrow {
+  display: inline-block;
+  color: var(--enc-accent);
+  font-size: 11px;
+  transition: transform 160ms ease;
+}
+.buxa-enc-dead.is-open .buxa-enc-dead-arrow { transform: rotate(180deg); }
+.buxa-enc-dead-toggle strong {
+  justify-self: start;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+.buxa-enc-dead-toggle small {
+  justify-self: end;
+  color: #8ba0b2;
+  font-size: 10px;
+}
+.buxa-enc-dead-body {
+  display: grid;
+  gap: 6px;
+  padding: 0 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 180ms ease, padding-top 180ms ease, padding-bottom 180ms ease;
+}
+.buxa-enc-dead.is-open .buxa-enc-dead-body {
+  max-height: 220px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-y: auto;
+}
+.buxa-enc-empty-dead { padding: 4px 2px 2px; }
+.buxa-enc-dead-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 7px;
+  border: 1px solid rgba(40, 58, 74, 0.92);
+  background: rgba(19, 24, 33, 0.76);
+}
+.buxa-enc-dead-row img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.88);
+  border: 1px solid rgba(75, 84, 94, 0.9);
+}
+.buxa-enc-dead-row span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+.buxa-enc-dead-row b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #e3e7eb;
+}
+.buxa-enc-dead-row small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 9px;
+  color: #8997a2;
+}
+.buxa-enc-footer {
+  padding: 10px;
+  border-top: 1px solid rgba(37, 57, 76, 0.96);
+}
+.buxa-enc-footer button {
+  width: 100%;
+  min-height: 38px;
+  text-align: center;
+  color: #e0a1a8;
+  border-color: rgba(109, 63, 74, 0.9);
+  background: linear-gradient(180deg, rgba(45, 18, 24, 0.95), rgba(30, 13, 17, 0.95));
+}
+.buxa-enc-picker {
+  position: fixed;
+  z-index: 100105;
+  top: 110px;
+  right: 350px;
+  min-width: 280px;
+  width: min(360px, calc(100vw - 28px));
+  max-height: min(78vh, 720px);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(9, 18, 30, 0.98), rgba(7, 14, 24, 0.98));
+  border: 1px solid rgba(69, 110, 143, 0.95);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  color: var(--enc-text);
+}
+.buxa-enc-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(18, 34, 54, 0.96);
+  border-bottom: 1px solid rgba(58, 88, 113, 0.95);
+}
+.buxa-enc-picker-head b { font-size: 12px; letter-spacing: 0.16em; }
+.buxa-enc-picker button {
+  min-height: 32px;
+  padding: 7px 9px;
+  border-color: rgba(54, 83, 107, 0.95);
+  background: linear-gradient(180deg, rgba(25, 45, 66, 0.96), rgba(15, 30, 45, 0.96));
+}
+.buxa-enc-picker input {
+  width: calc(100% - 20px);
+  margin: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(57, 83, 107, 0.96);
+  border-radius: 0;
+  outline: 0;
+  background: rgba(15, 28, 43, 0.96);
+  color: #fff;
+}
+.buxa-enc-picker-list {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 0 10px 10px;
+}
+.buxa-enc-picker-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 7px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(36, 57, 76, 0.95);
+  background: rgba(14, 26, 40, 0.95);
+  cursor: grab;
+}
+.buxa-enc-picker-row:hover { border-color: rgba(111, 186, 233, 0.92); background: rgba(19, 37, 57, 0.95); }
+.buxa-enc-picker-row img { width: 42px; height: 42px; object-fit: cover; border: 1px solid rgba(70, 103, 132, 0.92); }
+.buxa-enc-picker-row span { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.buxa-enc-picker-row b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+.buxa-enc-picker-row small { color: var(--enc-text-soft); font-size: 9px; }
+.buxa-enc-picker-actions { display: flex; gap: 6px; }
+.buxa-enc-picker-actions button { width: 32px; min-width: 32px; padding: 0; display: grid; place-items: center; }
+.buxa-enc-place-ghost {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100045;
+}
+.buxa-enc-place-ghost img {
+  position: absolute;
+  object-fit: contain;
+  background: rgba(20, 39, 57, 0.42);
+  border: 1px solid rgba(140, 196, 237, 0.58);
+  opacity: 0.72;
+  box-shadow: 0 0 16px rgba(127, 184, 220, 0.2);
+}
+@keyframes buxaCombatOpen {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 720px) {
+  .buxa-enc-actions { grid-template-columns: 1fr; }
+  .buxa-enc-inline-attributes .buxa-hb-attribute-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .buxa-enc-shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .buxa-enc-picker { right: 5px !important; top: 55px !important; width: min(330px, 90vw); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .buxa-combat-pane button,
+  .buxa-enc-dead-body,
+  .buxa-enc-dead-arrow,
+  .buxa-enc-inline-detail,
+  .buxa-enc-place-ghost * { animation: none !important; transition: none !important; }
+}
+
+/* Restore action for the defeated-actor drawer, preserving square edges. */
+.buxa-enc-dead-row { grid-template-columns: 40px minmax(0, 1fr) 28px; }
+.buxa-enc-dead-row [data-enc-action="revive"] {
+  width: 28px; height: 30px; padding: 0;
+  border-radius: 0; color: #8caec5;
+  border: 1px solid rgba(68, 104, 129, .85);
+  background: rgba(23, 38, 53, .92);
+}
+
+/* Paging keeps the Actor chooser responsive in large worlds; no hidden 150-Actor cutoff. */
+.buxa-enc-picker .buxa-enc-picker-more {
+  display:block; width:100%; padding:10px; cursor:pointer; border-radius:0;
+  color:var(--enc-text, #dce9ff); border:1px solid rgba(104,155,198,.5);
+  background:linear-gradient(180deg, #172c42, #0c1a29); font-size:11px;
+}
+.buxa-enc-picker .buxa-enc-picker-more:hover { border-color:#6ac2f4; }

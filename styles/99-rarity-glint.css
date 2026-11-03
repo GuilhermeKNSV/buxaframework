@@ -1,0 +1,167 @@
+/* -------------------------------------------------------------------------- */
+/* Rarity polish v4: name glint, slot color wash, corner weight              */
+/* -------------------------------------------------------------------------- */
+
+/* Item weight belongs in the lower-right edge of the tooltip. */
+.buxa-item-sheet .buxa-item-weight-corner {
+  position: absolute;
+  right: 18px;
+  bottom: 13px;
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: color-mix(in srgb, var(--buxa-rarity-accent) 58%, #8e99a8);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.buxa-item-sheet .buxa-item-weight-corner i {
+  color: color-mix(in srgb, var(--buxa-rarity-accent) 42%, #738297);
+  font-size: 8px;
+}
+
+.buxa-item-sheet .buxa-item-weight-corner strong {
+  color: color-mix(in srgb, var(--buxa-rarity-accent) 72%, #d9dde4);
+  font-size: 10px;
+}
+
+.buxa-item-sheet .buxa-item-weight-corner span {
+  color: #626d7c;
+  font-size: 7px;
+}
+
+.buxa-item-sheet .buxa-item-sheet-scroll {
+  padding-bottom: 52px !important;
+}
+
+/* Minecraft-like enchantment sweep on the item name. The base name stays
+   readable underneath; this is only a narrow light pass over the letters. */
+.buxa-item-sheet.has-rarity-glint .buxa-item-title-row h1 {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+.buxa-item-sheet.has-rarity-glint .buxa-item-title-row h1::after {
+  content: attr(data-item-name);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background:
+    linear-gradient(
+      112deg,
+      transparent 0 39%,
+      color-mix(in srgb, var(--buxa-rarity-accent) 58%, white) 46%,
+      rgba(255,255,255,.96) 50%,
+      color-mix(in srgb, var(--buxa-rarity-accent) 68%, white) 54%,
+      transparent 61% 100%
+    );
+  background-size: 260% 100%;
+  background-position: 185% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--buxa-rarity-accent) 32%, transparent));
+  opacity: 0;
+  pointer-events: none;
+  animation: buxa-rarity-name-glint 4.6s ease-in-out infinite;
+}
+
+@keyframes buxa-rarity-name-glint {
+  0%, 58% {
+    background-position: 185% 0;
+    opacity: 0;
+  }
+  62% { opacity: .88; }
+  79% {
+    background-position: -85% 0;
+    opacity: .88;
+  }
+  84%, 100% {
+    background-position: -85% 0;
+    opacity: 0;
+  }
+}
+
+/* Rarity should tint the space behind the art, not add another decoration
+   layer. This gives the slot some of the ARPG inventory feel from the refs. */
+.buxa .buxa-equipment-slot.has-item,
+.buxa .buxa-inventory-slot.has-item {
+  background:
+    radial-gradient(
+      ellipse at 50% 34%,
+      color-mix(in srgb, var(--buxa-rarity-accent) 18%, transparent) 0%,
+      color-mix(in srgb, var(--buxa-rarity-accent) 7%, transparent) 42%,
+      transparent 74%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--buxa-rarity-accent) 10%, transparent),
+      transparent 58%
+    ),
+    #090e15 !important;
+}
+
+.buxa .buxa-equipment-slot.has-item:hover,
+.buxa .buxa-inventory-slot.has-item:hover {
+  background:
+    radial-gradient(
+      ellipse at 50% 34%,
+      color-mix(in srgb, var(--buxa-rarity-accent) 24%, transparent) 0%,
+      color-mix(in srgb, var(--buxa-rarity-accent) 9%, transparent) 44%,
+      transparent 76%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--buxa-rarity-accent) 12%, transparent),
+      transparent 60%
+    ),
+    #090e15 !important;
+}
+
+/* The old rarity ornament drew two bright dots at the top of every slot.
+   Slot rarity now uses border/glow/background only. */
+.buxa .buxa-equipment-slot.has-item.has-rarity-ornament::after,
+.buxa .buxa-inventory-slot.has-item.has-rarity-ornament::after,
+.buxa .buxa-equipment-slot.has-item.is-rarity-spectrum::after,
+.buxa .buxa-inventory-slot.has-item.is-rarity-spectrum::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Animated rarities can breathe through the existing border plus the new
+   background wash without creating a second frame or ornament. */
+.buxa .buxa-equipment-slot.has-item.is-rarity-animated,
+.buxa .buxa-inventory-slot.has-item.is-rarity-animated {
+  animation: buxa-rarity-slot-breathe-v4 3.2s ease-in-out infinite;
+}
+
+@keyframes buxa-rarity-slot-breathe-v4 {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 18px rgba(0,0,0,.46),
+      0 0 7px color-mix(in srgb, var(--buxa-rarity-accent) 15%, transparent) !important;
+  }
+  50% {
+    box-shadow:
+      inset 0 0 20px color-mix(in srgb, var(--buxa-rarity-accent) 5%, rgba(0,0,0,.46)),
+      0 0 14px color-mix(in srgb, var(--buxa-rarity-accent) 31%, transparent) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buxa-item-sheet.has-rarity-glint .buxa-item-title-row h1::after,
+  .buxa .buxa-equipment-slot.has-item.is-rarity-animated,
+  .buxa .buxa-inventory-slot.has-item.is-rarity-animated {
+    animation: none !important;
+  }
+
+  .buxa-item-sheet.has-rarity-glint .buxa-item-title-row h1::after {
+    display: none;
+  }
+}

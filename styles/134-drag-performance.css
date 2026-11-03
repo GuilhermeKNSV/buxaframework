@@ -1,0 +1,16 @@
+/* Temporary performance isolation during pointer-based inventory dragging.
+   Rarity animations stay enabled normally, but dozens of painted glows should
+   not compete with the high-frequency ghost transform while a drag is active. */
+body.buxa-inventory-pointer-dragging .buxa-player-sheet .buxa-inventory-slot.has-item,
+body.buxa-inventory-pointer-dragging .buxa-player-sheet .buxa-equipment-slot.has-item,
+body.buxa-inventory-pointer-dragging .buxa-player-sheet .buxa-complex-item,
+body.buxa-inventory-pointer-dragging .buxa-player-sheet .buxa-item-rarity-frame {
+  animation-play-state: paused !important;
+  transition-duration: 0s !important;
+}
+
+/* The ghost alone should occupy a compositor layer during a drag. */
+.buxa-inventory-drag-ghost {
+  will-change: transform;
+  contain: layout style;
+}

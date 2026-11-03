@@ -1,0 +1,272 @@
+/* -------------------------------------------------------------------------- */
+/* 0.5.1 layout polish                                                        */
+/* -------------------------------------------------------------------------- */
+
+/* Keep the classic compact two-resource layout unless the sheet is truly
+   narrow. v0.5's 650px breakpoint was too aggressive in Foundry windows. */
+@media (min-width: 501px) {
+  .buxa-resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .buxa-resource-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Use wrapping flex cards so one expanded attribute can genuinely occupy the
+   whole available width while collapsed attributes stay compact tiles. */
+.buxa-attribute-board {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.buxa-attribute-card.is-expanded {
+  flex: 1 0 100%;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.buxa-attribute-card.is-collapsed {
+  flex: 0 1 260px;
+  width: 260px;
+  max-width: 260px;
+}
+
+/* Expanded attributes should feel like one complete horizontal bar. */
+.buxa-attribute-card.is-expanded .buxa-attribute-primary {
+  width: 100%;
+  min-height: 70px;
+  padding-right: 10px;
+}
+
+/* The value control is no longer a labelled mini-panel. All three controls are
+   equal squares: minus, value, plus. */
+.buxa-attribute-controls,
+.buxa-attribute-controls.has-points {
+  grid-template-columns: repeat(3, 38px) !important;
+  gap: 5px;
+}
+
+.buxa-attribute-controls.no-points {
+  grid-template-columns: 38px !important;
+}
+
+.buxa-attribute-step,
+.buxa-attribute-number {
+  width: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+}
+
+.buxa-attribute-number {
+  display: grid !important;
+  place-items: center !important;
+}
+
+.buxa-attribute-number strong {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* There is intentionally no label inside the score square anymore. */
+.buxa-attribute-number span {
+  display: none !important;
+}
+
+/* Rebirth I is intentionally neutral. Keep the text readable without turning
+   the neutral tier gold/yellow. */
+.buxa-attribute-emblem {
+  color: #eef3fb;
+}
+
+.buxa-attribute-emblem small {
+  color: color-mix(in srgb, var(--buxa-attribute-color) 45%, #aeb8c7);
+}
+
+@media (max-width: 600px) {
+  .buxa-attribute-card.is-collapsed {
+    flex: 1 1 225px;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 0.5.2 compact attribute readability polish                                 */
+/* -------------------------------------------------------------------------- */
+
+/* In collapsed cards the score controls sit as one centered cluster instead
+   of hugging the left edge. */
+.buxa-attribute-card.is-collapsed .buxa-attribute-controls {
+  width: 100%;
+  justify-content: center !important;
+  justify-self: center;
+}
+
+/* Rebirth I intentionally has a neutral/grey treatment, but the dice count
+   must remain high-contrast and readable. */
+.buxa-attribute-emblem b {
+  color: #f4f7fc !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.75);
+}
+
+.buxa-attribute-emblem small {
+  color: color-mix(in srgb, var(--buxa-attribute-color) 30%, #aeb8c7) !important;
+  opacity: 1 !important;
+}
+
+/* The neutral first tier gets a slightly lighter neutral border/background so
+   its white dice number does not disappear into the card. */
+.buxa-attribute-emblem {
+  border-color: color-mix(in srgb, var(--buxa-attribute-color) 28%, #596477) !important;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--buxa-attribute-color) 5%, #171d27), #10151d) !important;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 0.5.4 attribute packing + section cleanup                                  */
+/* -------------------------------------------------------------------------- */
+
+/* Collapsed attributes should use the available row instead of leaving a
+   large dead block when the count is odd. Three compact attributes now fit
+   comfortably in a normal-width Buxa sheet, while expanded attributes still
+   take the full row. */
+.buxa-attribute-board {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+  align-items: start;
+  gap: 8px;
+  padding: 8px 8px 6px !important;
+}
+
+.buxa-attribute-card.is-collapsed {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  flex: none !important;
+}
+
+.buxa-attribute-card.is-expanded {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  flex: none !important;
+}
+
+/* Remove the oversized dark tail/divider under the attribute cards. */
+.buxa-attributes-card {
+  padding-bottom: 0 !important;
+}
+
+.buxa-attributes-card .buxa-attribute-board {
+  margin-bottom: 0 !important;
+  border-bottom: 0 !important;
+}
+
+/* On narrow sheets, stay single-column rather than squeezing the cards. */
+@media (max-width: 500px) {
+  .buxa-attribute-board {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 0.5.5 basic-card + resource cleanup                                        */
+/* -------------------------------------------------------------------------- */
+
+/* An odd resource count should leave normal sheet background in the unused
+   grid cell instead of a large grey block. Dividers live on the cards now. */
+.buxa-resource-grid {
+  background: transparent !important;
+  gap: 0 !important;
+}
+
+.buxa-resource-grid .buxa-resource {
+  border-right: 1px solid #252c3a;
+  border-bottom: 1px solid #252c3a;
+}
+
+.buxa-resource-grid .buxa-resource:nth-child(2n) {
+  border-right: 0;
+}
+
+@media (max-width: 500px) {
+  .buxa-resource-grid .buxa-resource {
+    border-right: 0;
+  }
+}
+
+/* Keep the identity fields visually tighter. */
+.buxa-fields-grid {
+  gap: 6px !important;
+  align-content: start;
+}
+
+.buxa-field {
+  gap: 2px !important;
+}
+
+.buxa-field input {
+  height: 29px !important;
+}
+
+.buxa-basic-card {
+  gap: 10px !important;
+  padding: 10px !important;
+}
+
+/* Fullbody / token preview switch. This only changes what the sheet displays;
+   right-clicking the portrait still opens the image editor. */
+.buxa-portrait-wrap {
+  width: 82px;
+  gap: 4px !important;
+}
+
+.buxa-portrait-switch {
+  display: grid;
+  width: 82px;
+}
+
+.buxa .window-content .buxa-portrait-switch .buxa-portrait-toggle {
+  width: 100%;
+  min-width: 0;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 1px 4px !important;
+  border: 1px solid #2b3444;
+  background: #10151e;
+  color: #7d8da3;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  line-height: 1;
+}
+
+.buxa .window-content .buxa-portrait-switch .buxa-portrait-toggle:hover {
+  border-color: #3f7398;
+  background: #152131;
+  color: #9dd3f8;
+}
+
+.buxa-portrait-toggle img {
+  width: 17px;
+  height: 17px;
+  border: 0;
+  object-fit: contain;
+  opacity: .92;
+  pointer-events: none;
+}
+
+

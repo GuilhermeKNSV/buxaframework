@@ -1,0 +1,137 @@
+/* -------------------------------------------------------------------------- */
+/* Per-rarity slot background modes                                            */
+/* -------------------------------------------------------------------------- */
+
+/* GLINT: preserve the current dark ARPG tile with rarity light shining into it. */
+.buxa .buxa-equipment-slot.has-item.buxa-rarity-bg-glint,
+.buxa .buxa-inventory-slot.has-item.buxa-rarity-bg-glint {
+  background:
+    radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--buxa-rarity-color) 24%, transparent) 0%, color-mix(in srgb, var(--buxa-rarity-color) 12%, transparent) 34%, transparent 74%),
+    linear-gradient(180deg, color-mix(in srgb, var(--buxa-rarity-color) 18%, transparent), transparent 38%, rgba(4,6,10,.72) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.022), transparent 24%),
+    #090d14 !important;
+}
+
+.buxa .buxa-equipment-slot.has-item.buxa-rarity-bg-glint:hover,
+.buxa .buxa-inventory-slot.has-item.buxa-rarity-bg-glint:hover {
+  background:
+    radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--buxa-rarity-color) 30%, transparent) 0%, color-mix(in srgb, var(--buxa-rarity-color) 16%, transparent) 36%, transparent 76%),
+    linear-gradient(180deg, color-mix(in srgb, var(--buxa-rarity-color) 22%, transparent), transparent 38%, rgba(4,6,10,.68) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.032), transparent 24%),
+    #090d14 !important;
+}
+
+/* FULL COLOR: the rarity color becomes the tile itself rather than only a glow. */
+.buxa .buxa-equipment-slot.has-item.buxa-rarity-bg-full,
+.buxa .buxa-inventory-slot.has-item.buxa-rarity-bg-full {
+  background:
+    radial-gradient(ellipse at 50% 28%, rgba(255,255,255,.16), transparent 46%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--buxa-rarity-color) 72%, #20242c) 0%,
+      color-mix(in srgb, var(--buxa-rarity-color) 56%, #111722) 44%,
+      color-mix(in srgb, var(--buxa-rarity-color) 34%, #070b11) 100%
+    ) !important;
+  border-color: color-mix(in srgb, var(--buxa-rarity-color) 82%, white) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 0 18px color-mix(in srgb, var(--buxa-rarity-color) 28%, rgba(0,0,0,.36)),
+    inset 0 -12px 22px rgba(0,0,0,.28),
+    0 0 14px color-mix(in srgb, var(--buxa-rarity-color) 28%, transparent) !important;
+}
+
+.buxa .buxa-equipment-slot.has-item.buxa-rarity-bg-full::before,
+.buxa .buxa-inventory-slot.has-item.buxa-rarity-bg-full::before {
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(255,255,255,.12), transparent 48%),
+    linear-gradient(180deg, rgba(255,255,255,.035), transparent 30%, rgba(0,0,0,.18) 100%) !important;
+  opacity: 1;
+}
+
+.buxa .buxa-equipment-slot.has-item.buxa-rarity-bg-full:hover,
+.buxa .buxa-inventory-slot.has-item.buxa-rarity-bg-full:hover {
+  background:
+    radial-gradient(ellipse at 50% 25%, rgba(255,255,255,.21), transparent 48%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--buxa-rarity-color) 78%, #242934) 0%,
+      color-mix(in srgb, var(--buxa-rarity-color) 62%, #121a25) 44%,
+      color-mix(in srgb, var(--buxa-rarity-color) 40%, #070b11) 100%
+    ) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 0 20px color-mix(in srgb, var(--buxa-rarity-color) 34%, rgba(0,0,0,.30)),
+    inset 0 -12px 22px rgba(0,0,0,.24),
+    0 0 18px color-mix(in srgb, var(--buxa-rarity-color) 38%, transparent) !important;
+}
+
+/* Rarity editor: background is a true per-rarity visual mode, not another checkbox. */
+.buxa-rarity-background-config {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 8px 9px 28px;
+  border-top: 1px solid #222d3c;
+}
+
+.buxa-rarity-background-config > span {
+  color: #66778e;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.buxa-rarity-background-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(82px, 1fr));
+  gap: 4px;
+}
+
+.buxa-rarity-background-options label {
+  margin: 0 !important;
+  position: relative;
+}
+
+.buxa-rarity-background-options input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.buxa-rarity-background-options label > span {
+  min-height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 9px;
+  border: 1px solid #2c394b;
+  background: #0c121a;
+  color: #73839a;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+
+.buxa-rarity-background-options input:checked + span {
+  border-color: color-mix(in srgb, var(--buxa-rarity-preview) 72%, #53677f);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--buxa-rarity-preview) 16%, transparent), transparent),
+    #111a25;
+  color: #dce9f5;
+  box-shadow: inset 0 -2px var(--buxa-rarity-preview);
+}
+
+.buxa-rarity-background-options input:focus-visible + span {
+  outline: 1px solid #8acdf6;
+  outline-offset: 1px;
+}
+
+@media (max-width: 600px) {
+  .buxa-rarity-background-config {
+    align-items: stretch;
+    flex-direction: column;
+    padding-left: 8px;
+  }
+}
